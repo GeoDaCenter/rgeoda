@@ -3,6 +3,10 @@ random_string <- function(n = 5000) {
   paste0(a, sprintf("%04d", sample(9999, n, TRUE)), sample(LETTERS, n, TRUE))
 }
 
+
+lisa_colors <- c("#eeeeee","#FF0000","#0000FF","#a7adf9", "#f4ada8", "#999999")
+lisa_labels <- c("Not Sig", "High-High", "Low-Low", "Low-High","High-Low", "Neighborless")
+
 geoda_to_sf = function(gda) {
   if (!require("sf")) {
     stop("package sf not available: install first?")
