@@ -3,12 +3,6 @@ random_string <- function(n = 5000) {
   paste0(a, sprintf("%04d", sample(9999, n, TRUE)), sample(LETTERS, n, TRUE))
 }
 
-sf_to_geoda = function(sf_obj) {
-  if (!require("sf")) {
-    stop("package sf not available: install first?")
-  }
-}
-
 geoda_to_sf = function(gda) {
   if (!require("sf")) {
     stop("package sf not available: install first?")
@@ -62,9 +56,9 @@ sf_to_geoda = function(sf_obj) {
   # map_type
   map_type <- "map_polygons"
   geom_type <- st_geometry_type(sf_obj)[[1]]
-  if (geom_type == "MULTIPOINT" || geom_type == "POINT")
+  if (geom_type == "MULTIPOINT" || geom_type == "POINT") {
     map_type <- "map_points"
-  } else if (geom_type == "MULTILINESTRING" || geom_type == "LINESTRING")
+  } else if (geom_type == "MULTILINESTRING" || geom_type == "LINESTRING") {
     map_type <- "map_lines"
   }
 
