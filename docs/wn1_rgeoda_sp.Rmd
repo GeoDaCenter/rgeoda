@@ -28,7 +28,7 @@ Previous "intro" page shows you:
 
 For people who using R to do spatial data analysis, a common routine is to use `rgdal` package to read spatial dataset, and then use `sp` package, or (in recent) `sf` package, to handle and analyze spatial data and plot the results on maps.
 
-`rgeoda` provides utility functions to create a rgeoda instance from `sp` object or `sf` object, so that users can easily integrate the functions of spatial data analysis in libgeoda into their existing work.
+`rgeoda` provides utility functions to create a rgeoda instance from `sp` object or `sf` object, so that users can easily integrate the functions of spatial data analysis in rgeoda into their existing work.
 
 In this note, I will demonstrate how to work with `sp` and `rgeoda` package to do exploratory spatial data analysis (ESDA).
 
@@ -63,11 +63,11 @@ Create a rgeoda object from the `sp` object `guerry_sp` you just created.
 guerry_gda <- sp_to_geoda(guerry_sp)
 ```
 
-That's it! It should be very fast: rgeoda uses wkb, which is a binary representation of geometries, to exchange data between `sp` and `libgeoda` in memory. 
+That's it! It should be very fast: rgeoda uses wkb, which is a binary representation of geometries, to exchange data between `sp` and `rgeoda` in memory. 
 
-## ESDA with libgeoda
+## 3. ESDA with rgeoda
 
-Now, with the libgeoda object `guerry_gda`, you can call GeoDa's spatial analysis functions easily. For example, we want to examine the local Moran of variable "crm_prs" (Population per Crime against persons):
+Now, with the rgeoda object `guerry_gda`, you can call GeoDa's spatial analysis functions easily. For example, we want to examine the local Moran of variable "crm_prs" (Population per Crime against persons):
 
 ```{r, class.source='rCode'}
 queen_w <- guerry_gda$CreateContiguityWeights()
@@ -82,8 +82,9 @@ plot(guerry_sp,
      col=sapply(crm_lisa_clusters, function(x){return(lisa_colors[[x+1]])}), 
      border = "#333333", lwd=0.2)
 title(main = "Local Moran Map")
-legend('bottomright', legend = lisa_labels, fill = lisa_color, border = "#eeeeee")
+legend('bottomright', legend = lisa_labels, fill = lisa_colors, border = "#eeeeee")
 ```
+
 From the above code, you can see that we still use `sp` object to do plotting. The values of cluster indicators from `rgeoda`'s `LISA` object are used to make the LISA map.This emphasis that rgeoda is a API focused library, which only provides the core functions of spatial data analysis for easy integration.
 
 You can easily append the lisa results to original `sp` object by manipulating the data.frame object inside the `sp` object.

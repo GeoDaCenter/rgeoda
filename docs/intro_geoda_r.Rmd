@@ -80,7 +80,14 @@ queen_w <- gda$CreateContiguityWeights(is_queen=TRUE)
 To access the properties of the created weights object, one can just access the attributes of the returned weights object `queen_w`:
 
 ```{r, class.source='rCode'}
-cat("weight_type: ", queen_w$weight_type, "\nis_symmetric: ", queen_w$is_symmetric, "\nsparsity:",queen_w$sparsity, "\ndensity:",queen_w$density, "\nmin_nbrs:",queen_w$min_nbrs, "\nmax_nbrs:",queen_w$max_nbrs, "\nmean_nbrs:",queen_w$mean_nbrs, "\nmedian_nbrs:",queen_w$median_nbrs, "\n")
+cat("weight_type: ", queen_w$weight_type, 
+    "\nis_symmetric: ", queen_w$is_symmetric, 
+    "\nsparsity:",queen_w$sparsity,
+    "\ndensity:",queen_w$density, 
+    "\nmin_nbrs:",queen_w$min_nbrs, 
+    "\nmax_nbrs:",queen_w$max_nbrs,
+    "\nmean_nbrs:",queen_w$mean_nbrs, 
+    "\nmedian_nbrs:",queen_w$median_nbrs, "\n")
 ```
 
 To save the weights file to local disk, one can call the function of weights object `SaveToFile(string file_path)`
@@ -93,7 +100,7 @@ Using the created Queen weights `queen_w` and the data `hr60`, we can call funct
 
 
 ```{r, class.source='rCode'}
-lisa <- gda$LISA(queen_w, data)
+lisa <- gda$LISA(queen_w, hr60)
 ```
 
 We can access the LISA results by calling the "getter" methods from the returned LISA object:

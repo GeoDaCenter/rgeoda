@@ -41,7 +41,7 @@ You can simply call plot() function to render the first 9 chorepleth maps using 
 plot(guerry_sf)
 ```
 
-## 2. Create rgeoda object from `sp`
+## 2. Create rgeoda object from `sf`
 
 `sf` package makes it easy to work with geospatial data. It also provides functions to do basic spatial data analysis. `rgeoda` provides helper function `sf_to_geoda` to create a GeoDa instance from a `sf` object. Users can then call GeoDa functions to do further spatial data analysis.
 
@@ -51,20 +51,20 @@ guerry_gda <- sf_to_geoda(guerry_sf)
 
 rgeoda uses wkb, which is a binary representation of geometries, to exchange data between `sf` and `libgeoda` in memory. 
 
-## ESDA with rgeoda
+## 3. ESDA with rgeoda
 
 Now, with the rgeoda object `guerry_gda`, you can call GeoDa's spatial analysis functions. For example, to examine the local Moran of variable "crm_prs" (Population per Crime against persons):
 
 ```{r}
 queen_w <- guerry_gda$CreateContiguityWeights()
-crm_lisa <- guerry_gda$LISA(queen_w, as.numeric(paste(guerry_sp$Crm_prs)))
+crm_lisa <- guerry_gda$LISA(queen_w, as.numeric(paste(guerry_sf$Crm_prs)))
 crm_lisa_clusters <- crm_lisa$GetClusterIndicators()
 ```
 
 Now, with the LISA results, we can do exploratory spatial data analysis by generating a LISA cluster map:
 
 ```{r}
-plot(guerry_sp, 
+plot(st_geometry(guerry_sf),
      col=sapply(crm_lisa_clusters, function(x){return(lisa_colors[[x+1]])}), 
      border = "#333333", lwd=0.2)
 title(main = "Local Moran Map")
@@ -72,6 +72,7 @@ legend('bottomright',
        legend = lisa_labels, 
        fill = lisa_colors, border = "#eeeeee")
 ```
+
 From the above code, you can see that we still use `sf` object to do plotting. The values of cluster indicators from `rgeoda`'s `LISA` object are used to make the LISA map.
 
 You can easily append the lisa results to original `sf` object by manipulating the data.frame object inside the `sf` object.
