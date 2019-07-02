@@ -1,0 +1,11 @@
+Package: rgeoda
+Type: Package
+Title: R wrapper for GeoDa
+Version: 0.1.0
+Date: 2019-06-05
+Author: Xun Li <lixun910@gmail.com>
+Maintainer: Xun Li <lixun910@gmail.com>
+Description: A package that wrap core features of GeoDa for spatial data analysis
+License: GPL (>= 2)
+Depends: R (>= 2.14)
+Collate: rgeoda.R sf_geoda.R read_geoda.R AAA.R

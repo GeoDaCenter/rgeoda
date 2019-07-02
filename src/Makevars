@@ -1,0 +1,11 @@
+UNAME_S := $(shell uname -s)
+PKG_LIBS :=
+ifeq ($(UNAME_S),Darwin)
+    PKG_CXXFLAGS=-I./deps/libgeoda/include -I./deps/include -I./deps/lib/osx/wx/include/base-unicode-static-3.0 -D_FILE_OFFSET_BITS=64
+	PKG_LIBS=-L/usr/lib -lcurl -liconv ./deps/libgeoda/lib/osx/libgeoda.a ./deps/lib/osx/libANN.a ./deps/lib/osx/libgdal.a ./deps/lib/osx/libwx_baseu-3.0.a ./deps/lib/osx/libwxregexu-3.0.a ./deps/lib/osx/libgeos.a ./deps/lib/osx/libgeos_c.a -framework IOKit -framework CoreServices -framework System -framework ApplicationServices ./deps/lib/osx/libboost_thread.a ./deps/lib/osx/libboost_system.a ./deps/lib/osx/libboost_chrono.a ./deps/lib/osx/libboost_date_time.a
+endif
+ifeq ($(UNAME_S),Linux)
+    PKG_CXXFLAGS=-I./deps/libgeoda/include -I./deps/include -I./deps/lib/bionic/wx/include/base-unicode-static-3.0 -D_FILE_OFFSET_BITS=64
+    PKG_LIBS=./deps/libgeoda/lib/bionic/libgeoda.a ./deps/lib/bionic/libgdal.a ./deps/lib/bionic/libgeos_c.a ./deps/lib/bionic/libgeos.a ./deps/lib/bionic/libANN.a  ./deps/lib/bionic/libwx_baseu-3.0.a ./deps/lib/bionic/libwxregexu-3.0.a ./deps/lib/bionic/libboost_system-mt.a ./deps/lib/bionic/libboost_chrono-mt.a ./deps/lib/bionic/libboost_date_time-mt.a ./deps/lib/bionic/libboost_thread-mt.a -L/usr/lib -dt ./deps/lib/bionic/libiconv.a
+endif
+
