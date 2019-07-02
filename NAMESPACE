@@ -4,4 +4,4 @@
 #useDynLib(rgeoda, .registration = TRUE)
 
 # Export functions defined in R code
-export(GeoDa, GeoDaTable, GeoDaWeight, sp_to_geoda, geoda_to_sp, sf_to_geoda, lisa_colors, lisa_labels)
+export(GeoDa, GeoDaTable, sp_to_geoda, geoda_to_sp, sf_to_geoda, lisa_colors, lisa_labels)

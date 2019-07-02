@@ -5,6 +5,12 @@ date: "6/13/2019"
 output: html_document
 ---
 
+```{css}
+.rCode {
+background-color: #D7ECE8;
+}
+```
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -32,19 +38,19 @@ The sp package has been an essential tool which provides spatial data-structures
 
 Using rgdal to read a ESRI Shapefile will return a `sp` (Spatial object) object, which could be either a SpatialPointsDataFrame (using an AttributeList for its data slot directly), a SpatialLinesDataFrame, or a SpatialPolygonsDataFrame.
 
-```{r}
+```{r, class.source='rCode'}
 library(rgeoda)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 ```
 
-```{r}
+```{r, class.source='rCode'}
 library(rgdal)
 guerry_sp <- readOGR(guerry_path)
 ```
 
 You can simply call plot() function to plot this map:
 
-```{r}
+```{r, class.source='rCode'}
 plot(guerry_sp)
 ```
 
@@ -53,7 +59,7 @@ plot(guerry_sp)
 Everything above should be very familiar with you, right? Then, the fun part of spatial data analysis is going to start:
 
 Create a rgeoda object from the `sp` object `guerry_sp` you just created.
-```{r}
+```{r, class.source='rCode'}
 guerry_gda <- sp_to_geoda(guerry_sp)
 ```
 
@@ -63,7 +69,7 @@ That's it! It should be very fast: rgeoda uses wkb, which is a binary representa
 
 Now, with the libgeoda object `guerry_gda`, you can call GeoDa's spatial analysis functions easily. For example, we want to examine the local Moran of variable "crm_prs" (Population per Crime against persons):
 
-```{r}
+```{r, class.source='rCode'}
 queen_w <- guerry_gda$CreateContiguityWeights()
 crm_lisa <- guerry_gda$LISA(queen_w, as.numeric(paste(guerry_sp$Crm_prs)))
 crm_lisa_clusters <- crm_lisa$GetClusterIndicators()
@@ -71,7 +77,7 @@ crm_lisa_clusters <- crm_lisa$GetClusterIndicators()
 
 Now, with the LISA results, we can do exploratory spatial data analysis by generating a LISA cluster map:
 
-```{r}
+```{r, class.source='rCode'}
 plot(guerry_sp, 
      col=sapply(crm_lisa_clusters, function(x){return(lisa_colors[[x+1]])}), 
      border = "#333333", lwd=0.2)
@@ -84,7 +90,7 @@ You can easily append the lisa results to original `sp` object by manipulating t
 
 If you check the values of the cluster indicators, you will see they are integer numbers 0 (not significant), 1 (high-high cluster), 2 (low-low cluster), 3 (low-high cluster), 4 (high-low cluster), 5 (neighborless/island), 6 (undefined), which are excatly the same with GeoDa software when you save LISA results to a table:
 
-```{r}
+```{r, class.source='rCode'}
 crm_lisa_clusters
 ```
 
@@ -93,7 +99,7 @@ We also specify what color is associated with which cluster value to replace the
 lisa_colors <- c("#eeeeee","#FF0000","#0000FF","#a7adf9", "#f4ada8", "#999999")
 ```
 We then create an array of hex color, each observation is set to a hex color according to its cluster indicator value.
-```{r}
+```{r, class.source='rCode'}
 sapply(crm_lisa_clusters, function(x){return(lisa_colors[[x+1]])})
 ```
 

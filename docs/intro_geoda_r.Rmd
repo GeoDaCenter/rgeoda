@@ -1,18 +1,24 @@
 ---
-title: "intro-geoda-r"
+title: "Introduction to rGeoDa"
 author: "lixun910"
 date: "6/6/2019"
 output: html_document
 ---
 
+```{css}
+.rCode {
+background-color: #D7ECE8;
+}
+```
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Install libgeoda for R
+## Install rgeoda for R
 
-For testing stage, the easiest way to install the development version of libgeoda is using `devtools`. If you don’t have devtools installed, use the following line:
-```r
+For testing stage, the easiest way to install the development version of rgeoda is using `devtools`. If you don’t have devtools installed, use the following line:
+```
 install.packages("devtools")
 ```
 
@@ -25,7 +31,7 @@ install_github('lixun910/rgeoda')
 
 If everything installed without error, you should be able to load `rgeoda`:
 
-```{r}
+```{r, class.source='rCode'}
 library(rgeoda)
 ```
 
@@ -34,7 +40,7 @@ library(rgeoda)
 
 In this note, we will use an ESRI Shapefile `natregimes.shp` comes with the package:
 
-```{r}
+```{r, class.source='rCode'}
 nat_path <- system.file("extdata", "natregimes.shp", package = "rgeoda")
 ```
 
@@ -42,13 +48,13 @@ nat_path <- system.file("extdata", "natregimes.shp", package = "rgeoda")
 Use the path above (or the path to your own dataset), we can create a GeoDa instance, and the GeoDa instance is the main entry point of rgeoda. 
 
 
-```{r}
+```{r, class.source='rCode'}
 gda <- GeoDa(nat_path)
 ```
 
 rGeoDa provides some functions to check the meta data of the loaded dataset:
 
-```{r}
+```{r, class.source='rCode'}
 num_obs <- gda$GetNumObs()
 num_cols <- gda$GetNumCols()
 field_types <- gda$GetFieldTypes()
@@ -60,20 +66,20 @@ field_names <- gda$GetFieldNames()
 
 One can call function `GetNumericCol(string col_name)` to get numeric data (vector type) from GeoDa instance. For example, to get data of column "HR60":
 
-```{r}
+```{r, class.source='rCode'}
 hr60 <- gda$GetNumericCol("HR60")
 ```
 
 ## Spatial Weights
 
 One can call function `CreateContiguityWeights(string poly_id="", bool is_queen=true, int order=1, bool include_lower_order=false)` to create a Queen or Rook contiguity weights:
-```{r}
+```{r, class.source='rCode'}
 queen_w <- gda$CreateContiguityWeights(is_queen=TRUE)
 ```
 
 To access the properties of the created weights object, one can just access the attributes of the returned weights object `queen_w`:
 
-```{r}
+```{r, class.source='rCode'}
 cat("weight_type: ", queen_w$weight_type, "\nis_symmetric: ", queen_w$is_symmetric, "\nsparsity:",queen_w$sparsity, "\ndensity:",queen_w$density, "\nmin_nbrs:",queen_w$min_nbrs, "\nmax_nbrs:",queen_w$max_nbrs, "\nmean_nbrs:",queen_w$mean_nbrs, "\nmedian_nbrs:",queen_w$median_nbrs, "\n")
 ```
 
@@ -86,58 +92,58 @@ To save the weights file to local disk, one can call the function of weights obj
 Using the created Queen weights `queen_w` and the data `hr60`, we can call function `LISA(GeoDaWeight w, vector data)` to compute the local spatial autocorrelation of variable "HR60". 
 
 
-```{r}
+```{r, class.source='rCode'}
 lisa <- gda$LISA(queen_w, data)
 ```
 
 We can access the LISA results by calling the "getter" methods from the returned LISA object:
-```{r}
+```{r, class.source='rCode'}
 lags <- lisa$GetLagValues()
 lags[1:20]
 ```
 
 Get local moran values:
-```{r}
+```{r, class.source='rCode'}
 lms <- lisa$GetLocalMoranValues()
 lms[1:20]
 ```
 
 Get pseudo-p values:
-```{r}
+```{r, class.source='rCode'}
 pvals <- lisa$GetLocalSignificanceValues()
 pvals[1:20]
 ```
 
 Get LISA category values:
 
-```{r}
+```{r, class.source='rCode'}
 cats <- lisa$GetClusterIndicators()
 cats[1:20]
 ```
 
 You can easily re-run the LISA computation by calling its `Run()` function. For example, re-run the above LISA exampe using 9999 permutations:
 
-```{r}
+```{r, class.source='rCode'}
 lisa$SetNumPermutations(9999)
 lisa$Run()
 ```
 
 Display the p-values after 9999 permutations:
-```{r}
+```{r, class.source='rCode'}
 pvals <- lisa$GetLocalSignificanceValues()
 pvals[1:20]
 ```
 
-Since libgeoda is using GeoDa's C++ code, by default, libgeoda uses multi-threading to accelerate the computation of Local Moran. One can also specify how many threads to run the computation:
+Since rgeoda is using GeoDa's C++ code, by default, rgeoda uses multi-threading to accelerate the computation of Local Moran. One can also specify how many threads to run the computation:
 
-```{r}
+```{r, class.source='rCode'}
 lisa$SetNumThreads(4)
 lisa$Run()
 ```
 
 
 Display the p-values after re-run LISA with 4 threads:
-```{r}
+```{r, class.source='rCode'}
 pvals <- lisa$GetLocalSignificanceValues()
 pvals[1:20]
 ```
@@ -149,7 +155,7 @@ pvals[1:20]
 
 Using the function `SKATER(int k, GeoDaWeight w, Vector column_names, String distance_method='euclidean')` to run a spatially constrained clustering on current dataset. 
 
-```{r}
+```{r, class.source='rCode'}
 skater <- gda$SKATER(10, queen_w, c("HR60", "PO60"))
 skater
 ```
