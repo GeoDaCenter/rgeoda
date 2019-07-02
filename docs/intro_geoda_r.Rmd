@@ -16,86 +16,101 @@ For testing stage, the easiest way to install the development version of libgeod
 install.packages("devtools")
 ```
 
-Then, you can call `install_githu()` function to install `libgeoda` from the source code:
+Then, you can call `install_github()` function to install `rgeoda` from the source code:
 
 ```r
 library(devtools)
-install_github('lixun910/libgeoda-r')
+install_github('lixun910/rgeoda')
 ```
 
-If everything installed without error, you should be able to load `libgeoda`:
+If everything installed without error, you should be able to load `rgeoda`:
 
 ```{r}
-library(libgeoda)
-```
-
-
-## Load Spatial Data
-
-There is an ESRI Shapefile `natregimes.shp` comes with the package:
-
-```{r}
-nat_path <- system.file("extdata", "natregimes.shp", package = "libgeoda")
-nat_path
+library(rgeoda)
 ```
 
 
-Use the path above (or the path to your own dataset), we can create a GeoDa instance, and the GeoDa instance is the main entry point of libgeoda. 
+## Load Geospatial Data
 
-
-```{r}
-nat <- GeoDa(nat_path)
-```
-
-There are some functions provided to check the meta data of the loaded dataset:
+In this note, we will use an ESRI Shapefile `natregimes.shp` comes with the package:
 
 ```{r}
-num_obs <- nat$GetNumObs()
-num_cols <- nat$GetNumCols()
-
-field_types <- nat$GetFieldTypes()
-field_names <- nat$GetFieldNames()
-field_names
+nat_path <- system.file("extdata", "natregimes.shp", package = "rgeoda")
 ```
 
 
-## --Create GeoDa instance from SF (simple feature) instance--
+Use the path above (or the path to your own dataset), we can create a GeoDa instance, and the GeoDa instance is the main entry point of rgeoda. 
 
-## Table Data
-
-Using function `GetNumericCol(string col_name)` to get numeric data (vector type) from column "HR60":
 
 ```{r}
-data <- nat$GetNumericCol("HR60")
-data[1:20]
+gda <- GeoDa(nat_path)
+```
+
+rGeoDa provides some functions to check the meta data of the loaded dataset:
+
+```{r}
+num_obs <- gda$GetNumObs()
+num_cols <- gda$GetNumCols()
+field_types <- gda$GetFieldTypes()
+field_names <- gda$GetFieldNames()
+```
+
+
+## Access Table Data
+
+One can call function `GetNumericCol(string col_name)` to get numeric data (vector type) from GeoDa instance. For example, to get data of column "HR60":
+
+```{r}
+hr60 <- gda$GetNumericCol("HR60")
 ```
 
 ## Spatial Weights
 
-Using function `CreateQueenWeights(string poly_id="", int order=1, bool include_lower_order=false)` to create a Queen contiguity weights:
+One can call function `CreateContiguityWeights(string poly_id="", bool is_queen=true, int order=1, bool include_lower_order=false)` to create a Queen or Rook contiguity weights:
 ```{r}
-queen_w <- nat$CreateQueenWeights()
+queen_w <- gda$CreateContiguityWeights(is_queen=TRUE)
+```
+
+To access the properties of the created weights object, one can just access the attributes of the returned weights object `queen_w`:
+
+```{r}
 cat("weight_type: ", queen_w$weight_type, "\nis_symmetric: ", queen_w$is_symmetric, "\nsparsity:",queen_w$sparsity, "\ndensity:",queen_w$density, "\nmin_nbrs:",queen_w$min_nbrs, "\nmax_nbrs:",queen_w$max_nbrs, "\nmean_nbrs:",queen_w$mean_nbrs, "\nmedian_nbrs:",queen_w$median_nbrs, "\n")
 ```
 
-You can save the weights file by calling function `SaveToFile(string file_path)`:
+To save the weights file to local disk, one can call the function of weights object `SaveToFile(string file_path)`
 
 ## Spatial Data Analysis
 
 ### Local Spatial Autocorrelation
 
-Using the created Queen weights and the data "HR60", we can call function `LISA(GeoDaWeight w, vector data)` to compute the local spatial autocorrelation of variable "HR60". We can access the LISA results by calling the "getter" methods from the returned LISA object
+Using the created Queen weights `queen_w` and the data `hr60`, we can call function `LISA(GeoDaWeight w, vector data)` to compute the local spatial autocorrelation of variable "HR60". 
 
 
 ```{r}
-lisa <- nat$LISA(queen_w, data)
-print("Spatial Lag values:")
+lisa <- gda$LISA(queen_w, data)
+```
+
+We can access the LISA results by calling the "getter" methods from the returned LISA object:
+```{r}
 lags <- lisa$GetLagValues()
-lags[1:10]
+lags[1:20]
+```
+
+Get local moran values:
+```{r}
 lms <- lisa$GetLocalMoranValues()
-lms[1:10]
+lms[1:20]
+```
+
+Get pseudo-p values:
+```{r}
 pvals <- lisa$GetLocalSignificanceValues()
 pvals[1:20]
+```
+
+Get LISA category values:
+
+```{r}
 cats <- lisa$GetClusterIndicators()
 cats[1:20]
 ```
@@ -105,6 +120,10 @@ You can easily re-run the LISA computation by calling its `Run()` function. For 
 ```{r}
 lisa$SetNumPermutations(9999)
 lisa$Run()
+```
+
+Display the p-values after 9999 permutations:
+```{r}
 pvals <- lisa$GetLocalSignificanceValues()
 pvals[1:20]
 ```
@@ -114,6 +133,11 @@ Since libgeoda is using GeoDa's C++ code, by default, libgeoda uses multi-thread
 ```{r}
 lisa$SetNumThreads(4)
 lisa$Run()
+```
+
+
+Display the p-values after re-run LISA with 4 threads:
+```{r}
 pvals <- lisa$GetLocalSignificanceValues()
 pvals[1:20]
 ```
@@ -126,7 +150,7 @@ pvals[1:20]
 Using the function `SKATER(int k, GeoDaWeight w, Vector column_names, String distance_method='euclidean')` to run a spatially constrained clustering on current dataset. 
 
 ```{r}
-skater <- nat$SKATER(10, queen_w, c("HR60", "PO60"))
+skater <- gda$SKATER(10, queen_w, c("HR60", "PO60"))
 skater
 ```
 

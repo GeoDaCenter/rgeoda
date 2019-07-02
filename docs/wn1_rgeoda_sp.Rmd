@@ -1,5 +1,5 @@
 ---
-title: "rGeoDa and sp (dev notes 1)"
+title: "ESDA with rGeoDa and sp"
 author: "lixun910"
 date: "6/13/2019"
 output: html_document
@@ -33,9 +33,11 @@ The sp package has been an essential tool which provides spatial data-structures
 Using rgdal to read a ESRI Shapefile will return a `sp` (Spatial object) object, which could be either a SpatialPointsDataFrame (using an AttributeList for its data slot directly), a SpatialLinesDataFrame, or a SpatialPolygonsDataFrame.
 
 ```{r}
-library(libgeoda)
-guerry_path <- system.file("extdata", "Guerry.shp", package = "libgeoda")
+library(rgeoda)
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+```
 
+```{r}
 library(rgdal)
 guerry_sp <- readOGR(guerry_path)
 ```
@@ -51,7 +53,7 @@ plot(guerry_sp)
 Everything above should be very familiar with you, right? Then, the fun part of spatial data analysis is going to start:
 
 Create a libgeoda object from the `sp` object `guerry_sp` you just created.
-```{r message=FALSE}
+```{r}
 guerry_gda <- sp_to_geoda(guerry_sp)
 ```
 
@@ -71,9 +73,9 @@ Now, with the LISA results, we can do exploratory spatial data analysis by gener
 
 ```{r}
 lisa_color <- c("#eeeeee","#FF0000","#0000FF","#a7adf9", "#f4ada8", "#999999")
-plot(guerry_sp, col=sapply(crm_lisa_clusters, function(x){return(lisa_color[[x+1]])}))
+plot(guerry_sp, col=sapply(crm_lisa_clusters, function(x){return(lisa_color[[x+1]])}), border = "#333333", lwd=0.2)
 title(main = "Local Moran Map")
-legend('bottomright', legend = c("Not Sig", "High-High", "Low-Low", "Low-High","High-Low"), fill = lisa_color)
+legend('bottomright', legend = c("Not Sig", "High-High", "Low-Low", "Low-High","High-Low"), fill = lisa_color, border = "#eeeeee")
 ```
 From the above code, you can see that we still use `sp` object to do plotting. The values of cluster indicators from `libgeoda`'s `LISA` object are used to make the LISA map.This emphasis that libgeoda is a feature focused library, which only provides the core functions of spatial data analysis for easy integration.
 
