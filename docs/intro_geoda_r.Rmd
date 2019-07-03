@@ -167,6 +167,17 @@ skater <- gda$SKATER(10, queen_w, c("HR60", "PO60"))
 skater
 ```
 
+## Visualization using sp
+
+```{r, class.source='rCode'}
+spo <- geoda_to_sp(gda)
+colors <- sapply(cats, function(x){return(lisa_colors[[x+1]])})
+plot(spo, col=colors, border = "#333333", lwd=0.2)
+title(main = "LISA Map")
+legend('bottomright', legend = lisa_labels, 
+       fill = lisa_colors, border = "#eeeeee")
+```
+
 
 
 
