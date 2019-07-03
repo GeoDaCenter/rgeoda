@@ -7,21 +7,6 @@ This repo is still under development, with many changes that might cause issues 
 install_github('lixun910/rgeoda', force=TRUE, dependencies=c('wkb', 'sp'))
 ```
 
-## APIs:
-
-```R
-CreateContiguityWeights(
-           is_queen : TRUE or FALSE (TRUE default)
-           polyid : character (default: "")
-           order : integer (default =1
-          include_lower_order : Logical (default: FALSE)
-          precision_threshold : numeric (default: 0)
-```
-
-```R
-LISA(GeoDaWeight, data : numeric list)
-```
-
 ## For developers:
 
 ### Prerequisite
@@ -228,5 +213,25 @@ map_lines (ref to SpatialLinesDataFrame)
 `proj4_str`: projection information coded in proj4 format
 ```R
 proj4_str <- sp_obj@proj4string
+```
+
+
+## APIs:
+
+```R
+GeoDa("path/to/spatial_data_file")
+```
+
+```R
+CreateContiguityWeights(
+           is_queen : TRUE or FALSE (TRUE default)
+           polyid : character (default: "")
+           order : integer (default =1
+          include_lower_order : Logical (default: FALSE)
+          precision_threshold : numeric (default: 0)
+```
+
+```R
+LISA(GeoDaWeight, data : numeric list)
 ```
 
