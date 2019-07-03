@@ -4,7 +4,7 @@ R library for spatial data analysis based on libgeoda
 This repo is still under development, with many changes that might cause issues and errors. Use the following command in R to install it in R 3.6:
 
 ```R
-install_github('lixun910/libgeoda-r', force=TRUE, dependencies=c('wkb', 'sp'))
+install_github('lixun910/rgeoda', force=TRUE, dependencies=c('wkb', 'sp'))
 ```
 
 ## APIs:
