@@ -1,11 +1,16 @@
+#' Random String Function
+#'
+#' This function creates random strings (length=4), 
+#' which is used as the temporary file name that rgeoda will created
+#' @param n number of random string to be generated Defaults to 5000.
+#' @keywords random
+#' @export
+#' @examples
+#' random_string()
 random_string <- function(n = 5000) {
   a <- do.call(paste0, replicate(5, sample(LETTERS, n, TRUE), FALSE))
   paste0(a, sprintf("%04d", sample(9999, n, TRUE)), sample(LETTERS, n, TRUE))
 }
-
-
-lisa_colors <- c("#eeeeee","#FF0000","#0000FF","#a7adf9", "#f4ada8", "#999999")
-lisa_labels <- c("Not Sig", "High-High", "Low-Low", "Low-High","High-Low", "Neighborless")
 
 geoda_to_sf = function(gda) {
   if (!require("sf")) {

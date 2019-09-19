@@ -169,6 +169,7 @@ setClass('_p_std__vectorT_double_std__allocatorT_double_t_t', contains = 'C++Ref
 setClass('_p_std__vectorT_char_std__allocatorT_char_t_t', contains = 'C++Reference')
 setClass('_p_std__vectorT_std__vectorT_double_std__allocatorT_double_t_t_std__allocatorT_std__vectorT_double_std__allocatorT_double_t_t_t_t', contains = 'C++Reference')
 setClass('_p_std__vectorT_int_std__allocatorT_int_t_t', contains = 'C++Reference')
+setClass('_p_std__vectorT_long_std__allocatorT_long_t_t', contains = 'C++Reference')
 setClass('_p_std__vectorT_long_long_std__allocatorT_long_long_t_t', contains = 'C++Reference')
 setClass('_p_std__vectorT_std__vectorT_int_std__allocatorT_int_t_t_std__allocatorT_std__vectorT_int_std__allocatorT_int_t_t_t_t', contains = 'C++Reference')
 setClass('_p_std__vectorT_unsigned_char_std__allocatorT_unsigned_char_t_t', contains = 'C++Reference')
@@ -4060,6 +4061,568 @@ setMethod('$', '_p_std__vectorT_int_std__allocatorT_int_t_t', function(x, name)
 );
 # end of accessor method for std::vector<(int)>
 setMethod('delete', '_p_std__vectorT_int_std__allocatorT_int_t_t', function(obj) {delete_std__vectorT_int_std__allocatorT_int_t_t(obj)})
+# Start of VecLong___nonzero__
+
+`VecLong___nonzero__` = function(self, .copy = FALSE)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ;.Call('R_swig_VecLong___nonzero__', self, as.logical(.copy), PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong___nonzero__`, 'returnType') = 'logical'
+attr(`VecLong___nonzero__`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong___nonzero__`) = c("SWIGFunction", class('VecLong___nonzero__'))
+
+# Start of VecLong___len__
+
+`VecLong___len__` = function(self, .copy = FALSE)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ;.Call('R_swig_VecLong___len__', self, as.logical(.copy), PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong___len__`, 'returnType') = 'integer'
+attr(`VecLong___len__`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong___len__`) = c("SWIGFunction", class('VecLong___len__'))
+
+# Start of VecLong_pop
+
+`VecLong_pop` = function(self, .copy = FALSE)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ;.Call('R_swig_VecLong_pop', self, as.logical(.copy), PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_pop`, 'returnType') = 'integer'
+attr(`VecLong_pop`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong_pop`) = c("SWIGFunction", class('VecLong_pop'))
+
+# Start of VecLong___getslice__
+
+`VecLong___getslice__` = function(self, i, j)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  i = as.integer(i);
+  
+  if(length(i) > 1) {
+    warning("using only the first element of i");
+  };
+  
+  j = as.integer(j);
+  
+  if(length(j) > 1) {
+    warning("using only the first element of j");
+  };
+  
+  ;ans = .Call('R_swig_VecLong___getslice__', self, i, j, PACKAGE='rgeoda');
+  ans <- if (is.null(ans)) ans
+  else new("_p_std__vectorT_long_std__allocatorT_long_t_t", ref=ans);
+  
+  ans
+  
+}
+
+attr(`VecLong___getslice__`, 'returnType') = '_p_std__vectorT_long_std__allocatorT_long_t_t'
+attr(`VecLong___getslice__`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', 'integer', 'integer')
+class(`VecLong___getslice__`) = c("SWIGFunction", class('VecLong___getslice__'))
+
+# Start of VecLong___setslice__
+
+`VecLong___setslice__` = function(self, i, j, v)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  i = as.integer(i);
+  
+  if(length(i) > 1) {
+    warning("using only the first element of i");
+  };
+  
+  j = as.integer(j);
+  
+  if(length(j) > 1) {
+    warning("using only the first element of j");
+  };
+  
+  if (inherits(v, "ExternalReference")) v = slot(v,"ref") 
+  ;.Call('R_swig_VecLong___setslice__', self, i, j, v, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong___setslice__`, 'returnType') = 'void'
+attr(`VecLong___setslice__`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', 'integer', 'integer', '_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong___setslice__`) = c("SWIGFunction", class('VecLong___setslice__'))
+
+# Start of VecLong___delslice__
+
+`VecLong___delslice__` = function(self, i, j)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  i = as.integer(i);
+  
+  if(length(i) > 1) {
+    warning("using only the first element of i");
+  };
+  
+  j = as.integer(j);
+  
+  if(length(j) > 1) {
+    warning("using only the first element of j");
+  };
+  
+  ;.Call('R_swig_VecLong___delslice__', self, i, j, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong___delslice__`, 'returnType') = 'void'
+attr(`VecLong___delslice__`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', 'integer', 'integer')
+class(`VecLong___delslice__`) = c("SWIGFunction", class('VecLong___delslice__'))
+
+# Start of VecLong___delitem__
+
+`VecLong___delitem__` = function(self, i)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  i = as.integer(i);
+  
+  if(length(i) > 1) {
+    warning("using only the first element of i");
+  };
+  
+  ;.Call('R_swig_VecLong___delitem__', self, i, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong___delitem__`, 'returnType') = 'void'
+attr(`VecLong___delitem__`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', 'integer')
+class(`VecLong___delitem__`) = c("SWIGFunction", class('VecLong___delitem__'))
+
+# Start of VecLong___getitem__
+
+`VecLong___getitem__` = function(self, i, .copy = FALSE)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  i = as.integer(i);
+  
+  if(length(i) > 1) {
+    warning("using only the first element of i");
+  };
+  
+  ;.Call('R_swig_VecLong___getitem__', self, i, as.logical(.copy), PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong___getitem__`, 'returnType') = 'integer'
+attr(`VecLong___getitem__`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', 'integer')
+class(`VecLong___getitem__`) = c("SWIGFunction", class('VecLong___getitem__'))
+
+# Start of VecLong___setitem__
+
+`VecLong___setitem__` = function(self, i, x)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  i = as.integer(i);
+  
+  if(length(i) > 1) {
+    warning("using only the first element of i");
+  };
+  
+  x = as.integer(x);
+  ;.Call('R_swig_VecLong___setitem__', self, i, x, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong___setitem__`, 'returnType') = 'void'
+attr(`VecLong___setitem__`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', 'integer', 'integer')
+class(`VecLong___setitem__`) = c("SWIGFunction", class('VecLong___setitem__'))
+
+# Start of VecLong_append
+
+`VecLong_append` = function(self, x)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  x = as.integer(x);
+  ;.Call('R_swig_VecLong_append', self, x, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_append`, 'returnType') = 'void'
+attr(`VecLong_append`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', 'integer')
+class(`VecLong_append`) = c("SWIGFunction", class('VecLong_append'))
+
+# Start of new_VecLong
+
+`VecLong__SWIG_0` = function()
+{
+  ;ans = .Call('R_swig_new_VecLong__SWIG_0', PACKAGE='rgeoda');
+  ans <- if (is.null(ans)) ans
+  else new("_p_std__vectorT_long_std__allocatorT_long_t_t", ref=ans);
+  
+  reg.finalizer(ans@ref, delete_VecLong)
+  ans
+  
+}
+
+attr(`VecLong__SWIG_0`, 'returnType') = '_p_std__vectorT_long_std__allocatorT_long_t_t'
+class(`VecLong__SWIG_0`) = c("SWIGFunction", class('VecLong__SWIG_0'))
+
+# Start of new_VecLong
+
+`VecLong__SWIG_1` = function(other)
+{
+  if (inherits(other, "ExternalReference")) other = slot(other,"ref") 
+  ;ans = .Call('R_swig_new_VecLong__SWIG_1', other, PACKAGE='rgeoda');
+  ans <- if (is.null(ans)) ans
+  else new("_p_std__vectorT_long_std__allocatorT_long_t_t", ref=ans);
+  
+  reg.finalizer(ans@ref, delete_VecLong)
+  ans
+  
+}
+
+attr(`VecLong__SWIG_1`, 'returnType') = '_p_std__vectorT_long_std__allocatorT_long_t_t'
+attr(`VecLong__SWIG_1`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong__SWIG_1`) = c("SWIGFunction", class('VecLong__SWIG_1'))
+
+# Start of VecLong_empty
+
+`VecLong_empty` = function(self, .copy = FALSE)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ;.Call('R_swig_VecLong_empty', self, as.logical(.copy), PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_empty`, 'returnType') = 'logical'
+attr(`VecLong_empty`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong_empty`) = c("SWIGFunction", class('VecLong_empty'))
+
+# Start of VecLong_size
+
+`VecLong_size` = function(self, .copy = FALSE)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ;.Call('R_swig_VecLong_size', self, as.logical(.copy), PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_size`, 'returnType') = 'integer'
+attr(`VecLong_size`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong_size`) = c("SWIGFunction", class('VecLong_size'))
+
+# Start of VecLong_swap
+
+`VecLong_swap` = function(self, v)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  if (inherits(v, "ExternalReference")) v = slot(v,"ref") 
+  ;.Call('R_swig_VecLong_swap', self, v, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_swap`, 'returnType') = 'void'
+attr(`VecLong_swap`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', '_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong_swap`) = c("SWIGFunction", class('VecLong_swap'))
+
+# Start of VecLong_clear
+
+`VecLong_clear` = function(self)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ;.Call('R_swig_VecLong_clear', self, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_clear`, 'returnType') = 'void'
+attr(`VecLong_clear`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong_clear`) = c("SWIGFunction", class('VecLong_clear'))
+
+# Start of VecLong_get_allocator
+
+`VecLong_get_allocator` = function(self, .copy = FALSE)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ;ans = .Call('R_swig_VecLong_get_allocator', self, as.logical(.copy), PACKAGE='rgeoda');
+  ans <- if (is.null(ans)) ans
+  else new("_p_std__allocatorT_long_t", ref=ans);
+  
+  ans
+  
+}
+
+attr(`VecLong_get_allocator`, 'returnType') = '_p_std__allocatorT_long_t'
+attr(`VecLong_get_allocator`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong_get_allocator`) = c("SWIGFunction", class('VecLong_get_allocator'))
+
+# Start of new_VecLong
+
+`VecLong__SWIG_2` = function(size)
+{
+  size = as.integer(size);
+  
+  if(length(size) > 1) {
+    warning("using only the first element of size");
+  };
+  
+  ;ans = .Call('R_swig_new_VecLong__SWIG_2', size, PACKAGE='rgeoda');
+  ans <- if (is.null(ans)) ans
+  else new("_p_std__vectorT_long_std__allocatorT_long_t_t", ref=ans);
+  
+  reg.finalizer(ans@ref, delete_VecLong)
+  ans
+  
+}
+
+attr(`VecLong__SWIG_2`, 'returnType') = '_p_std__vectorT_long_std__allocatorT_long_t_t'
+attr(`VecLong__SWIG_2`, "inputTypes") = c('integer')
+class(`VecLong__SWIG_2`) = c("SWIGFunction", class('VecLong__SWIG_2'))
+
+# Start of VecLong_pop_back
+
+`VecLong_pop_back` = function(self)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ;.Call('R_swig_VecLong_pop_back', self, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_pop_back`, 'returnType') = 'void'
+attr(`VecLong_pop_back`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong_pop_back`) = c("SWIGFunction", class('VecLong_pop_back'))
+
+# Start of VecLong_resize
+
+`VecLong_resize__SWIG_0` = function(self, new_size)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  new_size = as.integer(new_size);
+  
+  if(length(new_size) > 1) {
+    warning("using only the first element of new_size");
+  };
+  
+  ;.Call('R_swig_VecLong_resize__SWIG_0', self, new_size, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_resize__SWIG_0`, 'returnType') = 'void'
+attr(`VecLong_resize__SWIG_0`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', 'integer')
+class(`VecLong_resize__SWIG_0`) = c("SWIGFunction", class('VecLong_resize__SWIG_0'))
+
+# Start of new_VecLong
+
+`VecLong__SWIG_3` = function(size, value)
+{
+  size = as.integer(size);
+  
+  if(length(size) > 1) {
+    warning("using only the first element of size");
+  };
+  
+  value = as.integer(value);
+  ;ans = .Call('R_swig_new_VecLong__SWIG_3', size, value, PACKAGE='rgeoda');
+  ans <- if (is.null(ans)) ans
+  else new("_p_std__vectorT_long_std__allocatorT_long_t_t", ref=ans);
+  
+  reg.finalizer(ans@ref, delete_VecLong)
+  ans
+  
+}
+
+attr(`VecLong__SWIG_3`, 'returnType') = '_p_std__vectorT_long_std__allocatorT_long_t_t'
+attr(`VecLong__SWIG_3`, "inputTypes") = c('integer', 'integer')
+class(`VecLong__SWIG_3`) = c("SWIGFunction", class('VecLong__SWIG_3'))
+
+`VecLong` <- function(...) {
+  argtypes <- mapply(class, list(...));
+  argv <- list(...);
+  argc <- length(argtypes);
+# dispatch functions 4
+  if (argc == 0) {
+    f <- VecLong__SWIG_0; 
+  } else if (argc == 1) {
+    if (( (is.integer(argv[[1]]) || is.numeric(argv[[1]])) && length(argv[[1]]) == 1 )) {
+      f <- VecLong__SWIG_2; 
+    }
+    else if (extends(argtypes[1], '_p_std__vectorT_long_std__allocatorT_long_t_t') && length(argv[[1]]) == 1) {
+      f <- VecLong__SWIG_1; 
+    }
+  } else if (argc == 2) {
+    if (( (is.integer(argv[[1]]) || is.numeric(argv[[1]])) && length(argv[[1]]) == 1 ) && ( (is.integer(argv[[2]]) || is.numeric(argv[[2]])) && length(argv[[2]]) == 1 )) {
+      f <- VecLong__SWIG_3; 
+    }
+  } else {
+    stop("cannot find overloaded function for VecLong with argtypes (",toString(argtypes),")");
+  };
+  f(...);
+}
+
+# Dispatch function
+# Start of VecLong_push_back
+
+`VecLong_push_back` = function(self, x)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  x = as.integer(x);
+  ;.Call('R_swig_VecLong_push_back', self, x, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_push_back`, 'returnType') = 'void'
+attr(`VecLong_push_back`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', 'integer')
+class(`VecLong_push_back`) = c("SWIGFunction", class('VecLong_push_back'))
+
+# Start of VecLong_front
+
+`VecLong_front` = function(self, .copy = FALSE)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ;.Call('R_swig_VecLong_front', self, as.logical(.copy), PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_front`, 'returnType') = 'integer'
+attr(`VecLong_front`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong_front`) = c("SWIGFunction", class('VecLong_front'))
+
+# Start of VecLong_back
+
+`VecLong_back` = function(self, .copy = FALSE)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ;.Call('R_swig_VecLong_back', self, as.logical(.copy), PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_back`, 'returnType') = 'integer'
+attr(`VecLong_back`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong_back`) = c("SWIGFunction", class('VecLong_back'))
+
+# Start of VecLong_assign
+
+`VecLong_assign` = function(self, n, x)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  n = as.integer(n);
+  
+  if(length(n) > 1) {
+    warning("using only the first element of n");
+  };
+  
+  x = as.integer(x);
+  ;.Call('R_swig_VecLong_assign', self, n, x, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_assign`, 'returnType') = 'void'
+attr(`VecLong_assign`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', 'integer', 'integer')
+class(`VecLong_assign`) = c("SWIGFunction", class('VecLong_assign'))
+
+# Start of VecLong_resize
+
+`VecLong_resize__SWIG_1` = function(self, new_size, x)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  new_size = as.integer(new_size);
+  
+  if(length(new_size) > 1) {
+    warning("using only the first element of new_size");
+  };
+  
+  x = as.integer(x);
+  ;.Call('R_swig_VecLong_resize__SWIG_1', self, new_size, x, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_resize__SWIG_1`, 'returnType') = 'void'
+attr(`VecLong_resize__SWIG_1`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', 'integer', 'integer')
+class(`VecLong_resize__SWIG_1`) = c("SWIGFunction", class('VecLong_resize__SWIG_1'))
+
+`VecLong_resize` <- function(...) {
+  argtypes <- mapply(class, list(...));
+  argv <- list(...);
+  argc <- length(argtypes);
+# dispatch functions 2
+  if (argc == 2) {
+    if ((extends(argtypes[1], '_p_std__vectorT_long_std__allocatorT_long_t_t') || is.null(argv[[1]])) && ( (is.integer(argv[[2]]) || is.numeric(argv[[2]])) && length(argv[[2]]) == 1 )) {
+      f <- VecLong_resize__SWIG_0; 
+    }
+  } else if (argc == 3) {
+    if ((extends(argtypes[1], '_p_std__vectorT_long_std__allocatorT_long_t_t') || is.null(argv[[1]])) && ( (is.integer(argv[[2]]) || is.numeric(argv[[2]])) && length(argv[[2]]) == 1 ) && ( (is.integer(argv[[3]]) || is.numeric(argv[[3]])) && length(argv[[3]]) == 1 )) {
+      f <- VecLong_resize__SWIG_1; 
+    }
+  } else {
+    stop("cannot find overloaded function for VecLong_resize with argtypes (",toString(argtypes),")");
+  };
+  f(...);
+}
+
+# Dispatch function
+# Start of VecLong_reserve
+
+`VecLong_reserve` = function(self, n)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  n = as.integer(n);
+  
+  if(length(n) > 1) {
+    warning("using only the first element of n");
+  };
+  
+  ;.Call('R_swig_VecLong_reserve', self, n, PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_reserve`, 'returnType') = 'void'
+attr(`VecLong_reserve`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t', 'integer')
+class(`VecLong_reserve`) = c("SWIGFunction", class('VecLong_reserve'))
+
+# Start of VecLong_capacity
+
+`VecLong_capacity` = function(self, .copy = FALSE)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ;.Call('R_swig_VecLong_capacity', self, as.logical(.copy), PACKAGE='rgeoda');
+  
+}
+
+attr(`VecLong_capacity`, 'returnType') = 'integer'
+attr(`VecLong_capacity`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`VecLong_capacity`) = c("SWIGFunction", class('VecLong_capacity'))
+
+# Start of delete_VecLong
+
+`delete_VecLong` = function(self)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ;.Call('R_swig_delete_VecLong', self, PACKAGE='rgeoda');
+  
+}
+
+attr(`delete_VecLong`, 'returnType') = 'void'
+attr(`delete_VecLong`, "inputTypes") = c('_p_std__vectorT_long_std__allocatorT_long_t_t')
+class(`delete_VecLong`) = c("SWIGFunction", class('delete_VecLong'))
+
+# Start of accessor method for std::vector<(long)>
+setMethod('$', '_p_std__vectorT_long_std__allocatorT_long_t_t', function(x, name)
+
+{
+  accessorFuns = list('__nonzero__' = VecLong___nonzero__, '__len__' = VecLong___len__, 'pop' = VecLong_pop, '__getslice__' = VecLong___getslice__, '__setslice__' = VecLong___setslice__, '__delslice__' = VecLong___delslice__, '__delitem__' = VecLong___delitem__, '__getitem__' = VecLong___getitem__, '__setitem__' = VecLong___setitem__, 'append' = VecLong_append, 'empty' = VecLong_empty, 'size' = VecLong_size, 'swap' = VecLong_swap, 'clear' = VecLong_clear, 'get_allocator' = VecLong_get_allocator, 'pop_back' = VecLong_pop_back, 'resize' = VecLong_resize, 'push_back' = VecLong_push_back, 'front' = VecLong_front, 'back' = VecLong_back, 'assign' = VecLong_assign, 'reserve' = VecLong_reserve, 'capacity' = VecLong_capacity);
+  ;        idx = pmatch(name, names(accessorFuns));
+  if(is.na(idx)) 
+  return(callNextMethod(x, name));
+  f = accessorFuns[[idx]];
+  function(...){
+    f(x, ...)
+  };
+}
+
+
+);
+# end of accessor method for std::vector<(long)>
+setMethod('delete', '_p_std__vectorT_long_std__allocatorT_long_t_t', function(obj) {delete_std__vectorT_long_std__allocatorT_long_t_t(obj)})
 # Start of VecInt64___nonzero__
 
 `VecInt64___nonzero__` = function(self, .copy = FALSE)
