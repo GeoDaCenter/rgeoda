@@ -7,7 +7,10 @@ Author: Xun Li <lixun910@gmail.com>
 Maintainer: Xun Li <lixun910@gmail.com>
 Description: A package for spatial data analysis based on libgeoda and GeoDa.
 License: GPL (>= 2)
-Depends: R (>= 3.1.0) 
+Depends: R (>= 3.1.0)
 Collate: rgeoda.R sf_geoda.R read_geoda.R AAA.R
 URL: https://github.com/lixun910/rgeoda
 BugReports: https://github.com/lixun910/rgeoda/issues
+NeedsCompilation: no
+Packaged: 2019-09-19 22:55:57 UTC; xun
+Built: R 3.6.0; ; 2019-09-19 22:57:25 UTC; windows

@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GeoDa()</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for GeoDa {rgeoda}"><tr><td>GeoDa {rgeoda}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+GeoDa()
+</h2>
+
+<h3>Description</h3>
+
+<p>There are two ways to construct a GeoDa object: the first one is passing the path of the spatial data as an argument; the second one is creating a GeoDa object from a sp/sf object. For latter, please refer to function sp_to_geoda() and sf_to_geoda().
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+GeoDa(file_path)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file_path</code></td>
+<td>
+
+<p>Path to the spatial data, e.g. ESRI Shapefile (.shp)
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The data formats that rgeoda can read directly:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code></code></td>
+<td>
+<p>ESRI Shapefile: ESRI Shapefile</p>
+</td></tr>
+<tr valign="top"><td><code></code></td>
+<td>
+<p>MapInfo File : MapInfo File</p>
+</td></tr>
+<tr valign="top"><td><code></code></td>
+<td>
+<p>CSV: Comma Separated Value (.csv)</p>
+</td></tr>
+<tr valign="top"><td><code></code></td>
+<td>
+<p>GML: Geography Markup Language (GML)</p>
+</td></tr>
+<tr valign="top"><td><code></code></td>
+<td>
+<p>GPX: GPX</p>
+</td></tr>
+<tr valign="top"><td><code></code></td>
+<td>
+<p>KML: Keyhole Markup Language (KML)</p>
+</td></tr>
+<tr valign="top"><td><code></code></td>
+<td>
+<p>GeoJSON: GeoJSON</p>
+</td></tr>
+<tr valign="top"><td><code></code></td>
+<td>
+<p>TopoJSON: TopoJSON</p>
+</td></tr>
+<tr valign="top"><td><code></code></td>
+<td>
+<p>OpenFileGDB: ESRI FileGDB</p>
+</td></tr>
+<tr valign="top"><td><code></code></td>
+<td>
+<p>GFT: Google Fusion Tables</p>
+</td></tr>
+<tr valign="top"><td><code></code></td>
+<td>
+<p>CouchDB: CouchDB / GeoCouch</p>
+</td></tr>
+<tr valign="top"><td><code></code></td>
+<td>
+<p>Carto: Carto</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Xun Li (lixun910@gmail.com)
+</p>
+
+
+<h3>References</h3>
+
+<p>https://lixun910.github.io/pygeoda/doc_intro.html
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+library(rgeoda)
+
+# In this example, we will use an ESRI Shapefile natregimes.shp comes with the package:
+nat_path &lt;- system.file("extdata", "natregimes.shp", package = "rgeoda")
+
+# Use the path above (or the path to your own dataset), we can create a GeoDa instance, and the GeoDa instance is the main entry point of rgeoda.
+gda &lt;- GeoDa(nat_path)
+
+# rgeoda provides some functions to check the meta data of the loaded dataset:
+num_obs &lt;- gda$GetNumObs()
+num_cols &lt;- gda$GetNumCols()
+field_types &lt;- gda$GetFieldTypes()
+field_names &lt;- gda$GetFieldNames()
+
+# Access Table Data
+# One can call function GetNumericCol(string col_name) to get numeric data (vector type) from GeoDa instance. For example, to get data of column â€œHR60â€:
+hr60 &lt;- gda$GetNumericCol("HR60")
+
+# Spatial Weights
+# One can call function CreateContiguityWeights(string poly_id="", bool is_queen=true, int order=1, bool include_lower_order=false) to create a Queen or Rook contiguity weights:
+queen_w &lt;- gda$CreateContiguityWeights(is_queen=TRUE)
+
+# To access the properties of the created weights object, one can just access the attributes of the returned weights object queen_w:
+
+cat("weight_type: ", queen_w$weight_type, 
+    "\nis_symmetric: ", queen_w$is_symmetric, 
+    "\nsparsity:",queen_w$sparsity,
+    "\ndensity:",queen_w$density, 
+    "\nmin_nbrs:",queen_w$min_nbrs, 
+    "\nmax_nbrs:",queen_w$max_nbrs,
+    "\nmean_nbrs:",queen_w$mean_nbrs, 
+    "\nmedian_nbrs:",queen_w$median_nbrs, "\n")
+    
+# Spatial Data Analysis
+# Local Spatial Autocorrelation
+
+# Using the created Queen weights queen_w and the data hr60, we can call function LISA(GeoDaWeight w, vector data) to compute the local spatial autocorrelation of variable â€œHR60â€.
+lisa &lt;- gda$LISA(queen_w, hr60)
+
+# We can access the LISA results by calling the â€œgetterâ€ methods from the returned LISA object:
+lags &lt;- lisa$GetLagValues()
+
+# Get local moran values:
+lms &lt;- lisa$GetLocalMoranValues()
+
+# Get pseudo-p values:
+pvals &lt;- lisa$GetLocalSignificanceValues()
+
+# Get LISA category values:
+cats &lt;- lisa$GetClusterIndicators()
+
+# You can easily re-run the LISA computation by calling its Run() function. For example, re-run the above LISA exampe using 9999 permutations:
+lisa$SetNumPermutations(9999)
+lisa$Run()
+
+# Since rgeoda is using GeoDaâ€™s C++ code, by default, rgeoda uses multi-threading to accelerate the computation of Local Moran. One can also specify how many threads to run the computation:
+lisa$SetNumThreads(4)
+lisa$Run()
+
+# Clustering
+
+# SKATER
+# Using the function SKATER(int k, GeoDaWeight w, Vector column_names, String distance_method='euclidean') to run a spatially constrained clustering on current dataset.
+skater &lt;- gda$SKATER(10, queen_w, c("HR60", "PO60"))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rgeoda</em> version 0.0.1 <a href="00Index.html">Index</a>]</div>
+</body></html>
