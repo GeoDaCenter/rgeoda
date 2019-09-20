@@ -30,7 +30,7 @@ install.packages("https://github.com/lixun910/rgeoda/archive/0.0.1.tar.gz", depe
 
 ### Tutorials
 
-Limited features of spatial data analysis are provided. Please see the following ipython notebooks
+Limited features of spatial data analysis are provided for now. Please see the following jupyter notebooks
 
 Notebooks:
 https://github.com/lixun910/rgeoda_tutorial
