@@ -28,6 +28,8 @@ In R console, use `install.packages()` function to install rgeoda from its sourc
 install.packages("https://github.com/lixun910/rgeoda/archive/0.0.1.tar.gz", dependencies=c('wkb'))
 ```
 
+### Tutorials
+
 Limited features of spatial data analysis are provided. Please see the following ipython notebooks
 
 Notebooks:
