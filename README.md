@@ -14,10 +14,10 @@ NOTE: we are working to make rgeoda avaiable in CRAN, so that it could be instal
 
 #### Windows
 
-In R console, use `install.packages()` function to install rgeoda from its source pacakge at: https://github.com/lixun910/rgeoda/releases/download/0.0.1/win.zip
+In R console, use `install.packages()` function to install rgeoda from its source pacakge at: https://github.com/lixun910/rgeoda/releases/download/0.0.1/rgeoda_0.0.1.zip
 
 ```R
-install.packages("https://github.com/lixun910/rgeoda/releases/download/0.0.1/win.zip", dependencies=c('wkb'))
+install.packages("https://github.com/lixun910/rgeoda/releases/download/0.0.1/rgeoda_0.0.1.zip", dependencies=c('wkb'))
 ```
 
 #### Mac OSX and Linux
