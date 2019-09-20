@@ -6,7 +6,7 @@ rgeoda is a R package for spatial data analysis based on libgeoda and GeoDa.
 
 NOTE: This version is still under development, with many changes that might cause issues and errors. 
 
-This version is a prototype of pygeoda aims to build up the framework that allows pygeoda to be easily compiled, build, installed and distributed on different platforms (Windows, Mac OSX, and Linux). 
+This version is a prototype of rgeoda aims to build up the framework that allows rgeoda to be easily installed in R on different platforms (Windows, Mac OSX, and Linux). 
 
 ### Installation
 
