@@ -19,9 +19,8 @@ Webpages:
 
 * [2. ESDA with rGeoDa and sp](https://lixun910.github.io/rgeoda/wn1_rgeoda_sp.html)
 
+* [3. ESDA with rGeoDa and sf](hhttps://lixun910.github.io/rgeoda/esda_rgeoda_sf.html)
 
-* [2. ESDA with rGeoDa and sp](hhttps://lixun910.github.io/rgeoda/esda_rgeoda_sf.html)
-* 
 Note: the second notebook (esda) depends on [sp](https://cran.r-project.org/web/packages/sp/index.html), and the third notebook depends on [sf](https://github.com/r-spatial/sf) package.
 
 You can try thoese R jupyter notebooks in your browser (no installation required): 
