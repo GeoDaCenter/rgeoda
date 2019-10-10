@@ -18,9 +18,3 @@ geoda_obj An instance of GeoDa object
 The sp package has been an essential tool which provides spatial data-structures and many utility functions to do spatial analysis in R. It has been a core dependent library for many other packages, e.g. rgdal (IO), maptools (mapping), spdep (spatial weights, spatial statistics, and spatial models) etc.
 Using rgdal to read a ESRI Shapefile will return a sp (Spatial object) object, which could be either a SpatialPointsDataFrame (using an AttributeList for its data slot directly), a SpatialLinesDataFrame, or a SpatialPolygonsDataFrame.
 }
-\examples{
-guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-library(rgdal)
-guerry_sp <- readOGR(guerry_path)
-guerry_gda <- sp_to_geoda(guerry_sp)
-}

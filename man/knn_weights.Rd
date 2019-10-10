@@ -25,10 +25,5 @@ w An instance of Weight
 \description{
 Create a k-nearest neighbors based weights
 }
-\examples{
-guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- GeoDa(guerry_path)
-knn_w <- knn_weights(guerry, 6)
-}
 \keyword{knn}
 \keyword{weights}

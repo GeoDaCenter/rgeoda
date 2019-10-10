@@ -25,11 +25,5 @@ w An instance of GeoDaWeight
 \description{
 Create a distance-based weights
 }
-\examples{
-guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- GeoDa(guerry_path)
-dist_thres <- gda_min_distthreshold(guerry)
-dist_w <- distance_weights(guerry, dist_thres)
-}
 \keyword{distance}
 \keyword{weights}

@@ -32,12 +32,6 @@ w An instance of Weight
 \description{
 Create a kernel weights by specifying k-nearest neighbors and a kernel method
 }
-\examples{
-guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- GeoDa(guerry_path)
-bandwidth <- gda_min_distthreshold(guerry)
-kernel_w <- kernel_knn_weights(guerry, 6, "uniform")
-}
 \keyword{kernel}
 \keyword{knn}
 \keyword{weights}
