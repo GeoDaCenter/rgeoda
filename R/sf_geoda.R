@@ -83,11 +83,6 @@ sf_to_geoda = function(sf_obj, ...) {
 #' @param sp_obj  An instance of sp object
 #' @param with_table  (Optional, Default: FALSE)If create a table from sp dataframe object.
 #' @return geoda_obj An instance of GeoDa object
-#' @examples
-#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' library(rgdal)
-#' guerry_sp <- readOGR(guerry_path)
-#' guerry_gda <- sp_to_geoda(guerry_sp)
 #' @export
 sp_to_geoda = function(sp_obj, ...) {
   if (!require("sp")) {

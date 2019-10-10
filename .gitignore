@@ -37,3 +37,5 @@ rsconnect/
 
 *.so
 *.o
+
+deps/

@@ -166,11 +166,6 @@ rook_weights <- function(geoda_obj, ...) {
 #' @param is_arc (optional) FALSE (default) or TRUE, compute arc distance between two observations
 #' @param is_mile (optional) TRUE (default) or FALSE, convert distance unit from mile to km.
 #' @return w An instance of GeoDaWeight
-#' @examples
-#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- GeoDa(guerry_path)
-#' dist_thres <- gda_min_distthreshold(guerry)
-#' dist_w <- distance_weights(guerry, dist_thres)
 #' @export
 distance_weights <- function(geoda_obj, dist_thres, ...) {
   kwargs <- list(...)
@@ -205,11 +200,6 @@ distance_weights <- function(geoda_obj, dist_thres, ...) {
 #' @param is_arc (optional) FALSE (default) or TRUE, compute arc distance between two observations
 #' @param is_mile (optional) TRUE (default) or FALSE, convert distance unit from mile to km.
 #' @return w An instance of Weight
-#' @examples
-#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- GeoDa(guerry_path)
-#' bandwidth <- gda_min_distthreshold(guerry)
-#' kernel_w <- kernel_weights(guerry, bandwidth, "uniform")
 #' @export
 kernel_weights <- function(geoda_obj, bandwidth, kernel_method, ...) {
   kwargs <- list(...)
@@ -247,10 +237,6 @@ kernel_weights <- function(geoda_obj, bandwidth, kernel_method, ...) {
 #' @param is_arc (optional) FALSE (default) or TRUE, compute arc distance between two observations
 #' @param is_mile (optional) TRUE (default) or FALSE, convert distance unit from mile to km.
 #' @return w An instance of Weight
-#' @examples
-#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- GeoDa(guerry_path)
-#' knn_w <- knn_weights(guerry, 6)
 #' @export
 knn_weights <- function(geoda_obj, k, ...) {
   kwargs <- list(...)
@@ -287,11 +273,6 @@ knn_weights <- function(geoda_obj, k, ...) {
 #' @param is_arc (optional) FALSE (default) or TRUE, compute arc distance between two observations
 #' @param is_mile (optional) TRUE (default) or FALSE, convert distance unit from mile to km.
 #' @return w An instance of Weight
-#' @examples
-#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- GeoDa(guerry_path)
-#' bandwidth <- gda_min_distthreshold(guerry)
-#' kernel_w <- kernel_knn_weights(guerry, 6, "uniform")
 #' @export
 kernel_knn_weights <- function(geoda_obj, k, kernel_method, ...) {
   kwargs <- list(...)
