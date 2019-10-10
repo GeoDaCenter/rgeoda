@@ -127,9 +127,9 @@ p_labels <- c("Not significant", "p <= 0.05", "p <= 0.01", "p <= 0.001")
 p_colors <- c("#eeeeee", "#84f576", "#53c53c", "#348124")
 plot(st_geometry(guerry_sf), 
      col=sapply(lisa_p, function(x){
-       if (x <= 0.05) return(p_colors[2])
+       if (x <= 0.001) return(p_colors[4])
        else if (x <= 0.01) return(p_colors[3])
-       else if (x <= 0.001) return (p_colors[4])
+       else if (x <= 0.05) return (p_colors[2])
        else return(p_colors[1])
        }), 
      border = "#333333", lwd=0.2)
@@ -205,7 +205,7 @@ legend('bottomleft', legend = skater_labels, fill = skater_colors, border = "#ee
 ### Max-p Clustering Map
 
 ```{r}
-bound_vals <- as.numeric(guerry_sp$Pop1831)
+bound_vals <- as.numeric(guerry_sf$Pop1831)
 min_bound <- 3236.67 # 10% of Pop1831
 
 maxp_clusters <- maxp(queen_w, data, bound_vals, min_bound, "greedy")
