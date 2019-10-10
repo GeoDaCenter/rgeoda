@@ -1,19 +1,8 @@
-#' Random String Function
-#'
-#' This function creates random strings (length=4), 
-#' which is used as the temporary file name that rgeoda will created
-#' @param n number of random string to be generated Defaults to 5000.
-#' @keywords random
-#' @export
-#' @examples
-#' random_string()
 random_string <- function(n = 5000) {
   a <- do.call(paste0, replicate(5, sample(LETTERS, n, TRUE), FALSE))
   paste0(a, sprintf("%04d", sample(9999, n, TRUE)), sample(LETTERS, n, TRUE))
 }
 
-lisa_colors <- c("#eeeeee","#FF0000","#0000FF","#a7adf9", "#f4ada8", "#999999")
-lisa_labels <- c("Not Sig", "High-High", "Low-Low", "Low-High","High-Low", "Neighborless")
 
 geoda_to_sf = function(gda) {
   if (!require("sf")) {
@@ -21,25 +10,33 @@ geoda_to_sf = function(gda) {
   }
 }
 
-
-sf_to_geoda = function(sf_obj) {
+#' @title Create a geoda object from a sf object
+#' @description Create a geoda object from a sf object returned from 'st_read()' function
+#' @param sf_obj  An instance of sf object
+#' @param with_table  (Optional, Default: FALSE)If create a table from sf dataframe object.
+#' @return geoda_obj An instance of geoda class
+#' @export
+sf_to_geoda = function(sf_obj, ...) {
   if (!require("sf")) {
     stop("package sf not available: install first?")
   }
   if (!require("wkb")) {
     stop("package wkb not available: install first?")
   }
-  
+
+  kwargs <- list(...)
+  with_table <- ifelse(hasArg("with_table"), kwargs$order, FALSE)
+
   # geometries
   sf_geom <- st_geometry(sf_obj)
   geoms_wkb <- st_as_binary(sf_geom)
   n_obs <- length(sf_geom)
   wkb_bytes_len <- sapply(geoms_wkb, function(x){ return(length(x))})
   wkb_vec <- unlist(geoms_wkb)
-  
+
   # in-memory name
   file_name <- random_string(1)
-  
+
   # table
   sf_df <- as.data.frame(sf_obj)
   col_names <- colnames(sf_df)
@@ -53,13 +50,13 @@ sf_to_geoda = function(sf_obj) {
     ft <- class(dat)
     if (ft == "factor") {
       tbl$AddStringColumn(col_nm, dat)
-      
+
     } else if (ft == "integer" || ft == "logical") {
       tbl$AddIntColumn(col_nm, dat)
-      
+
     } else if (ft == "double" || ft == "numeric") {
       tbl$AddRealColumn(col_nm, dat)
-      
+
     } else {
       dat <- as.character(dat)
       tbl$AddStringColumn(col_names[[i]], dat)
@@ -77,49 +74,67 @@ sf_to_geoda = function(sf_obj) {
   # prj4
   proj4_str <- st_crs(sf_obj)[[2]]
   gda <- GeoDa(file_name, map_type, n_obs, tbl, as.integer(wkb_vec), wkb_bytes_len, proj4_str)
-  return(gda)
+  return(geoda$new(gda))
 }
 
-# create a GeoDa object from a sp object
-sp_to_geoda = function(sp_obj) {
+#' @title Create a geoda object from a sp object
+#' @description The sp package has been an essential tool which provides spatial data-structures and many utility functions to do spatial analysis in R. It has been a core dependent library for many other packages, e.g. rgdal (IO), maptools (mapping), spdep (spatial weights, spatial statistics, and spatial models) etc.
+#' Using rgdal to read a ESRI Shapefile will return a sp (Spatial object) object, which could be either a SpatialPointsDataFrame (using an AttributeList for its data slot directly), a SpatialLinesDataFrame, or a SpatialPolygonsDataFrame.
+#' @param sp_obj  An instance of sp object
+#' @param with_table  (Optional, Default: FALSE)If create a table from sp dataframe object.
+#' @return geoda_obj An instance of GeoDa object
+#' @examples
+#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+#' library(rgdal)
+#' guerry_sp <- readOGR(guerry_path)
+#' guerry_gda <- sp_to_geoda(guerry_sp)
+#' @export
+sp_to_geoda = function(sp_obj, ...) {
   if (!require("sp")) {
     stop("package sp not available: install first?")
   }
   if (!require("wkb")) {
     stop("package wkb not available: install first?")
   }
+
+  kwargs <- list(...)
+  with_table <- ifelse(hasArg("with_table"), kwargs$order, FALSE)
+
   # geometries
   geoms_wkb <- writeWKB(sp_obj)
   n_obs <- length(geoms_wkb)
   wkb_bytes_len <- sapply(geoms_wkb, function(x) {return(length(x))})
   wkb_vec <- unlist(geoms_wkb)
-  
+
   # in-memory name
   file_name <- random_string(1)
-  
+
   # table
   col_names <- colnames(sp_obj@data)
   n_cols <- length(col_names)
   tbl <- GeoDaTable()
-  for (i in 1:n_cols) {
-    ft <- class(sp_obj@data[[i]])
-    if (ft == "factor") {
-      dat <- sp_obj@data[[i]]
-      tbl$AddStringColumn(col_names[[i]], dat)
+  if (with_table) {
+    for (i in 1:n_cols) {
+      ft <- class(sp_obj@data[[i]])
+      if (ft == "factor") {
+        dat <- sp_obj@data[[i]]
+        tbl$AddStringColumn(col_names[[i]], dat)
 
-    } else if (ft == "integer" || ft == "logical") {
-      dat <- sp_obj@data[[i]]
-      tbl$AddIntColumn(col_names[[i]], dat)
+      } else if (ft == "integer" || ft == "logical") {
+        dat <- sp_obj@data[[i]]
+        tbl$AddIntColumn(col_names[[i]], dat)
 
-    } else if (ft == "double" || ft == "numeric") {
-      dat <- sp_obj@data[[i]]
-      tbl$AddRealColumn(col_names[[i]], dat)
+      } else if (ft == "double" || ft == "numeric") {
+        dat <- sp_obj@data[[i]]
+        tbl$AddRealColumn(col_names[[i]], dat)
 
-    } else {
-      dat <- as.character(sp_obj@data[[i]])
-      tbl$AddStringColumn(col_names[[i]], dat)
+      } else {
+        dat <- as.character(sp_obj@data[[i]])
+        tbl$AddStringColumn(col_names[[i]], dat)
+      }
     }
   }
+
   # map_type
   map_type <- "map_polygons"
   if (is(sp_obj, 'SpatialPointsDataFrame')) {
@@ -130,10 +145,12 @@ sp_to_geoda = function(sp_obj) {
   # prj4
   proj4_str <- sp_obj@proj4string
   gda <- GeoDa(file_name, map_type, n_obs, tbl, as.integer(wkb_vec), wkb_bytes_len, proj4_str@projargs)
-  return(gda)
+  return(geoda$new(gda))
 }
 
-# create a sp object from a GeoDa object
+#' create a sp object from a GeoDa object
+#'
+#' @export
 geoda_to_sp = function(gda, geometry_only=TRUE) {
   if (!require("sp")) {
     stop("package sp not available: install first?")

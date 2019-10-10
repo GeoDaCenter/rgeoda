@@ -1,0 +1,52 @@
+VERSION = 2.2.3
+COMPILED_BY ?= gcc-4.6.3
+RWINLIB = ../windows/gdal2-$(VERSION)
+RGEODALIB = ../windows/libgeoda_static-0.0.1
+RWXLIB = ../windows/wx_static-3.0.4
+RANNLIB = ../windows/ANN_static-1.1.2
+RBOOSTLIB = ../windows/boost_static-1.57.0
+TARGET = lib$(subst gcc,,$(COMPILED_BY))$(R_ARCH)
+
+PKG_CPPFLAGS =\
+	-I$(RWINLIB)/include/gdal \
+	-I$(RWINLIB)/include/geos \
+	-I$(RWINLIB)/include/proj \
+    -I$(RGEODALIB)/include \
+    -I$(RWXLIB)/include -I$(RWXLIB)/lib${R_ARCH}/baseu \
+    -I$(RANNLIB)/include
+
+
+PKG_LIBS = \
+	$(RGEODALIB)/lib$(R_ARCH)/libgeoda.a \
+	$(RANNLIB)/lib$(R_ARCH)/libANN.a \
+	$(RBOOSTLIB)/lib$(R_ARCH)/libboost_chrono-mt.a \
+	$(RBOOSTLIB)/lib$(R_ARCH)/libboost_system-mt.a \
+	$(RBOOSTLIB)/lib$(R_ARCH)/libboost_thread-mt.a \
+	$(RBOOSTLIB)/lib$(R_ARCH)/libboost_date_time-mt.a \
+	$(RWXLIB)/lib$(R_ARCH)/libwxbase30u.a \
+	$(RWXLIB)/lib$(R_ARCH)/libwxexpat.a \
+	$(RWXLIB)/lib$(R_ARCH)/libwxregexu.a \
+	$(RWXLIB)/lib$(R_ARCH)/libwxzlib.a \
+	-L$(RWINLIB)/$(TARGET) \
+	-L$(RWINLIB)/lib$(R_ARCH) \
+	-lgdal -lsqlite3 -lspatialite -lproj -lgeos_c -lgeos  \
+	-ljson-c -lnetcdf -lmariadbclient -lpq -lintl -lwebp -lcurl -lssh2 -lssl -lcrypto \
+	-lkea -lhdf5_cpp -lhdf5_hl -lhdf5 -lexpat -lfreexl -lcfitsio \
+	-lmfhdf -ldf -lxdr \
+	-lopenjp2 -ljasper -lpng16 -ljpeg -ltiff -lgeotiff -lgif -lxml2 -llzma -lszip -lz \
+	-lodbc32 -lodbccp32 -liconv -lpsapi -lws2_32 -lcrypt32 -lwldap32 -lsecur32 -lgdi32 -luuid -lole32
+
+all: clean winlibs
+
+CXX_STD = CXX11
+
+winlibs:
+	mkdir -p ../inst
+	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" --vanilla "../tools/winlibs.R" $(VERSION)
+	cp -r $(RWINLIB)/share/gdal ../inst/
+	cp -r $(RWINLIB)/share/proj ../inst/
+
+clean:
+	rm -f $(SHLIB) $(OBJECTS)
+
+.PHONY: all winlibs clean
