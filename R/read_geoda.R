@@ -23,15 +23,17 @@ geoda <- setRefClass("geoda",
       .self$field_types = gda$GetFieldTypes()
       .self$table <- data.frame()[1:.self$n_obs, ]
 
-      for (i in 1:.self$n_cols) {
-        f_nm <- .self$field_names[[i]]
-        f_tp <- .self$field_types[[i]]
-        if (f_tp == "numeric") {
-          .self$table[[f_nm]] <- gda$GetNumericCol(f_nm)
-        } else if (f_tp == "integer") {
-          .self$table[[f_nm]] <- gda$GetIntegerCol(f_nm)
-        } else {
-          .self$table[[f_nm]] <- gda$GetStringCol(f_nm)
+      if (length(.self$field_names) > 0) {
+        for (i in 1:.self$n_cols) {
+          f_nm <- .self$field_names[[i]]
+          f_tp <- .self$field_types[[i]]
+          if (f_tp == "numeric") {
+            .self$table[[f_nm]] <- gda$GetNumericCol(f_nm)
+          } else if (f_tp == "integer") {
+            .self$table[[f_nm]] <- gda$GetIntegerCol(f_nm)
+          } else {
+            .self$table[[f_nm]] <- gda$GetStringCol(f_nm)
+          }
         }
       }
     },

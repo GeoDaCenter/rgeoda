@@ -42,25 +42,31 @@ sf_to_geoda = function(sf_obj, ...) {
   col_names <- colnames(sf_df)
   n_cols <- length(col_names)
   tbl <- GeoDaTable()
-  for (i in 1:n_cols) {
-    col_nm <- col_names[[i]]
-    if (col_nm == "geometry") next
+  if (with_table) {
+    for (i in 1:n_cols) {
+      col_nm <- col_names[[i]]
+      if (col_nm == "geometry") next
 
-    dat <- sf_df[, col_nm]
-    ft <- class(dat)
-    if (ft == "factor") {
-      tbl$AddStringColumn(col_nm, dat)
+      dat <- sf_df[, col_nm]
+      ft <- class(dat)
+      if (ft == "factor") {
+        tbl$AddStringColumn(col_nm, dat)
 
-    } else if (ft == "integer" || ft == "logical") {
-      tbl$AddIntColumn(col_nm, dat)
+      } else if (ft == "integer" || ft == "logical") {
+        tbl$AddIntColumn(col_nm, dat)
 
-    } else if (ft == "double" || ft == "numeric") {
-      tbl$AddRealColumn(col_nm, dat)
+      } else if (ft == "double" || ft == "numeric") {
+        tbl$AddRealColumn(col_nm, dat)
 
-    } else {
-      dat <- as.character(dat)
-      tbl$AddStringColumn(col_names[[i]], dat)
+      } else {
+        dat <- as.character(dat)
+        tbl$AddStringColumn(col_names[[i]], dat)
+      }
     }
+
+  } else {
+    n_cols <- 0
+    col_names <- rep("", 0)
   }
   # map_type
   map_type <- "map_polygons"
@@ -128,6 +134,9 @@ sp_to_geoda = function(sp_obj, ...) {
         tbl$AddStringColumn(col_names[[i]], dat)
       }
     }
+  } else {
+    n_cols <- 0
+    col_names <- rep("", 0)
   }
 
   # map_type
