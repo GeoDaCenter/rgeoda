@@ -2,6 +2,26 @@
 
 rgeoda is a R package for spatial data analysis based on libgeoda and GeoDa.
 
+## version 0.0.3
+
+This version provides following features:
+
+* Spatial Weights
+    * Queen
+    * Rook
+    * Distance based
+    * K-Nearest Neighbor
+    * Kernel
+* Spatial Autocorrelation
+    * Local Moran
+    * Local Geary
+    * Local Getis-Ord 
+    * Local Join Count
+* Spatial Clustering
+    * SKATER
+    * REDCAP
+    * Max-p
+
 ## version 0.0.1
 
 NOTE: This version is still under development, with many changes that might cause issues and errors. 
