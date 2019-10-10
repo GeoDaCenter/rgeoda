@@ -2,7 +2,7 @@
 title: "ESDA with sp and rgeoda v0.0.3"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{rgeoda_tutorial_0_0_3}
+  %\VignetteIndexEntry{rgeoda_esda_sp_0_0_3}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
