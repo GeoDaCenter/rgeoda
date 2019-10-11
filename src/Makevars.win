@@ -1,7 +1,7 @@
 VERSION = 2.2.3
 COMPILED_BY ?= gcc-4.6.3
 RWINLIB = ../windows/gdal2-$(VERSION)
-RGEODALIB = ../windows/libgeoda_static-0.0.3.1
+RGEODALIB = ../windows/libgeoda_static-0.0.3.3
 RWXLIB = ../windows/wx_static-3.0.4
 RANNLIB = ../windows/ANN_static-1.1.2
 RBOOSTLIB = ../windows/boost_static-1.57.0

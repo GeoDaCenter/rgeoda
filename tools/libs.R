@@ -10,7 +10,7 @@ if(!file.exists("../deps/gdal_static-master/include/gdal.h")){
   download.file("https://codeload.github.com/libgeoda/gdal_static/zip/master", "lib.zip", quiet = TRUE)
   unzip("lib.zip", exdir = "../deps")
   unlink("lib.zip")
-  download.file("https://github.com/rgeoda/libgeoda_static/archive/0.0.3.2.zip", "geodalib.zip", quiet = TRUE)
+  download.file("https://github.com/rgeoda/libgeoda_static/archive/0.0.3.3.zip", "geodalib.zip", quiet = TRUE)
   unzip("geodalib.zip", exdir = "../deps")
   unlink("geodalib.zip")
   download.file("https://codeload.github.com/rgeoda/wx_static/zip/master", "wxlib.zip", quiet = TRUE)

@@ -3,7 +3,7 @@ UNAME_S := $(shell uname -s)
 OS_NAME := linux
 
 RGDALLIB = ../deps/gdal_static-master
-RGEODALIB = ../deps/libgeoda_static-0.0.3
+RGEODALIB = ../deps/libgeoda_static-0.0.3.3
 RWXLIB = ../deps/wx_static-master
 RANNLIB = ../deps/ANN_static-master
 RBOOSTLIB = ../deps/boost_static-master

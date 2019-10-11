@@ -10,7 +10,7 @@ if(!file.exists(sprintf("../windows/gdal2-%s/include/gdal/gdal.h", VERSION))){
   download.file(sprintf("https://github.com/rwinlib/gdal2/archive/v%s.zip", VERSION), "lib.zip", quiet = TRUE)
   unzip("lib.zip", exdir = "../windows")
   unlink("lib.zip")
-  download.file(sprintf("https://github.com/rgeoda/libgeoda_static/archive/0.0.3.2.zip", VERSION), "geodalib.zip", quiet = TRUE)
+  download.file(sprintf("https://github.com/rgeoda/libgeoda_static/archive/0.0.3.3.zip", VERSION), "geodalib.zip", quiet = TRUE)
   unzip("geodalib.zip", exdir = "../windows")
   unlink("geodalib.zip")
   download.file(sprintf("https://codeload.github.com/rgeoda/wx_static/zip/master", VERSION), "wxlib.zip", quiet = TRUE)
