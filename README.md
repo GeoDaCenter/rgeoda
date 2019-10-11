@@ -26,14 +26,20 @@ This version provides following features:
 
 NOTE: we are working to make rgeoda avaiable in CRAN, so that it could be installed easily (target in 0.1.0 version).
 
-#### Mac
-In R console, use install.packages() function to install rgeoda from its **binary pacakge**:
+rgeoda depends on wkb package. Sometimes, the “dependencies=TRUE” argument of install.package() doesn’t guarantee the installation ow wkb automatically. To avoid any potential issues of installation, you can install it first before rgeoda installation:
 
 ```R
-install.packages("https://github.com/lixun910/rgeoda/releases/download/0.0.3/rgeoda_0.0.3.tgz", repo=NULL)
+install.packages('wkb')
 ```
 
-If you have an older version of Mac OS and the above command failed to install rgeoda, please try to install “Xcode Command Line Tools” and then install rgeoda from its **source package**:
+#### Mac
+
+For Mac users, the “Xcode Command Line Tools” needs to be installed for installing rgeoda. It is a free software provided by Apple, which can be installed by using the following command in a terminal:
+```
+xcode-select --install 
+```
+
+In R console, use install.packages() function to install rgeoda from its **source pacakge**:
 
 ```R
 install.packages("https://github.com/lixun910/rgeoda/releases/download/0.0.3/rgeoda_0.0.3.tar.gz")
@@ -50,6 +56,12 @@ install.packages("https://github.com/lixun910/rgeoda/releases/download/0.0.3/rge
 
 
 #### Linux
+
+For Linux users, the “Build Essential Tools” needs to be installed first:
+```
+sudo apt-get update
+sudo apt-get install build-essential
+```
 
 In R console, use install.packages() function to install rgeoda from its **source pacakge**:
 
