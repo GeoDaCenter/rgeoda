@@ -162,7 +162,7 @@ rook_weights <- function(geoda_obj, ...) {
 #' @param geoda_obj An instance of geoda
 #' @param dist_thres A positive numeric value of distance threshold
 #' @param is_inverse (optional) FALSE (default) or TRUE, apply inverse on distance value
-#' @param power (optional) The power (or exponent) of a number says how many times to use the number in a multiplication.
+#' @param power (optional) The power (or exponent) of a number indicates how many times to use the number in a multiplication.
 #' @param is_arc (optional) FALSE (default) or TRUE, compute arc distance between two observations
 #' @param is_mile (optional) TRUE (default) or FALSE, convert distance unit from mile to km.
 #' @return w An instance of GeoDaWeight

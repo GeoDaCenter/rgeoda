@@ -1,7 +1,11 @@
 #' @title A R wrapper for GeoDa
 #' @description geoda is a RefClass that wraps the C++ GeoDa class (via _p_GeoDa defines in rgeoda.R)
-#' @param o_gda An object of _p_GeoDa class
-#' @return An object of geoda class
+#' @field gda A pointer to C++ GeoDa object
+#' @field map_type The map type: Point, Polygon (or LineSegment)
+#' @field n_cols The number of columns
+#' @field n_obs The number of observations
+#' @field field_names A list of field names
+#' @field field_types A list of field types  (integer, real, string)
 #' @export
 geoda <- setRefClass("geoda",
   fields = list(
@@ -15,6 +19,7 @@ geoda <- setRefClass("geoda",
   ),
   methods = list(
     initialize = function(o_gda) {
+      "Constructor with a geoda object (internally used)"
       .self$gda = o_gda
       .self$map_type = gda$GetMapType()
       .self$n_cols = gda$GetNumCols()
@@ -38,29 +43,35 @@ geoda <- setRefClass("geoda",
       }
     },
     GetNumCols = function(...) {
+      "Get the number of columns"
       return(gda$GetNumCols())
     },
     GetNumObs = function(...) {
+      "Get the number of observations"
       return(gda$GetNumObs())
     },
     GetFieldNames = function(...) {
+      "Get the field names of all columns"
       return(gda$GetFieldNames())
     },
     GetFieldTypes = function(...) {
+      "Get the field types (integer, real, string) of all columns"
       return(gda$GetFieldTypes())
     },
     GetMapType = function(...) {
+      "Get the map type"
       return(gda$GetMapType())
     },
     GetIntegerCol = function(col_name) {
-      "Get the values (in integer type) from a column"
+      "Get the integer values from a column"
       return(gda$GetIntegerCol(col_name))
     },
     GetRealCol = function(col_name) {
-      "Get the values (in real type) from a column"
+      "Get the real values from a column"
       return(gda$GetNumericCol(col_name))
     },
     GetUndefinedVals = function(col_name) {
+      "Get the undefined flags from a column"
       return(gda$GetUndefinesCol(col_name))
     }
   )
