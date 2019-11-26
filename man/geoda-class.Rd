@@ -5,20 +5,44 @@
 \alias{geoda-class}
 \alias{geoda}
 \title{A R wrapper for GeoDa}
-\arguments{
-\item{o_gda}{An object of _p_GeoDa class}
-}
-\value{
-An object of geoda class
-}
 \description{
 geoda is a RefClass that wraps the C++ GeoDa class (via _p_GeoDa defines in rgeoda.R)
 }
+\section{Fields}{
+
+\describe{
+\item{\code{gda}}{A pointer to C++ GeoDa object}
+
+\item{\code{map_type}}{The map type: Point, Polygon (or LineSegment)}
+
+\item{\code{n_cols}}{The number of columns}
+
+\item{\code{n_obs}}{The number of observations}
+
+\item{\code{field_names}}{A list of field names}
+
+\item{\code{field_types}}{A list of field types  (integer, real, string)}
+}}
+
 \section{Methods}{
 
 \describe{
-\item{\code{GetIntegerCol(col_name)}}{Get the values (in integer type) from a column}
+\item{\code{GetFieldNames(...)}}{Get the field names of all columns}
 
-\item{\code{GetRealCol(col_name)}}{Get the values (in real type) from a column}
+\item{\code{GetFieldTypes(...)}}{Get the field types (integer, real, string) of all columns}
+
+\item{\code{GetIntegerCol(col_name)}}{Get the integer values from a column}
+
+\item{\code{GetMapType(...)}}{Get the map type}
+
+\item{\code{GetNumCols(...)}}{Get the number of columns}
+
+\item{\code{GetNumObs(...)}}{Get the number of observations}
+
+\item{\code{GetRealCol(col_name)}}{Get the real values from a column}
+
+\item{\code{GetUndefinedVals(col_name)}}{Get the undefined flags from a column}
+
+\item{\code{initialize(o_gda)}}{Constructor with a geoda object (internally used)}
 }}
 
