@@ -25,7 +25,7 @@ sf_to_geoda = function(sf_obj, ...) {
   }
 
   kwargs <- list(...)
-  with_table <- ifelse(hasArg("with_table"), kwargs$with_table, FALSE)
+  with_table <- ifelse(hasArg("with_table"), kwargs$with_table, TRUE)
 
   # geometries
   sf_geom <- st_geometry(sf_obj)
