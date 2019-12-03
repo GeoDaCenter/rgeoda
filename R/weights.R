@@ -119,7 +119,7 @@ queen_weights <- function(geoda_obj, ...) {
     stop("precision_threshold has to be a positive numeric number.")
   }
 
-  w <- gda_queen_weights(geoda_obj$gda, "", order, include_lower_order, precision_threshold)
+  w <- gda_queen_weights(geoda_obj$gda, order, include_lower_order, precision_threshold)
   return(Weight$new(w))
 }
 
@@ -151,7 +151,7 @@ rook_weights <- function(geoda_obj, ...) {
     stop("precision_threshold has to be a positive numeric number.")
   }
 
-  w <- gda_rook_weights(geoda_obj$gda, "", order, include_lower_order, precision_threshold)
+  w <- gda_rook_weights(geoda_obj$gda, order, include_lower_order, precision_threshold)
   return(Weight$new(w))
 }
 

@@ -3,7 +3,7 @@ UNAME_S := $(shell uname -s)
 OS_NAME := linux
 
 RGDALLIB = ../deps/gdal_static-master
-RGEODALIB = ../deps/libgeoda_static-0.0.3.3
+RGEODALIB = ../deps/libgeoda_static
 RWXLIB = ../deps/wx_static-master
 RANNLIB = ../deps/ANN_static-master
 RBOOSTLIB = ../deps/boost_static-master
@@ -18,6 +18,10 @@ ifeq ($(UNAME_S),Darwin)
 
 	PKG_LIBS=\
 		$(RGEODALIB)/lib/$(OS_NAME)/libgeoda.a \
+		$(RGDALLIB)/lib/$(OS_NAME)/libgeos_c.a \
+		$(RGDALLIB)/lib/$(OS_NAME)/libproj.a \
+		$(RGDALLIB)/lib/$(OS_NAME)/libgdal.a \
+		$(RGDALLIB)/lib/$(OS_NAME)/libgeos.a \
 		$(RANNLIB)/lib/$(OS_NAME)/libANN.a \
 		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_chrono.a \
 		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_system.a \
@@ -25,10 +29,6 @@ ifeq ($(UNAME_S),Darwin)
 		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_date_time.a \
 		$(RWXLIB)/lib/$(OS_NAME)/libwx_baseu-3.0.a \
 		$(RWXLIB)/lib/$(OS_NAME)/libwxregexu-3.0.a \
-		$(RGDALLIB)/lib/$(OS_NAME)/libgdal.a \
-		$(RGDALLIB)/lib/$(OS_NAME)/libgeos.a \
-		$(RGDALLIB)/lib/$(OS_NAME)/libgeos_c.a \
-		$(RGDALLIB)/lib/$(OS_NAME)/libproj.a \
 		-framework IOKit -framework CoreServices -framework System -framework ApplicationServices \
 		-L/usr/lib -lcurl -liconv
 endif
