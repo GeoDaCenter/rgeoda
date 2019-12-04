@@ -465,9 +465,14 @@ qsa$GetClusterIndicators()
 
 ```{r}
 #data <- list(guerry$table$Crm_prs, guerry$table$Crm_prp, guerry$table$Litercy, guerry$table$Donatns, guerry$table$Infants, guerry$table$Suicids)
+std_data <- standardize_z(data)
+pc <- pca(std_data)
+summary(pc)
+```
 
-pc <- pca(data)
-pc$getEigenValues()
+Get first 3 components
+```{r}
+get_kcomponents(pc, 3)
 ```
 
 #### 4.2.1 Multi Dimensional Scaling

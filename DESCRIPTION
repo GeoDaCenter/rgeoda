@@ -14,6 +14,7 @@ Collate:
     weights.R 
     lisa.R
     clustering.R
+    utils.R
     AAA.R
 Imports:
     wkb
