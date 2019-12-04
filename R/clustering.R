@@ -1,4 +1,12 @@
 
+pca <- function(data) {
+  return (gda_pca(data))
+}
+
+mds <- function(data, k) {
+  return (gda_mds(data, k))
+}
+
 ############################################################
 #' @title Spatial C(K)luster Analysis by Tree Edge Removal
 #' @description SKATER forms clusters by spatially partitioning data that has similar values for features of interest.

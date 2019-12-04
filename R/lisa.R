@@ -88,7 +88,7 @@ local_moran <- function(w, data) {
     stop("The size of data doesnt not match the number of observations")
   }
 
-  lisa_obj <- gda_lisa(w$gda_w, data)
+  lisa_obj <- gda_localmoran(w$gda_w, data)
   return (LISA$new(lisa_obj))
 }
 
@@ -108,6 +108,25 @@ local_geary <- function(w, data) {
   }
 
   lisa_obj <- gda_geary(w$gda_w, data)
+  return (LISA$new(lisa_obj))
+}
+
+#################################################################
+#' @title  Local Multivariate Geary statistics
+#' @description The function to apply local Multivariate Geary statistics
+#' @param w An instance of Weight object
+#' @param data A 2D tuple of values of selected variables
+#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @export
+local_multigeary <- function(w, data) {
+  if (w$num_obs <= 0) {
+    stop("Weights object is not valid.")
+  }
+  if (length(data) <  1) {
+    stop("The number of variables has to be larger than 1.")
+  }
+
+  lisa_obj <- gda_multigeary(w$gda_w, data)
   return (LISA$new(lisa_obj))
 }
 
@@ -165,5 +184,43 @@ local_joincount <- function(w, data) {
   }
 
   lisa_obj <- gda_joincount(w$gda_w, data)
+  return (LISA$new(lisa_obj))
+}
+
+#################################################################
+#' @title  Local Multivariate Join Count statistics
+#' @description The function to apply local Multivariate Join Count statistics
+#' @param w An instance of Weight object
+#' @param data A 2D tuple of values of selected variables
+#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @export
+local_multijoincount <- function(w, data) {
+  if (w$num_obs <= 0) {
+    stop("Weights object is not valid.")
+  }
+  if (length(data) <  1) {
+    stop("The number of variables has to be larger than 1.")
+  }
+
+  lisa_obj <- gda_multijoincount(w$gda_w, data)
+  return (LISA$new(lisa_obj))
+}
+
+#################################################################
+#' @title  Quantile LISA statistics
+#' @description The function to apply quantile LISA statistics
+#' @param w An instance of Weight object
+#' @param data A tuple of values of selected variable
+#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @export
+local_quantileSA <- function(w, k, data) {
+  if (w$num_obs <= 0) {
+    stop("Weights object is not valid.")
+  }
+  if (length(data) != w$num_obs) {
+    stop("The size of data doesnt not match the number of observations")
+  }
+
+  lisa_obj <- gda_quantilelisa(w$gda_w, k, data)
   return (LISA$new(lisa_obj))
 }

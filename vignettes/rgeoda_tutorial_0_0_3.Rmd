@@ -172,7 +172,7 @@ The `id_vec` is the actual column data of `id_name`, it could be a tuple of inte
 For example, in Guerry dataset, the column "CODE_DE" can be used as a key to save a weights file:
 
 ```{r}
-rook_w$SaveToFile('/Users/xun/Downloads/Guerry_r.gal', 'Guerry', 'CODE_DE', guerry$GetIntegerCol('CODE_DE'))
+#rook_w$SaveToFile('/Users/xun/Downloads/Guerry_r.gal', 'Guerry', 'CODE_DE', guerry$GetIntegerCol('CODE_DE'))
 ```
 
 Then, we should find the file "Guerry_r.gal" in the output directory.
@@ -366,7 +366,20 @@ To get the pseudo-p values of the local Geary computation:
 geary_crmprs$GetPValues()
 ```
 
-#### 4.1.3 Local Getis-Ord Statistics
+#### 4.1.3 Multivariate Local Geary:
+
+```{r}
+data <- list(guerry$table$Crm_prs, guerry$table$Crm_prp, guerry$table$Litercy, guerry$table$Donatns, guerry$table$Infants, guerry$table$Suicids)
+
+multigeary <- local_multigeary(queen_w, data)
+```
+
+To get the cluster indicators of the local Geary computation:
+```{r}
+multigeary$GetClusterIndicators()
+```
+
+#### 4.1.4 Local Getis-Ord Statistics
 
 There are two types of local Getis-Ord statistics: one is computing a ratio of the weighted average of the values in the neighboring locations, not including the value at the location; while another type of statistic includes the value at the location in both numerator and denominator.
 
@@ -394,7 +407,7 @@ For the second type of local Getis-Ord statistics, we can call the function `loc
 localgstar_crmprs <- local_gstar(queen_w, crm_prp)
 ```
 
-#### 4.1.4 Local Join Count
+#### 4.1.5 Local Join Count
 
 
 Local Join Count is a method to identify local clusters for binary data by using a local version of the so-called BB join count statistic. The statistic is only meaningful for those observations with value 1. 
@@ -424,7 +437,48 @@ To get the number of neighbors of the local Join Count computation:
 localjc_crmprs$GetNumNeighbors()
 ```
 
-### 4.2 Spatial Clustering
+#### 4.1.6 Multivariate Local Join Count:
+
+```{r}
+multijc <- local_multijoincount(queen_w, data)
+```
+
+To get the cluster indicators of the multivariate local join count computation:
+```{r}
+multijc$GetClusterIndicators()
+```
+
+#### 4.1.7 Quantile LISA
+
+```{r}
+qsa <- local_quantileSA(queen_w, 4, crm_prp)
+```
+
+To get the cluster indicators of the quantile LISA computation:
+```{r}
+qsa$GetClusterIndicators()
+```
+
+### 4.2 Spatializing Multivariate Analysis
+
+#### 4.2.1 Pincinple Components
+
+```{r}
+#data <- list(guerry$table$Crm_prs, guerry$table$Crm_prp, guerry$table$Litercy, guerry$table$Donatns, guerry$table$Infants, guerry$table$Suicids)
+
+pc <- pca(data)
+pc$getEigenValues()
+```
+
+#### 4.2.1 Multi Dimensional Scaling
+```{r}
+#data <- list(guerry$table$Crm_prs, guerry$table$Crm_prp, guerry$table$Litercy, guerry$table$Donatns, guerry$table$Infants, guerry$table$Suicids)
+
+mds_v <- mds(data, 2)
+mds_v
+```
+
+### 4.3 Spatial Clustering
 
  
 Spatial clustering aims to group of a large number of geographic areas or points into a smaller number of regions based on similiarities in one or more variables. Spatially constrained clustering is needed when clusters are required to be spatially contiguous. 
@@ -439,7 +493,7 @@ The following code is used to get a 2D data vector for the selected variables:
 data <- list(guerry$table$Crm_prs, guerry$table$Crm_prp, guerry$table$Litercy, guerry$table$Donatns, guerry$table$Infants, guerry$table$Suicids)
 ```
 
-#### 4.2.1 SKATER
+#### 4.3.1 SKATER
 
 The Spatial C(K)luster Analysis by Tree Edge Removal(SKATER) algorithm introduced by Assuncao et al. (2006) is based on the optimal pruning of a minimum spanning tree that reflects the contiguity structure among the observations. It provides an optimized algorithm to prune to tree into several clusters that their values of selected variables are as similar as possible.
 
@@ -465,7 +519,7 @@ ratio <-  betweenss / totalss
 cat("The ratio of between to total sum of square:", ratio)
 ```
 
-#### 4.2.2 REDCAP
+#### 4.3.2 REDCAP
 
 REDCAP (Regionalization with dynamically constrained agglomerative clustering and partitioning) is developed by D. Guo (2008). Like SKATER, REDCAP starts from building a spanning tree with 3 different ways (single-linkage, average-linkage, and the complete-linkage). The single-linkage way leads to build a minimum spanning tree. Then,REDCAP provides 2 different ways (first‐order and full-order constraining) to prune the tree to find clusters. The first-order approach with a minimum spanning tree is exactly the same with SKATER. In GeoDa and rgeoda, the following methods are provided:
 
@@ -486,7 +540,7 @@ ratio <- betweenss / totalss
 cat("The ratio of between to total sum of square:", ratio)
 ```
 
-#### 4.2.3 Max-p
+#### 4.3.3 Max-p
 
 The so-called max-p regions model (outlined in Duque, Anselin, and Rey 2012) uses a different approach and considers the regionalization problem as an application of integer programming. In addition, the number of regions is determined endogenously.
 
