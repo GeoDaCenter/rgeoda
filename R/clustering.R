@@ -9,6 +9,12 @@ pca <- function(data) {
   return (gda_pca(data))
 }
 
+############################################################
+#' @title Summary of Princinple Components Analysis Result
+#' @description Override the summary() function for a PCA result
+#' @param pca_r A PCAResult object
+#' @return
+#' @export
 summary._p_PCAResult <- function(pca_r) {
   nv <- length(pca_r$getEigenValues())
   output <-

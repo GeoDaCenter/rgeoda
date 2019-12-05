@@ -4,7 +4,7 @@ Version: 0.0.4
 Authors@R: person("Xun","Li", email="lixun910@gmail.com", role=c("aut","cre"))
 Maintainer: Xun Li <lixun910@gmail.com>
 Description: A package for spatial data analysis based on libgeoda and GeoDa.
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.3.0)
 License: GPL-2
 Collate: 
     rgeoda-package.R 

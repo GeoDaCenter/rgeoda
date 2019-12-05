@@ -86,6 +86,28 @@ LISA <- setRefClass("LISA",
 )
 
 #################################################################
+#' @title  Get Bonferroni bound value of local spatial autocorrelation
+#' @description Get Bonferroni bound value based on current LISA computation and current significat p-value
+#' @param gda_lisa An instance of LISA object
+#' @param current_p A value of current siginificant p-value
+#' @return A value of Bonferroni bound
+#' @export
+lisa_bo <- function(gda_lisa, current_p) {
+  return (gda_lisa$GetBO(current_p))
+}
+
+#################################################################
+#' @title  Get False Discovery Rate value of local spatial autocorrelation
+#' @description Get False Discovery Rate value based on current LISA computation and current significat p-value
+#' @param gda_lisa An instance of LISA object
+#' @param current_p A value of current siginificant p-value
+#' @return A value of False Discovery Rate
+#' @export
+lisa_fdr <- function(gda_lisa, current_p) {
+  return (gda_lisa$GetFDR(current_p))
+}
+
+#################################################################
 #' @title  Get values of local spatial autocorrelation
 #' @description Get the local spatial autocorrelation values returned from LISA computation
 #' @param gda_lisa An instance of LISA object

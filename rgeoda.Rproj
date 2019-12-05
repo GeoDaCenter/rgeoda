@@ -18,6 +18,5 @@ StripTrailingWhitespace: Yes
 BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
-PackageBuildArgs: path=c:\rgeoda
-PackageBuildBinaryArgs: path=c:\test
+PackageBuildBinaryArgs: path=c:/test
 PackageRoxygenize: vignette

@@ -89,3 +89,7 @@ geoda_open <- function(ds_path) {
   o_gda <- GeoDa(ds_path)
   return(geoda$new(o_gda))
 }
+
+as.data.frame.geoda <- function(gda_obj) {
+  return (gda_obj$table)
+}

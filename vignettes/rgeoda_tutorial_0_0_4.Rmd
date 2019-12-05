@@ -2,7 +2,7 @@
 title: "Tutorial of rgeoda v0.0.4"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{rgeoda_tutorial_0_0_3}
+  %\VignetteIndexEntry{rgeoda_tutorial_0_0_4}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
