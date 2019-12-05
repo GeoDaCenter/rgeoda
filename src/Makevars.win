@@ -1,7 +1,7 @@
 VERSION = 2.2.3
 COMPILED_BY ?= gcc-4.6.3
 RWINLIB = ../windows/gdal2-$(VERSION)
-RGEODALIB = ../windows/libgeoda_static-0.0.3.3
+RGEODALIB = ../windows/libgeoda_static
 RBOOSTLIB = ../windows/boost_static-1.57.0
 TARGET = lib$(subst gcc,,$(COMPILED_BY))$(R_ARCH)
 
