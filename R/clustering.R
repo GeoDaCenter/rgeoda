@@ -22,9 +22,16 @@ summary._p_PCAResult <- function(pca_r) {
          "Variable Loadings:" = pca_r$getLoadings(),
          "Squared Correlations:" = pca_r$getSqCorrelations()
     )
-  format(output)
+  print(output)
 }
 
+############################################################
+#' @title Get first k components from PCA
+#' @description Get first k components from PCA
+#' @param pca_r An object return from pca() function
+#' @param k A numeric value
+#' @return A PCAResult object containing the details of PCA
+#' @export
 get_kcomponents <- function(pca_r, k) {
   return (pca_r$getKComponents(k))
 }

@@ -7517,6 +7517,59 @@ attr(`GeoDaWeight_SpatialLag`, 'returnType') = 'numeric'
 attr(`GeoDaWeight_SpatialLag`, "inputTypes") = c('_p_GeoDaWeight', 'integer', '_p_std__vectorT_double_std__allocatorT_double_t_t')
 class(`GeoDaWeight_SpatialLag`) = c("SWIGFunction", class('GeoDaWeight_SpatialLag'))
 
+# Start of GeoDaWeight_Save
+
+`GeoDaWeight_Save__SWIG_0` = function(self, ofname, layer_name, id_var_name, id_vec, .copy = FALSE)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ofname = as(ofname, "character"); 
+  layer_name = as(layer_name, "character"); 
+  id_var_name = as(id_var_name, "character"); 
+  id_vec = as.integer(id_vec);
+  ;.Call('R_swig_GeoDaWeight_Save__SWIG_0', self, ofname, layer_name, id_var_name, id_vec, as.logical(.copy), PACKAGE='rgeoda');
+  
+}
+
+attr(`GeoDaWeight_Save__SWIG_0`, 'returnType') = 'logical'
+attr(`GeoDaWeight_Save__SWIG_0`, "inputTypes") = c('_p_GeoDaWeight', 'character', 'character', 'character', '_p_std__vectorT_int_std__allocatorT_int_t_t')
+class(`GeoDaWeight_Save__SWIG_0`) = c("SWIGFunction", class('GeoDaWeight_Save__SWIG_0'))
+
+# Start of GeoDaWeight_Save
+
+`GeoDaWeight_Save__SWIG_1` = function(self, ofname, layer_name, id_var_name, id_vec, .copy = FALSE)
+{
+  if (inherits(self, "ExternalReference")) self = slot(self,"ref") 
+  ofname = as(ofname, "character"); 
+  layer_name = as(layer_name, "character"); 
+  id_var_name = as(id_var_name, "character"); 
+  if (inherits(id_vec, "ExternalReference")) id_vec = slot(id_vec,"ref") 
+  ;.Call('R_swig_GeoDaWeight_Save__SWIG_1', self, ofname, layer_name, id_var_name, id_vec, as.logical(.copy), PACKAGE='rgeoda');
+  
+}
+
+attr(`GeoDaWeight_Save__SWIG_1`, 'returnType') = 'logical'
+attr(`GeoDaWeight_Save__SWIG_1`, "inputTypes") = c('_p_GeoDaWeight', 'character', 'character', 'character', '_p_std__vectorT_char_const_p_std__allocatorT_char_const_p_t_t')
+class(`GeoDaWeight_Save__SWIG_1`) = c("SWIGFunction", class('GeoDaWeight_Save__SWIG_1'))
+
+`GeoDaWeight_Save` <- function(...) {
+  argtypes <- mapply(class, list(...));
+  argv <- list(...);
+  argc <- length(argtypes);
+# dispatch functions 2
+  if (argc == 5) {
+    if ((extends(argtypes[1], '_p_GeoDaWeight') || is.null(argv[[1]])) && is.character(argv[[2]]) && is.character(argv[[3]]) && is.character(argv[[4]]) && extends(argtypes[5], '_p_std__vectorT_char_const_p_std__allocatorT_char_const_p_t_t') && length(argv[[5]]) == 1) {
+      f <- GeoDaWeight_Save__SWIG_1; 
+    }
+    else if ((extends(argtypes[1], '_p_GeoDaWeight') || is.null(argv[[1]])) && is.character(argv[[2]]) && is.character(argv[[3]]) && is.character(argv[[4]]) && ( is.integer(argv[[5]]) || is.numeric(argv[[5]]) )) {
+      f <- GeoDaWeight_Save__SWIG_0; 
+    }
+  } else {
+    stop("cannot find overloaded function for GeoDaWeight_Save with argtypes (",toString(argtypes),")");
+  };
+  f(...);
+}
+
+# Dispatch function
 # Start of GeoDaWeight_GetSparsity
 
 `GeoDaWeight_GetSparsity` = function(self, .copy = FALSE)
@@ -8125,7 +8178,7 @@ class(`GeoDaWeight_uid_get`) = c("SWIGFunction", class('GeoDaWeight_uid_get'))
 setMethod('$', '_p_GeoDaWeight', function(x, name)
 
 {
-  accessorFuns = list('CheckNeighbor' = GeoDaWeight_CheckNeighbor, 'GetNeighbors' = GeoDaWeight_GetNeighbors, 'Update' = GeoDaWeight_Update, 'HasIsolates' = GeoDaWeight_HasIsolates, 'GetNbrStats' = GeoDaWeight_GetNbrStats, 'GetNbrSize' = GeoDaWeight_GetNbrSize, 'SpatialLag' = GeoDaWeight_SpatialLag, 'GetSparsity' = GeoDaWeight_GetSparsity, 'GetDensity' = GeoDaWeight_GetDensity, 'GetMinNumNbrs' = GeoDaWeight_GetMinNumNbrs, 'GetMaxNumNbrs' = GeoDaWeight_GetMaxNumNbrs, 'GetMeanNumNbrs' = GeoDaWeight_GetMeanNumNbrs, 'GetMedianNumNbrs' = GeoDaWeight_GetMedianNumNbrs, 'GetNumObs' = GeoDaWeight_GetNumObs, 'IsInternalUse' = GeoDaWeight_IsInternalUse, 'Equal' = GeoDaWeight_Equal, 'GetTitle' = GeoDaWeight_GetTitle, 'GetIDName' = GeoDaWeight_GetIDName, 'weight_type' = GeoDaWeight_weight_type_get, 'wflnm' = GeoDaWeight_wflnm_get, 'id_field' = GeoDaWeight_id_field_get, 'title' = GeoDaWeight_title_get, 'symmetry_checked' = GeoDaWeight_symmetry_checked_get, 'is_symmetric' = GeoDaWeight_is_symmetric_get, 'num_obs' = GeoDaWeight_num_obs_get, 'sparsity' = GeoDaWeight_sparsity_get, 'density' = GeoDaWeight_density_get, 'min_nbrs' = GeoDaWeight_min_nbrs_get, 'max_nbrs' = GeoDaWeight_max_nbrs_get, 'mean_nbrs' = GeoDaWeight_mean_nbrs_get, 'median_nbrs' = GeoDaWeight_median_nbrs_get, 'is_internal_use' = GeoDaWeight_is_internal_use_get, 'uid' = GeoDaWeight_uid_get);
+  accessorFuns = list('CheckNeighbor' = GeoDaWeight_CheckNeighbor, 'GetNeighbors' = GeoDaWeight_GetNeighbors, 'Update' = GeoDaWeight_Update, 'HasIsolates' = GeoDaWeight_HasIsolates, 'GetNbrStats' = GeoDaWeight_GetNbrStats, 'GetNbrSize' = GeoDaWeight_GetNbrSize, 'SpatialLag' = GeoDaWeight_SpatialLag, 'Save' = GeoDaWeight_Save, 'GetSparsity' = GeoDaWeight_GetSparsity, 'GetDensity' = GeoDaWeight_GetDensity, 'GetMinNumNbrs' = GeoDaWeight_GetMinNumNbrs, 'GetMaxNumNbrs' = GeoDaWeight_GetMaxNumNbrs, 'GetMeanNumNbrs' = GeoDaWeight_GetMeanNumNbrs, 'GetMedianNumNbrs' = GeoDaWeight_GetMedianNumNbrs, 'GetNumObs' = GeoDaWeight_GetNumObs, 'IsInternalUse' = GeoDaWeight_IsInternalUse, 'Equal' = GeoDaWeight_Equal, 'GetTitle' = GeoDaWeight_GetTitle, 'GetIDName' = GeoDaWeight_GetIDName, 'weight_type' = GeoDaWeight_weight_type_get, 'wflnm' = GeoDaWeight_wflnm_get, 'id_field' = GeoDaWeight_id_field_get, 'title' = GeoDaWeight_title_get, 'symmetry_checked' = GeoDaWeight_symmetry_checked_get, 'is_symmetric' = GeoDaWeight_is_symmetric_get, 'num_obs' = GeoDaWeight_num_obs_get, 'sparsity' = GeoDaWeight_sparsity_get, 'density' = GeoDaWeight_density_get, 'min_nbrs' = GeoDaWeight_min_nbrs_get, 'max_nbrs' = GeoDaWeight_max_nbrs_get, 'mean_nbrs' = GeoDaWeight_mean_nbrs_get, 'median_nbrs' = GeoDaWeight_median_nbrs_get, 'is_internal_use' = GeoDaWeight_is_internal_use_get, 'uid' = GeoDaWeight_uid_get);
   vaccessors = c('weight_type', 'wflnm', 'id_field', 'title', 'symmetry_checked', 'is_symmetric', 'num_obs', 'sparsity', 'density', 'min_nbrs', 'max_nbrs', 'mean_nbrs', 'median_nbrs', 'is_internal_use', 'uid');
   ;        idx = pmatch(name, names(accessorFuns));
   if(is.na(idx)) 
@@ -10501,9 +10554,15 @@ class(`gda_localgstar__SWIG_1`) = c("SWIGFunction", class('gda_localgstar__SWIG_
 # Dispatch function
 # Start of gda_quantilelisa
 
-`gda_quantilelisa__SWIG_0` = function(w, quantile, data, undefs)
+`gda_quantilelisa__SWIG_0` = function(w, k, quantile, data, undefs)
 {
   if (inherits(w, "ExternalReference")) w = slot(w,"ref") 
+  k = as.integer(k);
+  
+  if(length(k) > 1) {
+    warning("using only the first element of k");
+  };
+  
   quantile = as.integer(quantile);
   
   if(length(quantile) > 1) {
@@ -10512,7 +10571,7 @@ class(`gda_localgstar__SWIG_1`) = c("SWIGFunction", class('gda_localgstar__SWIG_
   
   data = as.numeric(data);
   undefs = as.logical(undefs);
-  ;ans = .Call('R_swig_gda_quantilelisa__SWIG_0', w, quantile, data, undefs, PACKAGE='rgeoda');
+  ;ans = .Call('R_swig_gda_quantilelisa__SWIG_0', w, k, quantile, data, undefs, PACKAGE='rgeoda');
   ans <- if (is.null(ans)) ans
   else new("_p_LISA", ref=ans);
   
@@ -10521,14 +10580,20 @@ class(`gda_localgstar__SWIG_1`) = c("SWIGFunction", class('gda_localgstar__SWIG_
 }
 
 attr(`gda_quantilelisa__SWIG_0`, 'returnType') = '_p_LISA'
-attr(`gda_quantilelisa__SWIG_0`, "inputTypes") = c('_p_GeoDaWeight', 'integer', '_p_std__vectorT_double_std__allocatorT_double_t_t', '_p_std__vectorT_bool_std__allocatorT_bool_t_t')
+attr(`gda_quantilelisa__SWIG_0`, "inputTypes") = c('_p_GeoDaWeight', 'integer', 'integer', '_p_std__vectorT_double_std__allocatorT_double_t_t', '_p_std__vectorT_bool_std__allocatorT_bool_t_t')
 class(`gda_quantilelisa__SWIG_0`) = c("SWIGFunction", class('gda_quantilelisa__SWIG_0'))
 
 # Start of gda_quantilelisa
 
-`gda_quantilelisa__SWIG_1` = function(w, quantile, data)
+`gda_quantilelisa__SWIG_1` = function(w, k, quantile, data)
 {
   if (inherits(w, "ExternalReference")) w = slot(w,"ref") 
+  k = as.integer(k);
+  
+  if(length(k) > 1) {
+    warning("using only the first element of k");
+  };
+  
   quantile = as.integer(quantile);
   
   if(length(quantile) > 1) {
@@ -10536,7 +10601,7 @@ class(`gda_quantilelisa__SWIG_0`) = c("SWIGFunction", class('gda_quantilelisa__S
   };
   
   data = as.numeric(data);
-  ;ans = .Call('R_swig_gda_quantilelisa__SWIG_1', w, quantile, data, PACKAGE='rgeoda');
+  ;ans = .Call('R_swig_gda_quantilelisa__SWIG_1', w, k, quantile, data, PACKAGE='rgeoda');
   ans <- if (is.null(ans)) ans
   else new("_p_LISA", ref=ans);
   
@@ -10545,7 +10610,7 @@ class(`gda_quantilelisa__SWIG_0`) = c("SWIGFunction", class('gda_quantilelisa__S
 }
 
 attr(`gda_quantilelisa__SWIG_1`, 'returnType') = '_p_LISA'
-attr(`gda_quantilelisa__SWIG_1`, "inputTypes") = c('_p_GeoDaWeight', 'integer', '_p_std__vectorT_double_std__allocatorT_double_t_t')
+attr(`gda_quantilelisa__SWIG_1`, "inputTypes") = c('_p_GeoDaWeight', 'integer', 'integer', '_p_std__vectorT_double_std__allocatorT_double_t_t')
 class(`gda_quantilelisa__SWIG_1`) = c("SWIGFunction", class('gda_quantilelisa__SWIG_1'))
 
 `gda_quantilelisa` <- function(...) {
@@ -10553,12 +10618,12 @@ class(`gda_quantilelisa__SWIG_1`) = c("SWIGFunction", class('gda_quantilelisa__S
   argv <- list(...);
   argc <- length(argtypes);
 # dispatch functions 2
-  if (argc == 3) {
-    if ((extends(argtypes[1], '_p_GeoDaWeight') || is.null(argv[[1]])) && ( (is.integer(argv[[2]]) || is.numeric(argv[[2]])) && length(argv[[2]]) == 1 ) && ( is.numeric(argv[[3]]) )) {
+  if (argc == 4) {
+    if ((extends(argtypes[1], '_p_GeoDaWeight') || is.null(argv[[1]])) && ( (is.integer(argv[[2]]) || is.numeric(argv[[2]])) && length(argv[[2]]) == 1 ) && ( (is.integer(argv[[3]]) || is.numeric(argv[[3]])) && length(argv[[3]]) == 1 ) && ( is.numeric(argv[[4]]) )) {
       f <- gda_quantilelisa__SWIG_1; 
     }
-  } else if (argc == 4) {
-    if ((extends(argtypes[1], '_p_GeoDaWeight') || is.null(argv[[1]])) && ( (is.integer(argv[[2]]) || is.numeric(argv[[2]])) && length(argv[[2]]) == 1 ) && ( is.numeric(argv[[3]]) ) && ( is.logical(argv[[4]]) )) {
+  } else if (argc == 5) {
+    if ((extends(argtypes[1], '_p_GeoDaWeight') || is.null(argv[[1]])) && ( (is.integer(argv[[2]]) || is.numeric(argv[[2]])) && length(argv[[2]]) == 1 ) && ( (is.integer(argv[[3]]) || is.numeric(argv[[3]])) && length(argv[[3]]) == 1 ) && ( is.numeric(argv[[4]]) ) && ( is.logical(argv[[5]]) )) {
       f <- gda_quantilelisa__SWIG_0; 
     }
   } else {

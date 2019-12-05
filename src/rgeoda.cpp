@@ -1180,25 +1180,26 @@ SWIG_R_ConvertPacked(SEXP obj, void *ptr, size_t sz, swig_type_info *ty) {
 #define SWIGTYPE_p_std__allocatorT_void_p_t swig_types[28]
 #define SWIGTYPE_p_std__vectorT_GeoDaColumn_p_std__allocatorT_GeoDaColumn_p_t_t swig_types[29]
 #define SWIGTYPE_p_std__vectorT_bool_std__allocatorT_bool_t_t swig_types[30]
-#define SWIGTYPE_p_std__vectorT_char_std__allocatorT_char_t_t swig_types[31]
-#define SWIGTYPE_p_std__vectorT_double_std__allocatorT_double_t_t swig_types[32]
-#define SWIGTYPE_p_std__vectorT_float_std__allocatorT_float_t_t swig_types[33]
-#define SWIGTYPE_p_std__vectorT_gda__Point_std__allocatorT_gda__Point_t_t swig_types[34]
-#define SWIGTYPE_p_std__vectorT_int_std__allocatorT_int_t_t swig_types[35]
-#define SWIGTYPE_p_std__vectorT_long_long_std__allocatorT_long_long_t_t swig_types[36]
-#define SWIGTYPE_p_std__vectorT_long_std__allocatorT_long_t_t swig_types[37]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[38]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_char_std__allocatorT_char_t_t_std__allocatorT_std__vectorT_char_std__allocatorT_char_t_t_t_t swig_types[39]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_double_std__allocatorT_double_t_t_std__allocatorT_std__vectorT_double_std__allocatorT_double_t_t_t_t swig_types[40]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_int_std__allocatorT_int_t_t_std__allocatorT_std__vectorT_int_std__allocatorT_int_t_t_t_t swig_types[41]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_unsigned_char_std__allocatorT_unsigned_char_t_t_std__allocatorT_std__vectorT_unsigned_char_std__allocatorT_unsigned_char_t_t_t_t swig_types[42]
-#define SWIGTYPE_p_std__vectorT_unsigned_char_std__allocatorT_unsigned_char_t_t swig_types[43]
-#define SWIGTYPE_p_std__vectorT_void_p_std__allocatorT_void_p_t_t swig_types[44]
-#define SWIGTYPE_p_uint64_t swig_types[45]
-#define SWIGTYPE_p_value_type swig_types[46]
-#define SWIGTYPE_p_void swig_types[47]
-static swig_type_info *swig_types[49];
-static swig_module_info swig_module = {swig_types, 48, 0, 0, 0, 0};
+#define SWIGTYPE_p_std__vectorT_char_const_p_std__allocatorT_char_const_p_t_t swig_types[31]
+#define SWIGTYPE_p_std__vectorT_char_std__allocatorT_char_t_t swig_types[32]
+#define SWIGTYPE_p_std__vectorT_double_std__allocatorT_double_t_t swig_types[33]
+#define SWIGTYPE_p_std__vectorT_float_std__allocatorT_float_t_t swig_types[34]
+#define SWIGTYPE_p_std__vectorT_gda__Point_std__allocatorT_gda__Point_t_t swig_types[35]
+#define SWIGTYPE_p_std__vectorT_int_std__allocatorT_int_t_t swig_types[36]
+#define SWIGTYPE_p_std__vectorT_long_long_std__allocatorT_long_long_t_t swig_types[37]
+#define SWIGTYPE_p_std__vectorT_long_std__allocatorT_long_t_t swig_types[38]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[39]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_char_std__allocatorT_char_t_t_std__allocatorT_std__vectorT_char_std__allocatorT_char_t_t_t_t swig_types[40]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_double_std__allocatorT_double_t_t_std__allocatorT_std__vectorT_double_std__allocatorT_double_t_t_t_t swig_types[41]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_int_std__allocatorT_int_t_t_std__allocatorT_std__vectorT_int_std__allocatorT_int_t_t_t_t swig_types[42]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_unsigned_char_std__allocatorT_unsigned_char_t_t_std__allocatorT_std__vectorT_unsigned_char_std__allocatorT_unsigned_char_t_t_t_t swig_types[43]
+#define SWIGTYPE_p_std__vectorT_unsigned_char_std__allocatorT_unsigned_char_t_t swig_types[44]
+#define SWIGTYPE_p_std__vectorT_void_p_std__allocatorT_void_p_t_t swig_types[45]
+#define SWIGTYPE_p_uint64_t swig_types[46]
+#define SWIGTYPE_p_value_type swig_types[47]
+#define SWIGTYPE_p_void swig_types[48]
+static swig_type_info *swig_types[50];
+static swig_module_info swig_module = {swig_types, 49, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -16850,6 +16851,144 @@ R_swig_GeoDaWeight_SpatialLag ( SEXP self, SEXP obs_idx, SEXP data, SEXP s_swig_
 
 
 SWIGEXPORT SEXP
+R_swig_GeoDaWeight_Save__SWIG_0 ( SEXP self, SEXP ofname, SEXP layer_name, SEXP id_var_name, SEXP id_vec, SEXP s_swig_copy)
+{
+  bool result;
+  GeoDaWeight *arg1 = (GeoDaWeight *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  std::vector< int,std::allocator< int > > *arg5 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  int res4 ;
+  char *buf4 = 0 ;
+  int alloc4 = 0 ;
+  int res5 = SWIG_OLDOBJ ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_R_ConvertPtr(self, &argp1, SWIGTYPE_p_GeoDaWeight, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GeoDaWeight_Save" "', argument " "1"" of type '" "GeoDaWeight *""'"); 
+  }
+  arg1 = reinterpret_cast< GeoDaWeight * >(argp1);
+  res2 = SWIG_AsCharPtrAndSize(ofname, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GeoDaWeight_Save" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = reinterpret_cast< char * >(buf2);
+  res3 = SWIG_AsCharPtrAndSize(layer_name, &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GeoDaWeight_Save" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = reinterpret_cast< char * >(buf3);
+  res4 = SWIG_AsCharPtrAndSize(id_var_name, &buf4, NULL, &alloc4);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GeoDaWeight_Save" "', argument " "4"" of type '" "char const *""'");
+  }
+  arg4 = reinterpret_cast< char * >(buf4);
+  {
+    std::vector< int,std::allocator< int > > *ptr = (std::vector< int,std::allocator< int > > *)0;
+    res5 = swig::asptr(id_vec, &ptr);
+    if (!SWIG_IsOK(res5)) {
+      SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "GeoDaWeight_Save" "', argument " "5"" of type '" "std::vector< int,std::allocator< int > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GeoDaWeight_Save" "', argument " "5"" of type '" "std::vector< int,std::allocator< int > > const &""'"); 
+    }
+    arg5 = ptr;
+  }
+  result = (bool)(arg1)->Save((char const *)arg2,(char const *)arg3,(char const *)arg4,(std::vector< int,std::allocator< int > > const &)*arg5);
+  r_ans = Rf_ScalarLogical(result);
+  
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  if (alloc4 == SWIG_NEWOBJ) delete[] buf4;
+  if (SWIG_IsNewObj(res5)) delete arg5;
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_GeoDaWeight_Save__SWIG_1 ( SEXP self, SEXP ofname, SEXP layer_name, SEXP id_var_name, SEXP id_vec, SEXP s_swig_copy)
+{
+  bool result;
+  GeoDaWeight *arg1 = (GeoDaWeight *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  std::vector< char const *,std::allocator< char const * > > *arg5 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  int res4 ;
+  char *buf4 = 0 ;
+  int alloc4 = 0 ;
+  void *argp5 ;
+  int res5 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_R_ConvertPtr(self, &argp1, SWIGTYPE_p_GeoDaWeight, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GeoDaWeight_Save" "', argument " "1"" of type '" "GeoDaWeight *""'"); 
+  }
+  arg1 = reinterpret_cast< GeoDaWeight * >(argp1);
+  res2 = SWIG_AsCharPtrAndSize(ofname, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GeoDaWeight_Save" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = reinterpret_cast< char * >(buf2);
+  res3 = SWIG_AsCharPtrAndSize(layer_name, &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "GeoDaWeight_Save" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = reinterpret_cast< char * >(buf3);
+  res4 = SWIG_AsCharPtrAndSize(id_var_name, &buf4, NULL, &alloc4);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "GeoDaWeight_Save" "', argument " "4"" of type '" "char const *""'");
+  }
+  arg4 = reinterpret_cast< char * >(buf4);
+  res5 = SWIG_R_ConvertPtr(id_vec, &argp5, SWIGTYPE_p_std__vectorT_char_const_p_std__allocatorT_char_const_p_t_t,  0 );
+  if (!SWIG_IsOK(res5)) {
+    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "GeoDaWeight_Save" "', argument " "5"" of type '" "std::vector< char const *,std::allocator< char const * > > const &""'"); 
+  }
+  if (!argp5) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GeoDaWeight_Save" "', argument " "5"" of type '" "std::vector< char const *,std::allocator< char const * > > const &""'"); 
+  }
+  arg5 = reinterpret_cast< std::vector< char const *,std::allocator< char const * > > * >(argp5);
+  result = (bool)(arg1)->Save((char const *)arg2,(char const *)arg3,(char const *)arg4,(std::vector< char const *,std::allocator< char const * > > const &)*arg5);
+  r_ans = Rf_ScalarLogical(result);
+  
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  if (alloc4 == SWIG_NEWOBJ) delete[] buf4;
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_GeoDaWeight_GetSparsity ( SEXP self, SEXP s_swig_copy)
 {
   double result;
@@ -21923,18 +22062,91 @@ R_swig_gda_localgstar__SWIG_1 ( SEXP w, SEXP data)
 
 
 SWIGEXPORT SEXP
-R_swig_gda_quantilelisa__SWIG_0 ( SEXP w, SEXP quantile, SEXP data, SEXP undefs)
+R_swig_gda_quantilelisa__SWIG_0 ( SEXP w, SEXP k, SEXP quantile, SEXP data, SEXP undefs)
 {
   LISA *result = 0 ;
   GeoDaWeight *arg1 = (GeoDaWeight *) 0 ;
   unsigned int arg2 ;
-  std::vector< double,std::allocator< double > > *arg3 = 0 ;
-  std::vector< bool,std::allocator< bool > > *arg4 = 0 ;
+  unsigned int arg3 ;
+  std::vector< double,std::allocator< double > > *arg4 = 0 ;
+  std::vector< bool,std::allocator< bool > > *arg5 = 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   int val2 ;
   int ecode2 = 0 ;
-  int res3 = SWIG_OLDOBJ ;
+  int val3 ;
+  int ecode3 = 0 ;
+  int res4 = SWIG_OLDOBJ ;
+  int res5 = SWIG_OLDOBJ ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_R_ConvertPtr(w, &argp1, SWIGTYPE_p_GeoDaWeight, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "gda_quantilelisa" "', argument " "1"" of type '" "GeoDaWeight *""'"); 
+  }
+  arg1 = reinterpret_cast< GeoDaWeight * >(argp1);
+  ecode2 = SWIG_AsVal_int(k, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gda_quantilelisa" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  ecode3 = SWIG_AsVal_int(quantile, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gda_quantilelisa" "', argument " "3"" of type '" "unsigned int""'");
+  } 
+  arg3 = static_cast< unsigned int >(val3);
+  {
+    std::vector< double,std::allocator< double > > *ptr = (std::vector< double,std::allocator< double > > *)0;
+    res4 = swig::asptr(data, &ptr);
+    if (!SWIG_IsOK(res4)) {
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "gda_quantilelisa" "', argument " "4"" of type '" "std::vector< double,std::allocator< double > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "gda_quantilelisa" "', argument " "4"" of type '" "std::vector< double,std::allocator< double > > const &""'"); 
+    }
+    arg4 = ptr;
+  }
+  {
+    std::vector<bool> *ptr = (std::vector<bool> *)0;
+    res5 = swig::asptr(undefs, &ptr);
+    if (!SWIG_IsOK(res5)) {
+      SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "gda_quantilelisa" "', argument " "5"" of type '" "std::vector< bool,std::allocator< bool > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "gda_quantilelisa" "', argument " "5"" of type '" "std::vector< bool,std::allocator< bool > > const &""'"); 
+    }
+    arg5 = ptr;
+  }
+  result = (LISA *)gda_quantilelisa(arg1,arg2,arg3,(std::vector< double,std::allocator< double > > const &)*arg4,(std::vector< bool,std::allocator< bool > > const &)*arg5);
+  r_ans = SWIG_R_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_LISA, 0 |  0 );
+  
+  
+  
+  if (SWIG_IsNewObj(res4)) delete arg4;
+  if (SWIG_IsNewObj(res5)) delete arg5;
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_gda_quantilelisa__SWIG_1 ( SEXP w, SEXP k, SEXP quantile, SEXP data)
+{
+  LISA *result = 0 ;
+  GeoDaWeight *arg1 = (GeoDaWeight *) 0 ;
+  unsigned int arg2 ;
+  unsigned int arg3 ;
+  std::vector< double,std::allocator< double > > *arg4 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
   int res4 = SWIG_OLDOBJ ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
@@ -21945,88 +22157,33 @@ R_swig_gda_quantilelisa__SWIG_0 ( SEXP w, SEXP quantile, SEXP data, SEXP undefs)
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "gda_quantilelisa" "', argument " "1"" of type '" "GeoDaWeight *""'"); 
   }
   arg1 = reinterpret_cast< GeoDaWeight * >(argp1);
-  ecode2 = SWIG_AsVal_int(quantile, &val2);
+  ecode2 = SWIG_AsVal_int(k, &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gda_quantilelisa" "', argument " "2"" of type '" "unsigned int""'");
   } 
   arg2 = static_cast< unsigned int >(val2);
+  ecode3 = SWIG_AsVal_int(quantile, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "gda_quantilelisa" "', argument " "3"" of type '" "unsigned int""'");
+  } 
+  arg3 = static_cast< unsigned int >(val3);
   {
     std::vector< double,std::allocator< double > > *ptr = (std::vector< double,std::allocator< double > > *)0;
-    res3 = swig::asptr(data, &ptr);
-    if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "gda_quantilelisa" "', argument " "3"" of type '" "std::vector< double,std::allocator< double > > const &""'"); 
-    }
-    if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "gda_quantilelisa" "', argument " "3"" of type '" "std::vector< double,std::allocator< double > > const &""'"); 
-    }
-    arg3 = ptr;
-  }
-  {
-    std::vector<bool> *ptr = (std::vector<bool> *)0;
-    res4 = swig::asptr(undefs, &ptr);
+    res4 = swig::asptr(data, &ptr);
     if (!SWIG_IsOK(res4)) {
-      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "gda_quantilelisa" "', argument " "4"" of type '" "std::vector< bool,std::allocator< bool > > const &""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "gda_quantilelisa" "', argument " "4"" of type '" "std::vector< double,std::allocator< double > > const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "gda_quantilelisa" "', argument " "4"" of type '" "std::vector< bool,std::allocator< bool > > const &""'"); 
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "gda_quantilelisa" "', argument " "4"" of type '" "std::vector< double,std::allocator< double > > const &""'"); 
     }
     arg4 = ptr;
   }
-  result = (LISA *)gda_quantilelisa(arg1,arg2,(std::vector< double,std::allocator< double > > const &)*arg3,(std::vector< bool,std::allocator< bool > > const &)*arg4);
+  result = (LISA *)gda_quantilelisa(arg1,arg2,arg3,(std::vector< double,std::allocator< double > > const &)*arg4);
   r_ans = SWIG_R_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_LISA, 0 |  0 );
   
   
-  if (SWIG_IsNewObj(res3)) delete arg3;
+  
   if (SWIG_IsNewObj(res4)) delete arg4;
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_gda_quantilelisa__SWIG_1 ( SEXP w, SEXP quantile, SEXP data)
-{
-  LISA *result = 0 ;
-  GeoDaWeight *arg1 = (GeoDaWeight *) 0 ;
-  unsigned int arg2 ;
-  std::vector< double,std::allocator< double > > *arg3 = 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  int val2 ;
-  int ecode2 = 0 ;
-  int res3 = SWIG_OLDOBJ ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  res1 = SWIG_R_ConvertPtr(w, &argp1, SWIGTYPE_p_GeoDaWeight, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "gda_quantilelisa" "', argument " "1"" of type '" "GeoDaWeight *""'"); 
-  }
-  arg1 = reinterpret_cast< GeoDaWeight * >(argp1);
-  ecode2 = SWIG_AsVal_int(quantile, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "gda_quantilelisa" "', argument " "2"" of type '" "unsigned int""'");
-  } 
-  arg2 = static_cast< unsigned int >(val2);
-  {
-    std::vector< double,std::allocator< double > > *ptr = (std::vector< double,std::allocator< double > > *)0;
-    res3 = swig::asptr(data, &ptr);
-    if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "gda_quantilelisa" "', argument " "3"" of type '" "std::vector< double,std::allocator< double > > const &""'"); 
-    }
-    if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "gda_quantilelisa" "', argument " "3"" of type '" "std::vector< double,std::allocator< double > > const &""'"); 
-    }
-    arg3 = ptr;
-  }
-  result = (LISA *)gda_quantilelisa(arg1,arg2,(std::vector< double,std::allocator< double > > const &)*arg3);
-  r_ans = SWIG_R_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_LISA, 0 |  0 );
-  
-  
-  if (SWIG_IsNewObj(res3)) delete arg3;
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
@@ -27628,6 +27785,7 @@ static swig_type_info _swigt__p_std__allocatorT_unsigned_char_t = {"_p_std__allo
 static swig_type_info _swigt__p_std__allocatorT_void_p_t = {"_p_std__allocatorT_void_p_t", "std::vector< void * >::allocator_type *|std::allocator< void * > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_GeoDaColumn_p_std__allocatorT_GeoDaColumn_p_t_t = {"_p_std__vectorT_GeoDaColumn_p_std__allocatorT_GeoDaColumn_p_t_t", "std::vector< GeoDaColumn *,std::allocator< GeoDaColumn * > > *|std::vector< GeoDaColumn * > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_bool_std__allocatorT_bool_t_t = {"_p_std__vectorT_bool_std__allocatorT_bool_t_t", "std::vector< bool,std::allocator< bool > > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__vectorT_char_const_p_std__allocatorT_char_const_p_t_t = {"_p_std__vectorT_char_const_p_std__allocatorT_char_const_p_t_t", "std::vector< char const *,std::allocator< char const * > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_char_std__allocatorT_char_t_t = {"_p_std__vectorT_char_std__allocatorT_char_t_t", "std::vector< char > *|std::vector< char,std::allocator< char > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_double_std__allocatorT_double_t_t = {"_p_std__vectorT_double_std__allocatorT_double_t_t", "std::vector< double,std::allocator< double > > *|std::vector< double > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_float_std__allocatorT_float_t_t = {"_p_std__vectorT_float_std__allocatorT_float_t_t", "std::vector< float > *|std::vector< float,std::allocator< float > > *", 0, 0, (void*)0, 0};
@@ -27678,6 +27836,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_std__allocatorT_void_p_t,
   &_swigt__p_std__vectorT_GeoDaColumn_p_std__allocatorT_GeoDaColumn_p_t_t,
   &_swigt__p_std__vectorT_bool_std__allocatorT_bool_t_t,
+  &_swigt__p_std__vectorT_char_const_p_std__allocatorT_char_const_p_t_t,
   &_swigt__p_std__vectorT_char_std__allocatorT_char_t_t,
   &_swigt__p_std__vectorT_double_std__allocatorT_double_t_t,
   &_swigt__p_std__vectorT_float_std__allocatorT_float_t_t,
@@ -27728,6 +27887,7 @@ static swig_cast_info _swigc__p_std__allocatorT_unsigned_char_t[] = {  {&_swigt_
 static swig_cast_info _swigc__p_std__allocatorT_void_p_t[] = {  {&_swigt__p_std__allocatorT_void_p_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_GeoDaColumn_p_std__allocatorT_GeoDaColumn_p_t_t[] = {  {&_swigt__p_std__vectorT_GeoDaColumn_p_std__allocatorT_GeoDaColumn_p_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_bool_std__allocatorT_bool_t_t[] = {  {&_swigt__p_std__vectorT_bool_std__allocatorT_bool_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__vectorT_char_const_p_std__allocatorT_char_const_p_t_t[] = {  {&_swigt__p_std__vectorT_char_const_p_std__allocatorT_char_const_p_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_char_std__allocatorT_char_t_t[] = {  {&_swigt__p_std__vectorT_char_std__allocatorT_char_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_double_std__allocatorT_double_t_t[] = {  {&_swigt__p_std__vectorT_double_std__allocatorT_double_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_float_std__allocatorT_float_t_t[] = {  {&_swigt__p_std__vectorT_float_std__allocatorT_float_t_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -27778,6 +27938,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_std__allocatorT_void_p_t,
   _swigc__p_std__vectorT_GeoDaColumn_p_std__allocatorT_GeoDaColumn_p_t_t,
   _swigc__p_std__vectorT_bool_std__allocatorT_bool_t_t,
+  _swigc__p_std__vectorT_char_const_p_std__allocatorT_char_const_p_t_t,
   _swigc__p_std__vectorT_char_std__allocatorT_char_t_t,
   _swigc__p_std__vectorT_double_std__allocatorT_double_t_t,
   _swigc__p_std__vectorT_float_std__allocatorT_float_t_t,
@@ -28168,7 +28329,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_gda_knn_weights__SWIG_0", (DL_FUNC) &R_swig_gda_knn_weights__SWIG_0, 11},
    {"R_swig_gda_rook_weights__SWIG_0", (DL_FUNC) &R_swig_gda_rook_weights__SWIG_0, 4},
    {"R_swig_gda_queen_weights__SWIG_0", (DL_FUNC) &R_swig_gda_queen_weights__SWIG_0, 4},
-   {"R_swig_gda_quantilelisa__SWIG_0", (DL_FUNC) &R_swig_gda_quantilelisa__SWIG_0, 4},
+   {"R_swig_gda_quantilelisa__SWIG_0", (DL_FUNC) &R_swig_gda_quantilelisa__SWIG_0, 5},
    {"R_swig_gda_localgstar__SWIG_0", (DL_FUNC) &R_swig_gda_localgstar__SWIG_0, 3},
    {"R_swig_gda_localg__SWIG_0", (DL_FUNC) &R_swig_gda_localg__SWIG_0, 3},
    {"R_swig_gda_multijoincount__SWIG_0", (DL_FUNC) &R_swig_gda_multijoincount__SWIG_0, 3},
@@ -28179,6 +28340,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_ToGeoDaColumn__SWIG_0", (DL_FUNC) &R_swig_ToGeoDaColumn__SWIG_0, 1},
    {"R_swig_new_GeoDa__SWIG_0", (DL_FUNC) &R_swig_new_GeoDa__SWIG_0, 6},
    {"R_swig_GeoDaTable_GetColumn__SWIG_0", (DL_FUNC) &R_swig_GeoDaTable_GetColumn__SWIG_0, 2},
+   {"R_swig_GeoDaWeight_Save__SWIG_0", (DL_FUNC) &R_swig_GeoDaWeight_Save__SWIG_0, 6},
    {"R_swig_VecVecChar_resize__SWIG_0", (DL_FUNC) &R_swig_VecVecChar_resize__SWIG_0, 2},
    {"R_swig_new_VecVecChar__SWIG_0", (DL_FUNC) &R_swig_new_VecVecChar__SWIG_0, 0},
    {"R_swig_VecVecUINT8_resize__SWIG_0", (DL_FUNC) &R_swig_VecVecUINT8_resize__SWIG_0, 2},
@@ -28217,7 +28379,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_gda_knn_weights__SWIG_1", (DL_FUNC) &R_swig_gda_knn_weights__SWIG_1, 10},
    {"R_swig_gda_rook_weights__SWIG_1", (DL_FUNC) &R_swig_gda_rook_weights__SWIG_1, 3},
    {"R_swig_gda_queen_weights__SWIG_1", (DL_FUNC) &R_swig_gda_queen_weights__SWIG_1, 3},
-   {"R_swig_gda_quantilelisa__SWIG_1", (DL_FUNC) &R_swig_gda_quantilelisa__SWIG_1, 3},
+   {"R_swig_gda_quantilelisa__SWIG_1", (DL_FUNC) &R_swig_gda_quantilelisa__SWIG_1, 4},
    {"R_swig_gda_localgstar__SWIG_1", (DL_FUNC) &R_swig_gda_localgstar__SWIG_1, 2},
    {"R_swig_gda_localg__SWIG_1", (DL_FUNC) &R_swig_gda_localg__SWIG_1, 2},
    {"R_swig_gda_multijoincount__SWIG_1", (DL_FUNC) &R_swig_gda_multijoincount__SWIG_1, 2},
@@ -28228,6 +28390,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_ToGeoDaColumn__SWIG_1", (DL_FUNC) &R_swig_ToGeoDaColumn__SWIG_1, 1},
    {"R_swig_new_GeoDa__SWIG_1", (DL_FUNC) &R_swig_new_GeoDa__SWIG_1, 7},
    {"R_swig_GeoDaTable_GetColumn__SWIG_1", (DL_FUNC) &R_swig_GeoDaTable_GetColumn__SWIG_1, 2},
+   {"R_swig_GeoDaWeight_Save__SWIG_1", (DL_FUNC) &R_swig_GeoDaWeight_Save__SWIG_1, 6},
    {"R_swig_VecVecChar_resize__SWIG_1", (DL_FUNC) &R_swig_VecVecChar_resize__SWIG_1, 3},
    {"R_swig_new_VecVecChar__SWIG_1", (DL_FUNC) &R_swig_new_VecVecChar__SWIG_1, 1},
    {"R_swig_VecVecUINT8_resize__SWIG_1", (DL_FUNC) &R_swig_VecVecUINT8_resize__SWIG_1, 3},

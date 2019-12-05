@@ -3,11 +3,11 @@ demean <- function(data) {
   return (gda_demean(data))
 }
 
-standardize_z <- function(data) {
+standardize <- function(data) {
   return (gda_standardize(data))
 }
 
-standardize_mad <- function(data) {
+mad <- function(data) {
   return (gda_standardize_mad(data))
 }
 

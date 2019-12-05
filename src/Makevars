@@ -30,9 +30,7 @@ ifeq ($(UNAME_S),Linux)
 
 	PKG_CPPFLAGS=\
 		-I$(RGDALLIB)/include \
-    	-I$(RGEODALIB)/include \
-    	-I$(RWXLIB)/include -I$(RWXLIB)/lib/$(OS_NAME)/base-unicode-static-3.0 -D_FILE_OFFSET_BITS=64 \
-    	-I$(RANNLIB)/include
+    	-I$(RGEODALIB)/include
 
 	PKG_LIBS=\
 		$(RGEODALIB)/lib/$(OS_NAME)/libgeoda.a \
@@ -40,13 +38,10 @@ ifeq ($(UNAME_S),Linux)
 		$(RGDALLIB)/lib/$(OS_NAME)/libgeos_c.a \
 		$(RGDALLIB)/lib/$(OS_NAME)/libgeos.a \
 		$(RGDALLIB)/lib/$(OS_NAME)/libproj.a \
-		$(RANNLIB)/lib/$(OS_NAME)/libANN.a \
 		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_chrono.a \
 		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_system.a \
 		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_thread.a \
 		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_date_time.a \
-		$(RWXLIB)/lib/$(OS_NAME)/libwx_baseu-3.0.a \
-		$(RWXLIB)/lib/$(OS_NAME)/libwxregexu-3.0.a \
 		-L/usr/lib -dt \
 		$(RGDALLIB)/lib/$(OS_NAME)/libiconv.a
 endif

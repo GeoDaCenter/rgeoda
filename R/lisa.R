@@ -62,6 +62,18 @@ LISA <- setRefClass("LISA",
       "Get the number of neighbors of every observations in LISA computation."
       return (gda_lisa$GetNumNeighbors())
     },
+    SetSignificanceCutoff = function(cutoff) {
+      "Set the cutoff value of significance values"
+      return (gda_lisa$SetSignificanceCutoff(cutoff))
+    },
+    GetFDR = function(current_p) {
+      "Get the False Discovery Rate value"
+      return (gda_lisa$GetFDR(current_p))
+    },
+    GetBO = function(current_p) {
+      "Get the Bonferroni bound value"
+      return (gda_lisa$GetBO(current_p))
+    },
     GetLabels = function() {
       "Get the cluster labels of LISA computation."
       return (gda_lisa$GetLabels())
@@ -72,6 +84,71 @@ LISA <- setRefClass("LISA",
     }
   )
 )
+
+#################################################################
+#' @title  Get values of local spatial autocorrelation
+#' @description Get the local spatial autocorrelation values returned from LISA computation
+#' @param gda_lisa An instance of LISA object
+#' @return data a tuple of values of local spatial autocorrelation
+#' @export
+lisa_values <- function(gda_lisa) {
+  return (gda_lisa$GetLISAValues())
+}
+
+#################################################################
+#' @title  Get values of local pseudo-p values
+#' @description Get the local pseudo-p values of significance returned from LISA computation.
+#' @param gda_lisa An instance of LISA object
+#' @return data a tuple of pseudo-p values of local spatial autocorrelation
+#' @export
+lisa_pvalues <- function(gda_lisa) {
+  return (gda_lisa$GetLocalSignificanceValues())
+}
+
+#################################################################
+#' @title  Get values of local cluster indicators
+#' @description Get the local cluster indicators returned from LISA computation.
+#' @param gda_lisa An instance of LISA object
+#' @param cutoff A value of cutoff for significance p-values to filter not-significant clusters, default=0.05
+#' @return data a tuple values
+#' @export
+lisa_clusters <- function(gda_lisa, cutoff=0.05) {
+  gda_lisa$SetSignificanceCutoff(cutoff)
+  return (gda_lisa$GetClusterIndicators())
+}
+
+#################################################################
+#' @title  Get numbers of neighbors of all observations
+#' @description Get numbers of neighbors of all observations
+#' @param gda_lisa An instance of LISA object
+#' @return data a tuple of values
+#' @export
+lisa_num_nbrs <- function(gda_lisa) {
+  ""
+  return (gda_lisa$GetNumNeighbors())
+}
+
+#################################################################
+#' @title  Get cluster labels
+#' @description Get cluster labels of LISA computation.
+#' @param gda_lisa An instance of LISA object
+#' @return labels a tuple of values
+#' @export
+lisa_labels <- function(gda_lisa) {
+  ""
+  return (gda_lisa$GetLabels())
+}
+
+#################################################################
+#' @title  Get cluster colors
+#' @description Get the cluster colors of LISA computation.
+#' @param gda_lisa An instance of LISA object
+#' @return colors a tuple of values
+#' @export
+lisa_colors <- function(gda_lisa) {
+  ""
+  return (gda_lisa$GetColors())
+}
 
 #################################################################
 #' @title  Local Moran statistics
@@ -210,17 +287,22 @@ local_multijoincount <- function(w, data) {
 #' @title  Quantile LISA statistics
 #' @description The function to apply quantile LISA statistics
 #' @param w An instance of Weight object
+#' @param k A value indicates the number of quantiles. Value range e.g. [1, 10]
+#' @param q A value indicates which quantile or interval used in local join count statistics. Value stars from 1.
 #' @param data A tuple of values of selected variable
 #' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 #' @export
-local_quantileSA <- function(w, k, data) {
+local_quantilelisa <- function(w, k, q, data) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
   if (length(data) != w$num_obs) {
     stop("The size of data doesnt not match the number of observations")
   }
+  if (q < 1 || q > k) {
+    stop("The value of which quantile been selected should be in the range of [1, k]")
+  }
 
-  lisa_obj <- gda_quantilelisa(w$gda_w, k, data)
+  lisa_obj <- gda_quantilelisa(w$gda_w, k, q, data)
   return (LISA$new(lisa_obj))
 }
