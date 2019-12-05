@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Tutorial of rgeoda v0.0.4</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Tutorial of rgeoda v0.0.4</h1>
+
+
+
+<p>rgeoda is a R library for spatial data analysis. It is a R wrapper of the libgeoda C++ library, which is built based on the GeoDa software. The version used in this tutorial is version 0.0.4.</p>
+<div id="install-rgeoda" class="section level2">
+<h2>1. Install rgeoda</h2>
+<p>Like GeoDa desktop software, <code>rgeoda</code> are avaiable to different platforms including: Mac, Linux and Windows.</p>
+<div id="mac-osx-and-linux" class="section level3">
+<h3>Mac OSX and Linux</h3>
+<p>In R console, use install.packages() function to install rgeoda from its source pacakge at: <a href="https://github.com/lixun910/rgeoda/archive/0.0.4.tar.gz" class="uri">https://github.com/lixun910/rgeoda/archive/0.0.4.tar.gz</a></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;https://github.com/lixun910/rgeoda/archive/0.0.4.tar.gz&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># or the development version</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># devtools::install_github(&quot;lixun910/rgeoda&quot;)</span></a></code></pre></div>
+</div>
+<div id="windows" class="section level3">
+<h3>Windows</h3>
+<p>In R console, use install.packages() function to install rgeoda from its source pacakge at: <a href="https://github.com/lixun910/rgeoda/releases/download/0.0.4/rgeoda_0.0.4.zip" class="uri">https://github.com/lixun910/rgeoda/releases/download/0.0.4/rgeoda_0.0.4.zip</a></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;https://github.com/lixun910/rgeoda/releases/download/0.0.4/rgeoda_0.0.4.zip&quot;</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># or the development version</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># devtools::install_github(&quot;lixun910/rgeoda&quot;)</span></a></code></pre></div>
+<p>Install rgeoda on windows from source package is not recommended. You would try if you know how to deal with <a href="https://www.r-project.org/nosvn/pandoc/devtools.html">R devtools</a> on windows.</p>
+</div>
+<div id="load-rgeoda-library-in-r" class="section level3">
+<h3>Load rgeoda library in R</h3>
+<p>If everything installed without error, you should be able to load rgeoda:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(rgeoda)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Attaching package: 'rgeoda'</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; The following object is masked from 'package:stats':</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;     mad</span></a></code></pre></div>
+</div>
+</div>
+<div id="load-spatial-data" class="section level2">
+<h2>2. Load Spatial Data</h2>
+<p>The data formats that rgeoda can read directly includes: ESRI Shapefile, MapInfo File, CSV, GML, GPX, KML, GeoJSON, TopoJSON, OpenFileGDB, GFT Google Fusion Tables, CouchDB</p>
+<p>Note: in this tutorial, we only tested loading ESRI shapefiles using rgeoda v0.0.4. Please create a ticket in rgeoda’s <a href="https://github.com/lixun910/rgeoda/issues">repository</a> if you experience any issues when loading spatial data.</p>
+<p>For example, to load the ESRI Shapefile <code>Guerry.shp</code> comes with the package:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">guerry_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;Guerry.shp&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;rgeoda&quot;</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">guerry &lt;-<span class="st"> </span><span class="kw">geoda_open</span>(guerry_path)</a></code></pre></div>
+<p>The <code>geoda_open</code> function returns a geoda object, which can be used to access the meta-data, fields, and columns of the input dataset.</p>
+<div id="attributes-of-geoda-object" class="section level4">
+<h4>2.1 Attributes of <code>geoda</code> object</h4>
+<ul>
+<li>n_cols</li>
+<li>n_obs</li>
+<li>field_names</li>
+<li>field_types</li>
+<li>table (data.frame)</li>
+<li>GetUndefinesCol(col_name)</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">number of columns:&quot;</span>, guerry<span class="op">$</span>n_cols)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; number of columns: 29</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">number of observations:&quot;</span>, guerry<span class="op">$</span>n_obs)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; number of observations: 85</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">field names:&quot;</span>, guerry<span class="op">$</span>field_names)</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; field names: CODE_DE COUNT AVE_ID_ dept Region Dprtmnt Crm_prs Crm_prp Litercy Donatns Infants Suicids MainCty Wealth Commerc Clergy Crm_prn Infntcd Dntn_cl Lottery Desertn Instrct Prsttts Distanc Area Pop1831 TopCrm TopLit TopWealth</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">field types:&quot;</span>, guerry<span class="op">$</span>field_types)</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; field types: string numeric numeric integer string string integer integer integer integer integer integer integer integer integer integer integer integer integer integer integer integer integer numeric integer numeric numeric numeric numeric</span></a></code></pre></div>
+</div>
+<div id="access-table-data" class="section level3">
+<h3>2.2 Access Table Data</h3>
+<p>The <code>geoda</code> instance has a data.frame attribute <code>table</code>, which stores the data loaded from the dataset. To get the values of “Crm_prp” column:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">crm_prp &lt;-<span class="st"> </span>guerry<span class="op">$</span>table<span class="op">$</span>Crm_prp</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">firs 10 values of Crm_prp:&quot;</span>, crm_prp[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; firs 10 values of Crm_prp: 15890 5521 7925 7289 8174 10263 8847 9597 4086 10431</span></a></code></pre></div>
+</div>
+</div>
+<div id="spatial-weights" class="section level2">
+<h2>3. Spatial Weights</h2>
+<p>Spatial weights are central components in spatial data analysis. The spatial weights represents the possible spatial interaction between observations in space. Like GeoDa desktop software, <code>rgeoda</code> provides a rich variety of methods to create several different types of spatial weights:</p>
+<ul>
+<li>Contiguity Based Weights: <code>queen_weights()</code>, <code>rook_weights()</code></li>
+<li>Distance Based Weights: <code>distance_weights()</code></li>
+<li>K-Nearest Neighbor Weights: <code>knn_weights()</code></li>
+<li>Kernel Weights: <code>distance_weights()</code> and <code>knn_weights()</code> with kernel parameters</li>
+</ul>
+<div id="queen-contiguity-weights" class="section level3">
+<h3>3.1 Queen Contiguity Weights</h3>
+<p>To create a Queen contiguity weights, we can call pygeoda’s function</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">gda_queen</span>(gda, <span class="dt">order=</span><span class="dv">1</span>, <span class="dt">include_lower_order =</span> False, <span class="dt">precision_threshold =</span> <span class="dv">0</span>)</a></code></pre></div>
+<p>by passing the GeoDa object <code>guerry</code> we just created:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">queen_w &lt;-<span class="st"> </span><span class="kw">queen_weights</span>(guerry)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">queen_w</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Reference class object of class &quot;Weight&quot;</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; Field &quot;gda_w&quot;:</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; An object of class &quot;_p_GeoDaWeight&quot;</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Slot &quot;ref&quot;:</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; &lt;pointer: 0x7ff854f58260&gt;</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; Field &quot;is_symmetric&quot;:</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; Field &quot;sparsity&quot;:</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; Field &quot;density&quot;:</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; [1] 5.813149</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; Field &quot;min_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; [1] 2</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; Field &quot;max_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt; [1] 8</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; Field &quot;num_obs&quot;:</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; [1] 85</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; Field &quot;mean_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt; [1] 4.941176</span></a>
+<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt; Field &quot;median_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt; [1] 5</span></a></code></pre></div>
+<p>The function <code>queen_weights()</code> returns an instance of <code>Weight</code> object. One can access the meta data of the spatial weights by accessing the attributes of <code>GeoDaWeight</code> object:</p>
+<div id="attributes-of-weight-object" class="section level4">
+<h4>Attributes of <code>Weight</code> object</h4>
+<ul>
+<li>weight_type</li>
+<li>is_symmetric</li>
+<li>sparsity</li>
+<li>density</li>
+<li>min_nbrs</li>
+<li>max_nbrs</li>
+<li>mean_nbrs</li>
+<li>median_nbrs</li>
+<li>bool HasIsolates()</li>
+<li>[] GetNeighbors(idx)</li>
+<li>double SpatialLag(idx, [data])</li>
+<li>SaveToFile()</li>
+</ul>
+<p>We can also access the details of the weights: e.g. list the neighbors of a specified observation, which is very helpful in exploratory spatial data analysis (which is focused in next tutorial):</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">nbrs &lt;-<span class="st"> </span>queen_w<span class="op">$</span><span class="kw">GetNeighbors</span>(<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Neighbors of 0-st observation are:&quot;</span>, nbrs)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; Neighbors of 0-st observation are: 35 36 66 68</span></a></code></pre></div>
+<p>We can also compute the spatial lag of a specified observation by passing the values of the selected variable:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">lag0 &lt;-<span class="st"> </span>queen_w<span class="op">$</span><span class="kw">SpatialLag</span>(<span class="dv">0</span>, crm_prp)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Spatial lag of 0-st observation is:&quot;</span>, lag0)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; Spatial lag of 0-st observation is: 7899.25</span></a></code></pre></div>
+</div>
+</div>
+<div id="rook-contiguity-weights" class="section level3">
+<h3>3.2 Rook Contiguity Weights</h3>
+<p>To create a Rook contiguity weights, we can call pygeoda’s function</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">rook_weights</span>(gda, <span class="dt">order=</span><span class="dv">1</span>,<span class="dt">include_lower_order=</span>False, <span class="dt">precision_threshold =</span> <span class="dv">0</span>)</a></code></pre></div>
+<p>by passing the GeoDa object <code>guerry</code> we just created:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">rook_w &lt;-<span class="st"> </span><span class="kw">rook_weights</span>(guerry)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">rook_w</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; Reference class object of class &quot;Weight&quot;</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; Field &quot;gda_w&quot;:</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; An object of class &quot;_p_GeoDaWeight&quot;</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; Slot &quot;ref&quot;:</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; &lt;pointer: 0x7ff854d357d0&gt;</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; Field &quot;is_symmetric&quot;:</span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; Field &quot;sparsity&quot;:</span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co">#&gt; Field &quot;density&quot;:</span></a>
+<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co">#&gt; [1] 5.813149</span></a>
+<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co">#&gt; Field &quot;min_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb12-16" data-line-number="16"><span class="co">#&gt; [1] 2</span></a>
+<a class="sourceLine" id="cb12-17" data-line-number="17"><span class="co">#&gt; Field &quot;max_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb12-18" data-line-number="18"><span class="co">#&gt; [1] 8</span></a>
+<a class="sourceLine" id="cb12-19" data-line-number="19"><span class="co">#&gt; Field &quot;num_obs&quot;:</span></a>
+<a class="sourceLine" id="cb12-20" data-line-number="20"><span class="co">#&gt; [1] 85</span></a>
+<a class="sourceLine" id="cb12-21" data-line-number="21"><span class="co">#&gt; Field &quot;mean_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb12-22" data-line-number="22"><span class="co">#&gt; [1] 4.941176</span></a>
+<a class="sourceLine" id="cb12-23" data-line-number="23"><span class="co">#&gt; Field &quot;median_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb12-24" data-line-number="24"><span class="co">#&gt; [1] 5</span></a></code></pre></div>
+<p>The weights we created are in memory, which makes it straight forward for spatial data analysis and also are good for programming your application. To save the weights to a file, we need to call GeoDaWeight’s function</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">SaveToFile</span>(ofname, layer_name, id_name, id_vec)</a></code></pre></div>
+<p>The <code>layer_name</code> is the layer name of loaded dataset. For a ESRI shapefile, the layer name is the file name without the suffix (e.g. Guerry).</p>
+<p>The <code>id_name</code> is a key (column name), which means the associated column contains unique values, that makes sure that the weights are connected to the correct observations in the data table.</p>
+<p>The <code>id_vec</code> is the actual column data of <code>id_name</code>, it could be a tuple of integer or string values.</p>
+<p>For example, in Guerry dataset, the column “CODE_DE” can be used as a key to save a weights file:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">rook_w<span class="op">$</span><span class="kw">SaveToFile</span>(<span class="st">'/Users/xun/Downloads/Guerry_r.gal'</span>, <span class="st">'Guerry'</span>, <span class="st">'CODE_DE'</span>, guerry<span class="op">$</span><span class="kw">GetIntegerCol</span>(<span class="st">'CODE_DE'</span>))</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<p>Then, we should find the file “Guerry_r.gal” in the output directory.</p>
+</div>
+<div id="distance-based-weights" class="section level3">
+<h3>3.3 Distance Based Weights</h3>
+<p>To create a Distance based weights, we can call rgeoda’s function</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">gda_distance_weights</span>(gda, dist_thres, <span class="dt">power=</span><span class="fl">1.0</span>,  <span class="dt">is_inverse=</span>False, <span class="dt">is_arc=</span>False, <span class="dt">is_mile=</span>True)</a></code></pre></div>
+<p>by passing the GeoDa object <code>guerry</code> we just created and the value of distance threshold. Like GeoDa, rgeoda provides a function to help you find a optimized distance threshold that guarantees that every observation has at least one neighbor:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">gda_min_distthreshold</span>(GeoDa gda, bool <span class="dt">is_arc =</span> False, bool <span class="dt">is_mile =</span> True)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">dist_thres &lt;-<span class="st"> </span><span class="kw">min_distthreshold</span>(guerry)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">dist_w &lt;-<span class="st"> </span><span class="kw">distance_weights</span>(guerry, dist_thres)</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">dist_w</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="co">#&gt; Reference class object of class &quot;Weight&quot;</span></a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="co">#&gt; Field &quot;gda_w&quot;:</span></a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="co">#&gt; An object of class &quot;_p_GeoDaWeight&quot;</span></a>
+<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="co">#&gt; Slot &quot;ref&quot;:</span></a>
+<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="co">#&gt; &lt;pointer: 0x7ff858259230&gt;</span></a>
+<a class="sourceLine" id="cb17-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="co">#&gt; Field &quot;is_symmetric&quot;:</span></a>
+<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="co">#&gt; [1] FALSE</span></a>
+<a class="sourceLine" id="cb17-12" data-line-number="12"><span class="co">#&gt; Field &quot;sparsity&quot;:</span></a>
+<a class="sourceLine" id="cb17-13" data-line-number="13"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb17-14" data-line-number="14"><span class="co">#&gt; Field &quot;density&quot;:</span></a>
+<a class="sourceLine" id="cb17-15" data-line-number="15"><span class="co">#&gt; [1] 4.346021</span></a>
+<a class="sourceLine" id="cb17-16" data-line-number="16"><span class="co">#&gt; Field &quot;min_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb17-17" data-line-number="17"><span class="co">#&gt; [1] 1</span></a>
+<a class="sourceLine" id="cb17-18" data-line-number="18"><span class="co">#&gt; Field &quot;max_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb17-19" data-line-number="19"><span class="co">#&gt; [1] 7</span></a>
+<a class="sourceLine" id="cb17-20" data-line-number="20"><span class="co">#&gt; Field &quot;num_obs&quot;:</span></a>
+<a class="sourceLine" id="cb17-21" data-line-number="21"><span class="co">#&gt; [1] 85</span></a>
+<a class="sourceLine" id="cb17-22" data-line-number="22"><span class="co">#&gt; Field &quot;mean_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb17-23" data-line-number="23"><span class="co">#&gt; [1] 3.694118</span></a>
+<a class="sourceLine" id="cb17-24" data-line-number="24"><span class="co">#&gt; Field &quot;median_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb17-25" data-line-number="25"><span class="co">#&gt; [1] 4</span></a></code></pre></div>
+</div>
+<div id="k-nearest-neighbor-weights" class="section level3">
+<h3>3.4 K-Nearest Neighbor Weights</h3>
+<p>A special case of distance based weights is K-Nearest neighbor weights, in which every obersvation will have exactly k neighbors. To create a KNN weights, we can call pygeoda’s function:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">gda_knn_weights</span>(gda, k, <span class="dt">power =</span> <span class="fl">1.0</span>,<span class="dt">is_inverse =</span> False, <span class="dt">is_arc =</span> False, <span class="dt">is_mile =</span> True)</a></code></pre></div>
+<p>For example, to create a 6-nearest neighbor weights using Guerry dataset:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">knn6_w &lt;-<span class="st"> </span><span class="kw">knn_weights</span>(guerry, <span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">knn6_w</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&gt; Reference class object of class &quot;Weight&quot;</span></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#&gt; Field &quot;gda_w&quot;:</span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt; An object of class &quot;_p_GeoDaWeight&quot;</span></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="co">#&gt; Slot &quot;ref&quot;:</span></a>
+<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="co">#&gt; &lt;pointer: 0x7ff854d17230&gt;</span></a>
+<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="co">#&gt; Field &quot;is_symmetric&quot;:</span></a>
+<a class="sourceLine" id="cb19-10" data-line-number="10"><span class="co">#&gt; [1] FALSE</span></a>
+<a class="sourceLine" id="cb19-11" data-line-number="11"><span class="co">#&gt; Field &quot;sparsity&quot;:</span></a>
+<a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt; Field &quot;density&quot;:</span></a>
+<a class="sourceLine" id="cb19-14" data-line-number="14"><span class="co">#&gt; [1] 7.058824</span></a>
+<a class="sourceLine" id="cb19-15" data-line-number="15"><span class="co">#&gt; Field &quot;min_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb19-16" data-line-number="16"><span class="co">#&gt; [1] 6</span></a>
+<a class="sourceLine" id="cb19-17" data-line-number="17"><span class="co">#&gt; Field &quot;max_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb19-18" data-line-number="18"><span class="co">#&gt; [1] 6</span></a>
+<a class="sourceLine" id="cb19-19" data-line-number="19"><span class="co">#&gt; Field &quot;num_obs&quot;:</span></a>
+<a class="sourceLine" id="cb19-20" data-line-number="20"><span class="co">#&gt; [1] 85</span></a>
+<a class="sourceLine" id="cb19-21" data-line-number="21"><span class="co">#&gt; Field &quot;mean_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb19-22" data-line-number="22"><span class="co">#&gt; [1] 6</span></a>
+<a class="sourceLine" id="cb19-23" data-line-number="23"><span class="co">#&gt; Field &quot;median_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb19-24" data-line-number="24"><span class="co">#&gt; [1] 6</span></a></code></pre></div>
+</div>
+<div id="kernel-weights" class="section level3">
+<h3>3.5 Kernel Weights</h3>
+<p>Kernel weights apply kernel function to determine the distance decay in the derived continuous weights kernel. The kernel weights are defined as a function K(z) of the ratio between the distance dij from i to j, and the bandwidth hi, with z=dij/hi.</p>
+<p>The kernl functions include</p>
+<ul>
+<li>triangular</li>
+<li>uniform</li>
+<li>quadratic</li>
+<li>epanechnikov</li>
+<li>quartic</li>
+<li>gaussian</li>
+</ul>
+<p>Two functions are provided in rgeoda to create kernel weights.</p>
+<p>** Kernel Weights with adaptive bandwidth**</p>
+<p>To create a kernel weights with fixed bandwith:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">bandwidth &lt;-<span class="st"> </span><span class="kw">min_distthreshold</span>(guerry)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">kernel_w &lt;-<span class="st"> </span><span class="kw">kernel_weights</span>(guerry, bandwidth, <span class="st">&quot;uniform&quot;</span>)</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">kernel_w</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="co">#&gt; Reference class object of class &quot;Weight&quot;</span></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="co">#&gt; Field &quot;gda_w&quot;:</span></a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="co">#&gt; An object of class &quot;_p_GeoDaWeight&quot;</span></a>
+<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="co">#&gt; Slot &quot;ref&quot;:</span></a>
+<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="co">#&gt; &lt;pointer: 0x7ff854fd6770&gt;</span></a>
+<a class="sourceLine" id="cb20-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb20-10" data-line-number="10"><span class="co">#&gt; Field &quot;is_symmetric&quot;:</span></a>
+<a class="sourceLine" id="cb20-11" data-line-number="11"><span class="co">#&gt; [1] FALSE</span></a>
+<a class="sourceLine" id="cb20-12" data-line-number="12"><span class="co">#&gt; Field &quot;sparsity&quot;:</span></a>
+<a class="sourceLine" id="cb20-13" data-line-number="13"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb20-14" data-line-number="14"><span class="co">#&gt; Field &quot;density&quot;:</span></a>
+<a class="sourceLine" id="cb20-15" data-line-number="15"><span class="co">#&gt; [1] 4.346021</span></a>
+<a class="sourceLine" id="cb20-16" data-line-number="16"><span class="co">#&gt; Field &quot;min_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb20-17" data-line-number="17"><span class="co">#&gt; [1] 1</span></a>
+<a class="sourceLine" id="cb20-18" data-line-number="18"><span class="co">#&gt; Field &quot;max_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb20-19" data-line-number="19"><span class="co">#&gt; [1] 7</span></a>
+<a class="sourceLine" id="cb20-20" data-line-number="20"><span class="co">#&gt; Field &quot;num_obs&quot;:</span></a>
+<a class="sourceLine" id="cb20-21" data-line-number="21"><span class="co">#&gt; [1] 85</span></a>
+<a class="sourceLine" id="cb20-22" data-line-number="22"><span class="co">#&gt; Field &quot;mean_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb20-23" data-line-number="23"><span class="co">#&gt; [1] 3.694118</span></a>
+<a class="sourceLine" id="cb20-24" data-line-number="24"><span class="co">#&gt; Field &quot;median_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb20-25" data-line-number="25"><span class="co">#&gt; [1] 4</span></a></code></pre></div>
+<p>Besides the options <code>is_inverse</code>, <code>power</code>, <code>is_arc</code> and <code>is_mile</code> that are the same with the distance based weights, this kernel weights function has another option:</p>
+<pre><code>use_kernel_diagonals    
+(optional) FALSE (default) or TRUE, apply kernel on the diagonal of weights matrix</code></pre>
+<p>** Kernel Weights with adaptive bandwidth**</p>
+<p>To create a kernel weights with adaptive bandwidth or using max Knn distance as bandwidth:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">adptkernel_w =<span class="st"> </span><span class="kw">kernel_knn_weights</span>(guerry, <span class="dv">6</span>, <span class="st">&quot;uniform&quot;</span>)</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb22-3" data-line-number="3">adptkernel_w</a>
+<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#&gt; Reference class object of class &quot;Weight&quot;</span></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co">#&gt; Field &quot;gda_w&quot;:</span></a>
+<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="co">#&gt; An object of class &quot;_p_GeoDaWeight&quot;</span></a>
+<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="co">#&gt; Slot &quot;ref&quot;:</span></a>
+<a class="sourceLine" id="cb22-8" data-line-number="8"><span class="co">#&gt; &lt;pointer: 0x7ff85826d630&gt;</span></a>
+<a class="sourceLine" id="cb22-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb22-10" data-line-number="10"><span class="co">#&gt; Field &quot;is_symmetric&quot;:</span></a>
+<a class="sourceLine" id="cb22-11" data-line-number="11"><span class="co">#&gt; [1] FALSE</span></a>
+<a class="sourceLine" id="cb22-12" data-line-number="12"><span class="co">#&gt; Field &quot;sparsity&quot;:</span></a>
+<a class="sourceLine" id="cb22-13" data-line-number="13"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb22-14" data-line-number="14"><span class="co">#&gt; Field &quot;density&quot;:</span></a>
+<a class="sourceLine" id="cb22-15" data-line-number="15"><span class="co">#&gt; [1] 7.058824</span></a>
+<a class="sourceLine" id="cb22-16" data-line-number="16"><span class="co">#&gt; Field &quot;min_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb22-17" data-line-number="17"><span class="co">#&gt; [1] 6</span></a>
+<a class="sourceLine" id="cb22-18" data-line-number="18"><span class="co">#&gt; Field &quot;max_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb22-19" data-line-number="19"><span class="co">#&gt; [1] 6</span></a>
+<a class="sourceLine" id="cb22-20" data-line-number="20"><span class="co">#&gt; Field &quot;num_obs&quot;:</span></a>
+<a class="sourceLine" id="cb22-21" data-line-number="21"><span class="co">#&gt; [1] 85</span></a>
+<a class="sourceLine" id="cb22-22" data-line-number="22"><span class="co">#&gt; Field &quot;mean_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb22-23" data-line-number="23"><span class="co">#&gt; [1] 6</span></a>
+<a class="sourceLine" id="cb22-24" data-line-number="24"><span class="co">#&gt; Field &quot;median_neighbors&quot;:</span></a>
+<a class="sourceLine" id="cb22-25" data-line-number="25"><span class="co">#&gt; [1] 6</span></a></code></pre></div>
+<p>This kernel weights function two more options:</p>
+<pre><code>adaptive_bandwidth  
+(optional) TRUE (default) or FALSE: TRUE use adaptive bandwidth calculated using distance of k-nearest neithbors, FALSE use max distance of all observation to their k-nearest neighbors
+
+use_kernel_diagonals    
+(optional) FALSE (default) or TRUE, apply kernel on the diagonal of weights matrix</code></pre>
+</div>
+</div>
+<div id="spatial-data-analysis" class="section level2">
+<h2>4 Spatial Data Analysis</h2>
+<div id="local-spatial-autocorrelation" class="section level3">
+<h3>4.1 Local Spatial Autocorrelation</h3>
+<p>rgeoda 0.0.4 provids following methods for univariate local spatial autocorrelation statistics:</p>
+<ul>
+<li>Local Moran: local_moran()</li>
+<li>Local Geary: local_geary()</li>
+<li>Local Getis-Ord statistics: local_g() and local_gstar()</li>
+<li>Local Join Count: local_joincount()</li>
+</ul>
+<p>Methods for bivariate and multivariate local spatial autocorrelation statistics, as well as global spatial autocorrelation satatistics, will be included in next release of rgeoda.</p>
+<p>In this tutorial, we will only introduce how to call these methods using pygeoda. For more information about the local spatial autocorrelation statisticis, please read: <a href="http://geodacenter.github.io/workbook/6a_local_auto/lab6a.html" class="uri">http://geodacenter.github.io/workbook/6a_local_auto/lab6a.html</a>.</p>
+<div id="local-moran" class="section level4">
+<h4>4.1.1 Local Moran</h4>
+<p>The Local Moran statistic is a method to identify local clusters and local spatial outliers. For example, we can call function <code>local_moran()</code> with the created Queen weights and the data “crm_prp” as input parameters:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">lisa &lt;-<span class="st"> </span><span class="kw">local_moran</span>(queen_w, crm_prp)</a></code></pre></div>
+<p>The <code>local_moran()</code> function will return a <code>lisa</code> object, which we can call its public functions to access the results of lisa computation.</p>
+<p>For example, we can call the function <code>GetLISAValues()</code> to get the values of local Moran:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">lms &lt;-<span class="st"> </span>lisa<span class="op">$</span><span class="kw">GetLISAValues</span>()</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">lms</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co">#&gt;  [1]  0.0154319783  0.3270633224  0.0212952962  0.0046105448 -0.0028342407</span></a>
+<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co">#&gt;  [6]  0.4149377158 -0.1379463091  0.0998657692  0.2823176310  0.1218745112</span></a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="co">#&gt; [11] -0.0951205417  0.0326111938  0.3878324535  1.1888723840 -0.6452792226</span></a>
+<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="co">#&gt; [16] -0.3096492740  0.3662775143  2.0375343539 -0.0050154800  0.0697110572</span></a>
+<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co">#&gt; [21]  2.2720355722  0.2886391551 -0.0070189726 -0.0009906605  0.9517469793</span></a>
+<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co">#&gt; [26]  0.7648322095  0.0432039929 -0.0045362842 -0.0964911860  0.0952360887</span></a>
+<a class="sourceLine" id="cb25-9" data-line-number="9"><span class="co">#&gt; [31]  0.0100895206 -0.0109401003 -0.0544245927 -0.0345553975  0.0887531916</span></a>
+<a class="sourceLine" id="cb25-10" data-line-number="10"><span class="co">#&gt; [36]  0.0954232056  0.0383617454 -0.1776714441  0.1638208393  1.2309154898</span></a>
+<a class="sourceLine" id="cb25-11" data-line-number="11"><span class="co">#&gt; [41]  2.9077203402 -0.0396340261  0.4458735227  0.2491123240  0.0905643622</span></a>
+<a class="sourceLine" id="cb25-12" data-line-number="12"><span class="co">#&gt; [46] -0.6212977834 -0.0308773407  0.0375870399  0.2270376112 -0.0918254739</span></a>
+<a class="sourceLine" id="cb25-13" data-line-number="13"><span class="co">#&gt; [51] -0.0112400086  0.1085584763 -0.0055113129 -0.0027097589  0.7235016208</span></a>
+<a class="sourceLine" id="cb25-14" data-line-number="14"><span class="co">#&gt; [56]  0.0163129939  0.4246564560  0.3787307767 -0.0597158189  0.5050011802</span></a>
+<a class="sourceLine" id="cb25-15" data-line-number="15"><span class="co">#&gt; [61]  2.7632125275  0.0656510809  0.1771899330 -0.0572150317  0.4943795537</span></a>
+<a class="sourceLine" id="cb25-16" data-line-number="16"><span class="co">#&gt; [66]  0.2870386197 -1.4593300774 -0.0055305930  0.4895990016 -0.0324125662</span></a>
+<a class="sourceLine" id="cb25-17" data-line-number="17"><span class="co">#&gt; [71]  2.1366499813  0.9041683235  0.7053678641  1.4098290925  0.0051652159</span></a>
+<a class="sourceLine" id="cb25-18" data-line-number="18"><span class="co">#&gt; [76]  0.2238144189 -0.1621373954  0.0195632289 -0.3233724187 -0.0337778226</span></a>
+<a class="sourceLine" id="cb25-19" data-line-number="19"><span class="co">#&gt; [81]  0.0118189869 -0.1164679533 -0.5699624657 -0.0859634996  0.2085373916</span></a></code></pre></div>
+<p>To get the pseudo-p values of significance of local Moran computation:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">pvals &lt;-<span class="st"> </span>lisa<span class="op">$</span><span class="kw">GetPValues</span>()</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">pvals</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3"><span class="co">#&gt;  [1] 0.414 0.123 0.001 0.474 0.452 0.087 0.243 0.326 0.299 0.303 0.237</span></a>
+<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="co">#&gt; [12] 0.460 0.258 0.018 0.199 0.188 0.131 0.004 0.456 0.342 0.041 0.143</span></a>
+<a class="sourceLine" id="cb26-5" data-line-number="5"><span class="co">#&gt; [23] 0.429 0.412 0.002 0.026 0.480 0.400 0.121 0.350 0.481 0.441 0.338</span></a>
+<a class="sourceLine" id="cb26-6" data-line-number="6"><span class="co">#&gt; [34] 0.120 0.267 0.050 0.072 0.221 0.282 0.022 0.029 0.494 0.075 0.054</span></a>
+<a class="sourceLine" id="cb26-7" data-line-number="7"><span class="co">#&gt; [45] 0.200 0.025 0.359 0.346 0.280 0.375 0.487 0.267 0.441 0.428 0.135</span></a>
+<a class="sourceLine" id="cb26-8" data-line-number="8"><span class="co">#&gt; [56] 0.314 0.050 0.002 0.085 0.297 0.001 0.233 0.243 0.134 0.116 0.342</span></a>
+<a class="sourceLine" id="cb26-9" data-line-number="9"><span class="co">#&gt; [67] 0.015 0.334 0.069 0.303 0.040 0.132 0.001 0.002 0.470 0.007 0.213</span></a>
+<a class="sourceLine" id="cb26-10" data-line-number="10"><span class="co">#&gt; [78] 0.387 0.123 0.403 0.455 0.352 0.011 0.322 0.135</span></a></code></pre></div>
+<p>To get the cluster indicators of local Moran computation:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">cats &lt;-<span class="st"> </span>lisa<span class="op">$</span><span class="kw">GetClusterIndicators</span>()</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">cats</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="co">#&gt;  [1] 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 1 0 0 0 2 2 0 0 0 0 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="co">#&gt; [36] 1 0 0 0 1 1 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 2 2 0 0 1 0 0 0 0 0 3 0 0 0</span></a>
+<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="co">#&gt; [71] 2 0 2 2 0 2 0 0 0 0 0 0 3 0 0</span></a></code></pre></div>
+<p>The predefined values of the indicators of LISA cluster are:</p>
+<pre><code>0 Not significant
+1 High-High
+2 Low-Low
+3 High-Low
+4 Low-High
+5 Neighborless
+6 Undefined</code></pre>
+<p>which can be accessed via function <code>GetLabels()</code>:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">lbls &lt;-<span class="st"> </span>lisa<span class="op">$</span><span class="kw">GetLabels</span>()</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">lbls</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="co">#&gt; [1] &quot;Not significant&quot; &quot;High-High&quot;       &quot;Low-Low&quot;         &quot;High-Low&quot;       </span></a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co">#&gt; [5] &quot;Low-High&quot;        &quot;Undefined&quot;       &quot;Isolated&quot;</span></a></code></pre></div>
+<p>By default, the <code>local_moran()</code> function will run with some default parameters, e.g.:</p>
+<pre><code>permutation number: 999
+seed for random number generator: 123456789</code></pre>
+<p>, which are identical to GeoDa desktop software so that we can replicate the results as using GeoDa software. It is also easy to change the paremter and re-run the LISA computation by calling Run() function.</p>
+<p>For example, re-run the above local Moran example using 9999 permutations</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">lisa<span class="op">$</span><span class="kw">SetPermutations</span>(<span class="dv">9999</span>)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co">#&gt; NULL</span></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3">lisa<span class="op">$</span><span class="kw">Run</span>()</a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="co">#&gt; NULL</span></a></code></pre></div>
+<p>Then, we can use the same <code>lisa</code> object to get the new results after 9999 permutations:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">pvals &lt;-<span class="st"> </span>lisa<span class="op">$</span><span class="kw">GetPValues</span>()</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2">pvals</a>
+<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co">#&gt;  [1] 0.4187 0.1265 0.0004 0.4679 0.4545 0.0728 0.2312 0.3071 0.3115 0.3088</span></a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt; [11] 0.2187 0.4803 0.2623 0.0113 0.2000 0.1797 0.1267 0.0026 0.4565 0.3517</span></a>
+<a class="sourceLine" id="cb32-5" data-line-number="5"><span class="co">#&gt; [21] 0.0450 0.1367 0.4344 0.4231 0.0024 0.0366 0.4741 0.4164 0.1293 0.3310</span></a>
+<a class="sourceLine" id="cb32-6" data-line-number="6"><span class="co">#&gt; [31] 0.4893 0.4371 0.3350 0.1376 0.2723 0.0567 0.0753 0.2221 0.2559 0.0192</span></a>
+<a class="sourceLine" id="cb32-7" data-line-number="7"><span class="co">#&gt; [41] 0.0216 0.4918 0.0739 0.0564 0.2193 0.0199 0.3667 0.3339 0.2764 0.3783</span></a>
+<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt; [51] 0.4679 0.2683 0.4495 0.4312 0.1423 0.3158 0.0612 0.0009 0.0900 0.2861</span></a>
+<a class="sourceLine" id="cb32-9" data-line-number="9"><span class="co">#&gt; [61] 0.0001 0.2378 0.2518 0.1295 0.1262 0.3482 0.0105 0.3152 0.0692 0.2984</span></a>
+<a class="sourceLine" id="cb32-10" data-line-number="10"><span class="co">#&gt; [71] 0.0260 0.1331 0.0001 0.0001 0.4683 0.0067 0.2197 0.3718 0.1392 0.4054</span></a>
+<a class="sourceLine" id="cb32-11" data-line-number="11"><span class="co">#&gt; [81] 0.4419 0.3461 0.0039 0.3136 0.1288</span></a></code></pre></div>
+<p>rgeoda uses GeoDa’s C++ code, in which multi-threading is used to accelerate the computation of LISA. We can specify how many threads to run the computation:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">lisa<span class="op">$</span><span class="kw">SetThreads</span>(<span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="co">#&gt; NULL</span></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3">lisa<span class="op">$</span><span class="kw">Run</span>()</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; NULL</span></a>
+<a class="sourceLine" id="cb33-5" data-line-number="5">lisa<span class="op">$</span><span class="kw">GetPValues</span>()</a>
+<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt;  [1] 0.4187 0.1265 0.0004 0.4679 0.4545 0.0728 0.2312 0.3071 0.3115 0.3088</span></a>
+<a class="sourceLine" id="cb33-7" data-line-number="7"><span class="co">#&gt; [11] 0.2187 0.4803 0.2623 0.0113 0.2000 0.1797 0.1267 0.0026 0.4565 0.3517</span></a>
+<a class="sourceLine" id="cb33-8" data-line-number="8"><span class="co">#&gt; [21] 0.0450 0.1367 0.4344 0.4231 0.0024 0.0366 0.4741 0.4164 0.1293 0.3310</span></a>
+<a class="sourceLine" id="cb33-9" data-line-number="9"><span class="co">#&gt; [31] 0.4893 0.4371 0.3350 0.1376 0.2723 0.0567 0.0753 0.2221 0.2559 0.0192</span></a>
+<a class="sourceLine" id="cb33-10" data-line-number="10"><span class="co">#&gt; [41] 0.0216 0.4918 0.0739 0.0564 0.2193 0.0199 0.3667 0.3339 0.2764 0.3783</span></a>
+<a class="sourceLine" id="cb33-11" data-line-number="11"><span class="co">#&gt; [51] 0.4679 0.2683 0.4495 0.4312 0.1423 0.3158 0.0612 0.0009 0.0900 0.2861</span></a>
+<a class="sourceLine" id="cb33-12" data-line-number="12"><span class="co">#&gt; [61] 0.0001 0.2378 0.2518 0.1295 0.1262 0.3482 0.0105 0.3152 0.0692 0.2984</span></a>
+<a class="sourceLine" id="cb33-13" data-line-number="13"><span class="co">#&gt; [71] 0.0260 0.1331 0.0001 0.0001 0.4683 0.0067 0.2197 0.3718 0.1392 0.4054</span></a>
+<a class="sourceLine" id="cb33-14" data-line-number="14"><span class="co">#&gt; [81] 0.4419 0.3461 0.0039 0.3136 0.1288</span></a></code></pre></div>
+<p>Get the False Discovery Rate value based on current pseudo-p values:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">fdr&lt;-lisa<span class="op">$</span><span class="kw">GetFDR</span>(<span class="fl">0.05</span>)</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">fdr</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="co">#&gt; [1] 0.004705882</span></a></code></pre></div>
+<p>Then, one can set the FDR value as the cutoff p-value to filter the cluster results:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">lisa<span class="op">$</span><span class="kw">SetSignificanceCutoff</span>(fdr)</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="co">#&gt; NULL</span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">cat_fdr&lt;-lisa<span class="op">$</span><span class="kw">GetClusterIndicators</span>()</a>
+<a class="sourceLine" id="cb35-4" data-line-number="4">cat_fdr</a>
+<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="co">#&gt;  [1] 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb35-6" data-line-number="6"><span class="co">#&gt; [36] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 1 0 0 0 0 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="co">#&gt; [71] 0 0 2 2 0 0 0 0 0 0 0 0 3 0 0</span></a></code></pre></div>
+</div>
+<div id="local-geary" class="section level4">
+<h4>4.1.2 Local Geary</h4>
+<p>Local Geary is a type of LISA that focuses on squared differences/dissimilarity. A small value of the local geary statistics suggest positive spatial autocorrelation, whereas large values suggest negative spatial autocorrelation.</p>
+<p>For example, we can call the function <code>local_geary()</code> with the created Queen weights and the data “crm_prp” as input parameters:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">geary_crmprs &lt;-<span class="st"> </span><span class="kw">local_geary</span>(queen_w, crm_prp)</a></code></pre></div>
+<p>To get the cluster indicators of the local Geary computation:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">geary_crmprs<span class="op">$</span><span class="kw">GetClusterIndicators</span>()</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="co">#&gt;  [1] 0 2 4 0 3 0 0 0 0 0 0 0 0 0 0 0 0 1 0 2 1 0 0 0 2 2 0 0 0 0 0 0 0 4 0</span></a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="co">#&gt; [36] 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb37-4" data-line-number="4"><span class="co">#&gt; [71] 2 0 0 2 0 0 0 0 0 0 0 0 4 0 0</span></a></code></pre></div>
+<p>To get the pseudo-p values of the local Geary computation:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">geary_crmprs<span class="op">$</span><span class="kw">GetPValues</span>()</a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="co">#&gt;  [1] 0.398 0.027 0.025 0.126 0.017 0.314 0.610 0.141 0.284 0.110 0.559</span></a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="co">#&gt; [12] 0.462 0.211 0.236 0.249 0.229 0.069 0.041 0.205 0.020 0.029 0.178</span></a>
+<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="co">#&gt; [23] 0.369 0.112 0.024 0.027 0.092 0.420 0.488 0.051 0.377 0.253 0.217</span></a>
+<a class="sourceLine" id="cb38-5" data-line-number="5"><span class="co">#&gt; [34] 0.049 0.110 0.151 0.147 0.584 0.327 0.107 0.009 0.129 0.135 0.190</span></a>
+<a class="sourceLine" id="cb38-6" data-line-number="6"><span class="co">#&gt; [45] 0.031 0.086 0.084 0.292 0.299 0.418 0.053 0.431 0.178 0.077 0.092</span></a>
+<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="co">#&gt; [56] 0.294 0.116 0.321 0.573 0.204 0.196 0.264 0.084 0.616 0.131 0.408</span></a>
+<a class="sourceLine" id="cb38-8" data-line-number="8"><span class="co">#&gt; [67] 0.058 0.088 0.282 0.264 0.040 0.085 0.059 0.002 0.711 0.543 0.620</span></a>
+<a class="sourceLine" id="cb38-9" data-line-number="9"><span class="co">#&gt; [78] 0.057 0.335 0.411 0.197 0.625 0.010 0.364 0.265</span></a></code></pre></div>
+</div>
+<div id="multivariate-local-geary" class="section level4">
+<h4>4.1.3 Multivariate Local Geary:</h4>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw">list</span>(guerry<span class="op">$</span>table<span class="op">$</span>Crm_prs, guerry<span class="op">$</span>table<span class="op">$</span>Crm_prp, guerry<span class="op">$</span>table<span class="op">$</span>Litercy, guerry<span class="op">$</span>table<span class="op">$</span>Donatns, guerry<span class="op">$</span>table<span class="op">$</span>Infants, guerry<span class="op">$</span>table<span class="op">$</span>Suicids)</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3">multigeary &lt;-<span class="st"> </span><span class="kw">local_multigeary</span>(queen_w, data)</a></code></pre></div>
+<p>To get the cluster indicators of the local Geary computation:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">multigeary<span class="op">$</span><span class="kw">GetClusterIndicators</span>()</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="co">#&gt;  [1] 0 1 1 1 0 1 1 1 1 1 1 1 0 0 0 0 0 1 1 1 1 1 0 1 1 1 1 1 0 1 0 0 1 0 0</span></a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="co">#&gt; [36] 0 1 0 1 0 1 0 1 1 1 0 0 0 1 1 1 0 1 1 0 0 1 1 0 1 1 0 1 0 1 1 0 1 0 1</span></a>
+<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="co">#&gt; [71] 1 0 1 1 0 1 1 1 1 1 0 1 0 1 1</span></a></code></pre></div>
+</div>
+<div id="local-getis-ord-statistics" class="section level4">
+<h4>4.1.4 Local Getis-Ord Statistics</h4>
+<p>There are two types of local Getis-Ord statistics: one is computing a ratio of the weighted average of the values in the neighboring locations, not including the value at the location; while another type of statistic includes the value at the location in both numerator and denominator.</p>
+<p>A value larger than the mean suggests a high-high cluster or hot spot, a value smaller than the mean indicates a low-low cluster or cold spot.</p>
+<p>For example, we can call the function <code>local_g()</code> with the created Queen weights and the data “crm_prp” as input parameters:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">localg_crmprs &lt;-<span class="st"> </span><span class="kw">local_g</span>(queen_w, crm_prp)</a></code></pre></div>
+<p>To get the cluster indicators of the local G computation:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">localg_crmprs<span class="op">$</span><span class="kw">GetClusterIndicators</span>()</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="co">#&gt;  [1] 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 1 0 0 0 2 2 0 0 0 0 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"><span class="co">#&gt; [36] 1 0 0 0 1 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 2 2 0 0 1 0 0 0 0 0 1 0 0 0</span></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="co">#&gt; [71] 2 0 2 2 0 2 0 0 0 0 0 0 1 0 0</span></a></code></pre></div>
+<p>To get the pseudo-p values of the local G computation:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">localg_crmprs<span class="op">$</span><span class="kw">GetPValues</span>()</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="co">#&gt;  [1] 0.414 0.123 0.001 0.474 0.452 0.087 0.243 0.326 0.299 0.303 0.237</span></a>
+<a class="sourceLine" id="cb43-3" data-line-number="3"><span class="co">#&gt; [12] 0.460 0.258 0.018 0.199 0.188 0.131 0.004 0.456 0.342 0.041 0.143</span></a>
+<a class="sourceLine" id="cb43-4" data-line-number="4"><span class="co">#&gt; [23] 0.429 0.412 0.002 0.026 0.479 0.400 0.121 0.350 0.481 0.441 0.338</span></a>
+<a class="sourceLine" id="cb43-5" data-line-number="5"><span class="co">#&gt; [34] 0.120 0.266 0.050 0.072 0.221 0.282 0.022 0.029 0.494 0.075 0.054</span></a>
+<a class="sourceLine" id="cb43-6" data-line-number="6"><span class="co">#&gt; [45] 0.200 0.025 0.359 0.346 0.280 0.375 0.487 0.266 0.441 0.428 0.135</span></a>
+<a class="sourceLine" id="cb43-7" data-line-number="7"><span class="co">#&gt; [56] 0.314 0.050 0.002 0.085 0.297 0.001 0.233 0.243 0.134 0.116 0.340</span></a>
+<a class="sourceLine" id="cb43-8" data-line-number="8"><span class="co">#&gt; [67] 0.015 0.334 0.069 0.303 0.039 0.132 0.001 0.002 0.470 0.007 0.213</span></a>
+<a class="sourceLine" id="cb43-9" data-line-number="9"><span class="co">#&gt; [78] 0.387 0.123 0.403 0.455 0.352 0.011 0.322 0.135</span></a></code></pre></div>
+<p>For the second type of local Getis-Ord statistics, we can call the function <code>local_gstar()</code> with the created Queen weights and the data “crm_prp” as input parameters:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">localgstar_crmprs &lt;-<span class="st"> </span><span class="kw">local_gstar</span>(queen_w, crm_prp)</a></code></pre></div>
+</div>
+<div id="local-join-count" class="section level4">
+<h4>4.1.5 Local Join Count</h4>
+<p>Local Join Count is a method to identify local clusters for binary data by using a local version of the so-called BB join count statistic. The statistic is only meaningful for those observations with value 1.</p>
+<p>For example, we can call the function <code>local_joincount()</code> with a Queen weights and the data “TopCrm”, which is a set of binary (0,1) values, as input parameters:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">localjc_crm &lt;-<span class="st"> </span><span class="kw">local_joincount</span>(queen_w, guerry<span class="op">$</span>table<span class="op">$</span>TopCrm)</a></code></pre></div>
+<p>To get the cluster indicators of the local Join Count computation:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">localjc_crm<span class="op">$</span><span class="kw">GetClusterIndicators</span>()</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="co">#&gt;  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="co">#&gt; [36] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0</span></a>
+<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="co">#&gt; [71] 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0</span></a></code></pre></div>
+<p>To get the pseudo-p values of the local Join Count computation:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">localjc_crm<span class="op">$</span><span class="kw">GetPValues</span>()</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="co">#&gt;  [1] 0.395 0.085 0.094 0.001 0.001 0.001 0.231 0.001 0.001 0.001 0.001</span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="co">#&gt; [12] 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.136 0.256 0.370 0.001</span></a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="co">#&gt; [23] 0.001 0.001 0.001 0.001 0.112 0.001 0.001 0.001 0.001 0.001 0.001</span></a>
+<a class="sourceLine" id="cb47-5" data-line-number="5"><span class="co">#&gt; [34] 0.094 0.001 0.001 0.195 0.001 0.001 0.274 0.001 0.001 0.001 0.001</span></a>
+<a class="sourceLine" id="cb47-6" data-line-number="6"><span class="co">#&gt; [45] 0.001 0.001 0.236 0.416 0.001 0.378 0.039 0.212 0.182 0.384 0.001</span></a>
+<a class="sourceLine" id="cb47-7" data-line-number="7"><span class="co">#&gt; [56] 0.318 0.033 0.379 0.307 0.107 0.001 0.001 0.001 0.001 0.001 0.001</span></a>
+<a class="sourceLine" id="cb47-8" data-line-number="8"><span class="co">#&gt; [67] 0.001 0.001 0.012 0.326 0.001 0.001 0.001 0.001 0.001 0.041 0.001</span></a>
+<a class="sourceLine" id="cb47-9" data-line-number="9"><span class="co">#&gt; [78] 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001</span></a></code></pre></div>
+<p>To get the number of neighbors of the local Join Count computation:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">localjc_crm<span class="op">$</span><span class="kw">GetNumNeighbors</span>()</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="co">#&gt;  [1] 4 6 6 4 3 7 3 3 5 5 7 3 3 6 5 5 6 6 7 3 6 7 2 5 6 6 2 6 6 6 4 4 6 6 5</span></a>
+<a class="sourceLine" id="cb48-3" data-line-number="3"><span class="co">#&gt; [36] 6 5 4 6 7 5 4 7 6 6 5 8 4 6 6 5 4 5 4 2 6 3 6 6 2 6 3 3 2 4 2 4 5 7 6</span></a>
+<a class="sourceLine" id="cb48-4" data-line-number="4"><span class="co">#&gt; [71] 2 3 8 6 5 5 5 6 3 6 4 6 6 6 5</span></a></code></pre></div>
+</div>
+<div id="multivariate-local-join-count" class="section level4">
+<h4>4.1.6 Multivariate Local Join Count:</h4>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">bin_data &lt;-<span class="st"> </span><span class="kw">list</span>(guerry<span class="op">$</span>table<span class="op">$</span>TopWealth, guerry<span class="op">$</span>table<span class="op">$</span>TopLit)</a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">multijc &lt;-<span class="st"> </span><span class="kw">local_multijoincount</span>(queen_w, bin_data)</a></code></pre></div>
+<p>To get the cluster indicators of the multivariate local join count computation:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">multijc<span class="op">$</span><span class="kw">GetClusterIndicators</span>()</a>
+<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="co">#&gt;  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb50-3" data-line-number="3"><span class="co">#&gt; [36] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0</span></a>
+<a class="sourceLine" id="cb50-4" data-line-number="4"><span class="co">#&gt; [71] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span></a></code></pre></div>
+</div>
+<div id="quantile-lisa" class="section level4">
+<h4>4.1.7 Quantile LISA</h4>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">qsa &lt;-<span class="st"> </span><span class="kw">local_quantilelisa</span>(queen_w, <span class="dv">4</span>, <span class="dv">1</span>, crm_prp)</a></code></pre></div>
+<p>To get the cluster indicators of the quantile LISA computation:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">qsa<span class="op">$</span><span class="kw">GetClusterIndicators</span>()</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="co">#&gt;  [1] 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb52-3" data-line-number="3"><span class="co">#&gt; [36] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb52-4" data-line-number="4"><span class="co">#&gt; [71] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span></a></code></pre></div>
+</div>
+</div>
+<div id="spatializing-multivariate-analysis" class="section level3">
+<h3>4.2 Spatializing Multivariate Analysis</h3>
+<div id="pincinple-components" class="section level4">
+<h4>4.2.1 Pincinple Components</h4>
+<p>This PCA function aims to reproduce the PCA feature and results in GeoDa. However, one can use <code>prcomp</code> function in R to apply same PCA computations.</p>
+<p>For example, the following example will apply PCA on 6 variables. The <code>standardize()</code> function is called to standardize the data, which <code>pca()</code> function applies on.</p>
+<p>Other standardization functions include: <code>demean()</code> and <code>mad()</code>, which are same in GeoDa program.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="co">#data &lt;- list(guerry$table$Crm_prs, guerry$table$Crm_prp, guerry$table$Litercy, guerry$table$Donatns, guerry$table$Infants, guerry$table$Suicids)</span></a>
+<a class="sourceLine" id="cb53-2" data-line-number="2">std_data &lt;-<span class="st"> </span><span class="kw">standardize</span>(data)</a>
+<a class="sourceLine" id="cb53-3" data-line-number="3">pc &lt;-<span class="st"> </span><span class="kw">pca</span>(std_data)</a>
+<a class="sourceLine" id="cb53-4" data-line-number="4"><span class="kw">summary</span>(pc)</a>
+<a class="sourceLine" id="cb53-5" data-line-number="5"><span class="co">#&gt; $`PCA method: `</span></a>
+<a class="sourceLine" id="cb53-6" data-line-number="6"><span class="co">#&gt; [1] &quot;svd&quot;</span></a>
+<a class="sourceLine" id="cb53-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-8" data-line-number="8"><span class="co">#&gt; $`Standard Deviation:`</span></a>
+<a class="sourceLine" id="cb53-9" data-line-number="9"><span class="co">#&gt; [1] 1.4630340 1.0958195 1.0497845 0.8166800 0.7407258 0.5839707</span></a>
+<a class="sourceLine" id="cb53-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-11" data-line-number="11"><span class="co">#&gt; $`Proportion of variance:`</span></a>
+<a class="sourceLine" id="cb53-12" data-line-number="12"><span class="co">#&gt; [1] 0.35674483 0.20013675 0.18367462 0.11116106 0.09144579 0.05683697</span></a>
+<a class="sourceLine" id="cb53-13" data-line-number="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-14" data-line-number="14"><span class="co">#&gt; $`Cumulative proportion:`</span></a>
+<a class="sourceLine" id="cb53-15" data-line-number="15"><span class="co">#&gt; [1] 0.3567448 0.5568815 0.7405562 0.8517172 0.9431630 1.0000000</span></a>
+<a class="sourceLine" id="cb53-16" data-line-number="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-17" data-line-number="17"><span class="co">#&gt; $`Kaiser criterion:`</span></a>
+<a class="sourceLine" id="cb53-18" data-line-number="18"><span class="co">#&gt; [1] 3</span></a>
+<a class="sourceLine" id="cb53-19" data-line-number="19"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-20" data-line-number="20"><span class="co">#&gt; $`95% threshold criterion:`</span></a>
+<a class="sourceLine" id="cb53-21" data-line-number="21"><span class="co">#&gt; [1] 5</span></a>
+<a class="sourceLine" id="cb53-22" data-line-number="22"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-23" data-line-number="23"><span class="co">#&gt; $`Eigen Values:`</span></a>
+<a class="sourceLine" id="cb53-24" data-line-number="24"><span class="co">#&gt; [1] 2.1404686 1.2008203 1.1020476 0.6669663 0.5486748 0.3410218</span></a>
+<a class="sourceLine" id="cb53-25" data-line-number="25"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-26" data-line-number="26"><span class="co">#&gt; $`Variable Loadings:`</span></a>
+<a class="sourceLine" id="cb53-27" data-line-number="27"><span class="co">#&gt; $`Variable Loadings:`[[1]]</span></a>
+<a class="sourceLine" id="cb53-28" data-line-number="28"><span class="co">#&gt; [1] -0.06586844 -0.51232553  0.51175290 -0.10619514 -0.45133743 -0.50627047</span></a>
+<a class="sourceLine" id="cb53-29" data-line-number="29"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-30" data-line-number="30"><span class="co">#&gt; $`Variable Loadings:`[[2]]</span></a>
+<a class="sourceLine" id="cb53-31" data-line-number="31"><span class="co">#&gt; [1] -0.5123255  0.5117529 -0.1061951 -0.4513374 -0.5062705 -0.5905984</span></a>
+<a class="sourceLine" id="cb53-32" data-line-number="32"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-33" data-line-number="33"><span class="co">#&gt; $`Variable Loadings:`[[3]]</span></a>
+<a class="sourceLine" id="cb53-34" data-line-number="34"><span class="co">#&gt; [1]  0.5117529 -0.1061951 -0.4513374 -0.5062705 -0.5905984  0.0883673</span></a>
+<a class="sourceLine" id="cb53-35" data-line-number="35"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-36" data-line-number="36"><span class="co">#&gt; $`Variable Loadings:`[[4]]</span></a>
+<a class="sourceLine" id="cb53-37" data-line-number="37"><span class="co">#&gt; [1] -0.1061951 -0.4513374 -0.5062705 -0.5905984  0.0883673  0.1293611</span></a>
+<a class="sourceLine" id="cb53-38" data-line-number="38"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-39" data-line-number="39"><span class="co">#&gt; $`Variable Loadings:`[[5]]</span></a>
+<a class="sourceLine" id="cb53-40" data-line-number="40"><span class="co">#&gt; [1] -0.4513374 -0.5062705 -0.5905984  0.0883673  0.1293611 -0.6989980</span></a>
+<a class="sourceLine" id="cb53-41" data-line-number="41"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-42" data-line-number="42"><span class="co">#&gt; $`Variable Loadings:`[[6]]</span></a>
+<a class="sourceLine" id="cb53-43" data-line-number="43"><span class="co">#&gt; [1] -0.5062705 -0.5905984  0.0883673  0.1293611 -0.6989980 -0.1033123</span></a>
+<a class="sourceLine" id="cb53-44" data-line-number="44"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-45" data-line-number="45"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-46" data-line-number="46"><span class="co">#&gt; $`Squared Correlations:`</span></a>
+<a class="sourceLine" id="cb53-47" data-line-number="47"><span class="co">#&gt; $`Squared Correlations:`[[1]]</span></a>
+<a class="sourceLine" id="cb53-48" data-line-number="48"><span class="co">#&gt; [1] 9.286812e-03 4.188536e-01 4.994276e-01 1.302188e-02 5.682668e-05</span></a>
+<a class="sourceLine" id="cb53-49" data-line-number="49"><span class="co">#&gt; [6] 5.935308e-02</span></a>
+<a class="sourceLine" id="cb53-50" data-line-number="50"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-51" data-line-number="51"><span class="co">#&gt; $`Squared Correlations:`[[2]]</span></a>
+<a class="sourceLine" id="cb53-52" data-line-number="52"><span class="co">#&gt; [1] 0.561825454 0.009376963 0.250265568 0.006484959 0.010457415 0.161589921</span></a>
+<a class="sourceLine" id="cb53-53" data-line-number="53"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-54" data-line-number="54"><span class="co">#&gt; $`Squared Correlations:`[[3]]</span></a>
+<a class="sourceLine" id="cb53-55" data-line-number="55"><span class="co">#&gt; [1] 5.605701e-01 2.009490e-02 4.815156e-02 4.233069e-05 3.700718e-01</span></a>
+<a class="sourceLine" id="cb53-56" data-line-number="56"><span class="co">#&gt; [6] 1.069382e-03</span></a>
+<a class="sourceLine" id="cb53-57" data-line-number="57"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-58" data-line-number="58"><span class="co">#&gt; $`Squared Correlations:`[[4]]</span></a>
+<a class="sourceLine" id="cb53-59" data-line-number="59"><span class="co">#&gt; [1] 0.02413891 0.58671862 0.18833773 0.14920925 0.04125461 0.01034097</span></a>
+<a class="sourceLine" id="cb53-60" data-line-number="60"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-61" data-line-number="61"><span class="co">#&gt; $`Squared Correlations:`[[5]]</span></a>
+<a class="sourceLine" id="cb53-62" data-line-number="62"><span class="co">#&gt; [1] 0.436025709 0.012816893 0.115551390 0.355727494 0.078226551 0.001651996</span></a>
+<a class="sourceLine" id="cb53-63" data-line-number="63"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb53-64" data-line-number="64"><span class="co">#&gt; $`Squared Correlations:`[[6]]</span></a>
+<a class="sourceLine" id="cb53-65" data-line-number="65"><span class="co">#&gt; [1] 0.5486234426 0.1529589146 0.0003130297 0.1424801946 0.0486078747</span></a>
+<a class="sourceLine" id="cb53-66" data-line-number="66"><span class="co">#&gt; [6] 0.1070163175</span></a></code></pre></div>
+<p>With the returned object <code>pc</code>, one can call <code>get_kcomponents()</code> function to get first K components:</p>
+<p>For example, to get first 3 components</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw">get_kcomponents</span>(pc, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb54-3" data-line-number="3"><span class="co">#&gt;  [1] -2.15079784  1.24630284 -2.07714891  0.60372376  0.96266198</span></a>
+<a class="sourceLine" id="cb54-4" data-line-number="4"><span class="co">#&gt;  [6] -2.02217531  0.83754289 -2.31564236  1.71969211 -0.99525052</span></a>
+<a class="sourceLine" id="cb54-5" data-line-number="5"><span class="co">#&gt; [11] -1.30435145  1.50636125  1.09195995 -1.42777729 -1.00126719</span></a>
+<a class="sourceLine" id="cb54-6" data-line-number="6"><span class="co">#&gt; [16]  0.34988350 -1.24823558 -1.98039460  0.87822956 -2.18980956</span></a>
+<a class="sourceLine" id="cb54-7" data-line-number="7"><span class="co">#&gt; [21] -3.22537541 -1.10068703  1.73498404  0.58726311  1.32815874</span></a>
+<a class="sourceLine" id="cb54-8" data-line-number="8"><span class="co">#&gt; [26]  1.69590640 -1.29646063 -0.05494371 -0.14791185 -0.58604223</span></a>
+<a class="sourceLine" id="cb54-9" data-line-number="9"><span class="co">#&gt; [31]  0.80251622 -0.19949876 -1.47620130 -0.68854648  0.26585680</span></a>
+<a class="sourceLine" id="cb54-10" data-line-number="10"><span class="co">#&gt; [36]  0.04394481  0.94991171  0.07063645  0.61062211 -2.19973874</span></a>
+<a class="sourceLine" id="cb54-11" data-line-number="11"><span class="co">#&gt; [41] -4.76963949 -0.32964194  1.48016524 -0.74878561 -0.35999349</span></a>
+<a class="sourceLine" id="cb54-12" data-line-number="12"><span class="co">#&gt; [46]  0.26808232 -0.55363011  0.05715972  2.13901687  1.03593326</span></a>
+<a class="sourceLine" id="cb54-13" data-line-number="13"><span class="co">#&gt; [51] -0.63324934  1.69777215  1.27213883 -1.56710339  1.53337324</span></a>
+<a class="sourceLine" id="cb54-14" data-line-number="14"><span class="co">#&gt; [56] -0.67340422  1.28850329  1.13373721 -0.07612546  1.69624293</span></a>
+<a class="sourceLine" id="cb54-15" data-line-number="15"><span class="co">#&gt; [61] -2.13737488  0.08742628 -1.27229607 -0.01182331  1.59204471</span></a>
+<a class="sourceLine" id="cb54-16" data-line-number="16"><span class="co">#&gt; [66]  2.02312613  1.93588793  0.78383493 -0.53895044  0.14461297</span></a>
+<a class="sourceLine" id="cb54-17" data-line-number="17"><span class="co">#&gt; [71]  3.49998665  1.97162461  1.40403152  1.96229410 -0.12139815</span></a>
+<a class="sourceLine" id="cb54-18" data-line-number="18"><span class="co">#&gt; [76]  0.89586586 -1.20020568 -0.88919276 -0.01788428  0.84583360</span></a>
+<a class="sourceLine" id="cb54-19" data-line-number="19"><span class="co">#&gt; [81] -3.16539955 -0.47796935 -0.64045554  0.80463821  1.03328919</span></a>
+<a class="sourceLine" id="cb54-20" data-line-number="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb54-21" data-line-number="21"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb54-22" data-line-number="22"><span class="co">#&gt;  [1] -0.4527585506 -1.0172367096 -0.4506332278  0.8762004375  0.1175051630</span></a>
+<a class="sourceLine" id="cb54-23" data-line-number="23"><span class="co">#&gt;  [6]  1.2471966743 -1.0354368687  2.4068284035  0.2288773656  1.3052561283</span></a>
+<a class="sourceLine" id="cb54-24" data-line-number="24"><span class="co">#&gt; [11]  2.2329857349  0.8711666465 -2.7800273895  1.1981728077 -1.3957386017</span></a>
+<a class="sourceLine" id="cb54-25" data-line-number="25"><span class="co">#&gt; [16] -1.1938062906 -0.9319203496 -0.7427287698 -0.3932662606 -1.1850622892</span></a>
+<a class="sourceLine" id="cb54-26" data-line-number="26"><span class="co">#&gt; [21] -1.2337827682  0.0391844995  1.4692529440  0.9954308867 -0.5276314020</span></a>
+<a class="sourceLine" id="cb54-27" data-line-number="27"><span class="co">#&gt; [26]  0.0052912235 -3.7251703739  0.7714666128  0.9288847446  1.0575201511</span></a>
+<a class="sourceLine" id="cb54-28" data-line-number="28"><span class="co">#&gt; [31] -0.2037402093  1.3441133499 -0.6145500541 -1.9812527895 -0.3403103948</span></a>
+<a class="sourceLine" id="cb54-29" data-line-number="29"><span class="co">#&gt; [36]  0.4891647100  0.2438151687 -0.6851536632 -0.2789261043  0.1960459650</span></a>
+<a class="sourceLine" id="cb54-30" data-line-number="30"><span class="co">#&gt; [41]  2.3337526321 -0.2917928696  0.2283707857  1.4030313492  0.0939905122</span></a>
+<a class="sourceLine" id="cb54-31" data-line-number="31"><span class="co">#&gt; [46]  1.1593261957 -0.5887037516 -0.3914591968  0.6122305393 -0.0005217344</span></a>
+<a class="sourceLine" id="cb54-32" data-line-number="32"><span class="co">#&gt; [51] -0.2126427293 -0.1144591570  0.0500445664 -1.7837839127  0.2014352381</span></a>
+<a class="sourceLine" id="cb54-33" data-line-number="33"><span class="co">#&gt; [56] -1.1722066402 -0.6031852961 -0.7491376400 -1.0345443487 -0.2920551002</span></a>
+<a class="sourceLine" id="cb54-34" data-line-number="34"><span class="co">#&gt; [61]  0.7276004553  1.2423870564  2.2319626808  0.3553900719 -0.5595567822</span></a>
+<a class="sourceLine" id="cb54-35" data-line-number="35"><span class="co">#&gt; [66]  1.1510205269  0.6762453318 -0.6442477703 -0.3994759917 -0.6871493459</span></a>
+<a class="sourceLine" id="cb54-36" data-line-number="36"><span class="co">#&gt; [71]  0.7143861651 -0.2325166762 -0.2274321616  0.6617624760 -1.5715823174</span></a>
+<a class="sourceLine" id="cb54-37" data-line-number="37"><span class="co">#&gt; [76] -1.0274018049  1.0900812149  0.7256541848  0.8817523718  1.0478113890</span></a>
+<a class="sourceLine" id="cb54-38" data-line-number="38"><span class="co">#&gt; [81] -1.3642948866 -0.4680343866 -1.0020393133  0.6873189211  0.2874433696</span></a>
+<a class="sourceLine" id="cb54-39" data-line-number="39"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb54-40" data-line-number="40"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb54-41" data-line-number="41"><span class="co">#&gt;  [1] -1.66799724 -0.31462803 -0.07048267  0.47869289  0.00525923</span></a>
+<a class="sourceLine" id="cb54-42" data-line-number="42"><span class="co">#&gt;  [6]  1.27775264 -2.01790786  1.08377373  0.12464118 -0.26167497</span></a>
+<a class="sourceLine" id="cb54-43" data-line-number="43"><span class="co">#&gt; [11]  1.12701774  0.30989689  2.02507019 -0.70055324 -0.61895663</span></a>
+<a class="sourceLine" id="cb54-44" data-line-number="44"><span class="co">#&gt; [16]  1.26067650  0.13994022  0.67642587 -2.05223727  0.52698410</span></a>
+<a class="sourceLine" id="cb54-45" data-line-number="45"><span class="co">#&gt; [21] -3.13812375 -0.34984887  0.15795122  0.16967219  1.14865243</span></a>
+<a class="sourceLine" id="cb54-46" data-line-number="46"><span class="co">#&gt; [26] -0.04162211  1.35208511  0.65789407 -0.19445431 -0.75118661</span></a>
+<a class="sourceLine" id="cb54-47" data-line-number="47"><span class="co">#&gt; [31] -0.75471002 -0.23062927  1.05399203 -0.40653789  0.34343180</span></a>
+<a class="sourceLine" id="cb54-48" data-line-number="48"><span class="co">#&gt; [36] -0.31112960 -1.27419460  0.93029964  0.02720148 -1.22925198</span></a>
+<a class="sourceLine" id="cb54-49" data-line-number="49"><span class="co">#&gt; [41] -0.98689252 -0.03388155  0.13261238  1.21204257 -0.58923507</span></a>
+<a class="sourceLine" id="cb54-50" data-line-number="50"><span class="co">#&gt; [46]  1.41246438 -1.00878584 -1.31356204  0.07231057 -1.50667369</span></a>
+<a class="sourceLine" id="cb54-51" data-line-number="51"><span class="co">#&gt; [51] -1.14036369 -1.27124703 -1.30463350  1.13268960  1.08635914</span></a>
+<a class="sourceLine" id="cb54-52" data-line-number="52"><span class="co">#&gt; [56]  0.05002058 -0.83821458 -0.86786515 -0.61552852 -0.18724760</span></a>
+<a class="sourceLine" id="cb54-53" data-line-number="53"><span class="co">#&gt; [61] -0.11673179 -0.44532412 -0.12393313  1.63498080  1.39351642</span></a>
+<a class="sourceLine" id="cb54-54" data-line-number="54"><span class="co">#&gt; [66]  1.03854430 -0.37857199 -0.27956575 -1.32880223 -1.82409549</span></a>
+<a class="sourceLine" id="cb54-55" data-line-number="55"><span class="co">#&gt; [71]  0.39723620  0.51845258 -0.25960159  0.80245513  1.39410090</span></a>
+<a class="sourceLine" id="cb54-56" data-line-number="56"><span class="co">#&gt; [76] -1.57615566  1.20807958  0.50640631  0.05387082  0.43062329</span></a>
+<a class="sourceLine" id="cb54-57" data-line-number="57"><span class="co">#&gt; [81]  2.29930806  1.91082525  1.52598381 -0.72471607  0.01756289</span></a></code></pre></div>
+</div>
+<div id="multi-dimensional-scaling" class="section level4">
+<h4>4.2.1 Multi Dimensional Scaling</h4>
+<p>The mds() function is to apply multi-dimensional scaling on input data, with output of a K-dimensional array data. K should be an input parameter for mds() function.</p>
+<p>For example, to apply mds() on the 6 selected variables, and scaling down to a 2-d space:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="co">#data &lt;- list(guerry$table$Crm_prs, guerry$table$Crm_prp, guerry$table$Litercy, guerry$table$Donatns, guerry$table$Infants, guerry$table$Suicids)</span></a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb55-3" data-line-number="3">std_data &lt;-<span class="st"> </span><span class="kw">standardize</span>(data)</a>
+<a class="sourceLine" id="cb55-4" data-line-number="4">pc &lt;-<span class="st"> </span><span class="kw">pca</span>(std_data)</a>
+<a class="sourceLine" id="cb55-5" data-line-number="5">mds_v &lt;-<span class="st"> </span><span class="kw">mds</span>(std_data, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb55-6" data-line-number="6">mds_v</a>
+<a class="sourceLine" id="cb55-7" data-line-number="7"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb55-8" data-line-number="8"><span class="co">#&gt;  [1] -2.15079914  1.24630268 -2.07714878  0.60372394  0.96266208</span></a>
+<a class="sourceLine" id="cb55-9" data-line-number="9"><span class="co">#&gt;  [6] -2.02217510  0.83754212 -2.31564183  1.71969219 -0.99525060</span></a>
+<a class="sourceLine" id="cb55-10" data-line-number="10"><span class="co">#&gt; [11] -1.30435076  1.50636158  1.09196128 -1.42777743 -1.00126761</span></a>
+<a class="sourceLine" id="cb55-11" data-line-number="11"><span class="co">#&gt; [16]  0.34988392 -1.24823585 -1.98039435  0.87822863 -2.18980981</span></a>
+<a class="sourceLine" id="cb55-12" data-line-number="12"><span class="co">#&gt; [21] -3.22537671 -1.10068748  1.73498453  0.58726327  1.32815937</span></a>
+<a class="sourceLine" id="cb55-13" data-line-number="13"><span class="co">#&gt; [26]  1.69590647 -1.29646036 -0.05494364 -0.14791185 -0.58604238</span></a>
+<a class="sourceLine" id="cb55-14" data-line-number="14"><span class="co">#&gt; [31]  0.80251602 -0.19949879 -1.47620137 -0.68854692  0.26585690</span></a>
+<a class="sourceLine" id="cb55-15" data-line-number="15"><span class="co">#&gt; [36]  0.04394477  0.94991127  0.07063695  0.61062210 -2.19973976</span></a>
+<a class="sourceLine" id="cb55-16" data-line-number="16"><span class="co">#&gt; [41] -4.76964008 -0.32964200  1.48016556 -0.74878501 -0.35999381</span></a>
+<a class="sourceLine" id="cb55-17" data-line-number="17"><span class="co">#&gt; [46]  0.26808279 -0.55363073  0.05715920  2.13901710  1.03593266</span></a>
+<a class="sourceLine" id="cb55-18" data-line-number="18"><span class="co">#&gt; [51] -0.63325014  1.69777170  1.27213835 -1.56710325  1.53337397</span></a>
+<a class="sourceLine" id="cb55-19" data-line-number="19"><span class="co">#&gt; [56] -0.67340435  1.28850297  1.13373674 -0.07612582  1.69624307</span></a>
+<a class="sourceLine" id="cb55-20" data-line-number="20"><span class="co">#&gt; [61] -2.13737510  0.08742638 -1.27229550 -0.01182236  1.59204555</span></a>
+<a class="sourceLine" id="cb55-21" data-line-number="21"><span class="co">#&gt; [66]  2.02312714  1.93588814  0.78383508 -0.53895129  0.14461212</span></a>
+<a class="sourceLine" id="cb55-22" data-line-number="22"><span class="co">#&gt; [71]  3.49998720  1.97162518  1.40403139  1.96229461 -0.12139763</span></a>
+<a class="sourceLine" id="cb55-23" data-line-number="23"><span class="co">#&gt; [76]  0.89586507 -1.20020531 -0.88919260 -0.01788424  0.84583380</span></a>
+<a class="sourceLine" id="cb55-24" data-line-number="24"><span class="co">#&gt; [81] -3.16539934 -0.47796907 -0.64045496  0.80463804  1.03328917</span></a>
+<a class="sourceLine" id="cb55-25" data-line-number="25"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb55-26" data-line-number="26"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb55-27" data-line-number="27"><span class="co">#&gt;  [1]  0.4527536271  1.0172360777  0.4506333060 -0.8761993256 -0.1175050604</span></a>
+<a class="sourceLine" id="cb55-28" data-line-number="28"><span class="co">#&gt;  [6] -1.2471938904  1.0354317522 -2.4068255542 -0.2288768376 -1.3052569054</span></a>
+<a class="sourceLine" id="cb55-29" data-line-number="29"><span class="co">#&gt; [11] -2.2329825675 -0.8711658576  2.7800335222 -1.1981746825  1.3957368458</span></a>
+<a class="sourceLine" id="cb55-30" data-line-number="30"><span class="co">#&gt; [16]  1.1938096673  0.9319203178  0.7427303650  0.3932609148  1.1850635503</span></a>
+<a class="sourceLine" id="cb55-31" data-line-number="31"><span class="co">#&gt; [21]  1.2337742453 -0.0391857512 -1.4692520664 -0.9954304939  0.5276346328</span></a>
+<a class="sourceLine" id="cb55-32" data-line-number="32"><span class="co">#&gt; [26] -0.0052911254  3.7251741858 -0.7714651225 -0.9288852134 -1.0575222027</span></a>
+<a class="sourceLine" id="cb55-33" data-line-number="33"><span class="co">#&gt; [31]  0.2037382670 -1.3441142042  0.6145525650  1.9812515041  0.3403112204</span></a>
+<a class="sourceLine" id="cb55-34" data-line-number="34"><span class="co">#&gt; [36] -0.4891656117 -0.2438184179  0.6851562571  0.2789261438 -0.1960495395</span></a>
+<a class="sourceLine" id="cb55-35" data-line-number="35"><span class="co">#&gt; [41] -2.3337555238  0.2917926603 -0.2283703585 -1.4030283522 -0.0939921633</span></a>
+<a class="sourceLine" id="cb55-36" data-line-number="36"><span class="co">#&gt; [46] -1.1593228571  0.5887008391  0.3914559889 -0.6122301079  0.0005178202</span></a>
+<a class="sourceLine" id="cb55-37" data-line-number="37"><span class="co">#&gt; [51]  0.2126394543  0.1144559991 -0.0500478842  1.7837865496 -0.2014320665</span></a>
+<a class="sourceLine" id="cb55-38" data-line-number="38"><span class="co">#&gt; [56]  1.1722066773  0.6031832609  0.7491354510  1.0345427824  0.2920548746</span></a>
+<a class="sourceLine" id="cb55-39" data-line-number="39"><span class="co">#&gt; [61] -0.7276009862 -1.2423880289 -2.2319623928 -0.3553856899  0.5595608248</span></a>
+<a class="sourceLine" id="cb55-40" data-line-number="40"><span class="co">#&gt; [66] -1.1510175196 -0.6762460298  0.6442473714  0.3994723166  0.6871446314</span></a>
+<a class="sourceLine" id="cb55-41" data-line-number="41"><span class="co">#&gt; [71] -0.7143845504  0.2325183231  0.2274315570 -0.6617601262  1.5715860386</span></a>
+<a class="sourceLine" id="cb55-42" data-line-number="42"><span class="co">#&gt; [76]  1.0273976841 -1.0900782001 -0.7256530463 -0.8817525785 -1.0478103198</span></a>
+<a class="sourceLine" id="cb55-43" data-line-number="43"><span class="co">#&gt; [81]  1.3643006281  0.4680391875  1.0020432867 -0.6873206957 -0.2874432665</span></a></code></pre></div>
+</div>
+</div>
+<div id="spatial-clustering" class="section level3">
+<h3>4.3 Spatial Clustering</h3>
+<p>Spatial clustering aims to group of a large number of geographic areas or points into a smaller number of regions based on similiarities in one or more variables. Spatially constrained clustering is needed when clusters are required to be spatially contiguous.</p>
+<p>In GeoDa, there are three different approaches explicitly incorporate the contiguity constraint in the optimization process: SKATER, Redcap and Max-p. More more details, please check: <a href="http://geodacenter.github.io/workbook/8_spatial_clusters/lab8.html" class="uri">http://geodacenter.github.io/workbook/8_spatial_clusters/lab8.html</a> All of these methods are included in rgeoda 0.0.4.</p>
+<p>For example, to apply spatial clustering on the Guerry dataset, we use the queen weights to define the spatial contiguity and select 6 variables for similarity measure: “Crm_prs”, “Crm_prp”, “Litercy”, “Donatns”, “Infants”, “Suicids”.</p>
+<p>The following code is used to get a 2D data vector for the selected variables:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw">list</span>(guerry<span class="op">$</span>table<span class="op">$</span>Crm_prs, guerry<span class="op">$</span>table<span class="op">$</span>Crm_prp, guerry<span class="op">$</span>table<span class="op">$</span>Litercy, guerry<span class="op">$</span>table<span class="op">$</span>Donatns, guerry<span class="op">$</span>table<span class="op">$</span>Infants, guerry<span class="op">$</span>table<span class="op">$</span>Suicids)</a></code></pre></div>
+<div id="skater" class="section level4">
+<h4>4.3.1 SKATER</h4>
+<p>The Spatial C(K)luster Analysis by Tree Edge Removal(SKATER) algorithm introduced by Assuncao et al. (2006) is based on the optimal pruning of a minimum spanning tree that reflects the contiguity structure among the observations. It provides an optimized algorithm to prune to tree into several clusters that their values of selected variables are as similar as possible.</p>
+<p>The rgeoda’s SKATER function is:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">skater</span>(k, w, data, <span class="dt">distance_method=</span><span class="st">'euclidean'</span>, <span class="dt">bound_vals =</span> [],  <span class="dt">min_bound =</span> <span class="dv">0</span>, <span class="dt">random_seed=</span><span class="dv">123456789</span>)</a></code></pre></div>
+<p>For example, to create 4 spatially contiguous clusters using Guerry dataset, the queen weights and the values of the 6 selected variables:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">guerry_clusters &lt;-<span class="st"> </span><span class="kw">skater</span>(<span class="dv">4</span>, queen_w, data)</a></code></pre></div>
+<p>This <code>skater()</code> function returns a 2D list, which represents 4 clusters. Each cluster is composed by several contiguity areas, e.g. 15, 74, 16, 55, 60, 39, 68, 33, 17, 82, 81, 0, 2, 40, 20, 80</p>
+<p>rgeoda also provides utility functions to compute some descriptive statistics of the clustering results, e.g. to compute the ratio of between to total sum of squares:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">betweenss &lt;-<span class="st"> </span><span class="kw">between_sumofsquare</span>(guerry_clusters, data)</a>
+<a class="sourceLine" id="cb59-2" data-line-number="2">totalss &lt;-<span class="st"> </span><span class="kw">total_sumofsquare</span>( data)</a>
+<a class="sourceLine" id="cb59-3" data-line-number="3">ratio &lt;-<span class="st">  </span>betweenss <span class="op">/</span><span class="st"> </span>totalss</a>
+<a class="sourceLine" id="cb59-4" data-line-number="4"><span class="kw">cat</span>(<span class="st">&quot;The ratio of between to total sum of square:&quot;</span>, ratio)</a>
+<a class="sourceLine" id="cb59-5" data-line-number="5"><span class="co">#&gt; The ratio of between to total sum of square: 0.3156447</span></a></code></pre></div>
+</div>
+<div id="redcap" class="section level4">
+<h4>4.3.2 REDCAP</h4>
+<p>REDCAP (Regionalization with dynamically constrained agglomerative clustering and partitioning) is developed by D. Guo (2008). Like SKATER, REDCAP starts from building a spanning tree with 3 different ways (single-linkage, average-linkage, and the complete-linkage). The single-linkage way leads to build a minimum spanning tree. Then,REDCAP provides 2 different ways (first‐order and full-order constraining) to prune the tree to find clusters. The first-order approach with a minimum spanning tree is exactly the same with SKATER. In GeoDa and rgeoda, the following methods are provided:</p>
+<ul>
+<li>First-order and Single-linkage</li>
+<li>Full-order and Complete-linkage</li>
+<li>Full-order and Average-linkage</li>
+<li>Full-order and Single-linkage</li>
+</ul>
+<p>For example, to find 4 clusters using the same dataset and weights as above using REDCAP with Full-order and Complete-linkage method:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">redcap_clusters &lt;-<span class="st"> </span><span class="kw">redcap</span>(<span class="dv">4</span>, queen_w, data, <span class="st">&quot;fullorder-completelinkage&quot;</span>)</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2">redcap_clusters</a>
+<a class="sourceLine" id="cb60-3" data-line-number="3"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb60-4" data-line-number="4"><span class="co">#&gt;  [1] 46 50 34 38 69 47 58 19 32 41 53 26</span></a>
+<a class="sourceLine" id="cb60-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb60-6" data-line-number="6"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb60-7" data-line-number="7"><span class="co">#&gt;  [1] 49 52 72 84  8 57 56 59 42  1 25 51 48 54 64 75 18 83 73 36 24 71  6</span></a>
+<a class="sourceLine" id="cb60-8" data-line-number="8"><span class="co">#&gt; [24] 67 65 70 22 12</span></a>
+<a class="sourceLine" id="cb60-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb60-10" data-line-number="10"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb60-11" data-line-number="11"><span class="co">#&gt;  [1] 15 74 16 55 60 39 68 33 17 82 81  0  2 40 20 80</span></a>
+<a class="sourceLine" id="cb60-12" data-line-number="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb60-13" data-line-number="13"><span class="co">#&gt; [[4]]</span></a>
+<a class="sourceLine" id="cb60-14" data-line-number="14"><span class="co">#&gt;  [1] 23 79  3 29 61 21 44 11 28 13 30 35 76 77 43  9 27 45 31 78  4 10 66</span></a>
+<a class="sourceLine" id="cb60-15" data-line-number="15"><span class="co">#&gt; [24] 37  5 14  7 63 62</span></a>
+<a class="sourceLine" id="cb60-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb60-17" data-line-number="17">betweenss &lt;-<span class="st"> </span><span class="kw">between_sumofsquare</span>(redcap_clusters, data)</a>
+<a class="sourceLine" id="cb60-18" data-line-number="18">totalss &lt;-<span class="st"> </span><span class="kw">total_sumofsquare</span>( data)</a>
+<a class="sourceLine" id="cb60-19" data-line-number="19">ratio &lt;-<span class="st"> </span>betweenss <span class="op">/</span><span class="st"> </span>totalss</a>
+<a class="sourceLine" id="cb60-20" data-line-number="20"><span class="kw">cat</span>(<span class="st">&quot;The ratio of between to total sum of square:&quot;</span>, ratio)</a>
+<a class="sourceLine" id="cb60-21" data-line-number="21"><span class="co">#&gt; The ratio of between to total sum of square: 0.3156447</span></a></code></pre></div>
+</div>
+<div id="max-p" class="section level4">
+<h4>4.3.3 Max-p</h4>
+<p>The so-called max-p regions model (outlined in Duque, Anselin, and Rey 2012) uses a different approach and considers the regionalization problem as an application of integer programming. In addition, the number of regions is determined endogenously.</p>
+<p>The algorithm itself consists of a search process that starts with an initial feasible solution and iteratively improves upon it while maintaining contiguity among the elements of each cluster. Like Geoda, rgeoda provides three different heuristic algorithms to find an optimal solution for max-p:</p>
+<ul>
+<li>greedy</li>
+<li>Tabu Search</li>
+<li>Simulated Annealing</li>
+</ul>
+<p>Unlike SKATER and REDCAP that one can specify the number of clusters as an input paramter, max-p doesn’t allow to specify the number of clusters explicitly, but a constrained variable and the minimum bounding value that each cluster should reach that are used to find an optimized number of clusters.</p>
+<p>For example, to use <code>greedy</code> algorithm in maxp function with the same dataset and weights as above to find optimal clusters using max-p:</p>
+<p>First, we need to specify, for example, every cluster must have population &gt;= 3236.67 thousands people:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">bound_vals &lt;-<span class="st"> </span>guerry<span class="op">$</span>table<span class="op">$</span>Pop1831</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2">min_bound &lt;-<span class="st"> </span><span class="fl">3236.67</span> <span class="co"># 10% of Pop1831</span></a></code></pre></div>
+<p>Then, we can call the max-p function with “greedy” algorith, the bound values and minimum bound value:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1">maxp_clusters &lt;-<span class="st"> </span><span class="kw">maxp</span>(queen_w, data, bound_vals, min_bound, <span class="st">&quot;greedy&quot;</span>)</a>
+<a class="sourceLine" id="cb62-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb62-3" data-line-number="3">betweenss &lt;-<span class="st"> </span><span class="kw">between_sumofsquare</span>(maxp_clusters, data)</a>
+<a class="sourceLine" id="cb62-4" data-line-number="4">ratio &lt;-<span class="st"> </span>betweenss <span class="op">/</span><span class="st"> </span>totalss</a>
+<a class="sourceLine" id="cb62-5" data-line-number="5"><span class="kw">cat</span>(<span class="st">&quot;The ratio of between to total sum of square:&quot;</span>, ratio)</a>
+<a class="sourceLine" id="cb62-6" data-line-number="6"><span class="co">#&gt; The ratio of between to total sum of square: 0.5035491</span></a></code></pre></div>
+<p>We can also specify using <code>tabu search</code> algorithm in maxp function with the parameter of tabu length:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">maxp_tabu_clusters &lt;-<span class="st"> </span><span class="kw">maxp</span>(queen_w, data, bound_vals, min_bound, <span class="st">&quot;tabu&quot;</span>, <span class="dt">tabu_length=</span><span class="dv">95</span>)</a>
+<a class="sourceLine" id="cb63-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb63-3" data-line-number="3">betweenss &lt;-<span class="st"> </span><span class="kw">between_sumofsquare</span>(maxp_tabu_clusters, data)</a>
+<a class="sourceLine" id="cb63-4" data-line-number="4">ratio &lt;-<span class="st"> </span>betweenss <span class="op">/</span><span class="st"> </span>totalss</a>
+<a class="sourceLine" id="cb63-5" data-line-number="5"><span class="kw">cat</span>(<span class="st">&quot;The ratio of between to total sum of square:&quot;</span>, ratio)</a>
+<a class="sourceLine" id="cb63-6" data-line-number="6"><span class="co">#&gt; The ratio of between to total sum of square: 0.5260249</span></a></code></pre></div>
+<p>To apply <code>simulated annealing</code> algorithm in maxp function with the parameter of cooling rate:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">maxp_sa_clusters &lt;-<span class="st"> </span><span class="kw">maxp</span>(queen_w, data, bound_vals, min_bound, <span class="st">&quot;sa&quot;</span>, <span class="dt">cool_rate=</span><span class="fl">0.75</span>)</a>
+<a class="sourceLine" id="cb64-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb64-3" data-line-number="3">betweenss &lt;-<span class="st"> </span><span class="kw">between_sumofsquare</span>(maxp_sa_clusters, data)</a>
+<a class="sourceLine" id="cb64-4" data-line-number="4">ratio &lt;-<span class="st"> </span>betweenss <span class="op">/</span><span class="st"> </span>totalss</a>
+<a class="sourceLine" id="cb64-5" data-line-number="5"><span class="kw">cat</span>(<span class="st">&quot;The ratio of between to total sum of square:&quot;</span>, ratio)</a>
+<a class="sourceLine" id="cb64-6" data-line-number="6"><span class="co">#&gt; The ratio of between to total sum of square: 0.5260249</span></a></code></pre></div>
+<p>We can also increase the number of iterations for local search process by specifying the parameter <code>initial</code> (default value is 99):</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">maxp_clusters &lt;-<span class="st"> </span><span class="kw">maxp</span>(queen_w, data, bound_vals, min_bound, <span class="st">&quot;greedy&quot;</span>, <span class="dt">initial=</span><span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb65-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb65-3" data-line-number="3">betweenss &lt;-<span class="st"> </span><span class="kw">between_sumofsquare</span>(maxp_clusters, data)</a>
+<a class="sourceLine" id="cb65-4" data-line-number="4">ratio &lt;-<span class="st"> </span>betweenss <span class="op">/</span><span class="st"> </span>totalss</a>
+<a class="sourceLine" id="cb65-5" data-line-number="5"><span class="kw">cat</span>(<span class="st">&quot;Tratio of between to total sum of square:&quot;</span>, ratio)</a>
+<a class="sourceLine" id="cb65-6" data-line-number="6"><span class="co">#&gt; Tratio of between to total sum of square: 0.5260249</span></a></code></pre></div>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
