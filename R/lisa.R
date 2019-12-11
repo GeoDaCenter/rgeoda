@@ -124,7 +124,7 @@ lisa_values <- function(gda_lisa) {
 #' @return data a tuple of pseudo-p values of local spatial autocorrelation
 #' @export
 lisa_pvalues <- function(gda_lisa) {
-  return (gda_lisa$GetLocalSignificanceValues())
+  return (gda_lisa$GetPValues())
 }
 
 #################################################################
@@ -179,7 +179,7 @@ lisa_colors <- function(gda_lisa) {
 #' @param data A tuple of values of selected variable
 #' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 #' @export
-local_moran <- function(w, data) {
+local_moran <- function(w, data, ncpu=8, perm=999) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -187,7 +187,7 @@ local_moran <- function(w, data) {
     stop("The size of data doesnt not match the number of observations")
   }
 
-  lisa_obj <- gda_localmoran(w$gda_w, data)
+  lisa_obj <- gda_localmoran(w$gda_w, data, logical(w$num_obs), ncpu, perm)
   return (LISA$new(lisa_obj))
 }
 
@@ -198,7 +198,7 @@ local_moran <- function(w, data) {
 #' @param data A tuple of values of selected variable
 #' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 #' @export
-local_geary <- function(w, data) {
+local_geary <- function(w, data, ncpu=8, perm=999) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -206,7 +206,7 @@ local_geary <- function(w, data) {
     stop("The size of data doesnt not match the number of observations")
   }
 
-  lisa_obj <- gda_geary(w$gda_w, data)
+  lisa_obj <- gda_geary(w$gda_w, data, logical(w$num_obs), ncpu, perm)
   return (LISA$new(lisa_obj))
 }
 
@@ -217,14 +217,14 @@ local_geary <- function(w, data) {
 #' @param data A 2D tuple of values of selected variables
 #' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 #' @export
-local_multigeary <- function(w, data) {
+local_multigeary <- function(w, data, ncpu=8, perm=999) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
   if (length(data) <  1) {
     stop("The number of variables has to be larger than 1.")
   }
-
+  undefs <- c(logical(0))
   lisa_obj <- gda_multigeary(w$gda_w, data)
   return (LISA$new(lisa_obj))
 }
@@ -236,7 +236,7 @@ local_multigeary <- function(w, data) {
 #' @param data A tuple of values of selected variable
 #' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 #' @export
-local_g <- function(w, data) {
+local_g <- function(w, data, ncpu=8, perm=999) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -244,7 +244,7 @@ local_g <- function(w, data) {
     stop("The size of data doesnt not match the number of observations")
   }
 
-  lisa_obj <- gda_localg(w$gda_w, data)
+  lisa_obj <- gda_localg(w$gda_w, data, logical(w$num_obs), ncpu, perm)
   return (LISA$new(lisa_obj))
 }
 
@@ -255,7 +255,7 @@ local_g <- function(w, data) {
 #' @param data A tuple of values of selected variable
 #' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 #' @export
-local_gstar <- function(w, data) {
+local_gstar <- function(w, data, ncpu=8, perm=999) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -263,7 +263,7 @@ local_gstar <- function(w, data) {
     stop("The size of data doesnt not match the number of observations")
   }
 
-  lisa_obj <- gda_localgstar(w$gda_w, data)
+  lisa_obj <- gda_localgstar(w$gda_w, data, logical(w$num_obs), ncpu, perm)
   return (LISA$new(lisa_obj))
 }
 
@@ -274,7 +274,7 @@ local_gstar <- function(w, data) {
 #' @param data A tuple of values of selected variable
 #' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 #' @export
-local_joincount <- function(w, data) {
+local_joincount <- function(w, data, ncpu=8, perm=999) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -282,7 +282,7 @@ local_joincount <- function(w, data) {
     stop("The size of data doesnt not match the number of observations")
   }
 
-  lisa_obj <- gda_joincount(w$gda_w, data)
+  lisa_obj <- gda_joincount(w$gda_w, data, logical(w$num_obs), ncpu, perm)
   return (LISA$new(lisa_obj))
 }
 
@@ -293,7 +293,7 @@ local_joincount <- function(w, data) {
 #' @param data A 2D tuple of values of selected variables
 #' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 #' @export
-local_multijoincount <- function(w, data) {
+local_multijoincount <- function(w, data, ncpu=8, perm=999) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -314,7 +314,7 @@ local_multijoincount <- function(w, data) {
 #' @param data A tuple of values of selected variable
 #' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 #' @export
-local_quantilelisa <- function(w, k, q, data) {
+local_quantilelisa <- function(w, k, q, data, ncpu=8, perm=999) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -325,6 +325,6 @@ local_quantilelisa <- function(w, k, q, data) {
     stop("The value of which quantile been selected should be in the range of [1, k]")
   }
 
-  lisa_obj <- gda_quantilelisa(w$gda_w, k, q, data)
+  lisa_obj <- gda_quantilelisa(w$gda_w, k, q, data, logical(w$num_obs), ncpu, perm)
   return (LISA$new(lisa_obj))
 }

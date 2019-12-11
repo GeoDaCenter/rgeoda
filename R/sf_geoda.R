@@ -16,16 +16,13 @@ geoda_to_sf = function(gda) {
 #' @param with_table  Optional, Default: FALSE If create a table from sf dataframe object.
 #' @return geoda_obj An instance of geoda class
 #' @export
-sf_to_geoda = function(sf_obj, ...) {
+sf_to_geoda = function(sf_obj, with_table=FALSE) {
   if (!require("sf")) {
     stop("package sf not available: install first?")
   }
   if (!require("wkb")) {
     stop("package wkb not available: install first?")
   }
-
-  kwargs <- list(...)
-  with_table <- ifelse(hasArg("with_table"), kwargs$with_table, TRUE)
 
   # geometries
   sf_geom <- st_geometry(sf_obj)
@@ -90,16 +87,13 @@ sf_to_geoda = function(sf_obj, ...) {
 #' @param with_table  Optional, Default: FALSE If create a table from sp dataframe object.
 #' @return geoda_obj An instance of GeoDa object
 #' @export
-sp_to_geoda = function(sp_obj, ...) {
+sp_to_geoda = function(sp_obj, with_table=False) {
   if (!require("sp")) {
     stop("package sp not available: install first?")
   }
   if (!require("wkb")) {
     stop("package wkb not available: install first?")
   }
-
-  kwargs <- list(...)
-  with_table <- ifelse(hasArg("with_table"), kwargs$with_table, FALSE)
 
   # geometries
   geoms_wkb <- writeWKB(sp_obj)

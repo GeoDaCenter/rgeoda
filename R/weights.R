@@ -52,6 +52,9 @@ Weight <- setRefClass("Weight",
       "Get density computed from weights matrix"
       return (gda_w$density)
     },
+    GetNbrSize = function(idx) {
+      return (gda_w$GetNbrSize(idx))
+    },
     GetNeighbors = function(idx) {
       "Get neighbors for idx-th observation, idx starts from 0"
       nn <- gda_w$GetNbrSize(idx)
@@ -193,7 +196,7 @@ spatial_lag <- function(gda_w, idx, values) {
 #' @return Boolean value indicates if save successfully or failed
 #' @export
 save_weights <- function(gda_w, out_path, layer_name, id_name, id_values) {
-  return(gda_w$Save(out_path, layer_name, id_name, id_values))
+  return(gda_w$SaveToFile(out_path, layer_name, id_name, id_values))
 }
 
 #################################################################
