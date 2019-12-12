@@ -23,22 +23,22 @@ Like GeoDa desktop software, `rgeoda` are avaiable to different platforms includ
 
 ### Mac OSX and Linux
 
-In R console, use install.packages() function to install rgeoda from its source pacakge at: https://github.com/lixun910/rgeoda/archive/0.0.4.tar.gz
+In R console, use install.packages() function to install rgeoda from its source pacakge at: https://github.com/lixun910/rgeoda/releases/download/nb/rgeoda_0.0.4.tar.gz
 
 ```r
-install.packages("https://github.com/lixun910/rgeoda/archive/0.0.4.tar.gz")
+install.packages("https://github.com/lixun910/rgeoda/releases/download/nb/rgeoda_0.0.4.tar.gz")
 # or the development version
-# devtools::install_github("lixun910/rgeoda")
+# devtools::install_github("lixun910/rgeoda") branch v0.0.4
 ```
 
 ### Windows
 
-In R console, use install.packages() function to install rgeoda from its source pacakge at: https://github.com/lixun910/rgeoda/releases/download/0.0.4/rgeoda_0.0.4.zip
+In R console, use install.packages() function to install rgeoda from its source pacakge at: https://github.com/lixun910/rgeoda/releases/download/nb/rgeoda_0.0.4.zip
 
 ```r
-install.packages("https://github.com/lixun910/rgeoda/releases/download/0.0.4/rgeoda_0.0.4.zip")
+install.packages("https://github.com/lixun910/rgeoda/releases/download/nb/rgeoda_0.0.4.zip")
 # or the development version
-# devtools::install_github("lixun910/rgeoda")
+# devtools::install_github("lixun910/rgeoda") branch v0.0.4
 ```
 Install rgeoda on windows from source package is not recommended. You would try if you know how to deal with [R devtools](https://www.r-project.org/nosvn/pandoc/devtools.html) on windows.
 

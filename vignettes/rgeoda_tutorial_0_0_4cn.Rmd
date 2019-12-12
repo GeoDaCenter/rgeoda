@@ -22,20 +22,20 @@ rgeoda是用于空间数据分析的R库。它是libgeoda C ++库的R包装，�
 
 ### Mac OSX和Linux
 
-在R控制台中，使用install.packages（）函数从源pacakge安装rgeoda，package的地址为: https://github.com/lixun910/rgeoda/archive/0.0.4.tar.gz
+在R控制台中，使用install.packages（）函数从源pacakge安装rgeoda，package的地址为: https://github.com/lixun910/rgeoda/releases/download/nb/rgeoda_0.0.4.tar.gz
 
 ```r
-install.packages("https://github.com/lixun910/rgeoda/archive/0.0.4.tar.gz")
+install.packages("https://github.com/lixun910/rgeoda/releases/download/nb/rgeoda_0.0.4.tar.gz")
 # or the development version
 # devtools::install_github("lixun910/rgeoda")
 ```
 
 ### Windows
 
-在R控制台中，使用install.packages（）函数从源pacakge安装rgeoda，package的地址为: https://github.com/lixun910/rgeoda/releases/download/0.0.4/rgeoda_0.0.4.zip
+在R控制台中，使用install.packages（）函数从源pacakge安装rgeoda，package的地址为: https://github.com/lixun910/rgeoda/releases/download/nb/rgeoda_0.0.4.zip
 
 ```r
-install.packages("https://github.com/lixun910/rgeoda/releases/download/0.0.4/rgeoda_0.0.4.zip")
+install.packages("https://github.com/lixun910/rgeoda/releases/download/nb/rgeoda_0.0.4.zip")
 # or the development version
 # devtools::install_github("lixun910/rgeoda")
 ```
