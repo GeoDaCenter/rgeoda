@@ -2,6 +2,22 @@
 
 rgeoda is a R package for spatial data analysis based on libgeoda and GeoDa.
 
+
+## version 0.0.4
+
+* pca
+* mds (multi dimensional scaling)
+* multivariate local geary
+* multivariate local join count
+* quantile LISA
+* Add False Discovery Rate (FDR) in local spatial autocorrelation
+* NaturalBreaks
+* QuantileBreaks
+* Hinge15Breaks
+* Hinge30Breaks
+* PercentileBreaks
+* StddevBreaks
+
 ## version 0.0.3
 
 This version provides following features:
