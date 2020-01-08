@@ -10,7 +10,7 @@
 geoda <- setRefClass("geoda",
   fields = list(
     gda = "_p_GeoDa",
-    map_type = "character",
+    map_type = "integer",
     n_cols = "numeric",
     n_obs = "numeric",
     field_names = "vector",
@@ -21,7 +21,7 @@ geoda <- setRefClass("geoda",
     initialize = function(o_gda) {
       "Constructor with a geoda object (internally used)"
       .self$gda = o_gda
-      .self$map_type = gda$GetMapType()
+      #.self$map_type = gda$GetMapType()
       .self$n_cols = gda$GetNumCols()
       .self$n_obs = gda$GetNumObs()
       .self$field_names = gda$GetFieldNames()
@@ -88,4 +88,8 @@ geoda_open <- function(ds_path) {
   }
   o_gda <- GeoDa(ds_path)
   return(geoda$new(o_gda))
+}
+
+as.data.frame.geoda <- function(gda_obj) {
+  return (gda_obj$table)
 }

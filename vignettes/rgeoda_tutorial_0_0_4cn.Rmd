@@ -1,0 +1,686 @@
+---
+title: "rgeoda v0.0.4教程"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{rgeoda_tutorial_0_0_4_cn}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+rgeoda是用于空间数据分析的R库。它是libgeoda C ++库的R包装，该库基于GeoDa软件构建。本教程中使用的版本为0.0.4。
+
+## 1. 安装rgeoda
+
+像GeoDa桌面软件一样，rgeoda可用于不同的平台，包括：Mac，Linux和Windows。
+
+### Mac OSX和Linux
+
+在R控制台中，使用install.packages（）函数从源pacakge安装rgeoda，package的地址为: https://github.com/lixun910/rgeoda/releases/download/nb/rgeoda_0.0.4.tar.gz
+
+```r
+install.packages("https://github.com/lixun910/rgeoda/releases/download/nb/rgeoda_0.0.4.tar.gz")
+# or the development version
+# devtools::install_github("lixun910/rgeoda")
+```
+
+### Windows
+
+在R控制台中，使用install.packages（）函数从源pacakge安装rgeoda，package的地址为: https://github.com/lixun910/rgeoda/releases/download/nb/rgeoda_0.0.4.zip
+
+```r
+install.packages("https://github.com/lixun910/rgeoda/releases/download/nb/rgeoda_0.0.4.zip")
+# or the development version
+# devtools::install_github("lixun910/rgeoda")
+```
+
+不建议在Windows源代码包中安装rgeoda。如果您知道如何在Windows上使用[R devtools](https://www.r-project.org/nosvn/pandoc/devtools.html)，则可以尝试。
+
+
+### 在R中加载rgeoda库
+
+如果所有内容均安装正确，则应该可以运行下面的代码加载rgeoda：
+
+
+```{r setup}
+library(rgeoda)
+```
+
+## 2. 读取空间数据
+
+rgeoda可以直接读取的数据格式包括: ESRI Shapefile, MapInfo File, CSV, GML, GPX, KML, GeoJSON, TopoJSON, OpenFileGDB, GFT Google Fusion Tables, CouchDB 
+
+注意：在本教程中，我们仅使用rgeoda v0.0.4测试了加载ESRI shapefile。如果在加载空间数据时遇到任何问题，请提交问题报告到rgeoda的 [网站](https://github.com/lixun910/rgeoda/issues)。
+
+例如，要加载软件包自带的ESRI Shapefile Guerry.shp：
+
+```{r}
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- geoda_open(guerry_path)
+```
+
+`geoda_open` 函数返回一个geoda对象，该对象带有一个table属性，提供了一个R的dataframe数据结构，可用于访问读入数据的元数据，字段和列。 R 用户可以调用as.data.frame()方法获取个该dataframe数据:
+
+```{r}
+guerry_df <- as.data.frame(guerry)
+```
+
+#### 2.1 Attributes of `geoda_df` dataframe
+
+R用户可以使用通用的dataframe函数来访问数据的基本信息包括：
+
+```{r}
+cat("\nnumber of columns:", ncol(guerry_df))
+cat("\nnumber of observations:", nrow(guerry_df))
+cat("\nfield names:", names(guerry_df))
+cat("\nfield types:", str(guerry_df))
+```
+
+### 2.2 Access Table Data
+
+R用户可以使用通用的dataframe函数来访问数据的内容：
+
+得到第一列的数据
+```{r}
+guerry_df[,1]
+```
+
+得到第一行的数据
+```{r}
+guerry_df[1,]
+```
+
+得到第3，5列的数据
+```{r}
+guerry_df[,c(3,5)]
+```
+
+得到名为'Crm_prs'列的数据
+```{r}
+guerry_df['Crm_prs']
+```
+
+注意：上面的代码返回的结果是一个data.frame，如果需要得到该列的数值数据：
+```{r}
+crm_prs <- guerry_df['Crm_prs'][,1]
+```
+
+如果想根据名称来取得多个列的数据则可以扩展上面的代码为：
+
+得到名为:Crm_prs, Crm_prp的数据
+```{r}
+crm_prs_prp <- guerry_df[c('Crm_prs', 'Crm_prp')]
+```
+
+## 3. 空间权重
+
+空间权重是空间数据分析的核心组成部分。空间权重表示空间中观测值之间可能存在的空间相互作用。像GeoDa桌面软件一样，rgeoda提供了多种方法来创建几种不同类型的空间权重：
+
+* 基于邻接的权重Contiguity Based Weights: `queen_weights()`, `rook_weights()`
+* 基于距离的权重Distance Based Weights: `distance_weights()`
+* K最近邻居权重: `knn_weights()`
+* 基于核函数的距离权重: `distance_weights()` and `knn_weights()` with kernel parameters
+
+### 3.1 Queen邻接权重
+
+要创建Queen邻接权重，我们可以调用函数：
+
+```r
+gda_queen(gda, order=1, include_lower_order = False, precision_threshold = 0)
+``` 
+
+使用我们刚刚创建的GeoDa对象guerry作为参数：
+
+
+```{r}
+queen_w <- queen_weights(guerry)
+summary(queen_w)
+```
+
+该函数queen_weights()返回一个Weight对象实例。通过访问该对象的属性，可以访问空间权重的元数据：
+
+#### Attributes of `Weight` object
+
+检查权重矩阵是否为对称矩阵：
+```{r}
+is_symmetric(queen_w)
+```
+
+```{r}
+has_isolates(queen_w)
+```
+
+```{r}
+weights_sparsity(queen_w)
+```
+
+```{r}
+weights_density(queen_w)
+```
+
+
+我们还可以访问权重的详细信息：例如，列出指定观察值的邻居，这对探索性空间数据分析（将在下一个教程中重点介绍）非常有帮助：
+
+```{r}
+nbrs <- get_neighbors(queen_w, idx = 1)
+cat("\nNeighbors of 1-st observation are:", nbrs)
+```
+
+我们还可以通过传递某个选中变量的值来计算指定观测值的空间滞后(spatial lag)，比如计算第一个对象在Queen权重下的空间滞后的值（邻居的值进行空间加权后的和）：
+
+```{r}
+lag0 <- spatial_lag(queen_w, idx = 1, values = crm_prs)
+cat("\nSpatial lag of 1-st observation is:", lag0)
+```
+
+### 3.2 Rook连续性权重
+
+要创建Rook邻接权重，我们可以调用函数：
+
+```r
+rook_weights(gda, order=1,include_lower_order=False, precision_threshold = 0)
+``` 
+
+例如：
+```{r}
+rook_w <- rook_weights(guerry)
+summary(rook_w)
+```
+
+
+请注意：我们创建的权重位于内存中，这使其可以直接进行空间数据分析，也方便您调用rgeoda来编写应用程序。如果要将权重保存到文件中，可以调用函数：
+
+```r
+save_weights(gda_w, out_path, layer_name, id_name, id_values)
+```
+
+`out_path` 为保存文件的路径，比如：c:/test/guerry.gal
+
+`layer_name`是被加载的数据集的层名称。对于ESRI shapefile，`layer_name`是不带后缀的文件名（例如Guerry）。
+
+`id_name`是一个键值（某个列的名称），切该列中仅包含唯一值（没有重复的值），这样可以确保权重可以对应到原始数据中的正确的观察对象。
+
+`id_values`则是实际`id_name`列的数据，它可以是整数或字符串值类型。
+
+例如，在Guerry数据集中，“ CODE_DE”列可用作保存权重文件的键（id_name)：
+
+
+```{r}
+save_weights(rook_w, out_path = '/Users/xun/Downloads/Guerry_r.gal', 
+             layer_name = 'Guerry', 
+             id_name = 'CODE_DE', 
+             id_values = as.integer(guerry_df['CODE_DE'][,1]))
+```
+
+运行成功后，我们应该在输出目录可以中找到生成的空间权重文件“ Guerry_r.gal”
+
+### 3.3 基于距离的权重
+
+要创建基于距离的权重，我们可以调用函数:
+
+```r
+distance_weights(geoda_obj, dist_thres, power=1.0,  is_inverse=False, is_arc=False, is_mile=True)
+``` 
+通过传递刚创建的GeoDa对象guerry和距离阈值dist_thres。像GeoDa软件一样，rgeoda提供了一个函数来帮助您找到合适的距离阈值: min_distthreshold()。该函数返回的距离阈值可确保每个观测值至少具有一个邻居。
+
+```r
+min_distthreshold(GeoDa gda, bool is_arc = False, bool is_mile = True)
+```
+
+请注意：该距离阈值并不适合于所有的情况，比如在基于核函数的空间权重创建中，较大的距离阈值会得到比较好的空间权重。
+
+```{r}
+dist_thres <- min_distthreshold(guerry)
+dist_w <- distance_weights(guerry, dist_thres)
+summary(dist_w)
+```
+
+### 3.4 K最近邻空间权重
+
+K最近邻空间权重是基于距离权重的一种特殊情况，其中每个观测值将恰好具有k个邻居。要创建K最近邻空间权重，我们可以调用函数：
+```r
+knn_weights(gda, k, power = 1.0, is_inverse = False, is_arc = False, is_mile = True)
+```
+
+例如，使用Guerry数据集创建6个最近邻的空间权重：
+
+```{r}
+knn6_w <- knn_weights(guerry, k= 6)
+summary(knn6_w)
+```
+
+### 3.5  基于核函数的空间权重
+
+基于核函数的空间权重是另一种基于距离的空间权重，其应用核函数来确定权重值如何在距离上衰减。核函数不直接作用于对象i与对象j之间的距离dij，而是距离与设定距离阈值的比率z=dij/hi：K(z)。和GeoDa桌面软件一样，rgeoda提供的核函数包括了：
+
+* triangular
+* uniform 
+* quadratic
+* epanechnikov
+* quartic
+* gaussian
+
+根据设定距离阈值的方式，基于核函数的空间权重创建方分为两种：固定带宽的核函数空间权重，和自适应带宽的核函数空间权重。
+
+#### 3.5.1 固定带宽的核函数空间权重
+
+您可以使用下面的函数创建固定带宽的核函数空间权重:
+```{r}
+bandwidth <- min_distthreshold(guerry)
+kernel_w <- kernel_weights(guerry, bandwidth, kernel_method = "uniform")
+summary(kernel_w)
+```
+
+其中参数`is_inverse`, `power`, `is_arc` 和`is_mile` 与函数distance_weights() knn_weights()一样，除此之外该函数还提供了另外一个核函数相关的参数：
+```
+use_kernel_diagonals	
+(optional) FALSE (default) or TRUE, apply kernel on the diagonal of weights matrix
+```
+该参数决定空间权重矩阵的对角线上的值为1还是Kernel(0)。这也是基于 核函数的空间权重和普通的基于距离的空间权重的区别。
+
+
+#### 3.5.2 自适应带宽的核函数空间权重
+
+您可以使用下面的函数创建自适应带宽的核函数空间权重:
+
+```{r}
+adptkernel_w = kernel_knn_weights(guerry, 6, "uniform")
+
+summary(adptkernel_w)
+```
+
+This kernel weights function two more options:
+除了`use_kernel_diagonals`参数外，该函数还提供了另外一个参数来控制如何使用自适应带宽： 
+```
+adaptive_bandwidth	
+(optional) TRUE (default) or FALSE: TRUE use adaptive bandwidth calculated using distance of k-nearest neithbors, FALSE use max distance of all observation to their k-nearest neighbors
+```
+
+该参数决定是否使用所有对象使用相同的带宽(到第K个邻居之间距离的最大值)，还是每个对象都使用不同的带宽（到K个邻居的距离）。
+
+## 4 空间数据分析
+
+
+### 4.1 局部空间自相关分析
+
+rgeoda 0.0.4提供了下列局部空间自相关统计的方法：
+
+* Local Moran: local_moran()
+* Local Geary: local_geary(), local_multigeary()
+* Local Getis-Ord statistics: local_g() and local_gstar()
+* Local Join Count: local_joincount(), local_multijoincount()
+* Quantile LISA: local_quantilelisa()
+
+
+下一个版本的rgeoda将包含用于更多的局部空间自相关统计以及全局空间自相关统计的方法。
+
+在本教程中，我们将仅介绍如何使用pygeoda调用这些方法。有关局部空间自相关统计信息的更多信息，请阅读：http : //geodacenter.github.io/workbook/6a_local_auto/lab6a.html。
+
+#### 4.1.1 Local Moran
+
+局部Moran统计量是一种识别局部聚类和局部空间离群值的方法。例如，我们可以调用`local_moran()`, 并使用创建的空间权重`queen_w`和数据`crm_prp`作为输入参数：
+
+
+```{r}
+lisa <- local_moran(queen_w, crm_prs)
+```
+
+该local_moran()函数将返回一个LISA对象，该对象存储了局部空间自相关分析计算的结果。
+
+例如，我们可以调用该函数`lisa_values(lisa_obj)`以获取本地Moran的值：
+
+```{r}
+lms <- lisa_values(gda_lisa = lisa)
+lms
+```
+
+调用`lisa_pvalues()`来获得局部Moran统计中显著性意义的伪p值:
+```{r}
+pvals <- lisa_pvalues(lisa)
+pvals
+```
+
+获取局部Moran计算的聚类类别:
+
+```{r}
+cats <- lisa_clusters(lisa, cutoff = 0.05)
+cats
+```
+
+Local Moran聚类类别的预定义值为：
+
+```
+0 不显著
+1 高-高
+2 低-低
+3 高-低
+4 低-高
+5 无邻居
+6 未定以值
+```
+
+不同的局部自相关分析方法设定的聚类类别值分别不同，可以调用方法`lisa_labels()`查看:
+```{r}
+lbls <- lisa_labels(lisa)
+lbls
+```
+
+根据当前的p值计算伪发现率FDR
+```{r}
+fdr<-lisa_fdr(lisa, 0.05)
+fdr
+```
+
+你可以设置FDR值伪p值的阈值来重新得到本地Moran的聚类结果：
+```{r}
+cat_fdr<-lisa_clusters(lisa, cutoff = fdr)
+cat_fdr
+```
+
+
+默认情况下，该local_moran()函数将使用一些默认参数运行，例如:
+
+随机置换的次数permutation number: 999
+计算CPU线程的数量ncpus: 8
+
+这些配置和GeoDa桌面软件相同，因此我们在rgeoda中重复与GeoDa相同的运算结果。
+
+rgeoda的函数也提供的不同的参数来设置，比如：不同的随机置换次数，和不同的CPU线程数。
+
+例如，使用9999个排列重新运行上述本地Moran示例
+
+```{r}
+lisa <- local_moran(queen_w, crm_prs, perm = 9999)
+pvals <- lisa_pvalues(lisa)
+pvals
+```
+
+rgeoda使用GeoDa的C ++代码，其中多线程用于加速LISA的计算。比如我们可以指定要运行多少线程：
+
+```{r}
+lisa <- local_moran(queen_w, crm_prs, ncpu = 4)
+lisa_pvalues(lisa)
+```
+
+#### 4.1.2  局部Geary
+
+局部Geary是一种专注于平方差/差异性的局部自相关分析方法。本地Geary统计值的较小值表明空间自相关为正，而较大值表明空间自相关为负。而这种比较是和多次随机置换计算的平均本地Geary统计值进行的。
+
+进行本地Geary计算，我们只需要调用方法`local_geary()`:
+```{r}
+geary_crmprs <- local_geary(queen_w, crm_prs)
+```
+
+要获取本地Geary计算的聚类指标：
+
+```{r}
+lisa_clusters(geary_crmprs)
+```
+
+要获取本地Geary计算的伪p值：
+
+```{r}
+lisa_pvalues(geary_crmprs)
+```
+
+#### 4.1.3 多元局部Geary:
+
+rgeoda也提供函数`local_multigeary()`来进行多变量的局部Geary计算，来分析多变量在局部的空间自相关性。
+
+比如，分析6个变量Crm_prs, Crm_prp, Litercy, Donatns, Infants 和Suicides，他们的值在空间分布上，是否具有局部的空间自相关性。
+
+请注意该“自相关”在局部Geary中指的是这些变量的值是否和观察对象邻居的值“相似”或者“不相似”。
+
+```{r}
+data <-as.list(guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
+multigeary <- local_multigeary(queen_w, data)
+```
+
+要获取多元局部Geary计算的聚类指标：
+
+```{r}
+lisa_clusters(multigeary)
+```
+
+#### 4.1.4 局部 Getis-Ord G/G*
+
+局部Getis-Ord G统计信息有两种类型：一种是计算邻近位置的值的加权平均，不包括该位置的值（Local G);而另一种统计量则包括分子和分母中的位置值(Local G*)。
+
+如果观察对象i的值大于平均值则表示高-高或热区，小于平均值的值表示低-低或冷区。
+
+For example, we can call the function `local_g()` with the created Queen weights and the data “crm_prp” as input parameters:
+
+```{r}
+localg_crmprs <- local_g(queen_w, crm_prs)
+```
+
+To get the cluster indicators of the local G computation:
+
+```{r}
+lisa_clusters(localg_crmprs)
+```
+
+To get the pseudo-p values of the local G computation:
+```{r}
+lisa_pvalues(localg_crmprs)
+```
+
+For the second type of local Getis-Ord statistics, we can call the function `local_gstar()` with the created Queen weights and the data “crm_prp” as input parameters:
+```{r}
+localgstar_crmprs <- local_gstar(queen_w, crm_prs)
+lisa_clusters(localgstar_crmprs)
+```
+
+#### 4.1.5 Local Join Count
+
+
+Local Join Count is a method to identify local clusters for binary data by using a local version of the so-called BB join count statistic. The statistic is only meaningful for those observations with value 1. 
+
+For example, we can call the function `local_joincount()` with a Queen weights and the data “TopCrm”, which is a set of binary (0,1) values, as input parameters:
+
+```{r}
+top_crm <- guerry_df['TopCrm'][,1]
+localjc_crm <- local_joincount(queen_w, top_crm)
+```
+To get the cluster indicators of the local Join Count computation:
+
+```{r}
+lisa_clusters(localjc_crm)
+```
+
+To get the pseudo-p values of the local Join Count  computation:
+```{r}
+lisa_pvalues(localjc_crm)
+```
+
+To get the number of neighbors of the local Join Count computation:
+```{r}
+lisa_num_nbrs(localjc_crm)
+```
+
+#### 4.1.6 Multivariate Local Join Count:
+
+```{r}
+bin_data <- as.list(guerry_df[c('TopWealth','TopLit')])
+multijc <- local_multijoincount(queen_w, bin_data)
+```
+
+To get the cluster indicators of the multivariate local join count computation:
+```{r}
+lisa_clusters(multijc)
+```
+
+#### 4.1.7 Quantile LISA
+
+```{r}
+qsa <- local_quantilelisa(queen_w, 4, 1, crm_prs)
+```
+
+To get the cluster indicators of the quantile LISA computation:
+```{r}
+lisa_clusters(qsa)
+```
+
+### 4.2 Spatializing Multivariate Analysis
+
+#### 4.2.1 Pincinple Components
+
+This PCA function aims to reproduce the PCA feature and results in GeoDa. However, one can use `prcomp` function in R to apply same PCA computations. 
+
+For example, the following example will apply PCA on 6 variables. The `standardize()` function is called to standardize the data, which `pca()` function applies on. 
+
+Other standardization functions include: `demean()` and `mad()`, which are same in GeoDa program.
+```{r}
+#data <- as.list(guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
+std_data <- standardize(data)
+pc <- pca(std_data)
+summary(pc)
+```
+
+With the returned object `pc`, one can call `get_kcomponents()` function to get first K components:
+
+For example, to get first 3 components
+```{r}
+get_kcomponents(pc, 3)
+```
+
+#### 4.2.1 Multi Dimensional Scaling
+
+The mds() function is to apply multi-dimensional scaling on input data, with output of a K-dimensional array data. K should be an input parameter for mds() function. 
+
+For example, to apply mds() on the 6 selected variables, and scaling down to a 2-d space:
+
+```{r}
+mds_v <- mds(std_data, 2)
+mds_v
+```
+
+### 4.3 Spatial Clustering
+
+ 
+Spatial clustering aims to group of a large number of geographic areas or points into a smaller number of regions based on similiarities in one or more variables. Spatially constrained clustering is needed when clusters are required to be spatially contiguous. 
+
+In GeoDa, there are three different approaches explicitly incorporate the contiguity constraint in the optimization process: SKATER, Redcap and Max-p. More more details, please check: http://geodacenter.github.io/workbook/8_spatial_clusters/lab8.html All of these methods are included in rgeoda 0.0.4.
+
+For example, to apply spatial clustering on the Guerry dataset, we use the queen weights to define the spatial contiguity and select 6 variables for similarity measure: "Crm_prs", "Crm_prp", "Litercy", "Donatns", "Infants", "Suicids". 
+
+The following code is used to get a 2D data vector for the selected variables:
+
+```{r}
+data <- as.list(guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
+```
+
+#### 4.3.1 SKATER
+
+The Spatial C(K)luster Analysis by Tree Edge Removal(SKATER) algorithm introduced by Assuncao et al. (2006) is based on the optimal pruning of a minimum spanning tree that reflects the contiguity structure among the observations. It provides an optimized algorithm to prune to tree into several clusters that their values of selected variables are as similar as possible.
+
+The rgeoda's SKATER function is: 
+```r
+skater(k, w, data, distance_method='euclidean', bound_vals = [],  min_bound = 0, random_seed=123456789)
+```
+
+For example, to create 4 spatially contiguous clusters using Guerry dataset, the queen weights and the values of the 6 selected variables:
+```{r}
+guerry_clusters <- skater(4, queen_w, data)
+guerry_clusters
+```
+
+This `skater()` function returns a 2D list, which represents 4 clusters. Each cluster is composed by several contiguity areas, e.g. 15, 74, 16, 55, 60, 39, 68, 33, 17, 82, 81, 0, 2, 40, 20, 80
+
+rgeoda also provides utility functions to compute some descriptive statistics of the clustering results, e.g. to compute the ratio of between to total sum of squares:
+
+
+```{r}
+betweenss <- between_sumofsquare(guerry_clusters, data)
+totalss <- total_sumofsquare( data)
+ratio <-  betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+#### 4.3.2 REDCAP
+
+REDCAP (Regionalization with dynamically constrained agglomerative clustering and partitioning) is developed by D. Guo (2008). Like SKATER, REDCAP starts from building a spanning tree with 3 different ways (single-linkage, average-linkage, and the complete-linkage). The single-linkage way leads to build a minimum spanning tree. Then,REDCAP provides 2 different ways (first‐order and full-order constraining) to prune the tree to find clusters. The first-order approach with a minimum spanning tree is exactly the same with SKATER. In GeoDa and rgeoda, the following methods are provided:
+
+* First-order and Single-linkage
+* Full-order and Complete-linkage
+* Full-order and Average-linkage
+* Full-order and Single-linkage
+
+For example, to find 4 clusters using the same dataset and weights as above using REDCAP with Full-order and Complete-linkage method:
+
+```{r}
+redcap_clusters <- redcap(4, queen_w, data, "fullorder-completelinkage")
+redcap_clusters
+
+betweenss <- between_sumofsquare(redcap_clusters, data)
+totalss <- total_sumofsquare( data)
+ratio <- betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+#### 4.3.3 Max-p
+
+The so-called max-p regions model (outlined in Duque, Anselin, and Rey 2012) uses a different approach and considers the regionalization problem as an application of integer programming. In addition, the number of regions is determined endogenously.
+
+The algorithm itself consists of a search process that starts with an initial feasible solution and iteratively improves upon it while maintaining contiguity among the elements of each cluster. Like Geoda, rgeoda provides three different heuristic algorithms to find an optimal solution for max-p:
+
+* greedy
+* Tabu Search
+* Simulated Annealing
+
+Unlike SKATER and REDCAP that one can specify the number of clusters as an input paramter, max-p doesn't allow to specify the number of clusters explicitly, but a constrained variable and the minimum bounding value that each cluster should reach that are used to find an optimized number of clusters.
+
+For example, to use `greedy` algorithm in maxp function with the same dataset and weights as above to find optimal clusters using max-p:
+
+First, we need to specify, for example, every cluster must have population >= 3236.67 thousands people:
+
+```{r}
+bound_vals <- guerry_df['Pop1831'][,1]
+min_bound <- 3236.67 # 10% of Pop1831
+```
+
+Then, we can call the max-p function with "greedy" algorith, the bound values and minimum bound value:
+
+```{r}
+maxp_clusters <- maxp(queen_w, data, bound_vals, min_bound, "greedy")
+
+betweenss <- between_sumofsquare(maxp_clusters, data)
+ratio <- betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+We can also specify using `tabu search` algorithm in maxp function with the parameter of tabu length:
+
+```{r}
+maxp_tabu_clusters <- maxp(queen_w, data, bound_vals, min_bound, "tabu", tabu_length=95)
+
+betweenss <- between_sumofsquare(maxp_tabu_clusters, data)
+ratio <- betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+To apply `simulated annealing` algorithm in maxp function with the parameter of cooling rate:
+
+```{r}
+maxp_sa_clusters <- maxp(queen_w, data, bound_vals, min_bound, "sa", cool_rate=0.75)
+
+betweenss <- between_sumofsquare(maxp_sa_clusters, data)
+ratio <- betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+We can also increase the number of iterations for local search process by specifying the parameter `initial` (default value is 99):
+
+```{r}
+maxp_clusters <- maxp(queen_w, data, bound_vals, min_bound, "greedy", initial=1000)
+
+betweenss <- between_sumofsquare(maxp_clusters, data)
+ratio <- betweenss / totalss
+cat("Tratio of between to total sum of square:", ratio)
+```

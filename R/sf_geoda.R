@@ -13,19 +13,16 @@ geoda_to_sf = function(gda) {
 #' @title Create a geoda object from a sf object
 #' @description Create a geoda object from a sf object returned from 'st_read()' function
 #' @param sf_obj  An instance of sf object
-#' @param with_table  (Optional, Default: FALSE)If create a table from sf dataframe object.
+#' @param with_table  Optional, Default: FALSE If create a table from sf dataframe object.
 #' @return geoda_obj An instance of geoda class
 #' @export
-sf_to_geoda = function(sf_obj, ...) {
+sf_to_geoda = function(sf_obj, with_table=FALSE) {
   if (!require("sf")) {
     stop("package sf not available: install first?")
   }
   if (!require("wkb")) {
     stop("package wkb not available: install first?")
   }
-
-  kwargs <- list(...)
-  with_table <- ifelse(hasArg("with_table"), kwargs$with_table, TRUE)
 
   # geometries
   sf_geom <- st_geometry(sf_obj)
@@ -87,19 +84,16 @@ sf_to_geoda = function(sf_obj, ...) {
 #' @description The sp package has been an essential tool which provides spatial data-structures and many utility functions to do spatial analysis in R. It has been a core dependent library for many other packages, e.g. rgdal (IO), maptools (mapping), spdep (spatial weights, spatial statistics, and spatial models) etc.
 #' Using rgdal to read a ESRI Shapefile will return a sp (Spatial object) object, which could be either a SpatialPointsDataFrame (using an AttributeList for its data slot directly), a SpatialLinesDataFrame, or a SpatialPolygonsDataFrame.
 #' @param sp_obj  An instance of sp object
-#' @param with_table  (Optional, Default: FALSE)If create a table from sp dataframe object.
+#' @param with_table  Optional, Default: FALSE If create a table from sp dataframe object.
 #' @return geoda_obj An instance of GeoDa object
 #' @export
-sp_to_geoda = function(sp_obj, ...) {
+sp_to_geoda = function(sp_obj, with_table=False) {
   if (!require("sp")) {
     stop("package sp not available: install first?")
   }
   if (!require("wkb")) {
     stop("package wkb not available: install first?")
   }
-
-  kwargs <- list(...)
-  with_table <- ifelse(hasArg("with_table"), kwargs$with_table, FALSE)
 
   # geometries
   geoms_wkb <- writeWKB(sp_obj)

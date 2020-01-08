@@ -52,6 +52,9 @@ Weight <- setRefClass("Weight",
       "Get density computed from weights matrix"
       return (gda_w$density)
     },
+    GetNbrSize = function(idx) {
+      return (gda_w$GetNbrSize(idx))
+    },
     GetNeighbors = function(idx) {
       "Get neighbors for idx-th observation, idx starts from 0"
       nn <- gda_w$GetNbrSize(idx)
@@ -76,6 +79,125 @@ Weight <- setRefClass("Weight",
     }
   )
 )
+
+############################################################
+#' @title Summary of Spatial Weights
+#' @description Override the summary() function for spatial weights
+#' @param gda_w A Weight object
+#' @return
+#' @export
+summary.Weight <- function(w_obj) {
+  gda_w <- w_obj$gda_w
+  name <- c("number of observations:",
+            "weights type: ",
+            "is symmetric: ",
+            "sparsity:",
+            "density:",
+            "# min neighbors:",
+            "# max neighbors:",
+            "# mean neighbors:",
+            "# median neighbors:",
+            "has isolates:"
+            )
+  value <- c( gda_w$num_obs,
+              gda_w$weight_type,
+              gda_w$is_symmetric,
+              gda_w$sparsity,
+              gda_w$density,
+              gda_w$min_nbrs,
+              gda_w$max_nbrs,
+              gda_w$mean_nbrs,
+              gda_w$median_nbrs,
+              gda_w$HasIsolates())
+
+  output <- data.frame(name, value)
+  format(output)
+}
+
+#################################################################
+#' @title Check if weights matrix is symmetric
+#' @description Check if weights matrix is symmetric
+#' @param gda_w A Weight object
+#' @return Boolean value if weights matrix is symmetric
+#' @export
+is_symmetric <- function(gda_w) {
+  return(gda_w$is_symmetric)
+}
+
+#################################################################
+#' @title Check if weights matrix has isolates
+#' @description Check if weights matrix has isolates, or if any observation has no neighbors
+#' @param gda_w A Weight object
+#' @return Boolean value if weights matrix is symmetric
+#' @export
+has_isolates <- function(gda_w) {
+  return(gda_w$HasIsolates())
+}
+
+#################################################################
+#' @title Sparsity of a weights matrix
+#' @description Get sparsity computed from weights matrix
+#' @param gda_w A Weight object
+#' @return Value of the weight matrix sparsity
+#' @export
+weights_sparsity <- function(gda_w) {
+  return(gda_w$sparsity)
+}
+
+#################################################################
+#' @title Density of a weights matrix
+#' @description Get density computed from weights matrix
+#' @param gda_w A Weight object
+#' @return Value of the weight matrix density
+#' @export
+weights_density <- function(gda_w) {
+  return (gda_w$density)
+}
+
+#################################################################
+#' @title Get neighbors for idx-th observation based on weights matrix
+#' @description Get neighbors for idx-th observation, idx starts from 1
+#' @param gda_w A Weight object
+#' @param idx A value indicates idx-th observation, idx start from 1
+#' @return Vector of the neighbor indices, idx start from 1
+#' @export
+get_neighbors <- function(gda_w, idx) {
+  idx <- idx - 1
+  nn <- gda_w$GetNbrSize(idx)
+  nbrs <- gda_w$GetNeighbors(idx)
+  rtn_nbrs <- vector()
+  for (i in 1:nn) {
+    rtn_nbrs[i]  <- nbrs[i] + 1
+  }
+  return(rtn_nbrs)
+}
+
+#################################################################
+#' @title Compute the spatial lag for idx-th observation and selected variable
+#' @description Compute the spatial lag for idx-th observation using selected variable and current weights matrix
+#' @param gda_w A Weight object
+#' @param idx A value indicates idx-th observation, idx start from 1
+#' @param values A vector of values
+#' @return Value of the spatial lag for idx-th observation
+#' @export
+spatial_lag <- function(gda_w, idx, values) {
+  idx <- idx - 1
+  return(gda_w$SpatialLag(idx, values))
+}
+
+#################################################################
+#' @title Save current spatial weights to a file
+#' @description Save current spatial weights to a file
+#' @param gda_w A Weight object
+#' @param out_path The path of an output weights file
+#' @param layer_name The name of the layer of input dataset
+#' @param id_name The id name (or field name), which is an associated column contains unique values, that makes sure that the weights are connected to the correct observations in the data table.
+#' @param id_values The tuple of values of selected id_name (column or field)
+#' @return Boolean value indicates if save successfully or failed
+#' @export
+save_weights <- function(gda_w, out_path, layer_name, id_name, id_values) {
+  return(gda_w$SaveToFile(out_path, layer_name, id_name, id_values))
+}
 
 #################################################################
 #' @title Get minimum threshold of distance that makes sure each observation has at least one neighbor
@@ -119,7 +241,7 @@ queen_weights <- function(geoda_obj, ...) {
     stop("precision_threshold has to be a positive numeric number.")
   }
 
-  w <- gda_queen_weights(geoda_obj$gda, "", order, include_lower_order, precision_threshold)
+  w <- gda_queen_weights(geoda_obj$gda, order, include_lower_order, precision_threshold)
   return(Weight$new(w))
 }
 
@@ -151,7 +273,7 @@ rook_weights <- function(geoda_obj, ...) {
     stop("precision_threshold has to be a positive numeric number.")
   }
 
-  w <- gda_rook_weights(geoda_obj$gda, "", order, include_lower_order, precision_threshold)
+  w <- gda_rook_weights(geoda_obj$gda, order, include_lower_order, precision_threshold)
   return(Weight$new(w))
 }
 

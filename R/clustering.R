@@ -1,5 +1,59 @@
 
 ############################################################
+#' @title Princinple Components Analysis
+#' @description Apply princinple components analysis on original data
+#' @param data A 2d numeric list of selected variables
+#' @return A PCAResult object containing the details of PCA
+#' @export
+pca <- function(data) {
+  return (gda_pca(data))
+}
+
+############################################################
+#' @title Summary of Princinple Components Analysis Result
+#' @description Override the summary() function for a PCA result
+#' @param pca_r A PCAResult object
+#' @return
+#' @export
+summary._p_PCAResult <- function(pca_r) {
+  nv <- length(pca_r$getEigenValues())
+  output <-
+    list("PCA method: " = pca_r$getMethod(),
+         "Standard Deviation:" = pca_r$getStandardDev(),
+         "Proportion of variance:" = pca_r$getPropOfVar(),
+         "Cumulative proportion:" = pca_r$getCumProp(),
+         "Kaiser criterion:" = pca_r$getKaiser(),
+         "95% threshold criterion:" = pca_r$getThresh95(),
+         "Eigen Values:" = pca_r$getEigenValues(),
+         "Variable Loadings:" = pca_r$getLoadings(),
+         "Squared Correlations:" = pca_r$getSqCorrelations()
+    )
+  print(output)
+}
+
+############################################################
+#' @title Get first k components from PCA
+#' @description Get first k components from PCA
+#' @param pca_r An object return from pca() function
+#' @param k A numeric value
+#' @return A PCAResult object containing the details of PCA
+#' @export
+get_kcomponents <- function(pca_r, k) {
+  return (pca_r$getKComponents(k))
+}
+
+############################################################
+#' @title Multi Dimensional Scaling
+#' @description Apply multi dimensional scaling to project original data on to a low dimension (k) space
+#' @param data A 2d numeric list of selected variables
+#' @param k The number of clusters
+#' @return A 2d list represents a group of clusters
+#' @export
+mds <- function(data, k) {
+  return (gda_mds(data, k))
+}
+
+############################################################
 #' @title Spatial C(K)luster Analysis by Tree Edge Removal
 #' @description SKATER forms clusters by spatially partitioning data that has similar values for features of interest.
 #' @param k The number of clusters
