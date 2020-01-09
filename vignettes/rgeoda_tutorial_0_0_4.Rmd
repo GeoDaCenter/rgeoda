@@ -405,7 +405,7 @@ lisa_pvalues(geary_crmprs)
 #### 4.1.3 Multivariate Local Geary:
 
 ```{r}
-data <-as.list(guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
+data <-guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 multigeary <- local_multigeary(queen_w, data)
 ```
 
@@ -472,7 +472,7 @@ lisa_num_nbrs(localjc_crm)
 #### 4.1.6 Multivariate Local Join Count:
 
 ```{r}
-bin_data <- as.list(guerry_df[c('TopWealth','TopLit')])
+bin_data <- guerry_df[c('TopWealth','TopLit')]
 multijc <- local_multijoincount(queen_w, bin_data)
 ```
 

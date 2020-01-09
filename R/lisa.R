@@ -225,7 +225,8 @@ local_multigeary <- function(w, data, ncpu=8, perm=999) {
     stop("The number of variables has to be larger than 1.")
   }
   undefs <- c(logical(0))
-  lisa_obj <- gda_multigeary(w$gda_w, data)
+  array_data <- as.list(data)
+  lisa_obj <- gda_multigeary(w$gda_w, array_data)
   return (LISA$new(lisa_obj))
 }
 
@@ -301,7 +302,8 @@ local_multijoincount <- function(w, data, ncpu=8, perm=999) {
     stop("The number of variables has to be larger than 1.")
   }
 
-  lisa_obj <- gda_multijoincount(w$gda_w, data)
+  array_data <- as.list(data)
+  lisa_obj <- gda_multijoincount(w$gda_w, array_data)
   return (LISA$new(lisa_obj))
 }
 
