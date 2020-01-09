@@ -4,7 +4,7 @@
 \alias{local_moran}
 \title{Local Moran statistics}
 \usage{
-local_moran(w, data)
+local_moran(w, data, ncpu = 8, perm = 999)
 }
 \arguments{
 \item{w}{An instance of Weight object}

@@ -4,7 +4,7 @@
 \alias{local_geary}
 \title{Local Geary statistics}
 \usage{
-local_geary(w, data)
+local_geary(w, data, ncpu = 8, perm = 999)
 }
 \arguments{
 \item{w}{An instance of Weight object}
