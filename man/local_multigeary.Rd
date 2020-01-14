@@ -9,7 +9,7 @@ local_multigeary(w, data, ncpu = 8, perm = 999)
 \arguments{
 \item{w}{An instance of Weight object}
 
-\item{data}{A 2D tuple of values of selected variables}
+\item{data}{A data.frame with selected variables}
 }
 \value{
 lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
