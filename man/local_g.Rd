@@ -4,7 +4,7 @@
 \alias{local_g}
 \title{Local Getis-Ord's G statistics}
 \usage{
-local_g(w, data)
+local_g(w, data, ncpu = 8, perm = 999)
 }
 \arguments{
 \item{w}{An instance of Weight object}

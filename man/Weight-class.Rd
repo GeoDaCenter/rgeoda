@@ -41,8 +41,6 @@ A wrapper class for GeoDaWeight class
 
 \item{\code{HasIsolates()}}{Check if weights matrix has isolates, or if any observation has no neighbors}
 
-\item{\code{initialize(o_gda_w)}}{Constructor with a GeoDaWeight object (internally used)}
-
 \item{\code{IsSymmetric()}}{Check if weights matrix is symmetric}
 
 \item{\code{SaveToFile(out_path, layer_name, id_name, id_values)}}{Save current spatial weights to a file.\cr \cr
@@ -52,5 +50,7 @@ id_name : The id name (or field name), which is an associated column contains un
 id_values : The tuple of values of selected id_name (column/field)}
 
 \item{\code{SpatialLag(idx, values)}}{Compute spatial lag values of idx-th observation, idx starts from 0}
+
+\item{\code{initialize(o_gda_w)}}{Constructor with a GeoDaWeight object (internally used)}
 }}
 

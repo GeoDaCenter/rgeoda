@@ -4,12 +4,12 @@
 \alias{sf_to_geoda}
 \title{Create a geoda object from a sf object}
 \usage{
-sf_to_geoda(sf_obj, ...)
+sf_to_geoda(sf_obj, with_table = FALSE)
 }
 \arguments{
 \item{sf_obj}{An instance of sf object}
 
-\item{with_table}{(Optional, Default: FALSE)If create a table from sf dataframe object.}
+\item{with_table}{Optional, Default: FALSE If create a table from sf dataframe object.}
 }
 \value{
 geoda_obj An instance of geoda class

@@ -4,12 +4,12 @@
 \alias{sp_to_geoda}
 \title{Create a geoda object from a sp object}
 \usage{
-sp_to_geoda(sp_obj, ...)
+sp_to_geoda(sp_obj, with_table = False)
 }
 \arguments{
 \item{sp_obj}{An instance of sp object}
 
-\item{with_table}{(Optional, Default: FALSE)If create a table from sp dataframe object.}
+\item{with_table}{Optional, Default: FALSE If create a table from sp dataframe object.}
 }
 \value{
 geoda_obj An instance of GeoDa object

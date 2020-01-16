@@ -214,14 +214,14 @@ local_geary <- function(w, data, ncpu=8, perm=999) {
 #' @title  Local Multivariate Geary statistics
 #' @description The function to apply local Multivariate Geary statistics
 #' @param w An instance of Weight object
-#' @param data A 2D tuple of values of selected variables
+#' @param data A data.frame with selected variables
 #' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 #' @export
 local_multigeary <- function(w, data, ncpu=8, perm=999) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
-  if (length(data) <  1) {
+  if (ncol(data) <  1) {
     stop("The number of variables has to be larger than 1.")
   }
   undefs <- c(logical(0))
@@ -291,14 +291,14 @@ local_joincount <- function(w, data, ncpu=8, perm=999) {
 #' @title  Local Multivariate Join Count statistics
 #' @description The function to apply local Multivariate Join Count statistics
 #' @param w An instance of Weight object
-#' @param data A 2D tuple of values of selected variables
+#' @param data A data.frame with selected variables
 #' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 #' @export
 local_multijoincount <- function(w, data, ncpu=8, perm=999) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
-  if (length(data) <  1) {
+  if (ncol(data) <  1) {
     stop("The number of variables has to be larger than 1.")
   }
 

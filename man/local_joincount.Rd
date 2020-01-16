@@ -4,7 +4,7 @@
 \alias{local_joincount}
 \title{Local Join Count statistics}
 \usage{
-local_joincount(w, data)
+local_joincount(w, data, ncpu = 8, perm = 999)
 }
 \arguments{
 \item{w}{An instance of Weight object}
