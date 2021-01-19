@@ -1,0 +1,8 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  rgeoda_esda_sf_0_0_6: rgeoda_esda_sf_0_0_6.html
+  rgeoda_tutorial_0_0_6: rgeoda_tutorial_0_0_6.html
+last_built: 2021-01-19T20:36Z
+

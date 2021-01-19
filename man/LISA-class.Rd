@@ -4,7 +4,7 @@
 \name{LISA-class}
 \alias{LISA-class}
 \alias{LISA}
-\title{LISA class}
+\title{LISA class (Internally Used)}
 \description{
 A LISA class wrappers the results of LISA computation
 }
@@ -33,24 +33,30 @@ A LISA class wrappers the results of LISA computation
 \section{Methods}{
 
 \describe{
+\item{\code{GetBO(current_p)}}{Get the Bonferroni bound value}
+
 \item{\code{GetClusterIndicators()}}{Get the local cluster indicators returned from LISA computation.}
 
 \item{\code{GetColors()}}{Get the cluster colors of LISA computation.}
 
-\item{\code{GetLabels()}}{Get the cluster labels of LISA computation.}
+\item{\code{GetFDR(current_p)}}{Get the False Discovery Rate value}
 
 \item{\code{GetLISAValues()}}{Get the local spatial autocorrelation values returned from LISA computation.}
 
+\item{\code{GetLabels()}}{Get the cluster labels of LISA computation.}
+
+\item{\code{GetLocalSignificanceValues()}}{Get the local pseudo-p values of significance returned from LISA computation.}
+
 \item{\code{GetNumNeighbors()}}{Get the number of neighbors of every observations in LISA computation.}
-
-\item{\code{GetPValues()}}{Get the local pseudo-p values of significance returned from LISA computation.}
-
-\item{\code{initialize(lisa_obj)}}{Constructor with a LISA object (internally used)}
 
 \item{\code{Run()}}{Call to run LISA computation}
 
 \item{\code{SetPermutations(num_perm)}}{Set the number of permutations for the LISA computation}
 
+\item{\code{SetSignificanceCutoff(cutoff)}}{Set the cutoff value of significance values}
+
 \item{\code{SetThreads(num_threads)}}{Set the number of CPU threads for the LISA computation}
+
+\item{\code{initialize(lisa_obj)}}{Constructor with a LISA object (internally used)}
 }}
 

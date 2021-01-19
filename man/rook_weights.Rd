@@ -4,7 +4,12 @@
 \alias{rook_weights}
 \title{Create a Rook contiguity weights}
 \usage{
-rook_weights(geoda_obj, ...)
+rook_weights(
+  geoda_obj,
+  order = 1,
+  include_lower_order = FALSE,
+  precision_threshold = 0
+)
 }
 \arguments{
 \item{geoda_obj}{An object of [geoda] class}
@@ -20,4 +25,10 @@ w An object of Weight class
 }
 \description{
 Create a Rook contiguity weights with options of "order", "include lower order" and "precision threshold"
+}
+\examples{
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- geoda_open(guerry_path)
+rook_w <- rook_weights(guerry)
+summary(rook_w)
 }

@@ -1,4 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^deps$
-^\.RData$
+^\.RData
+^\.git
+^\.gitignore
+^\.gitmodules
+^\.gitattributes
+^\.vscode
+^docs
+^tests

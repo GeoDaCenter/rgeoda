@@ -4,7 +4,17 @@
 \alias{kernel_knn_weights}
 \title{Create a kernel weights with KNN specified bandwidth}
 \usage{
-kernel_knn_weights(geoda_obj, k, kernel_method, ...)
+kernel_knn_weights(
+  geoda_obj,
+  k,
+  kernel_method,
+  adaptive_bandwidth = TRUE,
+  use_kernel_diagonals = FALSE,
+  power = 1,
+  is_inverse = FALSE,
+  is_arc = FALSE,
+  is_mile = TRUE
+)
 }
 \arguments{
 \item{geoda_obj}{An instance of geoda}
@@ -18,9 +28,9 @@ FALSE use max distance of all observation to their k-nearest neighbors}
 
 \item{use_kernel_diagonals}{(optional) FALSE (default) or TRUE, apply kernel on the diagonal of weights matrix}
 
-\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on distance value}
-
 \item{power}{(optional) The power (or exponent) of a number says how many times to use the number in a multiplication.}
+
+\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on distance value}
 
 \item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance between two observations}
 
@@ -31,6 +41,12 @@ w An instance of Weight
 }
 \description{
 Create a kernel weights by specifying k-nearest neighbors and a kernel method
+}
+\examples{
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- geoda_open(guerry_path)
+adptkernel_w = kernel_knn_weights(guerry, 6, "uniform")
+summary(adptkernel_w)
 }
 \keyword{kernel}
 \keyword{knn}

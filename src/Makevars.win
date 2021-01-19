@@ -1,52 +1,119 @@
-VERSION = 2.2.3
 COMPILED_BY ?= gcc-4.6.3
-RWINLIB = ../windows/gdal2-$(VERSION)
-RGEODALIB = ../windows/libgeoda_static-0.0.3.3
-RWXLIB = ../windows/wx_static-3.0.4.1
-RANNLIB = ../windows/ANN_static-1.1.2
-RBOOSTLIB = ../windows/boost_static-1.57.0
 TARGET = lib$(subst gcc,,$(COMPILED_BY))$(R_ARCH)
 
-PKG_CPPFLAGS =\
-	-I$(RWINLIB)/include/gdal \
-	-I$(RWINLIB)/include/geos \
-	-I$(RWINLIB)/include/proj \
-    -I$(RGEODALIB)/include \
-    -I$(RWXLIB)/include -I$(RWXLIB)/lib${R_ARCH}/baseu \
-    -I$(RANNLIB)/include
+RGEODALIB = ./libgeoda_src
+
+PKG_CPPFLAGS=\
+	-I$(RGEODALIB) \
+	-D__USE_PTHREAD__ \
+	-D__RGEODA__ \
+	-pthread
 
 
-PKG_LIBS = \
-	$(RGEODALIB)/lib$(R_ARCH)/libgeoda.a \
-	$(RANNLIB)/lib$(R_ARCH)/libANN.a \
-	$(RBOOSTLIB)/lib$(R_ARCH)/libboost_chrono-mt.a \
-	$(RBOOSTLIB)/lib$(R_ARCH)/libboost_system-mt.a \
-	$(RBOOSTLIB)/lib$(R_ARCH)/libboost_thread-mt.a \
-	$(RBOOSTLIB)/lib$(R_ARCH)/libboost_date_time-mt.a \
-	$(RWXLIB)/lib$(R_ARCH)/libwxbase30u.a \
-	$(RWXLIB)/lib$(R_ARCH)/libwxexpat.a \
-	$(RWXLIB)/lib$(R_ARCH)/libwxregexu.a \
-	$(RWXLIB)/lib$(R_ARCH)/libwxzlib.a \
+PKG_LIBS=\
 	-L$(RWINLIB)/$(TARGET) \
 	-L$(RWINLIB)/lib$(R_ARCH) \
-	-lgdal -lsqlite3 -lspatialite -lproj -lgeos_c -lgeos  \
-	-ljson-c -lnetcdf -lmariadbclient -lpq -lintl -lwebp -lcurl -lssh2 -lssl -lcrypto \
-	-lkea -lhdf5_cpp -lhdf5_hl -lhdf5 -lexpat -lfreexl -lcfitsio \
-	-lmfhdf -ldf -lxdr \
-	-lopenjp2 -ljasper -lpng16 -ljpeg -ltiff -lgeotiff -lgif -lxml2 -llzma -lszip -lz \
-	-lodbc32 -lodbccp32 -liconv -lpsapi -lws2_32 -lcrypt32 -lwldap32 -lsecur32 -lgdi32 -luuid -lole32
+	-pthread
 
-all: clean winlibs
+CXX_STD = CXX14
 
-CXX_STD = CXX11
+CPP_SRC_FILES = \
+	$(RGEODALIB)/libgeoda.cpp \
+	$(RGEODALIB)/gda_sa.cpp \
+	$(RGEODALIB)/gda_data.cpp \
+	$(RGEODALIB)/gda_weights.cpp \
+	$(RGEODALIB)/gda_clustering.cpp \
+	$(RGEODALIB)/GenGeomAlgs.cpp \
+	$(RGEODALIB)/GenUtils.cpp \
+	$(RGEODALIB)/SpatialIndAlgs.cpp \
+	$(RGEODALIB)/pg/geoms.c \
+	$(RGEODALIB)/pg/utils.c \
+	$(RGEODALIB)/shapelib/dbfopen.c \
+	$(RGEODALIB)/shapelib/safileio.c \
+	$(RGEODALIB)/shapelib/shpopen.c \
+	$(RGEODALIB)/weights/PointsToContigWeights.cpp \
+	$(RGEODALIB)/weights/PolysToContigWeights.cpp \
+	$(RGEODALIB)/weights/GalWeight.cpp \
+	$(RGEODALIB)/weights/GwtWeight.cpp \
+	$(RGEODALIB)/weights/GeodaWeight.cpp \
+	$(RGEODALIB)/weights/VoronoiUtils.cpp \
+	$(RGEODALIB)/sa/BatchLISA.cpp \
+	$(RGEODALIB)/sa/BatchLocalMoran.cpp \
+	$(RGEODALIB)/sa/LISA.cpp \
+	$(RGEODALIB)/sa/MultiGeary.cpp \
+	$(RGEODALIB)/sa/MultiJoinCount.cpp \
+	$(RGEODALIB)/sa/UniG.cpp \
+	$(RGEODALIB)/sa/UniGeary.cpp \
+	$(RGEODALIB)/sa/UniGstar.cpp \
+	$(RGEODALIB)/sa/UniJoinCount.cpp \
+	$(RGEODALIB)/sa/UniLocalMoran.cpp \
+	$(RGEODALIB)/clustering/redcap.cpp \
+	$(RGEODALIB)/clustering/redcap_wrapper.cpp \
+	$(RGEODALIB)/clustering/azp.cpp \
+	$(RGEODALIB)/clustering/maxp_wrapper.cpp \
+	$(RGEODALIB)/clustering/azp_wrapper.cpp \
+	$(RGEODALIB)/clustering/cluster.cpp \
+	rcpp_rgeoda.cpp \
+	rcpp_weights.cpp \
+	rcpp_utils.cpp \
+	rcpp_lisa.cpp \
+	rcpp_clustering.cpp \
+	RcppExports.cpp
 
-winlibs:
-	mkdir -p ../inst
-	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" --vanilla "../tools/winlibs.R" $(VERSION)
-	cp -r $(RWINLIB)/share/gdal ../inst/
-	cp -r $(RWINLIB)/share/proj ../inst/
+#C_SRC_FILES = \
+#	$(wildcard $(RGEODALIB)/pg/*.c) \
+#	$(wildcard $(RGEODALIB)/shapelib/*.c)
+
+
+OBJECTS = \
+	$(RGEODALIB)/libgeoda.o \
+	$(RGEODALIB)/gda_sa.o \
+	$(RGEODALIB)/gda_data.o \
+	$(RGEODALIB)/gda_weights.o \
+	$(RGEODALIB)/gda_clustering.o \
+	$(RGEODALIB)/GenGeomAlgs.o \
+	$(RGEODALIB)/GenUtils.o \
+	$(RGEODALIB)/SpatialIndAlgs.o \
+	$(RGEODALIB)/pg/geoms.o \
+	$(RGEODALIB)/pg/utils.o \
+	$(RGEODALIB)/shapelib/dbfopen.o \
+	$(RGEODALIB)/shapelib/safileio.o \
+	$(RGEODALIB)/shapelib/shpopen.o \
+	$(RGEODALIB)/weights/PointsToContigWeights.o \
+	$(RGEODALIB)/weights/PolysToContigWeights.o \
+	$(RGEODALIB)/weights/GalWeight.o \
+	$(RGEODALIB)/weights/GwtWeight.o \
+	$(RGEODALIB)/weights/GeodaWeight.o \
+	$(RGEODALIB)/weights/VoronoiUtils.o \
+	$(RGEODALIB)/sa/BatchLISA.o \
+	$(RGEODALIB)/sa/BatchLocalMoran.o \
+	$(RGEODALIB)/sa/LISA.o \
+	$(RGEODALIB)/sa/MultiGeary.o \
+	$(RGEODALIB)/sa/MultiJoinCount.o \
+	$(RGEODALIB)/sa/UniG.o \
+	$(RGEODALIB)/sa/UniGeary.o \
+	$(RGEODALIB)/sa/UniGstar.o \
+	$(RGEODALIB)/sa/UniJoinCount.o \
+	$(RGEODALIB)/sa/UniLocalMoran.o \
+	$(RGEODALIB)/clustering/redcap.o \
+	$(RGEODALIB)/clustering/redcap_wrapper.o \
+	$(RGEODALIB)/clustering/azp.o \
+	$(RGEODALIB)/clustering/maxp_wrapper.o \
+	$(RGEODALIB)/clustering/azp_wrapper.o \
+	$(RGEODALIB)/clustering/cluster.o \
+	rcpp_rgeoda.o \
+	rcpp_weights.o \
+	rcpp_utils.o \
+	rcpp_lisa.o \
+	rcpp_clustering.o \
+	RcppExports.o
+
+
+.PHONY: clean all
+
+all: clean $(SHLIB)
 
 clean:
 	rm -f $(SHLIB) $(OBJECTS)
 
-.PHONY: all winlibs clean
+

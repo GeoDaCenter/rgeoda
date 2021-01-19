@@ -7,9 +7,9 @@
 between_sumofsquare(clusters, data)
 }
 \arguments{
-\item{clusters}{A 2d list which returns from spatial clustering methods, e.g. skater()}
+\item{clusters}{A list of numeric vectors which returns from spatial clustering methods, e.g. skater()}
 
-\item{data}{A 2d list which is used in spatial clustering methods, e.g. skater(k, w, data)}
+\item{data}{A list of numeric vectors which is used in spatial clustering methods, e.g. skater(k, w, data)}
 }
 \value{
 A value of between sum of square value

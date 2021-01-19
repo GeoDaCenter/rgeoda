@@ -4,16 +4,41 @@
 \alias{local_g}
 \title{Local Getis-Ord's G statistics}
 \usage{
-local_g(w, data)
+local_g(
+  w,
+  data,
+  permutations = 999,
+  significance_cutoff = 0.05,
+  cpu_threads = 6,
+  seed = 123456789
+)
 }
 \arguments{
 \item{w}{An instance of Weight object}
 
-\item{data}{A tuple of values of selected variable}
+\item{data}{A numeric array of selected variable}
+
+\item{permutations}{The number of permutations for the LISA computation}
+
+\item{significance_cutoff}{A cutoff value for significance p-values to filter not-significant clusters}
+
+\item{cpu_threads}{The number of cpu threads used for parallel LISA computation}
+
+\item{seed}{The seed for random number generator}
 }
 \value{
 lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 }
 \description{
 The function to apply Getis-Ord's local G statistics
+}
+\examples{
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- geoda_open(guerry_path)
+queen_w <- queen_weights(guerry)
+guerry_df <- as.data.frame(guerry) # use as data.frame
+crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
+lisa <- local_g(queen_w, crm_prs)
+lms <- lisa_values(lisa)
+lms
 }

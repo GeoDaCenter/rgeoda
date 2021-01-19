@@ -4,16 +4,41 @@
 \alias{local_joincount}
 \title{Local Join Count statistics}
 \usage{
-local_joincount(w, data)
+local_joincount(
+  w,
+  data,
+  permutations = 999,
+  significance_cutoff = 0.05,
+  cpu_threads = 6,
+  seed = 123456789
+)
 }
 \arguments{
 \item{w}{An instance of Weight object}
 
-\item{data}{A tuple of values of selected variable}
+\item{data}{A numeric array of selected variable}
+
+\item{permutations}{The number of permutations for the LISA computation}
+
+\item{significance_cutoff}{A cutoff value for significance p-values to filter not-significant clusters}
+
+\item{cpu_threads}{The number of cpu threads used for parallel LISA computation}
+
+\item{seed}{The seed for random number generator}
 }
 \value{
 lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
 }
 \description{
 The function to apply local Join Count statistics
+}
+\examples{
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- geoda_open(guerry_path)
+queen_w <- queen_weights(guerry)
+guerry_df <- as.data.frame(guerry) # use as data.frame
+top_crm <- guerry_df['TopCrm'][,1] # get 0/1 values of variable "top_crm"
+lisa <- local_joincount(queen_w, top_crm)
+clsts<- lisa_clusters(lisa)
+clsts
 }

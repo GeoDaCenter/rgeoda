@@ -1,0 +1,710 @@
+---
+title: "Tutorial of rgeoda v0.0.6"
+author: "lixun910"
+date: "1/6/2021"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{rgeoda_tutorial_0_0_6}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+`rgeoda` is an R library for spatial data analysis. It is an R wrapper of the libgeoda C++ library, which is built based on the `GeoDa` software. The version used in this tutorial is version 0.0.6.
+
+
+## 1. Install `rgeoda`
+
+rgeoda will be submitted to CRAN soon. Once it is accepted, one should be able to install rgeoda in R console 
+```
+install.packages("rgeoda")
+```
+
+### Load `rgeoda` library in R
+
+
+
+If everything installed without error, you should be able to load `rgeoda`:
+
+```{r}
+library(rgeoda)
+```
+
+## 2. Load Spatial Data
+
+The data formats that `rgeoda` can read directly includes ESRI Shapefile and Geojson (coming in next version).
+
+For example, to load the ESRI Shapefile `Guerry.shp` comes with the package:
+
+```{r}
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- geoda_open(guerry_path)
+```
+
+The `geoda_open` function returns a `geoda` object, which can be used to access the meta-data, fields, and columns of the input dataset.
+
+```{r}
+guerry_df <- as.data.frame(guerry)
+class(guerry_df)
+```
+
+Now guerry_df is a data frame.
+
+#### 2.1 Attributes of `geoda_df` dataframe
+
+```{r}
+head(guerry_df)
+ncol(guerry_df)
+nrow(guerry_df)
+names(guerry_df)
+```
+
+### 2.2 Access Table Data
+
+Get data from first colum:
+```{r}
+guerry_df[,1]
+```
+
+Get data from first row:
+```{r}
+guerry_df[1,]
+```
+
+Get data from 3-rd and 5-th columns:
+```
+guerry_df[,c(3,5)]
+```
+
+Get data from column 'Crm_prs'
+```
+guerry_df['Crm_prs']
+```
+
+The above code returns a data.frame, you can get the list values by:
+```{r}
+crm_prs <- guerry_df['Crm_prs'][,1]
+class(crm_prs)
+```
+
+Get data from multiple columns using the column names:
+```{r}
+crm_prs_prp <- guerry_df[c('Crm_prs', 'Crm_prp')]
+head(crm_prs_prp)
+```
+
+## 3. Spatial Weights
+
+Spatial weights are central components in spatial data analysis. The spatial weights represent the possible spatial interactions between observations in space. Like `GeoDa` desktop software, `rgeoda` provides a rich variety of methods to create several different types of spatial weights:
+
+* Contiguity Based Weights: `queen_weights()`, `rook_weights()`
+* Distance Based Weights: `distance_weights()`
+* K-Nearest Neighbor Weights: `knn_weights()`
+* Kernel Weights: `distance_weights()` and `knn_weights()` with kernel parameters
+
+### 3.1 Queen Contiguity Weights
+
+To create a Queen contiguity weights, we can call rgeoda's function 
+```r
+queen_weights(gda, order=1, include_lower_order = False, precision_threshold = 0)
+``` 
+by passing the `GeoDa` object `guerry` we just created: 
+
+```{r}
+queen_w <- queen_weights(guerry)
+summary(queen_w)
+```
+
+The function `queen_weights()` returns an instance of 
+`Weight` object. One can access the meta data of the spatial
+weights by accessing the attributes of `GeoDaWeight` object:
+
+#### Attributes of `Weight` object
+
+```{r}
+is_symmetric(queen_w)
+```
+
+```{r}
+has_isolates(queen_w)
+```
+
+```{r}
+weights_sparsity(queen_w)
+```
+
+```{r}
+weights_density(queen_w)
+```
+
+We can also access the details of the weights: e.g. list the neighbors of a specified observation, which is very helpful in exploratory spatial data analysis (which is focused in next tutorial):
+
+```{r}
+nbrs <- get_neighbors(queen_w, idx = 1)
+cat("\nNeighbors of the 1-st observation are:", nbrs)
+```
+We can also compute the spatial lag of a specified observation by passing the values of the selected variable:
+
+```{r}
+lag0 <- spatial_lag(queen_w, idx = 1, values = crm_prs)
+cat("\nSpatial lag of the 1-st observation of variable crm_prs is:", lag0)
+```
+
+### 3.2 Rook Contiguity Weights
+
+To create a Rook contiguity weights, we can call `rgeoda`'s function `rook_weights`: 
+```r
+rook_weights(gda, order=1,include_lower_order=False, precision_threshold = 0)
+``` 
+by passing the `GeoDa` object `guerry` we just created: 
+
+```{r}
+rook_w <- rook_weights(guerry)
+summary(rook_w)
+```
+
+The weights we created are in memory, which makes it straight forward for spatial data analysis and also are good for programming your application. To save the weights to a file, we need to call the function `save_weights` 
+```r
+save_weights(gda_w, out_path, layer_name, id_name, id_values)
+```
+
+The `layer_name` is the layer name of loaded dataset. For a ESRI shapefile, the layer name is the file name without the suffix (e.g. Guerry). 
+
+The `id_name` is a key (column name), which means the associated column contains unique values, that makes sure that the weights are connected to the correct observations in the data table. 
+
+The `id_vec` is the actual column data of `id_name`, it could be a tuple of integer or string values.
+
+For example, in Guerry dataset, the column "CODE_DE" can be used as a key to save a weights file:
+
+```{r}
+save_weights(rook_w, out_path = '/Users/xun/Downloads/Guerry_r.gal', 
+             layer_name = 'Guerry', 
+             id_name = 'CODE_DE', 
+             id_values = as.integer(guerry_df['CODE_DE'][,1]))
+```
+
+Then, we should find the file "Guerry_r.gal" in the output directory.
+
+### 3.3 Distance Based Weights
+
+To create a Distance based weights, we can call `rgeoda`'s function `distance_weights`
+```r
+distance_weights(geoda_obj, dist_thres, power=1.0,  is_inverse=False, is_arc=False, is_mile=True)
+``` 
+by passing the `GeoDa` object `guerry` we just created the value of distance threshold. 
+
+Like `GeoDa`, `rgeoda` also provides a function `min_distthreshold` to help you find a optimized distance threshold that guarantees that every observation has at least one neighbor:
+
+```r
+min_distthreshold(GeoDa gda, bool is_arc = False, is_mile = True)
+```
+For example, we first find the distance threshold using `min_distthreshold`, save the results into `dist_thres`, then pass this threshold `dist_thres` into the function `dist_w` to create a distance based weights for `guerry`.    
+
+```{r}
+dist_thres <- min_distthreshold(guerry)
+dist_thres
+dist_w <- distance_weights(guerry, dist_thres)
+summary(dist_w)
+```
+### 3.4 K-Nearest Neighbor Weights
+
+A special case of distance based weights is K-Nearest neighbor weights, in which every obersvation will have exactly k neighbors. To create a KNN weights, we can call `rgeoda`'s function `knn_weights`:
+
+```r
+knn_weights(gda, k, power = 1.0,is_inverse = False, is_arc = False, is_mile = True)
+```
+
+For example, to create a 6-nearest neighbor weights using Guerry dataset:
+```{r}
+knn6_w <- knn_weights(guerry, 6)
+summary(knn6_w)
+```
+
+### 3.5 Kernel Weights
+
+Kernel weights apply kernel function to determine the distance decay in the derived continuous weights kernel. The kernel weights are defined as a function K(z) of the ratio between the distance dij from i to j, and the bandwidth hi, with z=dij/hi. 
+
+The kernel functions include
+
+* triangular
+* uniform 
+* quadratic
+* epanechnikov
+* quartic
+* gaussian
+
+Two functions are provided in `rgeoda` to create kernel weights.
+
+#### Use `kernel_weights` for Kernel Weights with adaptive bandwidth
+
+To create a kernel weights with fixed bandwith:
+```{r}
+bandwidth <- min_distthreshold(guerry)
+kernel_w <- kernel_weights(guerry, bandwidth, kernel_method = "uniform")
+summary(kernel_w)
+```
+
+The arguments `is_inverse`, `power`, `is_arc` and `is_mile` are the same with the distance based weights. Additionally, `kernel_weights` has another argument that user can specify:
+```
+use_kernel_diagonals	
+(optional) FALSE (default) or TRUE, apply kernel on the diagonal of weights matrix
+```
+
+#### Use `kernel_knn_weights` for Kernel Weights with adaptive bandwidth
+
+To create a kernel weights with adaptive bandwidth or using max Knn distance as bandwidth:
+```{r}
+adptkernel_w = kernel_knn_weights(guerry, 6, "uniform")
+
+summary(adptkernel_w)
+```
+
+This kernel weights function two more arguments that user can specify:
+```
+adaptive_bandwidth	
+(optional) TRUE (default) or FALSE: TRUE use adaptive bandwidth calculated using distance of k-nearest neithbors, FALSE use max distance of all observation to their k-nearest neighbors
+
+use_kernel_diagonals	
+(optional) FALSE (default) or TRUE, apply kernel on the diagonal of weights matrix
+```
+
+## 4 Spatial Data Analysis
+
+
+### 4.1 Local Spatial Autocorrelation
+
+`rgeoda` 0.0.6 provids following methods for *univariate local* spatial autocorrelation statistics:
+
+
+* Local Moran: local_moran()
+* Local Geary: local_geary(), local_multigeary()
+* Local Getis-Ord statistics: local_g() and local_gstar()
+* Local Join Count: local_joincount(), local_multijoincount()
+* Quantile LISA: local_quantilelisa()
+
+
+Methods for *bivariate* and *multivariate local* spatial autocorrelation statistics, as well as *global* spatial autocorrelation statistics, will be included in the next release of `rgeoda`.
+
+In this tutorial, we will only introduce how to call these methods using `rgeoda`. Please read [here](http://geodacenter.github.io/workbook/6a_local_auto/lab6a.html) for more information about the local spatial autocorrelation statistics. 
+
+#### 4.1.1 Local Moran
+
+The Local Moran statistic is a method to identify local clusters and local spatial outliers. For example, we can call  the function `local_moran()` with the created Queen weights and apply the Local Moran to analyze the spatial patterns for the variable "crm_prp":
+
+```{r}
+lisa <- local_moran(queen_w, crm_prs)
+```
+
+The `local_moran()` function will return a `lisa` object, which we can call its public functions to access the results of lisa computation.
+
+For example, we can call the function `lisa_values()` to get the values of the local Moran:
+
+```{r}
+lms <- lisa_values(gda_lisa = lisa)
+lms
+```
+
+We can use `lisa_pvalues()` to get the pseudo-p values of significance of local Moran computation:
+```{r}
+pvals <- lisa_pvalues(lisa)
+pvals
+```
+
+We can use `lisa_clusters()` to get the cluster indicators of local Moran computation. The p-value threshold can be specified via the argument `cutoff`. 
+
+```{r}
+cats <- lisa_clusters(lisa, cutoff = 0.05)
+cats
+```
+
+The predefined values of the indicators of LISA cluster are:
+```
+0 Not significant
+1 High-High
+2 Low-Low
+3 High-Low
+4 Low-High
+5 Undefined
+6 Isolated
+```
+which can be accessed via the function `lisa_labels()`:
+```{r}
+lbls <- lisa_labels(lisa)
+lbls
+```
+
+By default, the `local_moran()` function will run with some default parameters, e.g.:
+```
+permutation number: 999
+seed for random number generator: 123456789
+```
+These default parameters are identical to the GeoDa desktop software so that we can replicate the results as using the GeoDa software. It is also easy to change these paremters by specifying particular arguments and re-run the LISA computation.
+
+For example, re-run the above local Moran example using 9999 permutations. 
+```{r}
+lisa <- local_moran(queen_w, crm_prs, perm = 9999)
+```
+Then, we can use the same `lisa` object to get the new results after 9999 permutations:
+```{r}
+pvals <- lisa_pvalues(lisa)
+pvals
+```
+
+`rgeoda` uses `GeoDa` C++ code, in which multi-threading is used to accelerate the computation of LISA. We can use the argument `ncpu` to specify how many threads to run the computation:
+
+```{r}
+lisa <- local_moran(queen_w, crm_prs, cpu_threads = 4)
+```
+
+Get the False Discovery Rate value based on current pseudo-p values:
+```{r}
+fdr <- lisa_fdr(lisa, 0.05)
+fdr
+```
+
+Then, one can set the FDR value as the cutoff p-value to filter the cluster results:
+```{r}
+cat_fdr <- lisa_clusters(lisa, cutoff = fdr)
+cat_fdr
+```
+
+#### 4.1.2 Use `local_geary` for Local Geary
+
+Local Geary is a type of LISA that focuses on squared differences/dissimilarity. A small value of the local geary statistics suggests positive spatial autocorrelation, whereas large values suggest negative spatial autocorrelation. 
+
+For example, we can call the function `local_geary()` with the created Queen weights and apply the Local Gary to analyze the spatial patterns of the variable "crm_prp":
+
+```{r}
+geary_crmprs <- local_geary(queen_w, crm_prs)
+```
+
+To get the cluster indicators of the local Geary computation:
+```{r}
+lisa_clusters(geary_crmprs)
+```
+
+To get the pseudo-p values of the local Geary computation:
+
+```{r}
+lisa_pvalues(geary_crmprs)
+```
+
+#### 4.1.3 Use `local_multigeary` for Multivariate Local Geary:
+
+```{r}
+data <-guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+multigeary <- local_multigeary(queen_w, data)
+```
+
+To get the cluster indicators of the local Geary computation:
+```{r}
+lisa_clusters(multigeary)
+```
+
+#### 4.1.4 Local Getis-Ord Statistics
+
+There are two types of local Getis-Ord statistics: one is computing a ratio of the weighted average of the values in the neighboring locations, not including the value at the location; while another type of statistic includes the value at the location in both numerator and denominator.
+
+A value larger than the mean suggests a high-high cluster or hot spot, a value smaller than the mean indicates a low-low cluster or cold spot.
+
+For example, we can call the function `local_g()` with the created Queen weights and the data "crm_prp" as input parameters:
+
+```{r}
+localg_crmprs <- local_g(queen_w, crm_prs)
+```
+
+To get the cluster indicators of the local G computation:
+
+```{r}
+lisa_clusters(localg_crmprs)
+```
+
+To get the pseudo-p values of the local G computation:
+```{r}
+lisa_pvalues(localg_crmprs)
+```
+
+For the second type of local Getis-Ord statistics, we can call the function `local_gstar()` with the created Queen weights and the data "crm_prp" as input parameters:
+```{r}
+localgstar_crmprs <- local_gstar(queen_w, crm_prs)
+lisa_pvalues(localgstar_crmprs)
+```
+
+#### 4.1.5 Local Join Count
+
+
+Local Join Count is a method to identify local clusters for binary data by using a local version of the so-called BB join count statistic. The statistic is only meaningful for those observations with value 1. 
+
+For example, we can call the function `local_joincount()` with a Queen weights and the data "TopCrm", which is a set of binary (0,1) values, as input parameters:
+
+```{r}
+top_crm <- guerry_df['TopCrm'][,1]
+localjc_crm <- local_joincount(queen_w, top_crm)
+```
+
+To get the pseudo-p values of the local Join Count  computation:
+```{r}
+lisa_pvalues(localjc_crm)
+```
+
+To get the cluster indicators of the local Join Count computation:
+
+```{r}
+lisa_clusters(localjc_crm)
+```
+
+
+To get the number of neighbors of the local Join Count computation:
+```{r}
+lisa_num_nbrs(localjc_crm)
+```
+
+#### 4.1.6 Multivariate Local Join Count:
+
+Bivariate Local Join Count: in a bivariate local join count, the two events cannot happen in the same location, which is also called "no-colocation" in this tutorial. To demonstrate this function, we just manually create a new variable from top_crm:
+
+```{r}
+top_crm <- guerry_df['TopCrm'][,1] # get 0/1 values 
+inv_crm <- 1 - top_crm # create no-location case
+```
+
+Now, top_crm and inv_crm are no-colocation bivariate cases. Then, we apply the local_bijoicount():
+
+```{r}
+jc <- local_bijoincount(queen_w, top_crm, inv_crm)
+```
+
+To get the cluster indicators of the multivariate local join count computation:
+```{r}
+lisa_pvalues(jc)
+```
+
+To get the cluster indicators of the local Join Count computation:
+
+```{r}
+lisa_clusters(jc)
+```
+
+
+Co-location Local Join Count: where two or more events happen in the same location. Therefore, the function local_multijoincount takes a list of variables with 0/1 values as the input parameter:
+
+```{r}
+bin_data <- guerry_df[c('TopWealth','TopWealth', 'TopLit')] 
+jc <- local_multijoincount(queen_w, bin_data)
+```
+
+To get the cluster indicators of the multivariate local join count computation:
+```{r}
+lisa_pvalues(jc)
+```
+
+
+#### 4.1.7 Quantile LISA
+
+The quantile LISA converts the continuous variable to a binary variable that takes the value of 1 for a specific quantile, and then apply local join count statistics on the binary data. For example, we take the first from the 4 quantiles of variable "crm_prs" and apply local_quantilelisa()
+
+```{r}
+qsa <- local_quantilelisa(queen_w, 4, 1, crm_prs)
+```
+
+To get the p-values and cluster indicators of the quantile LISA computation:
+```{r}
+lisa_pvalues(qsa)
+lisa_clusters(qsa)
+```
+
+Multivariate Quantile LISA
+
+One can construct binary data from different variables with different configurations of number of quantiles and which quantile to use (set value to 1), and check the local spatial autocorrelation:
+
+```{r}
+crm_prp <- guerry_df['Crm_prp'][,1]
+quantiles <- list(list(4,1,crm_prs), list(4,1, crm_prp))
+qsa <- local_multiquantilelisa(queen_w, quantiles)
+```
+
+To get the p-values and cluster indicators of the quantile LISA computation:
+```{r}
+lisa_pvalues(qsa)
+lisa_clusters(qsa)
+```
+
+
+## 5 Spatial Clustering
+
+ 
+Spatial clustering aims to group a large number of geographic areas or points into a smaller number of regions based on similarities in one or more variables. Spatially constrained clustering is needed when clusters are required to be spatially contiguous. 
+
+In `GeoDa`, there are three different methods explicitly incorporate the contiguity constraint in the optimization process: SKATER, Redcap and Max-p. More details, please check: http://geodacenter.github.io/workbook/8_spatial_clusters/lab8.html All of these methods are included in rgeoda 0.0.6.
+
+For example, to apply spatial clustering on the Guerry dataset, we use the queen weights to define the spatial contiguity and select 6 variables for similarity measure: "Crm_prs", "Crm_prp", "Litercy", "Donatns", "Infants", "Suicids". 
+
+The following code is used to get a 2D data vector for the selected variables:
+
+```{r}
+data <- as.list(guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
+```
+
+### 5.1 SKATER
+
+The Spatial C(K)luster Analysis by Tree Edge Removal(SKATER) algorithm introduced by Assuncao et al. (2006) is based on the optimal pruning of a minimum spanning tree that reflects the contiguity structure among the observations. It provides an optimized algorithm to prune to tree into several clusters that their values of selected variables are as similar as possible.
+
+The `rgeoda`'s SKATER function is: 
+```r
+skater(k, w, data, distance_method='euclidean', bound_vals = [],  min_bound = 0, random_seed=123456789)
+```
+
+For example, to create 4 spatially contiguous clusters using Guerry dataset, the queen weights and the values of the 6 selected variables:
+```{r}
+guerry_clusters <- skater(4, queen_w, data)
+guerry_clusters
+```
+
+This `skater()` function returns a 2D list, which represents 4 clusters. Each cluster is composed by several contiguity areas, e.g. 15, 74, 16, 55, 60, 39, 68, 33, 17, 82, 81, 0, 2, 40, 20, 80
+
+`rgeoda` also provides utility functions to compute some descriptive statistics of the clustering results, e.g. to compute the ratio of between to total sum of squares:
+
+
+```{r}
+betweenss <- between_sumofsquare(guerry_clusters, data)
+totalss <- total_sumofsquare( data)
+ratio <-  betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+### 5.2 REDCAP
+
+REDCAP (Regionalization with dynamically constrained agglomerative clustering and partitioning) is developed by D. Guo (2008). Like SKATER, REDCAP starts from building a spanning tree in 3 different ways (single-linkage, average-linkage, and the complete-linkage). The single-linkage way leads to build a minimum spanning tree. Then, REDCAP provides 2 different ways (first-order and full-order constraining) to prune the tree to find clusters. The first-order approach with a minimum spanning tree is the same as SKATER. In `GeoDa` and `rgeoda`, the following methods are provided:
+
+* First-order and Single-linkage
+* Full-order and Complete-linkage
+* Full-order and Average-linkage
+* Full-order and Single-linkage
+* Full-order and Wards-linkage
+
+For example, to find 4 clusters using the same dataset and weights as above using REDCAP with Full-order and Complete-linkage method:
+
+```{r}
+redcap_clusters <- redcap(4, queen_w, data, "fullorder-completelinkage")
+redcap_clusters
+
+betweenss <- between_sumofsquare(redcap_clusters, data)
+totalss <- total_sumofsquare( data)
+ratio <- betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+### 5.3 AZP
+
+The automatic zoning procedure (AZP) was initially outlined in Openshaw (1977) as a way to address some of the consequences of the modifiable areal unit problem (MAUP). In essence, it consists of a heuristic to find the best set of combinations of contiguous spatial units into p regions, minimizing the within-sum of squares as a criterion of homogeneity. The number of regions needs to be specified beforehand, as in most other clustering methods considered so far.
+
+`rgeoda` provides three different heuristic algorithms to find an optimal solution for AZP:
+
+* greedy
+* Tabu Search
+* Simulated Annealing
+
+The original AZP heuristic is a local optimization procedure that cycles through a series of possible swaps between spatial units at the boundary of a set of regions. The process starts with an initial feasible solution, i.e., a grouping of n spatial units into p contiguous regions. This initial solution can be constructed in several different ways. The initial solution must satisfy the contiguity constraints. For example, this can be accomplished by growing a set of contiguous regions from p randomly selected seed units by adding neighboring locations until the contiguity constraint can no longer be met.
+
+
+```{r}
+azp_clusters <- azp_greedy(5, queen_w, data)
+
+betweenss <- between_sumofsquare(azp_clusters, data)
+ratio <- betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+To call AZP simulate annealing algorithm, one needs to specify `cooling_rate` (default: 0.85):
+
+
+```{r}
+azp_clusters <- azp_sa(5, queen_w, data, cooling_rate = 0.85)
+
+betweenss <- between_sumofsquare(azp_clusters, data)
+ratio <- betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+To call AZP Tabu search algorithm, one needs to specify `tabu_length` (deafult: 10) , or `conv_tabu` (default: 10):
+
+
+```{r}
+azp_clusters <- azp_tabu(5, queen_w, data, tabu_length = 10, conv_tabu = 10)
+
+betweenss <- between_sumofsquare(azp_clusters, data)
+ratio <- betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+
+### 5.4 Max-p
+
+The so-called max-p regions model (outlined in Duque, Anselin, and Rey 2012) uses a different approach and considers the regionalization problem as an application of integer programming. Besides, the number of regions is determined endogenously.
+
+The algorithm itself consists of a search process that starts with an initial feasible solution and iteratively improves upon it while maintaining contiguity among the elements of each cluster. `rgeoda` provides three different heuristic algorithms to find an optimal solution for max-p:
+
+* greedy
+* Tabu Search
+* Simulated Annealing
+
+Unlike SKATER and REDCAP that one can specify the number of clusters as an input parameter, max-p doesn't allow to specify the number of clusters explicitly, but a constrained variable and the minimum bounding value that each cluster should reach that are used to find an optimized number of clusters.
+
+For example, to use the `greedy` algorithm in maxp function with the same dataset and weights as above to find optimal clusters using max-p:
+
+First, we need to specify, for example, every cluster must have population >= 3236.67 thousand people:
+
+```{r}
+bound_vals <- guerry_df['Pop1831'][,1]
+min_bound <- 3236.67 # 10% of Pop1831
+```
+
+Then, we can call the max-p function with the "greedy" algorithm, the bound values, and minimum bound value:
+
+```{r}
+maxp_clusters <- maxp_greedy(queen_w, data, bound_vals, min_bound, iterations=99)
+
+betweenss <- between_sumofsquare(maxp_clusters, data)
+ratio <- betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+```
+Note: the results of max-p may be different with GeoDa desktop software, it is caused by the different implementation of boost::unordered_map in version 1.58 (used in GeoDa) and version 1.75 (used in rgeoda via BH package). The keys in boost::unordered_map are not ordered and have different orders in the two Boost versions we used. This involves a different mechanism of randomness in max-p algorithm when picking which area or region to process. Therefore, the results might be slightly different. This is normal and shows the sensitiveness of the max-p algorithm: see https://geodacenter.github.io/workbook/9d_spatial4/lab9d.html#max-p-region-problem for more about sensitivy study of max-p algorithm.
+
+If you want to replicate the identical results as in GeoDa software, please install BH == 1.58.0-1 and build/install rgeoda from source using: devtools::install_github("lixun910/rgeoda")
+```
+
+We can also specify using `tabu search` algorithm in maxp function with the parameter of tabu length:
+
+```{r}
+maxp_tabu_clusters <- maxp_tabu(queen_w, data, bound_vals, min_bound, tabu_length=10, conv_tabu=10)
+
+betweenss <- between_sumofsquare(maxp_tabu_clusters, data)
+ratio <- betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+To apply `simulated annealing` algorithm in maxp function with the parameter of cooling rate:
+
+```{r}
+maxp_sa_clusters <- maxp_sa(queen_w, data, bound_vals, min_bound, cooling_rate=0.85, sa_maxit=1)
+
+betweenss <- between_sumofsquare(maxp_sa_clusters, data)
+ratio <- betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+
+We can also increase the number of iterations for local search process by specifying the parameter `iterations` (default value is 99):
+
+```{r}
+maxp_clusters <- maxp_greedy(queen_w, data, bound_vals, min_bound, iterations=199)
+
+betweenss <- between_sumofsquare(maxp_clusters, data)
+ratio <- betweenss / totalss
+cat("The ratio of between to total sum of square:", ratio)
+```
+

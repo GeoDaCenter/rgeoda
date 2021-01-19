@@ -4,14 +4,23 @@
 \alias{skater}
 \title{Spatial C(K)luster Analysis by Tree Edge Removal}
 \usage{
-skater(k, w, data, ...)
+skater(
+  k,
+  w,
+  data,
+  bound_vals = vector("numeric"),
+  min_bound = 0,
+  distance_method = "euclidean",
+  random_seed = 123456789,
+  cpu_threads = 6
+)
 }
 \arguments{
 \item{k}{The number of clusters}
 
 \item{w}{An instance of Weight class}
 
-\item{data}{A 2d numeric list of selected variable}
+\item{data}{A list of numeric vectors of selected variable}
 
 \item{bound_vals}{(optional) A 1-d vector of selected bounding variable}
 
@@ -20,10 +29,21 @@ skater(k, w, data, ...)
 \item{distance_method}{(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"}
 
 \item{random_seed}{(int,optional) The seed for random number generator. Defaults to 123456789.}
+
+\item{cpu_threads}{(optional) The number of cpu threads used for parallel computation}
 }
 \value{
-A 2d list represents a group of clusters
+A list of numeric vectors represents a group of clusters
 }
 \description{
 SKATER forms clusters by spatially partitioning data that has similar values for features of interest.
+}
+\examples{
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- geoda_open(guerry_path)
+queen_w <- queen_weights(guerry)
+guerry_df <- as.data.frame(guerry) # use as data.frame
+data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+guerry_clusters <- skater(4, queen_w, data)
+guerry_clusters
 }

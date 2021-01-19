@@ -4,16 +4,26 @@
 \alias{redcap}
 \title{Regionalization with dynamically constrained agglomerative clustering and partitioning}
 \usage{
-redcap(k, w, data, method, ...)
+redcap(
+  k,
+  w,
+  data,
+  method = "fullorder-averagelinkage",
+  bound_vals = vector("numeric"),
+  min_bound = 0,
+  distance_method = "euclidean",
+  random_seed = 123456789,
+  cpu_threads = 6
+)
 }
 \arguments{
 \item{k}{The number of clusters}
 
 \item{w}{An instance of Weight class}
 
-\item{data}{A 2d numeric list of selected variable}
+\item{data}{A list of numeric vectors of selected variable}
 
-\item{method}{{"firstorder-singlelinkage", "fullorder-completelinkage", "fullorder-averagelinkage","fullorder-singlelinkage"}}
+\item{method}{{"firstorder-singlelinkage", "fullorder-completelinkage", "fullorder-averagelinkage","fullorder-singlelinkage", "fullorder-wardlinkage"}}
 
 \item{bound_vals}{(optional) A 1-d vector of selected bounding variable}
 
@@ -22,20 +32,32 @@ redcap(k, w, data, method, ...)
 \item{distance_method}{(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"}
 
 \item{random_seed}{(int,optional) The seed for random number generator. Defaults to 123456789.}
+
+\item{cpu_threads}{(optional) The number of cpu threads used for parallel computation}
 }
 \value{
-A 2d list represents a group of clusters
+A list of numeric vectors represents a group of clusters
 }
 \description{
 REDCAP (Regionalization with dynamically constrained agglomerative
 clustering and partitioning) is developed by D. Guo (2008). Like SKATER, REDCAP
-starts from building a spanning tree with 3 different ways (single-linkage, average-linkage,
+starts from building a spanning tree with 4 different ways (single-linkage, average-linkage, ward-linkage
 and the complete-linkage). The single-linkage way leads to build a minimum spanning tree.
-Then,REDCAP provides 2 different ways (first‐order and full-order constraining) to
+Then,REDCAP provides 2 different ways (first-order and full-order constraining) to
 prune the tree to find clusters. The first-order approach with a minimum spanning tree is
 exactly the same with SKATER. In GeoDa and pygeoda, the following methods are provided:
 \* First-order and Single-linkage
 \* Full-order and Complete-linkage
 \* Full-order and Average-linkage
 \* Full-order and Single-linkage
+\* Full-order and Ward-linkage
+}
+\examples{
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- geoda_open(guerry_path)
+queen_w <- queen_weights(guerry)
+guerry_df <- as.data.frame(guerry) # use as data.frame
+data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+guerry_clusters <- redcap(4, queen_w, data, "fullorder-completelinkage")
+guerry_clusters
 }

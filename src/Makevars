@@ -1,70 +1,115 @@
-UNAME_S := $(shell uname -s)
+RGEODALIB = ./libgeoda_src
 
-OS_NAME := linux
-
-RGDALLIB = ../deps/gdal_static-master
-RGEODALIB = ../deps/libgeoda_static-0.0.3.3
-RWXLIB = ../deps/wx_static-master
-RANNLIB = ../deps/ANN_static-master
-RBOOSTLIB = ../deps/boost_static-master
-
-ifeq ($(UNAME_S),Darwin)
-	OS_NAME = osx
-	PKG_CPPFLAGS=\
-		-I$(RGDALLIB)/include \
-    	-I$(RGEODALIB)/include \
-    	-I$(RWXLIB)/include -I$(RWXLIB)/lib/$(OS_NAME)/base-unicode-static-3.0 -D_FILE_OFFSET_BITS=64 \
-    	-I$(RANNLIB)/include
-
-	PKG_LIBS=\
-		$(RGEODALIB)/lib/$(OS_NAME)/libgeoda.a \
-		$(RANNLIB)/lib/$(OS_NAME)/libANN.a \
-		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_chrono.a \
-		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_system.a \
-		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_thread.a \
-		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_date_time.a \
-		$(RWXLIB)/lib/$(OS_NAME)/libwx_baseu-3.0.a \
-		$(RWXLIB)/lib/$(OS_NAME)/libwxregexu-3.0.a \
-		$(RGDALLIB)/lib/$(OS_NAME)/libgdal.a \
-		$(RGDALLIB)/lib/$(OS_NAME)/libgeos.a \
-		$(RGDALLIB)/lib/$(OS_NAME)/libgeos_c.a \
-		$(RGDALLIB)/lib/$(OS_NAME)/libproj.a \
-		-framework IOKit -framework CoreServices -framework System -framework ApplicationServices \
-		-L/usr/lib -lcurl -liconv
-endif
-
-ifeq ($(UNAME_S),Linux)
-	OS_NAME = linux
-
-	PKG_CPPFLAGS=\
-		-I$(RGDALLIB)/include \
-    	-I$(RGEODALIB)/include \
-    	-I$(RWXLIB)/include -I$(RWXLIB)/lib/$(OS_NAME)/base-unicode-static-3.0 -D_FILE_OFFSET_BITS=64 \
-    	-I$(RANNLIB)/include
-
-	PKG_LIBS=\
-		$(RGEODALIB)/lib/$(OS_NAME)/libgeoda.a \
-		$(RGDALLIB)/lib/$(OS_NAME)/libgdal.a \
-		$(RGDALLIB)/lib/$(OS_NAME)/libgeos_c.a \
-		$(RGDALLIB)/lib/$(OS_NAME)/libgeos.a \
-		$(RGDALLIB)/lib/$(OS_NAME)/libproj.a \
-		$(RANNLIB)/lib/$(OS_NAME)/libANN.a \
-		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_chrono.a \
-		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_system.a \
-		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_thread.a \
-		$(RBOOSTLIB)/lib/$(OS_NAME)/libboost_date_time.a \
-		$(RWXLIB)/lib/$(OS_NAME)/libwx_baseu-3.0.a \
-		$(RWXLIB)/lib/$(OS_NAME)/libwxregexu-3.0.a \
-		-L/usr/lib -dt \
-		$(RGDALLIB)/lib/$(OS_NAME)/libiconv.a
-endif
+PKG_CPPFLAGS=\
+	-I$(RGEODALIB) \
+	-D__USE_PTHREAD__ \
+	-D__RGEODA__ \
+	-pthread
 
 
-.PHONY: all deplibs
+PKG_LIBS=\
+	-pthread
 
-all: deplibs $(SHLIB)
+CXX_STD=CXX14
 
-$(SHLIB): deplibs
+CPP_SRC_FILES = \
+	$(RGEODALIB)/libgeoda.cpp \
+	$(RGEODALIB)/gda_sa.cpp \
+	$(RGEODALIB)/gda_data.cpp \
+	$(RGEODALIB)/gda_weights.cpp \
+	$(RGEODALIB)/gda_clustering.cpp \
+	$(RGEODALIB)/GenGeomAlgs.cpp \
+	$(RGEODALIB)/GenUtils.cpp \
+	$(RGEODALIB)/SpatialIndAlgs.cpp \
+	$(RGEODALIB)/pg/geoms.c \
+	$(RGEODALIB)/pg/utils.c \
+	$(RGEODALIB)/shapelib/dbfopen.c \
+	$(RGEODALIB)/shapelib/safileio.c \
+	$(RGEODALIB)/shapelib/shpopen.c \
+	$(RGEODALIB)/weights/PointsToContigWeights.cpp \
+	$(RGEODALIB)/weights/PolysToContigWeights.cpp \
+	$(RGEODALIB)/weights/GalWeight.cpp \
+	$(RGEODALIB)/weights/GwtWeight.cpp \
+	$(RGEODALIB)/weights/GeodaWeight.cpp \
+	$(RGEODALIB)/weights/VoronoiUtils.cpp \
+	$(RGEODALIB)/sa/BatchLISA.cpp \
+	$(RGEODALIB)/sa/BatchLocalMoran.cpp \
+	$(RGEODALIB)/sa/LISA.cpp \
+	$(RGEODALIB)/sa/MultiGeary.cpp \
+	$(RGEODALIB)/sa/MultiJoinCount.cpp \
+	$(RGEODALIB)/sa/UniG.cpp \
+	$(RGEODALIB)/sa/UniGeary.cpp \
+	$(RGEODALIB)/sa/UniGstar.cpp \
+	$(RGEODALIB)/sa/UniJoinCount.cpp \
+	$(RGEODALIB)/sa/UniLocalMoran.cpp \
+	$(RGEODALIB)/clustering/fastcluster.cpp \
+	$(RGEODALIB)/clustering/redcap.cpp \
+	$(RGEODALIB)/clustering/redcap_wrapper.cpp \
+	$(RGEODALIB)/clustering/azp.cpp \
+	$(RGEODALIB)/clustering/maxp_wrapper.cpp \
+	$(RGEODALIB)/clustering/azp_wrapper.cpp \
+	$(RGEODALIB)/clustering/schc_wrapper.cpp \
+	$(RGEODALIB)/clustering/cluster.cpp \
+	rcpp_rgeoda.cpp \
+	rcpp_weights.cpp \
+	rcpp_utils.cpp \
+	rcpp_lisa.cpp \
+	rcpp_clustering.cpp \
+	RcppExports.cpp
 
-deplibs:
-	(mkdir -p ../inst; $(R_HOME)/bin/Rscript --vanilla ../tools/libs.R)
+#C_SRC_FILES = \
+#	$(wildcard $(RGEODALIB)/pg/*.c) \
+#	$(wildcard $(RGEODALIB)/shapelib/*.c)
+
+
+OBJECTS = \
+	$(RGEODALIB)/libgeoda.o \
+	$(RGEODALIB)/gda_sa.o \
+	$(RGEODALIB)/gda_data.o \
+	$(RGEODALIB)/gda_weights.o \
+	$(RGEODALIB)/gda_clustering.o \
+	$(RGEODALIB)/GenGeomAlgs.o \
+	$(RGEODALIB)/GenUtils.o \
+	$(RGEODALIB)/SpatialIndAlgs.o \
+	$(RGEODALIB)/pg/geoms.o \
+	$(RGEODALIB)/pg/utils.o \
+	$(RGEODALIB)/shapelib/dbfopen.o \
+	$(RGEODALIB)/shapelib/safileio.o \
+	$(RGEODALIB)/shapelib/shpopen.o \
+	$(RGEODALIB)/weights/PointsToContigWeights.o \
+	$(RGEODALIB)/weights/PolysToContigWeights.o \
+	$(RGEODALIB)/weights/GalWeight.o \
+	$(RGEODALIB)/weights/GwtWeight.o \
+	$(RGEODALIB)/weights/GeodaWeight.o \
+	$(RGEODALIB)/weights/VoronoiUtils.o \
+	$(RGEODALIB)/sa/BatchLISA.o \
+	$(RGEODALIB)/sa/BatchLocalMoran.o \
+	$(RGEODALIB)/sa/LISA.o \
+	$(RGEODALIB)/sa/MultiGeary.o \
+	$(RGEODALIB)/sa/MultiJoinCount.o \
+	$(RGEODALIB)/sa/UniG.o \
+	$(RGEODALIB)/sa/UniGeary.o \
+	$(RGEODALIB)/sa/UniGstar.o \
+	$(RGEODALIB)/sa/UniJoinCount.o \
+	$(RGEODALIB)/sa/UniLocalMoran.o \
+	$(RGEODALIB)/clustering/fastcluster.o \
+	$(RGEODALIB)/clustering/redcap.o \
+	$(RGEODALIB)/clustering/redcap_wrapper.o \
+	$(RGEODALIB)/clustering/azp.o \
+	$(RGEODALIB)/clustering/maxp_wrapper.o \
+	$(RGEODALIB)/clustering/azp_wrapper.o \
+	$(RGEODALIB)/clustering/schc_wrapper.o \
+	$(RGEODALIB)/clustering/cluster.o \
+	rcpp_rgeoda.o \
+	rcpp_weights.o \
+	rcpp_utils.o \
+	rcpp_lisa.o \
+	rcpp_clustering.o \
+	RcppExports.o
+
+.PHONY: all clean
+
+all: $(SHLIB)
+
+clean:
+	rm -f $(SHLIB) $(OBJECTS)

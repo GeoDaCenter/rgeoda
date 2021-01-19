@@ -15,3 +15,9 @@ gda_obj An object of geoda instance
 \description{
 Create a geoda object by reading a spatial dataset. The dataset that rgeoda supports includes: ESRI Shapefile, MapInfo File, CSV, GML, GPX, KML, GeoJSON, TopoJSON, OpenFileGDB, GFT Google Fusion Tables, CouchDB
 }
+\examples{
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- geoda_open(guerry_path)
+guerry_df <- as.data.frame(guerry) # access as a data.frame
+head(guerry_df)
+}

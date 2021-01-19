@@ -7,7 +7,7 @@
 total_sumofsquare(data)
 }
 \arguments{
-\item{data}{A 2d list which is used in spatial clustering methods, e.g. skater(k, w, data)}
+\item{data}{A list of numeric vectors which is used in spatial clustering methods, e.g. skater(k, w, data)}
 }
 \value{
 A value of total sum of square value

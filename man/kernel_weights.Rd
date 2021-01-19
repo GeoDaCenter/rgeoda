@@ -4,7 +4,16 @@
 \alias{kernel_weights}
 \title{Create a kernel weights with fixed bandwidth}
 \usage{
-kernel_weights(geoda_obj, bandwidth, kernel_method, ...)
+kernel_weights(
+  geoda_obj,
+  bandwidth,
+  kernel_method,
+  use_kernel_diagonals = FALSE,
+  power = 1,
+  is_inverse = FALSE,
+  is_arc = FALSE,
+  is_mile = TRUE
+)
 }
 \arguments{
 \item{geoda_obj}{An instance of GeoDa}
@@ -15,9 +24,9 @@ kernel_weights(geoda_obj, bandwidth, kernel_method, ...)
 
 \item{use_kernel_diagonals}{(optional) FALSE (default) or TRUE, apply kernel on the diagonal of weights matrix}
 
-\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on distance value}
-
 \item{power}{(optional) The power (or exponent) of a number says how many times to use the number in a multiplication.}
+
+\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on distance value}
 
 \item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance between two observations}
 
@@ -28,6 +37,13 @@ w An instance of Weight
 }
 \description{
 Create a kernel weights by specifying a bandwidth and a kernel method
+}
+\examples{
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- geoda_open(guerry_path)
+bandwidth <- min_distthreshold(guerry)
+kernel_w <- kernel_weights(guerry, bandwidth, kernel_method = "uniform")
+summary(kernel_w)
 }
 \keyword{kernel}
 \keyword{weights}

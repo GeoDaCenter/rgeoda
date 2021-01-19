@@ -1,0 +1,126 @@
+---
+title: "ESDA_using_rgeoda_sf"
+author: "Xun Li"
+date: "1/13/2021"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{esda_using_rgeoda_sf}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1 Exploratory Spatial Data Analysis basics
+
+## 2 Exploratory Spatial Data Analysis with sf
+
+
+In this section, we will work with sf library to do exploratory spatial data analysis (ESDA).
+
+### 2.1 Start from `sf` package
+
+The sf package has been popular tool to handle geospatial data. It is a good substitue of sp package which will be deprecated soon.
+
+For example, to load a geospatial data (e.g. a ESRI Shapefile) using sf:
+
+```{r, class.source='rCode'}
+library(rgeoda)
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+
+library(sf)
+guerry_sf <- st_read(guerry_path)
+```
+ 
+You can simply call plot() function to render the first 9 chorepleth maps using the frist 9 variables in the dataset:
+
+```{r, class.source='rCode',fig.width = 6, fig.height=6}
+plot(guerry_sf)
+```
+
+### 2.2 Create rgeoda object from `sf`
+
+
+`sf` package makes it easy to work with geospatial data. It also provides functions to do basic spatial data analysis. `rgeoda` provides helper function `sf_to_geoda` to create a GeoDa instance from a `sf` object. Users can then call GeoDa functions to do further spatial data analysis.
+
+Create a geoda object from the sf object guerry_sp you just created.
+
+
+```{r, class.source='rCode'}
+guerry_gda <- sf_to_geoda(guerry_sf)
+```
+
+rgeoda uses wkb, which is a binary representation of geometries, to exchange data between sf and libgeoda in memory.
+
+By default, sf_to_geoda() only using geometries to create a geoda object, which is fast and user can reuse the data.frame from the sf object to do analysis. This function has an optional parameter with_table, to allow user to use both geometries and data.frame to create a geoda object by calling, for example: sp_to_geoda(guerry_sp, with_table=TRUE)
+
+### 2.3 ESDA with rgeoda
+
+Now, with the geoda object guerry, you can call rgeoda's spatial analysis functions. For example, to examine the local Moran statistics of variable "crm_prs" (Population per Crime against persons):
+
+
+```{r, class.source='rCode'}
+queen_w <- queen_weights(guerry_gda)
+
+guerry_df <- as.data.frame(guerry_sf)
+crm_prs <- guerry_df['Crm_prs'][,1]
+```
+
+#### 2.3.1 Local Moran Map
+
+```{r}
+lisa <- local_moran(queen_w, crm_prs)
+```
+
+Now, with the LISA results, we can do exploratory spatial data analysis by generating a LISA cluster map:
+
+```{r, class.source='rCode', fig.width = 6, fig.height=6}
+lisa_colors <- lisa_colors(lisa)
+lisa_labels <- lisa_labels(lisa)
+lisa_clusters <- lisa_clusters(lisa)
+
+plot(st_geometry(guerry_sf), 
+     col=sapply(lisa_clusters, function(x){return(lisa_colors[[x+1]])}), 
+     border = "#333333", lwd=0.2)
+title(main = "Local Moran Map of Crm_prs")
+legend('bottomleft', legend = lisa_labels, fill = lisa_colors, border = "#eeeeee")
+```
+
+From the above code, you can see that we still use `sf` object to do plotting. The values of cluster indicators from `rgeoda`'s `LISA` object are used to make the LISA map.
+
+You can easily append the lisa results to original `sf` object by manipulating the data.frame object inside the `sf` object.
+```{r}
+guerry_sf$moran_cluster <- lisa_clusters
+
+```
+
+If you check the values of the cluster indicators, you will see they are integer numbers 0 (not significant), 1 (high-high cluster), 2 (low-low cluster), 3 (low-high cluster), 4 (high-low cluster), 5 (neighborless/island), 6 (undefined), which are excatly the same with GeoDa software when you save LISA results to a table:
+
+
+```{r}
+lisa_clusters
+
+```
+
+To create a siginificant map that is associated with the Local Moran map:
+
+```{r, fig.width = 6, fig.height=6}
+lisa_p <- lisa_pvalues(lisa)
+p_labels <- c("Not significant", "p <= 0.05", "p <= 0.01", "p <= 0.001")
+p_colors <- c("#eeeeee", "#84f576", "#53c53c", "#348124")
+plot(st_geometry(guerry_sf), 
+     col=sapply(lisa_p, function(x){
+       if (x <= 0.001) return(p_colors[4])
+       else if (x <= 0.01) return(p_colors[3])
+       else if (x <= 0.05) return (p_colors[2])
+       else return(p_colors[1])
+       }), 
+     border = "#333333", lwd=0.2)
+title(main = "Local Moran Map of Crm_prs")
+legend('bottomleft', legend = p_labels, fill = p_colors, border = "#eeeeee")
+```
+
+
+

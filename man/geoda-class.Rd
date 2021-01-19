@@ -4,9 +4,9 @@
 \name{geoda-class}
 \alias{geoda-class}
 \alias{geoda}
-\title{A R wrapper for GeoDa}
+\title{A R wrapper for p_GeoDa}
 \description{
-geoda is a RefClass that wraps the C++ GeoDa class (via _p_GeoDa defines in rgeoda.R)
+geoda is a RefClass that wraps the C++ GeoDa class (via p_GeoDa defines in rgeoda.R)
 }
 \section{Fields}{
 
@@ -38,6 +38,8 @@ geoda is a RefClass that wraps the C++ GeoDa class (via _p_GeoDa defines in rgeo
 \item{\code{GetNumCols(...)}}{Get the number of columns}
 
 \item{\code{GetNumObs(...)}}{Get the number of observations}
+
+\item{\code{GetPointer()}}{Get the C++ object pointer (internally used)}
 
 \item{\code{GetRealCol(col_name)}}{Get the real values from a column}
 

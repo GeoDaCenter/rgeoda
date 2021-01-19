@@ -4,16 +4,23 @@
 \alias{distance_weights}
 \title{Create a distance-based weights}
 \usage{
-distance_weights(geoda_obj, dist_thres, ...)
+distance_weights(
+  geoda_obj,
+  dist_thres,
+  power = 1,
+  is_inverse = FALSE,
+  is_arc = FALSE,
+  is_mile = TRUE
+)
 }
 \arguments{
 \item{geoda_obj}{An instance of geoda}
 
 \item{dist_thres}{A positive numeric value of distance threshold}
 
-\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on distance value}
-
 \item{power}{(optional) The power (or exponent) of a number indicates how many times to use the number in a multiplication.}
+
+\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on distance value}
 
 \item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance between two observations}
 
@@ -24,6 +31,13 @@ w An instance of GeoDaWeight
 }
 \description{
 Create a distance-based weights
+}
+\examples{
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- geoda_open(guerry_path)
+dist_thres <- min_distthreshold(guerry)
+dist_w <- distance_weights(guerry, dist_thres)
+summary(dist_w)
 }
 \keyword{distance}
 \keyword{weights}
