@@ -4,7 +4,7 @@
 #' @param k The number of clusters
 #' @param w An instance of Weight class
 #' @param data A list of numeric vectors of selected variable
-#' @param bound_vals (optional) A 1-d vector of selected bounding variable
+#' @param bound_vals (optional) A numeric vector of selected bounding variable
 #' @param min_bound (optional) A minimum value that the sum value of bounding variable int each cluster should be greater than
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (int,optional) The seed for random number generator. Defaults to 123456789.
@@ -46,7 +46,7 @@ skater <- function(k, w, data, bound_vals=vector('numeric'), min_bound=0, distan
 #' @param w An instance of Weight class
 #' @param data A list of numeric vectors of selected variable
 #' @param method {"single", "complete", "average","ward"}
-#' @param bound_vals (optional) A 1-d vector of selected bounding variable
+#' @param bound_vals (optional) A numeric vector of selected bounding variable
 #' @param min_bound (optional) A minimum value that the sum value of bounding variable int each cluster should be greater than
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @return A list of numeric vectors represents a group of clusters
@@ -98,7 +98,7 @@ schc <- function(k, w, data, method="average", bound_vals=vector('numeric'), min
 #' @param w An instance of Weight class
 #' @param data A list of numeric vectors of selected variable
 #' @param method {"firstorder-singlelinkage", "fullorder-completelinkage", "fullorder-averagelinkage","fullorder-singlelinkage", "fullorder-wardlinkage"}
-#' @param bound_vals (optional) A 1-d vector of selected bounding variable
+#' @param bound_vals (optional) A numeric vector of selected bounding variable
 #' @param min_bound (optional) A minimum value that the sum value of bounding variable int each cluster should be greater than
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (int,optional) The seed for random number generator. Defaults to 123456789.
@@ -135,7 +135,10 @@ redcap <- function(k, w, data, method="fullorder-averagelinkage", bound_vals=vec
 
 ############################################################
 #' @title A greedy algorithm to solve the max-p-region problem
-#' @description The max-p-region problem is a special case of constrained clustering where a finite number of geographical areas, n, are aggregated into the maximum number of regions, p, such that each region satisfies the following const raints: 1. The areas within a region must be geographically connected.
+#' @description The max-p-region problem is a special case of constrained
+#' clustering where a finite number of geographical areas are aggregated into
+#' the maximum number of regions (max-p-regions), such that each region is
+#' geographically connected and the clusters could maximize internal homogeneity.
 #' @param w An instance of Weight class
 #' @param data A list of numeric vectors of selected variable
 #' @param bound_vals A numeric vector of selected bounding variable
@@ -181,7 +184,10 @@ maxp_greedy <- function(w, data, bound_vals, min_bound, iterations=99, initial_r
 
 ############################################################
 #' @title A simulated annealing algorithm to solve the max-p-region problem
-#' @description The max-p-region problem is a special case of constrained clustering where a finite number of geographical areas, n, are aggregated into the maximum number of regions, p, such that each region satisfies the following const raints: 1. The areas within a region must be geographically connected.
+#' @description The max-p-region problem is a special case of constrained
+#' clustering where a finite number of geographical areas are aggregated into
+#' the maximum number of regions (max-p-regions), such that each region is
+#' geographically connected and the clusters could maximize internal homogeneity.
 #' @param w An instance of Weight class
 #' @param data A list of numeric vectors of selected variable
 #' @param bound_vals A numeric vector of selected bounding variable
@@ -229,7 +235,10 @@ maxp_sa <- function(w, data, bound_vals, min_bound, cooling_rate, sa_maxit=1, it
 
 ############################################################
 #' @title A tabu-search algorithm to solve the max-p-region problem
-#' @description The max-p-region problem is a special case of constrained clustering where a finite number of geographical areas, n, are aggregated into the maximum number of regions, p, such that each region satisfies the following const raints: 1. The areas within a region must be geographically connected.
+#' @description The max-p-region problem is a special case of constrained
+#' clustering where a finite number of geographical areas are aggregated into
+#' the maximum number of regions (max-p-regions), such that each region is
+#' geographically connected and the clusters could maximize internal homogeneity.
 #' @param w An instance of Weight class
 #' @param data A list of numeric vectors of selected variable
 #' @param bound_vals A numeric vector of selected bounding variable
@@ -277,7 +286,7 @@ maxp_tabu <- function(w, data, bound_vals, min_bound, tabu_length=10, conv_tabu=
 
 ############################################################
 #' @title A greedy algorithm to solve the AZP problem
-#' @description The automatic zoning procedure (AZP) was initially outlined in Openshaw (1977) as a way to address some of the consequences of the modifiable areal unit problem (MAUP). In essence, it consists of a heuristic to find the best set of combinations of contiguous spatial units into p regions, minimizing the within sum of squares as a criterion of homogeneity. The number of regions needs to be specified beforehand, as in most other clustering methods considered so far.
+#' @description The automatic zoning procedure (AZP) was initially outlined in Openshaw (1977) as a way to address some of the consequences of the modifiable areal unit problem (MAUP). In essence, it consists of a heuristic to find the best set of combinations of contiguous spatial units into p regions, minimizing the within sum of squares as a criterion of homogeneity. The number of regions needs to be specified beforehand.
 #' @param p The number of spatially constrained clusters
 #' @param w An instance of Weight class
 #' @param data A list of numeric vectors of selected variable
@@ -318,7 +327,7 @@ azp_greedy <- function(p, w, data, bound_vals=vector('numeric'), min_bound=0, in
 
 ############################################################
 #' @title A simulated annealing algorithm to solve the AZP problem
-#' @description The automatic zoning procedure (AZP) was initially outlined in Openshaw (1977) as a way to address some of the consequences of the modifiable areal unit problem (MAUP). In essence, it consists of a heuristic to find the best set of combinations of contiguous spatial units into p regions, minimizing the within sum of squares as a criterion of homogeneity. The number of regions needs to be specified beforehand, as in most other clustering methods considered so far.
+#' @description The automatic zoning procedure (AZP) was initially outlined in Openshaw (1977) as a way to address some of the consequences of the modifiable areal unit problem (MAUP). In essence, it consists of a heuristic to find the best set of combinations of contiguous spatial units into p regions, minimizing the within sum of squares as a criterion of homogeneity. The number of regions needs to be specified beforehand.
 #' @param p The number of spatially constrained clusters
 #' @param w An instance of Weight class
 #' @param data A list of numeric vectors of selected variable
@@ -361,7 +370,7 @@ azp_sa<- function(p, w, data, cooling_rate, sa_maxit=1, bound_vals=vector('numer
 
 ############################################################
 #' @title A tabu algorithm to solve the AZP problem
-#' @description The automatic zoning procedure (AZP) was initially outlined in Openshaw (1977) as a way to address some of the consequences of the modifiable areal unit problem (MAUP). In essence, it consists of a heuristic to find the best set of combinations of contiguous spatial units into p regions, minimizing the within sum of squares as a criterion of homogeneity. The number of regions needs to be specified beforehand, as in most other clustering methods considered so far.
+#' @description The automatic zoning procedure (AZP) was initially outlined in Openshaw (1977) as a way to address some of the consequences of the modifiable areal unit problem (MAUP). In essence, it consists of a heuristic to find the best set of combinations of contiguous spatial units into p regions, minimizing the within sum of squares as a criterion of homogeneity. The number of regions needs to be specified beforehand.
 #' @param p The number of spatially constrained clusters
 #' @param w An instance of Weight class
 #' @param data A list of numeric vectors of selected variable

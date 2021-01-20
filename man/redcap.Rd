@@ -25,7 +25,7 @@ redcap(
 
 \item{method}{{"firstorder-singlelinkage", "fullorder-completelinkage", "fullorder-averagelinkage","fullorder-singlelinkage", "fullorder-wardlinkage"}}
 
-\item{bound_vals}{(optional) A 1-d vector of selected bounding variable}
+\item{bound_vals}{(optional) A numeric vector of selected bounding variable}
 
 \item{min_bound}{(optional) A minimum value that the sum value of bounding variable int each cluster should be greater than}
 

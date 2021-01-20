@@ -19,7 +19,7 @@ demean <- function(data) {
 ############################################################
 #' @title Standardize Data (Z)
 #' @description  Standarize data by transforming data to have zero mean and unit variance
-#' @param data An input data for median absolute deviation
+#' @param data An input data for standardization
 #' @return A data array
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")

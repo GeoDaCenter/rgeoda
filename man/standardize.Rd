@@ -7,7 +7,7 @@
 standardize(data)
 }
 \arguments{
-\item{data}{An input data for median absolute deviation}
+\item{data}{An input data for standardization}
 }
 \value{
 A data array
