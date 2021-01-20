@@ -84,7 +84,7 @@ schc_wrapper::schc_wrapper(unsigned int k,
                 //redcap->Partitioning(k);
                 //cluster_ids = redcap->GetRegions();
 
-                GdaNode htree[num_obs-1];
+                GdaNode *htree = new GdaNode[num_obs-1];
 
                 t_index node1, node2;
                 fastcluster::union_find nodes(num_obs);
@@ -115,6 +115,8 @@ schc_wrapper::schc_wrapper(unsigned int k,
                 int* clusterid = new int[num_obs];
 
                 double cutoffDistance = cuttree (num_obs, htree, k, clusterid);
+
+                delete[] htree;
 
                 for (int i=0; i<num_obs; i++) {
                     clusters.push_back(clusterid[i]+1);

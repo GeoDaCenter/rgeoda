@@ -37,3 +37,4 @@ vignettes/*.pdf
 *.swp
 *.tmp
 *.o
+*.so
