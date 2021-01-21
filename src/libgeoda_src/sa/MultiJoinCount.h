@@ -16,8 +16,8 @@ class MultiJoinCount : public LISA {
 public:
     MultiJoinCount(int num_obs, GeoDaWeight* w,
                  const std::vector<std::vector<double> >& data,
-                 const std::vector<std::vector<bool> >& undefs  = std::vector<std::vector<bool> >(),
-    int nCPUs = 8, int permutations = 999, uint64_t last_seed_used = 123456789);
+                 const std::vector<std::vector<bool> >& undefs,
+                 int nCPUs, int permutations, uint64_t last_seed_used);
 
     virtual ~MultiJoinCount();
 

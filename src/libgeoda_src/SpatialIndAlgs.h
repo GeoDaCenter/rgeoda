@@ -22,7 +22,7 @@ void to_3d_centroids(const std::vector<pt_lonlat>& ptll,
 void default_test();
 void print_rtree_stats(rtree_box_2d_t& rtree);
 void query_all_boxes(rtree_box_2d_t& rtree);
-void knn_query(const rtree_pt_2d_t& rtree, int nn=6);
+void knn_query(const rtree_pt_2d_t& rtree, int nn);
 /** Will call more specialized knn_build as needed.  This routine will
  build the correct type of rtree automatically.  If is_arc false,
  then Euclidean distance is used and x, y are normal coordinates and
