@@ -41,13 +41,15 @@ A LISA class wrappers the results of LISA computation
 
 \item{\code{GetFDR(current_p)}}{Get the False Discovery Rate value}
 
-\item{\code{GetLISAValues()}}{Get the local spatial autocorrelation values returned from LISA computation.}
-
 \item{\code{GetLabels()}}{Get the cluster labels of LISA computation.}
+
+\item{\code{GetLISAValues()}}{Get the local spatial autocorrelation values returned from LISA computation.}
 
 \item{\code{GetLocalSignificanceValues()}}{Get the local pseudo-p values of significance returned from LISA computation.}
 
 \item{\code{GetNumNeighbors()}}{Get the number of neighbors of every observations in LISA computation.}
+
+\item{\code{initialize(lisa_obj)}}{Constructor with a LISA object (internally used)}
 
 \item{\code{Run()}}{Call to run LISA computation}
 
@@ -56,7 +58,5 @@ A LISA class wrappers the results of LISA computation
 \item{\code{SetSignificanceCutoff(cutoff)}}{Set the cutoff value of significance values}
 
 \item{\code{SetThreads(num_threads)}}{Set the number of CPU threads for the LISA computation}
-
-\item{\code{initialize(lisa_obj)}}{Constructor with a LISA object (internally used)}
 }}
 

@@ -52,6 +52,7 @@ CPP_SRC_FILES = \
 	$(RGEODALIB)/clustering/azp.cpp \
 	$(RGEODALIB)/clustering/maxp_wrapper.cpp \
 	$(RGEODALIB)/clustering/azp_wrapper.cpp \
+	$(RGEODALIB)/clustering/schc_wrapper.cpp \
 	$(RGEODALIB)/clustering/cluster.cpp \
 	rcpp_rgeoda.cpp \
 	rcpp_weights.cpp \
@@ -100,6 +101,7 @@ OBJECTS = \
 	$(RGEODALIB)/clustering/azp.o \
 	$(RGEODALIB)/clustering/maxp_wrapper.o \
 	$(RGEODALIB)/clustering/azp_wrapper.o \
+	$(RGEODALIB)/clustering/schc_wrapper.o \
 	$(RGEODALIB)/clustering/cluster.o \
 	rcpp_rgeoda.o \
 	rcpp_weights.o \

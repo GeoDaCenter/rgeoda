@@ -39,7 +39,10 @@ maxp_greedy(
 A list of numeric vectors represents a group of clusters
 }
 \description{
-The max-p-region problem is a special case of constrained clustering where a finite number of geographical areas, n, are aggregated into the maximum number of regions, p, such that each region satisfies the following const raints: 1. The areas within a region must be geographically connected.
+The max-p-region problem is a special case of constrained
+clustering where a finite number of geographical areas are aggregated into
+the maximum number of regions (max-p-regions), such that each region is
+geographically connected and the clusters could maximize internal homogeneity.
 }
 \examples{
 \dontrun{
