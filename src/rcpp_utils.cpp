@@ -79,8 +79,17 @@ Rcpp::List p_gda_mad(Rcpp::List data)
 // [[Rcpp::export]]
 Rcpp::NumericVector p_naturalbreaks(int k, Rcpp::NumericVector data)
 {
-  std::vector<double> vals = as<std::vector<double> >(data);
-  std::vector<double> result = gda_naturalbreaks(k, vals);
+  int num_obs = data.size();
+
+  std::vector<double> vals(num_obs);
+  std::vector<bool> undefs(num_obs, false);
+
+  for (int i=0; i< num_obs; ++i) {
+    vals[i] = data[i];
+    undefs[i] = data.is_na(i);
+  }
+
+  std::vector<double> result = gda_naturalbreaks(k, vals, undefs);
 
   Rcpp::NumericVector out(result.begin(), result.end());
   return out;
@@ -90,8 +99,17 @@ Rcpp::NumericVector p_naturalbreaks(int k, Rcpp::NumericVector data)
 // [[Rcpp::export]]
 Rcpp::NumericVector p_quantilebreaks(int k, Rcpp::NumericVector data)
 {
-  std::vector<double> vals = as<std::vector<double> >(data);
-  std::vector<double> result = gda_quantilebreaks(k, vals);
+  int num_obs = data.size();
+
+  std::vector<double> vals(num_obs);
+  std::vector<bool> undefs(num_obs, false);
+
+  for (int i=0; i< num_obs; ++i) {
+    vals[i] = data[i];
+    undefs[i] = data.is_na(i);
+  }
+
+  std::vector<double> result = gda_quantilebreaks(k, vals, undefs);
 
   Rcpp::NumericVector out(result.begin(), result.end());
   return out;
@@ -101,8 +119,17 @@ Rcpp::NumericVector p_quantilebreaks(int k, Rcpp::NumericVector data)
 // [[Rcpp::export]]
 Rcpp::NumericVector p_hinge15breaks(Rcpp::NumericVector data)
 {
-  std::vector<double> vals = as<std::vector<double> >(data);
-  std::vector<double> result = gda_hinge15breaks(vals);
+  int num_obs = data.size();
+
+  std::vector<double> vals(num_obs);
+  std::vector<bool> undefs(num_obs, false);
+
+  for (int i=0; i< num_obs; ++i) {
+    vals[i] = data[i];
+    undefs[i] = data.is_na(i);
+  }
+
+  std::vector<double> result = gda_hinge15breaks(vals, undefs);
 
   Rcpp::NumericVector out(result.begin(), result.end());
   return out;
@@ -112,8 +139,17 @@ Rcpp::NumericVector p_hinge15breaks(Rcpp::NumericVector data)
 // [[Rcpp::export]]
 Rcpp::NumericVector p_hinge30breaks(Rcpp::NumericVector data)
 {
-  std::vector<double> vals = as<std::vector<double> >(data);
-  std::vector<double> result = gda_hinge30breaks(vals);
+  int num_obs = data.size();
+
+  std::vector<double> vals(num_obs);
+  std::vector<bool> undefs(num_obs, false);
+
+  for (int i=0; i< num_obs; ++i) {
+    vals[i] = data[i];
+    undefs[i] = data.is_na(i);
+  }
+
+  std::vector<double> result = gda_hinge30breaks(vals, undefs);
 
   Rcpp::NumericVector out(result.begin(), result.end());
   return out;
@@ -122,8 +158,17 @@ Rcpp::NumericVector p_hinge30breaks(Rcpp::NumericVector data)
 // [[Rcpp::export]]
 Rcpp::NumericVector p_percentilebreaks(Rcpp::NumericVector data)
 {
-  std::vector<double> vals = as<std::vector<double> >(data);
-  std::vector<double> result = gda_percentilebreaks(vals);
+  int num_obs = data.size();
+
+  std::vector<double> vals(num_obs);
+  std::vector<bool> undefs(num_obs, false);
+
+  for (int i=0; i< num_obs; ++i) {
+    vals[i] = data[i];
+    undefs[i] = data.is_na(i);
+  }
+
+  std::vector<double> result = gda_percentilebreaks(vals, undefs);
 
   Rcpp::NumericVector out(result.begin(), result.end());
   return out;
@@ -132,8 +177,17 @@ Rcpp::NumericVector p_percentilebreaks(Rcpp::NumericVector data)
 // [[Rcpp::export]]
 Rcpp::NumericVector p_stddevbreaks(Rcpp::NumericVector data)
 {
-  std::vector<double> vals = as<std::vector<double> >(data);
-  std::vector<double> result = gda_stddevbreaks(vals);
+  int num_obs = data.size();
+
+  std::vector<double> vals(num_obs);
+  std::vector<bool> undefs(num_obs, false);
+
+  for (int i=0; i< num_obs; ++i) {
+    vals[i] = data[i];
+    undefs[i] = data.is_na(i);
+  }
+
+  std::vector<double> result = gda_stddevbreaks(vals, undefs);
 
   Rcpp::NumericVector out(result.begin(), result.end());
   return out;
