@@ -22,7 +22,7 @@ install.packages("rgeoda")
 
 #### Build and install from source code
 
-In R console, one can use devtools to install rgeoda from its **source pacakge**:
+In R console, one can use devtools to install rgeoda from its **source package**:
 
 ```R
 devtools::install_github("geodacenter/rgeoda")
@@ -68,7 +68,6 @@ sudo apt-get install build-essential
     * Local Moran
     * Local Geary
     * Local Getis-Ord 
-    * Local Join Count
     * Multivariate Local Geary
     * Local Join Count
     * Bivariate Local Join Count
