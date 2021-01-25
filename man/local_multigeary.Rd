@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{local_multigeary}
 \alias{local_multigeary}
-\title{Local Multivariate Geary statistics}
+\title{Local Multivariate Geary Statistics}
 \usage{
 local_multigeary(
   w,
@@ -27,7 +27,7 @@ local_multigeary(
 \item{seed}{The seed for random number generator}
 }
 \value{
-lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+An instance of LISA-class
 }
 \description{
 The function to apply local Multivariate Geary statistics

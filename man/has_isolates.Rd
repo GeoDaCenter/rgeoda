@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{has_isolates}
 \alias{has_isolates}
-\title{Check if weights matrix has isolates}
+\title{Isolation/Island in Spatial Weights}
 \usage{
 has_isolates(gda_w)
 }
@@ -10,7 +10,7 @@ has_isolates(gda_w)
 \item{gda_w}{A Weight object}
 }
 \value{
-Boolean value if weights matrix is symmetric
+A boolean value indicates if weights matrix is symmetric
 }
 \description{
 Check if weights matrix has isolates, or if any observation has no neighbors

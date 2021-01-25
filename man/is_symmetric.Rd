@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{is_symmetric}
 \alias{is_symmetric}
-\title{Check if weights matrix is symmetric}
+\title{Symmetry of Weights Matrix}
 \usage{
 is_symmetric(gda_w)
 }
@@ -10,7 +10,7 @@ is_symmetric(gda_w)
 \item{gda_w}{A Weight object}
 }
 \value{
-Boolean value if weights matrix is symmetric
+A boolean value indicates if weights matrix is symmetric
 }
 \description{
 Check if weights matrix is symmetric

@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{lisa_fdr}
 \alias{lisa_fdr}
-\title{Get False Discovery Rate value of local spatial autocorrelation}
+\title{False Discovery Rate value of local spatial autocorrelation}
 \usage{
 lisa_fdr(gda_lisa, current_p)
 }
@@ -12,10 +12,10 @@ lisa_fdr(gda_lisa, current_p)
 \item{current_p}{A value of current siginificant p-value}
 }
 \value{
-A value of False Discovery Rate
+A numeric vector of False Discovery Rate
 }
 \description{
-Get False Discovery Rate value based on current LISA computation and current significat p-value
+Get False Discovery Rate value based on current LISA computation and current significant p-value
 }
 \examples{
 \dontrun{

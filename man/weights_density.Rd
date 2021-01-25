@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{weights_density}
 \alias{weights_density}
-\title{Density of a weights matrix}
+\title{Density of Spatial Weights}
 \usage{
 weights_density(gda_w)
 }
@@ -10,7 +10,7 @@ weights_density(gda_w)
 \item{gda_w}{A Weight object}
 }
 \value{
-Value of the weight matrix density
+A numeric value of spatial weights density
 }
 \description{
 Get density computed from weights matrix

@@ -7,10 +7,10 @@
 standardize(data)
 }
 \arguments{
-\item{data}{An input data for standardization}
+\item{data}{A list of numeric vectors (multi-variables) for standardization}
 }
 \value{
-A data array
+A list of numeric vectors from standardization (Z)
 }
 \description{
 Standarize data by transforming data to have zero mean and unit variance

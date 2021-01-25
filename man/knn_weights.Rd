@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{knn_weights}
 \alias{knn_weights}
-\title{Create a KNN weights}
+\title{K-Nearest Neighbors-based Spatial Weights}
 \usage{
 knn_weights(
   geoda_obj,
@@ -27,10 +27,10 @@ knn_weights(
 \item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from mile to km.}
 }
 \value{
-w An instance of Weight
+An instance of Weight-class
 }
 \description{
-Create a k-nearest neighbors based weights
+Create a k-nearest neighbors based spatial weights
 }
 \examples{
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")

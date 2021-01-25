@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{spatial_lag}
 \alias{spatial_lag}
-\title{Compute the spatial lag for idx-th observation and selected variable}
+\title{Spatial Lag}
 \usage{
 spatial_lag(gda_w, idx, values)
 }
@@ -14,7 +14,7 @@ spatial_lag(gda_w, idx, values)
 \item{values}{A vector of values}
 }
 \value{
-Value of the spatial lag for idx-th observation
+A numeric value of the spatial lag for idx-th observation
 }
 \description{
 Compute the spatial lag for idx-th observation using selected variable and current weights matrix

@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{kernel_weights}
 \alias{kernel_weights}
-\title{Create a kernel weights with fixed bandwidth}
+\title{Distance-based Kernel Spatial Weights}
 \usage{
 kernel_weights(
   geoda_obj,
@@ -16,7 +16,7 @@ kernel_weights(
 )
 }
 \arguments{
-\item{geoda_obj}{An instance of GeoDa}
+\item{geoda_obj}{An instance of geoda-class}
 
 \item{bandwidth}{A positive numeric value of bandwidth}
 
@@ -33,7 +33,7 @@ kernel_weights(
 \item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from mile to km.}
 }
 \value{
-w An instance of Weight
+An instance of Weight-class
 }
 \description{
 Create a kernel weights by specifying a bandwidth and a kernel method

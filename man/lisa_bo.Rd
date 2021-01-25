@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{lisa_bo}
 \alias{lisa_bo}
-\title{Get Bonferroni bound value of local spatial autocorrelation}
+\title{Bonferroni bound value of local spatial autocorrelation}
 \usage{
 lisa_bo(gda_lisa, current_p)
 }
@@ -12,7 +12,7 @@ lisa_bo(gda_lisa, current_p)
 \item{current_p}{A value of current siginificant p-value}
 }
 \value{
-A value of Bonferroni bound
+A numeric value of Bonferroni bound
 }
 \description{
 Get Bonferroni bound value based on current LISA computation and current significat p-value

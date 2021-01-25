@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{kernel_knn_weights}
 \alias{kernel_knn_weights}
-\title{Create a kernel weights with KNN specified bandwidth}
+\title{K-NN Kernel Spatial Weights}
 \usage{
 kernel_knn_weights(
   geoda_obj,
@@ -37,7 +37,7 @@ FALSE use max distance of all observation to their k-nearest neighbors}
 \item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from mile to km.}
 }
 \value{
-w An instance of Weight
+An instance of Weight-class
 }
 \description{
 Create a kernel weights by specifying k-nearest neighbors and a kernel method

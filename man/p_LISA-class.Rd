@@ -7,6 +7,6 @@
 \alias{$,p_LISA-method}
 \title{p_LISA}
 \description{
-p_LISA class is a RefClass that wraps the C++ LISA class
+p_LISA class is a RefClass that wraps the C++ LISA class.
 See C++ functions in rcpp_lisa.cpp
 }

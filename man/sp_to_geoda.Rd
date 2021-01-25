@@ -2,19 +2,16 @@
 % Please edit documentation in R/sf_geoda.R
 \name{sp_to_geoda}
 \alias{sp_to_geoda}
-\title{Create a geoda object from a sp object}
+\title{Create an instance of geoda-class from a 'sp' object}
 \usage{
-sp_to_geoda(sp_obj, with_table = FALSE)
+sp_to_geoda(sp_obj)
 }
 \arguments{
-\item{sp_obj}{An instance of sp object}
-
-\item{with_table}{Optional, Default: FALSE If create a table from sp dataframe object.}
+\item{sp_obj}{An instance of 'sp' object}
 }
 \value{
-geoda_obj An instance of GeoDa object
+An instance of geoda-class
 }
 \description{
-The sp package has been an essential tool which provides spatial data-structures and many utility functions to do spatial analysis in R. It has been a core dependent library for many other packages, e.g. rgdal (IO), maptools (mapping), spdep (spatial weights, spatial statistics, and spatial models) etc.
-Using rgdal to read a ESRI Shapefile will return a sp (Spatial object) object, which could be either a SpatialPointsDataFrame (using an AttributeList for its data slot directly), a SpatialLinesDataFrame, or a SpatialPolygonsDataFrame.
+Create an instance of geoda-class from a 'sp' object. NOTE: The table content is NOT used to create an instance of geoda-class.
 }

@@ -1,6 +1,6 @@
 #################################################################
 #' @title LISA class (Internally Used)
-#' @description A LISA class wrappers the results of LISA computation
+#' @description A LISA-class that wrappers the statistics of LISA computation
 #' @field gda_lisa An object of GeoDaLISA
 #' @field p_vals The pseudo-p values of significance of LISA computation
 #' @field c_vals The cluster indicators of LISA computation
@@ -86,11 +86,11 @@ LISA <- setRefClass("LISA",
 )
 
 #################################################################
-#' @title  Get Bonferroni bound value of local spatial autocorrelation
+#' @title  Bonferroni bound value of local spatial autocorrelation
 #' @description Get Bonferroni bound value based on current LISA computation and current significat p-value
 #' @param gda_lisa An instance of LISA object
 #' @param current_p A value of current siginificant p-value
-#' @return A value of Bonferroni bound
+#' @return A numeric value of Bonferroni bound
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
@@ -108,11 +108,11 @@ lisa_bo <- function(gda_lisa, current_p) {
 }
 
 #################################################################
-#' @title  Get False Discovery Rate value of local spatial autocorrelation
-#' @description Get False Discovery Rate value based on current LISA computation and current significat p-value
+#' @title  False Discovery Rate value of local spatial autocorrelation
+#' @description Get False Discovery Rate value based on current LISA computation and current significant p-value
 #' @param gda_lisa An instance of LISA object
 #' @param current_p A value of current siginificant p-value
-#' @return A value of False Discovery Rate
+#' @return A numeric vector of False Discovery Rate
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
@@ -130,10 +130,10 @@ lisa_fdr <- function(gda_lisa, current_p) {
 }
 
 #################################################################
-#' @title  Get values of local spatial autocorrelation
+#' @title  Get LISA values
 #' @description Get the local spatial autocorrelation values returned from LISA computation
 #' @param gda_lisa An instance of LISA object
-#' @return data A numeric array of local spatial autocorrelation
+#' @return A numeric vector of local spatial autocorrelation
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
@@ -150,10 +150,10 @@ lisa_values <- function(gda_lisa) {
 }
 
 #################################################################
-#' @title  Get values of local pseudo-p values
+#' @title  Get pseudo-p values of LISA
 #' @description Get the local pseudo-p values of significance returned from LISA computation.
 #' @param gda_lisa An instance of LISA object
-#' @return data a tuple of pseudo-p values of local spatial autocorrelation
+#' @return A numeric vector of pseudo-p values of local spatial autocorrelation
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
@@ -171,11 +171,11 @@ lisa_pvalues <- function(gda_lisa) {
 }
 
 #################################################################
-#' @title  Get values of local cluster indicators
+#' @title  Get local cluster indicators
 #' @description Get the local cluster indicators returned from LISA computation.
 #' @param gda_lisa An instance of LISA object
 #' @param cutoff A value of cutoff for significance p-values to filter not-significant clusters, default=0.05
-#' @return data a tuple values
+#' @return A numeric vector of LISA cluster indicator
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
@@ -197,7 +197,7 @@ lisa_clusters <- function(gda_lisa, cutoff=0.05) {
 #' @title  Get numbers of neighbors for all observations
 #' @description Get numbers of neighbors for all observations
 #' @param gda_lisa An instance of LISA object
-#' @return data A numeric array
+#' @return A numeric vector of the number of neighbors
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
@@ -218,7 +218,7 @@ lisa_num_nbrs <- function(gda_lisa) {
 #' @title  Get cluster labels
 #' @description Get cluster labels of LISA computation.
 #' @param gda_lisa An instance of LISA object
-#' @return labels A numeric array
+#' @return A numeric vector of cluster labels
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
@@ -239,7 +239,7 @@ lisa_labels <- function(gda_lisa) {
 #' @title  Get cluster colors
 #' @description Get the cluster colors of LISA computation.
 #' @param gda_lisa An instance of LISA object
-#' @return colors A numeric array
+#' @return A numeric vector of cluster colors
 #' @export
 #' @examples
 #' \dontrun{
@@ -257,7 +257,7 @@ lisa_colors <- function(gda_lisa) {
 }
 
 #################################################################
-#' @title  Local Moran statistics
+#' @title  Local Moran Statistics
 #' @description The function to apply local Moran statistics
 #' @param w An instance of Weight object
 #' @param data A numeric array of selected variable
@@ -265,7 +265,7 @@ lisa_colors <- function(gda_lisa) {
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
-#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @return An instance of LISA-class
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -289,7 +289,7 @@ local_moran <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
 }
 
 #################################################################
-#' @title  Local Geary statistics
+#' @title  Local Geary Statistics
 #' @description The function to apply local Geary statistics
 #' @param w An instance of Weight object
 #' @param data A numeric array of selected variable
@@ -297,7 +297,7 @@ local_moran <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
-#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @return An instance of LISA-class
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -321,7 +321,7 @@ local_geary <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
 }
 
 #################################################################
-#' @title  Local Multivariate Geary statistics
+#' @title  Local Multivariate Geary Statistics
 #' @description The function to apply local Multivariate Geary statistics
 #' @param w An instance of Weight object
 #' @param data A list of numeric values of selected variables
@@ -329,7 +329,7 @@ local_geary <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
-#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @return An instance of LISA-class
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -353,7 +353,7 @@ local_multigeary <- function(w, data, permutations=999, significance_cutoff=0.05
 }
 
 #################################################################
-#' @title  Local Getis-Ord's G statistics
+#' @title  Local Getis-Ord's G Statistics
 #' @description The function to apply Getis-Ord's local G statistics
 #' @param w An instance of Weight object
 #' @param data A numeric array of selected variable
@@ -361,7 +361,7 @@ local_multigeary <- function(w, data, permutations=999, significance_cutoff=0.05
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
-#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @return An instance of LISA-class
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -385,7 +385,7 @@ local_g <- function(w, data, permutations=999, significance_cutoff=0.05, cpu_thr
 }
 
 #################################################################
-#' @title  Local Getis-Ord's G* statistics
+#' @title  Local Getis-Ord's G* Statistics
 #' @description The function to apply Getis-Ord's local G* statistics
 #' @param w An instance of Weight object
 #' @param data A numeric array of selected variable
@@ -393,7 +393,7 @@ local_g <- function(w, data, permutations=999, significance_cutoff=0.05, cpu_thr
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
-#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @return An instance of LISA-class
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -417,7 +417,7 @@ local_gstar <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
 }
 
 #################################################################
-#' @title  Local Join Count statistics
+#' @title  Local Join Count Statistics
 #' @description The function to apply local Join Count statistics
 #' @param w An instance of Weight object
 #' @param data A numeric array of selected variable
@@ -425,7 +425,7 @@ local_gstar <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
-#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @return An instance of LISA-class
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -449,7 +449,7 @@ local_joincount <- function(w, data, permutations=999, significance_cutoff=0.05,
 }
 
 #################################################################
-#' @title  Local Bivariate Join Count statistics
+#' @title  Local Bivariate Join Count Statistics
 #' @description The function to apply local Bivariate Join Count statistics
 #' @param w An instance of Weight object
 #' @param data1 A numeric array of selected variable
@@ -458,7 +458,7 @@ local_joincount <- function(w, data, permutations=999, significance_cutoff=0.05,
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
-#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @return An instance of LISA-class
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -489,7 +489,7 @@ local_bijoincount <- function(w, data1, data2, permutations=999, significance_cu
 }
 
 #################################################################
-#' @title  Local Multivariate Join Count statistics
+#' @title  Local Multivariate Join Count Statistics
 #' @description The function to apply local Multivariate Join Count statistics
 #' @param w An instance of Weight object
 #' @param data A list of numeric values of selected variables
@@ -497,7 +497,7 @@ local_bijoincount <- function(w, data1, data2, permutations=999, significance_cu
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
-#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @return An instance of LISA-class
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -521,7 +521,7 @@ local_multijoincount <- function(w, data, permutations=999, significance_cutoff=
 }
 
 #################################################################
-#' @title  Quantile LISA statistics
+#' @title  Quantile LISA Statistics
 #' @description The function to apply quantile LISA statistics
 #' @param w An instance of Weight object
 #' @param k A value indicates the number of quantiles. Value range e.g. [1, 10]
@@ -531,7 +531,7 @@ local_multijoincount <- function(w, data, permutations=999, significance_cutoff=
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
-#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @return An instance of LISA-class
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -558,7 +558,7 @@ local_quantilelisa <- function(w, k, q, data, permutations=999, significance_cut
 }
 
 #################################################################
-#' @title  Multivariate Quantile LISA statistics
+#' @title  Multivariate Quantile LISA Statistics
 #' @description The function to apply multivariate quantile LISA statistics
 #' @param w An instance of Weight object
 #' @param quantile_data A list of [k, q, data] for more than one variable. Each variable will be set with: k, indicates the number of quantiles; q, indicates which quantile or interval used in local join count statistics; data, is a numeric array of selected variable
@@ -566,7 +566,7 @@ local_quantilelisa <- function(w, k, q, data, permutations=999, significance_cut
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
-#' @return lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+#' @return An instance of LISA-class
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)

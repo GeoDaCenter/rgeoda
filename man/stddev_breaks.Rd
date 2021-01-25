@@ -7,10 +7,10 @@
 stddev_breaks(data)
 }
 \arguments{
-\item{data}{An input data}
+\item{data}{A vector of numeric values}
 }
 \value{
-A array contains values of computed breaks
+A vector of numeric values of computed breaks
 }
 \description{
 Standard deviation breaks first transforms data to standard deviation units (mean=0, stddev=1), and then divide the range of values into 6 groups.

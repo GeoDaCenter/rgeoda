@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{local_multijoincount}
 \alias{local_multijoincount}
-\title{Local Multivariate Join Count statistics}
+\title{Local Multivariate Join Count Statistics}
 \usage{
 local_multijoincount(
   w,
@@ -27,7 +27,7 @@ local_multijoincount(
 \item{seed}{The seed for random number generator}
 }
 \value{
-lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+An instance of LISA-class
 }
 \description{
 The function to apply local Multivariate Join Count statistics

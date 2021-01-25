@@ -4,24 +4,24 @@
 \name{geoda-class}
 \alias{geoda-class}
 \alias{geoda}
-\title{A R wrapper for p_GeoDa}
+\title{'geoda' class}
 \description{
-geoda is a RefClass that wraps the C++ GeoDa class (via p_GeoDa defines in rgeoda.R)
+'geoda' is a RefClass that wraps the C++ GeoDa class (via p_GeoDa defines in rgeoda.R)
 }
 \section{Fields}{
 
 \describe{
-\item{\code{gda}}{A pointer to C++ GeoDa object}
+\item{\code{gda}}{The pointer to the instance of p_GeoDa-class}
 
-\item{\code{map_type}}{The map type: Point, Polygon (or LineSegment)}
+\item{\code{map_type}}{The map type, could be either Point or Polygon}
 
 \item{\code{n_cols}}{The number of columns}
 
 \item{\code{n_obs}}{The number of observations}
 
-\item{\code{field_names}}{A list of field names}
+\item{\code{field_names}}{A string vector of field names}
 
-\item{\code{field_types}}{A list of field types  (integer, real, string)}
+\item{\code{field_types}}{A string vector of field types  (integer, real, string)}
 }}
 
 \section{Methods}{

@@ -1,8 +1,8 @@
 ############################################################
-#' @title Demean standardize
+#' @title Demean Standardize
 #' @description The mean for each variable is subtracting from each observation resulting in mean zero.
-#' @param data An input data for median absolute deviation
-#' @return A data array
+#' @param data A list of numeric vectors (multi-variables) for median absolute deviation
+#' @return A list of numeric vectors from demean
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -19,8 +19,8 @@ demean <- function(data) {
 ############################################################
 #' @title Standardize Data (Z)
 #' @description  Standarize data by transforming data to have zero mean and unit variance
-#' @param data An input data for standardization
-#' @return A data array
+#' @param data A list of numeric vectors (multi-variables) for standardization
+#' @return A list of numeric vectors from standardization (Z)
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -37,8 +37,8 @@ standardize <- function(data) {
 ############################################################
 #' @title Median absolute deviation
 #' @description Median absolute deviation to measure  measure of the variability of a univariate sample of quantitative data
-#' @param data An input data for median absolute deviation
-#' @return A data array
+#' @param data A list of numeric vectors (multi-variables) for median absolute deviation
+#' @return A list of numeric vectors from MAD
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -56,8 +56,8 @@ median_absolute_deviation <- function(data) {
 #' @title Natural Breaks (Jenks)
 #' @description Natural Breaks group data whose boundaries are set where there are relatively big differences.
 #' @param k A numeric value indicates how many breaks
-#' @param data An input data
-#' @return A array contains values of computed breaks
+#' @param data A vector of numeric values
+#' @return A vector of numeric values of computed breaks
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -73,8 +73,8 @@ natural_breaks <- function(k, data) {
 #' @title Quantile Breaks
 #' @description Quantile breaks data into groups that each have the same number of observations
 #' @param k A numeric value indicates how many breaks
-#' @param data An input data
-#' @return A array contains values of computed breaks
+#' @param data A vector of numeric values
+#' @return A vector of numeric values of computed breaks
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -89,8 +89,8 @@ quantile_breaks <- function(k, data) {
 ############################################################
 #' @title (Box) Hinge15 Breaks
 #' @description Hinge15 breaks data into 6 groups like box plot groups (Lower outlier, < 25%, 25-50%, 50-75%, >75%, Upper outlier) with hinge=1.5
-#' @param data An input data
-#' @return A array contains values of computed breaks
+#' @param data A vector of numeric values
+#' @return A vector of numeric values of computed breaks
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -105,8 +105,8 @@ hinge15_breaks <- function(data) {
 ############################################################
 #' @title (Box) Hinge30 Breaks
 #' @description Hinge30 breaks data into 6 groups like box plot groups (Lower outlier, < 25%, 25-50%, 50-75%, >75%, Upper outlier) with hinge=3.0
-#' @param data An input data
-#' @return A array contains values of computed breaks
+#' @param data A vector of numeric values
+#' @return A vector of numeric values of computed breaks
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -121,8 +121,8 @@ hinge30_breaks <- function(data) {
 ############################################################
 #' @title Percentile Breaks
 #' @description Percentile breaks data into 6 groups: the lowest 1%, 1-10%, 10-50%, 50-90%, 90-99% and the top 1%.
-#' @param data An input data
-#' @return A array contains values of computed breaks
+#' @param data A vector of numeric values
+#' @return A vector of numeric values of computed breaks
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
@@ -137,8 +137,8 @@ percentile_breaks <- function(data) {
 ############################################################
 #' @title Standard Deviation Breaks
 #' @description Standard deviation breaks first transforms data to standard deviation units (mean=0, stddev=1), and then divide the range of values into 6 groups.
-#' @param data An input data
-#' @return A array contains values of computed breaks
+#' @param data A vector of numeric values
+#' @return A vector of numeric values of computed breaks
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)

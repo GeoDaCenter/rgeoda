@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{local_quantilelisa}
 \alias{local_quantilelisa}
-\title{Quantile LISA statistics}
+\title{Quantile LISA Statistics}
 \usage{
 local_quantilelisa(
   w,
@@ -33,7 +33,7 @@ local_quantilelisa(
 \item{seed}{The seed for random number generator}
 }
 \value{
-lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+An instance of LISA-class
 }
 \description{
 The function to apply quantile LISA statistics

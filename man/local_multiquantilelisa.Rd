@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{local_multiquantilelisa}
 \alias{local_multiquantilelisa}
-\title{Multivariate Quantile LISA statistics}
+\title{Multivariate Quantile LISA Statistics}
 \usage{
 local_multiquantilelisa(
   w,
@@ -27,7 +27,7 @@ local_multiquantilelisa(
 \item{seed}{The seed for random number generator}
 }
 \value{
-lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+An instance of LISA-class
 }
 \description{
 The function to apply multivariate quantile LISA statistics

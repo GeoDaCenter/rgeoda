@@ -7,10 +7,10 @@
 median_absolute_deviation(data)
 }
 \arguments{
-\item{data}{An input data for median absolute deviation}
+\item{data}{A list of numeric vectors (multi-variables) for median absolute deviation}
 }
 \value{
-A data array
+A list of numeric vectors from MAD
 }
 \description{
 Median absolute deviation to measure  measure of the variability of a univariate sample of quantitative data

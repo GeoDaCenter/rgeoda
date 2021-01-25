@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_geoda.R
 \name{geoda_open}
 \alias{geoda_open}
-\title{Create a geoda object by reading a spatial dataset}
+\title{Create an instance of geoda-class by reading from an ESRI Shapefile dataset}
 \usage{
 geoda_open(ds_path)
 }
@@ -10,10 +10,10 @@ geoda_open(ds_path)
 \item{ds_path}{(character) The path of the spatial dataset}
 }
 \value{
-gda_obj An object of geoda instance
+An instance of geoda-class
 }
 \description{
-Create a geoda object by reading a spatial dataset. The dataset that rgeoda supports includes: ESRI Shapefile, MapInfo File, CSV, GML, GPX, KML, GeoJSON, TopoJSON, OpenFileGDB, GFT Google Fusion Tables, CouchDB
+Create an instance of geoda-class by reading from an ESRI Shapefile dataset.
 }
 \examples{
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")

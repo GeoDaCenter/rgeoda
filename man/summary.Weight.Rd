@@ -12,7 +12,7 @@
 \item{...}{summary optional parameters}
 }
 \value{
-A summary description of Weight object
+A summary description of an instance of Weight-class
 }
 \description{
 Override the summary() function for spatial weights

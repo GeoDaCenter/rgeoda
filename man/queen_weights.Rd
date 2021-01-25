@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{queen_weights}
 \alias{queen_weights}
-\title{Create a Queen contiguity weights}
+\title{Queen Contiguity Spatial Weights}
 \usage{
 queen_weights(
   geoda_obj,
@@ -21,7 +21,7 @@ queen_weights(
 \item{precision_threshold}{(Optional) The precision of the underlying shape file is insufficient to allow for an exact match of coordinates to determine which polygons are neighbors}
 }
 \value{
-w An object of Weight class
+An instance of Weight-class
 }
 \description{
 Create a Queen contiguity weights with options of "order", "include lower order" and "precision threshold"

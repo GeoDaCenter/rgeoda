@@ -1,20 +1,17 @@
-#' @title random string
-#' @param n a positive number, the number of items to choose from.
-#' @description Create a random string
+# Create a random string (internally used)
+# The input is a positive number, indicating the number of items to choose from.
 random_string <- function(n = 5000) {
   a <- do.call(paste0, replicate(5, sample(LETTERS, n, TRUE), FALSE))
   paste0(a, sprintf("%04d", sample(9999, n, TRUE)), sample(LETTERS, n, TRUE))
 }
 
 
-
-#' @title Create a geoda object from a sf object
-#' @description Create a geoda object from a sf object returned from 'st_read()' function
-#' @param sf_obj  An instance of sf object
-#' @param with_table  Optional, Default: FALSE If create a table from sf dataframe object.
-#' @return geoda_obj An instance of geoda class
+#' @title Create an instance of geoda-class from a 'sf' object
+#' @description Create an instance of geoda-class from a 'sf' object returned from 'st_read()' function. NOTE: The table content is NOT used to create an instance of geoda-class.
+#' @param sf_obj  An instance of 'sf' object
+#' @return An instance of geoda-class
 #' @export
-sf_to_geoda = function(sf_obj, with_table=FALSE) {
+sf_to_geoda = function(sf_obj) {
   if (!requireNamespace("sf", quietly = TRUE)) {
     stop("package sf not available: install first?")
   }
@@ -70,20 +67,19 @@ sf_to_geoda = function(sf_obj, with_table=FALSE) {
     map_type <- "map_points"
   } else if (geom_type == "MULTILINESTRING" || geom_type == "LINESTRING") {
     map_type <- "map_lines"
+    stop("rgeoda does not support line/polyline data.")
   }
 
   gda <- p_GeoDa(file_name, map_type, n_obs, wkb_vec, wkb_bytes_len)
   return(geoda$new(gda))
 }
 
-#' @title Create a geoda object from a sp object
-#' @description The sp package has been an essential tool which provides spatial data-structures and many utility functions to do spatial analysis in R. It has been a core dependent library for many other packages, e.g. rgdal (IO), maptools (mapping), spdep (spatial weights, spatial statistics, and spatial models) etc.
-#' Using rgdal to read a ESRI Shapefile will return a sp (Spatial object) object, which could be either a SpatialPointsDataFrame (using an AttributeList for its data slot directly), a SpatialLinesDataFrame, or a SpatialPolygonsDataFrame.
-#' @param sp_obj  An instance of sp object
-#' @param with_table  Optional, Default: FALSE If create a table from sp dataframe object.
-#' @return geoda_obj An instance of GeoDa object
+#' @title Create an instance of geoda-class from a 'sp' object
+#' @description Create an instance of geoda-class from a 'sp' object. NOTE: The table content is NOT used to create an instance of geoda-class.
+#' @param sp_obj  An instance of 'sp' object
+#' @return An instance of geoda-class
 #' @export
-sp_to_geoda = function(sp_obj, with_table=FALSE) {
+sp_to_geoda = function(sp_obj) {
   if (!requireNamespace("sp", quietly = TRUE)) {
     stop("package sp not available: install first?")
   }
@@ -135,6 +131,7 @@ sp_to_geoda = function(sp_obj, with_table=FALSE) {
     map_type <- "map_points"
   } else if (is(sp_obj, "SpatialLinesDataFrame-class")) {
     map_type <- "map_lines"
+    stop("rgeoda does not support line/polyline data.")
   }
 
   gda <- p_GeoDa(file_name, map_type, n_obs, geoms_wkb, wkb_bytes_len)

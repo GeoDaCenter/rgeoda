@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{local_moran}
 \alias{local_moran}
-\title{Local Moran statistics}
+\title{Local Moran Statistics}
 \usage{
 local_moran(
   w,
@@ -27,7 +27,7 @@ local_moran(
 \item{seed}{The seed for random number generator}
 }
 \value{
-lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+An instance of LISA-class
 }
 \description{
 The function to apply local Moran statistics

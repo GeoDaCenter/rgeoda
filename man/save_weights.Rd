@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{save_weights}
 \alias{save_weights}
-\title{Save current spatial weights to a file}
+\title{Save Spatial Weights}
 \usage{
 save_weights(gda_w, out_path, layer_name, id_name, id_values)
 }
@@ -18,7 +18,7 @@ save_weights(gda_w, out_path, layer_name, id_name, id_values)
 \item{id_values}{The tuple of values of selected id_name (column or field)}
 }
 \value{
-Boolean value indicates if save successfully or failed
+A boolean value indicates if save successfully or failed
 }
 \description{
 Save current spatial weights to a file
@@ -28,9 +28,9 @@ Save current spatial weights to a file
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- geoda_open(guerry_path)
 queen_w <- queen_weights(guerry)
-save_weights(rook_w, out_path = '/Users/xun/Downloads/Guerry_r.gal', 
-            layer_name = 'Guerry', 
-            id_name = 'CODE_DE', 
+save_weights(rook_w, out_path = '/Users/xun/Downloads/Guerry_r.gal',
+            layer_name = 'Guerry',
+            id_name = 'CODE_DE',
             id_values = as.integer(guerry_df['CODE_DE'][,1]))
 }
 }

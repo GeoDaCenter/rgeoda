@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{distance_weights}
 \alias{distance_weights}
-\title{Create a distance-based weights}
+\title{Distance-based Spatial Weights}
 \usage{
 distance_weights(
   geoda_obj,
@@ -14,7 +14,7 @@ distance_weights(
 )
 }
 \arguments{
-\item{geoda_obj}{An instance of geoda}
+\item{geoda_obj}{An instance of geoda-class}
 
 \item{dist_thres}{A positive numeric value of distance threshold}
 
@@ -27,7 +27,7 @@ distance_weights(
 \item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from mile to km.}
 }
 \value{
-w An instance of GeoDaWeight
+An instance of Weight-class
 }
 \description{
 Create a distance-based weights

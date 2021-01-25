@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{lisa_pvalues}
 \alias{lisa_pvalues}
-\title{Get values of local pseudo-p values}
+\title{Get pseudo-p values of LISA}
 \usage{
 lisa_pvalues(gda_lisa)
 }
@@ -10,7 +10,7 @@ lisa_pvalues(gda_lisa)
 \item{gda_lisa}{An instance of LISA object}
 }
 \value{
-data a tuple of pseudo-p values of local spatial autocorrelation
+A numeric vector of pseudo-p values of local spatial autocorrelation
 }
 \description{
 Get the local pseudo-p values of significance returned from LISA computation.

@@ -10,7 +10,7 @@ lisa_num_nbrs(gda_lisa)
 \item{gda_lisa}{An instance of LISA object}
 }
 \value{
-data A numeric array
+A numeric vector of the number of neighbors
 }
 \description{
 Get numbers of neighbors for all observations

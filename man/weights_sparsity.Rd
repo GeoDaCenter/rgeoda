@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{weights_sparsity}
 \alias{weights_sparsity}
-\title{Sparsity of a weights matrix}
+\title{Sparsity of Spatial Weights}
 \usage{
 weights_sparsity(gda_w)
 }
@@ -10,7 +10,7 @@ weights_sparsity(gda_w)
 \item{gda_w}{A Weight object}
 }
 \value{
-Value of the weight matrix sparsity
+A numeric value of spatial weights sparsity
 }
 \description{
 Get sparsity computed from weights matrix

@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{rook_weights}
 \alias{rook_weights}
-\title{Create a Rook contiguity weights}
+\title{Rook Contiguity Spatial Weights}
 \usage{
 rook_weights(
   geoda_obj,
@@ -21,7 +21,7 @@ rook_weights(
 \item{precision_threshold}{(Optional) The precision of the underlying shape file is insufficient to allow for an exact match of coordinates to determine which polygons are neighbors}
 }
 \value{
-w An object of Weight class
+An instance of Weight-class
 }
 \description{
 Create a Rook contiguity weights with options of "order", "include lower order" and "precision threshold"

@@ -7,10 +7,10 @@
 hinge30_breaks(data)
 }
 \arguments{
-\item{data}{An input data}
+\item{data}{A vector of numeric values}
 }
 \value{
-A array contains values of computed breaks
+A vector of numeric values of computed breaks
 }
 \description{
 Hinge30 breaks data into 6 groups like box plot groups (Lower outlier, < 25%, 25-50%, 50-75%, >75%, Upper outlier) with hinge=3.0

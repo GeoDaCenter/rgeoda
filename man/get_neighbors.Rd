@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{get_neighbors}
 \alias{get_neighbors}
-\title{Get neighbors for idx-th observation based on weights matrix}
+\title{Neighbor Information of Spatial Weights}
 \usage{
 get_neighbors(gda_w, idx)
 }
@@ -12,7 +12,7 @@ get_neighbors(gda_w, idx)
 \item{idx}{A value indicates idx-th observation, idx start from 1}
 }
 \value{
-Vector of the neighbor indices, idx start from 1
+A numeric vector of the neighbor indices, which start from 1
 }
 \description{
 Get neighbors for idx-th observation, idx starts from 1

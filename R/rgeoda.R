@@ -9,7 +9,7 @@
 
 
 #' @title p_GeoDa
-#' @description p_GeoDa class is a RefClass that wraps the C++ GeoDa class
+#' @description p_GeoDa class is a RefClass that wraps the C++ 'GeoDa' class.
 #' See C++ functions in rcpp_rgeoda.cpp
 #' @export
 p_GeoDa <- setClass( "p_GeoDa", representation( pointer = "externalptr" ) )
@@ -54,7 +54,7 @@ setMethod( "initialize", "p_GeoDa", function(.Object, ...) {
 
 
 #' @title p_GeoDaWeight
-#' @description p_GeoDaWeight class is a RefClass that wraps the C++ GeoDaWeight class
+#' @description p_GeoDaWeight class is a RefClass that wraps the C++ GeoDaWeight class.
 #' See C++ functions in rcpp_weights.cpp
 #' @export
 p_GeoDaWeight <- setClass( "p_GeoDaWeight", representation( pointer = "externalptr" ) )
@@ -94,7 +94,7 @@ setMethod( "initialize", "p_GeoDaWeight", function(.Object, ...) {
 
 
 #' @title p_LISA
-#' @description p_LISA class is a RefClass that wraps the C++ LISA class
+#' @description p_LISA class is a RefClass that wraps the C++ LISA class.
 #' See C++ functions in rcpp_lisa.cpp
 #' @export
 p_LISA <- setClass( "p_LISA", representation( pointer = "externalptr" ) )

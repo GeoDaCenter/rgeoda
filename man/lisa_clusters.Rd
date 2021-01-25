@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{lisa_clusters}
 \alias{lisa_clusters}
-\title{Get values of local cluster indicators}
+\title{Get local cluster indicators}
 \usage{
 lisa_clusters(gda_lisa, cutoff = 0.05)
 }
@@ -12,7 +12,7 @@ lisa_clusters(gda_lisa, cutoff = 0.05)
 \item{cutoff}{A value of cutoff for significance p-values to filter not-significant clusters, default=0.05}
 }
 \value{
-data a tuple values
+A numeric vector of LISA cluster indicator
 }
 \description{
 Get the local cluster indicators returned from LISA computation.

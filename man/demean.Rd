@@ -2,15 +2,15 @@
 % Please edit documentation in R/utils.R
 \name{demean}
 \alias{demean}
-\title{Demean standardize}
+\title{Demean Standardize}
 \usage{
 demean(data)
 }
 \arguments{
-\item{data}{An input data for median absolute deviation}
+\item{data}{A list of numeric vectors (multi-variables) for median absolute deviation}
 }
 \value{
-A data array
+A list of numeric vectors from demean
 }
 \description{
 The mean for each variable is subtracting from each observation resulting in mean zero.

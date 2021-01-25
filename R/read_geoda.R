@@ -1,11 +1,11 @@
-#' @title A R wrapper for p_GeoDa
-#' @description geoda is a RefClass that wraps the C++ GeoDa class (via p_GeoDa defines in rgeoda.R)
-#' @field gda A pointer to C++ GeoDa object
-#' @field map_type The map type: Point, Polygon (or LineSegment)
+#' @title 'geoda' class
+#' @description 'geoda' is a RefClass that wraps the C++ GeoDa class (via p_GeoDa defines in rgeoda.R)
+#' @field gda The pointer to the instance of p_GeoDa-class
+#' @field map_type The map type, could be either Point or Polygon
 #' @field n_cols The number of columns
 #' @field n_obs The number of observations
-#' @field field_names A list of field names
-#' @field field_types A list of field types  (integer, real, string)
+#' @field field_names A string vector of field names
+#' @field field_types A string vector of field types  (integer, real, string)
 #' @export
 geoda <- setRefClass("geoda",
   fields = list(
@@ -81,10 +81,10 @@ geoda <- setRefClass("geoda",
   )
 )
 
-#' @title Create a geoda object by reading a spatial dataset
-#' @description Create a geoda object by reading a spatial dataset. The dataset that rgeoda supports includes: ESRI Shapefile, MapInfo File, CSV, GML, GPX, KML, GeoJSON, TopoJSON, OpenFileGDB, GFT Google Fusion Tables, CouchDB
+#' @title Create an instance of geoda-class by reading from an ESRI Shapefile dataset
+#' @description Create an instance of geoda-class by reading from an ESRI Shapefile dataset.
 #' @param ds_path (character) The path of the spatial dataset
-#' @return gda_obj An object of geoda instance
+#' @return An instance of geoda-class
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)

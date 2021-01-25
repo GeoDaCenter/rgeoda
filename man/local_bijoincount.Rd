@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{local_bijoincount}
 \alias{local_bijoincount}
-\title{Local Bivariate Join Count statistics}
+\title{Local Bivariate Join Count Statistics}
 \usage{
 local_bijoincount(
   w,
@@ -30,7 +30,7 @@ local_bijoincount(
 \item{seed}{The seed for random number generator}
 }
 \value{
-lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+An instance of LISA-class
 }
 \description{
 The function to apply local Bivariate Join Count statistics

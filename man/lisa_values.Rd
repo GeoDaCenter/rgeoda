@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{lisa_values}
 \alias{lisa_values}
-\title{Get values of local spatial autocorrelation}
+\title{Get LISA values}
 \usage{
 lisa_values(gda_lisa)
 }
@@ -10,7 +10,7 @@ lisa_values(gda_lisa)
 \item{gda_lisa}{An instance of LISA object}
 }
 \value{
-data A numeric array of local spatial autocorrelation
+A numeric vector of local spatial autocorrelation
 }
 \description{
 Get the local spatial autocorrelation values returned from LISA computation

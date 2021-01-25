@@ -9,10 +9,10 @@ natural_breaks(k, data)
 \arguments{
 \item{k}{A numeric value indicates how many breaks}
 
-\item{data}{An input data}
+\item{data}{A vector of numeric values}
 }
 \value{
-A array contains values of computed breaks
+A vector of numeric values of computed breaks
 }
 \description{
 Natural Breaks group data whose boundaries are set where there are relatively big differences.

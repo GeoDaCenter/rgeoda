@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{local_geary}
 \alias{local_geary}
-\title{Local Geary statistics}
+\title{Local Geary Statistics}
 \usage{
 local_geary(
   w,
@@ -27,7 +27,7 @@ local_geary(
 \item{seed}{The seed for random number generator}
 }
 \value{
-lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+An instance of LISA-class
 }
 \description{
 The function to apply local Geary statistics

@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{local_gstar}
 \alias{local_gstar}
-\title{Local Getis-Ord's G* statistics}
+\title{Local Getis-Ord's G* Statistics}
 \usage{
 local_gstar(
   w,
@@ -27,7 +27,7 @@ local_gstar(
 \item{seed}{The seed for random number generator}
 }
 \value{
-lisa_obj An instance of LISA (LocalSpatialAutocorrelation) object
+An instance of LISA-class
 }
 \description{
 The function to apply Getis-Ord's local G* statistics

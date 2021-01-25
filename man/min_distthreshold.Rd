@@ -2,7 +2,7 @@
 % Please edit documentation in R/weights.R
 \name{min_distthreshold}
 \alias{min_distthreshold}
-\title{Get minimum threshold of distance that makes sure each observation has at least one neighbor}
+\title{Minimum Distance Threshold for Distance-based Weights}
 \usage{
 min_distthreshold(geoda_obj, is_arc = FALSE, is_mile = TRUE)
 }
@@ -14,7 +14,7 @@ min_distthreshold(geoda_obj, is_arc = FALSE, is_mile = TRUE)
 \item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from mile to km.}
 }
 \value{
-dist A real value of minimum threshold of distance
+A numeric value of minimum threshold of distance
 }
 \description{
 Get minimum threshold of distance that makes sure each observation has at least one neighbor

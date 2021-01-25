@@ -7,10 +7,10 @@
 percentile_breaks(data)
 }
 \arguments{
-\item{data}{An input data}
+\item{data}{A vector of numeric values}
 }
 \value{
-A array contains values of computed breaks
+A vector of numeric values of computed breaks
 }
 \description{
 Percentile breaks data into 6 groups: the lowest 1%, 1-10%, 10-50%, 50-90%, 90-99% and the top 1%.
