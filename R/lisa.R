@@ -6,27 +6,29 @@
 #' @field c_vals The cluster indicators of LISA computation
 #' @field lisa_vals The local spatial autocorrelation values of LISA computation
 #' @field nn_vals The number of neighbors of every observations in LISA computation
-#' @field lag_vals The values of spatial lags of LISA computation
-#' @field num_obs Number of observations
 #' @field labels The cluster labels of LISA
 #' @field colors The cluster colors (HEX format) of LISA
 #' @export
 LISA <- setRefClass("LISA",
   fields = list(
     gda_lisa = "p_LISA",
-    p_vals = "array",
-    c_vals = "array",
-    lisa_vals = "array",
-    nn_vals = "array",
-    lag_vals = "array",
-    num_obs = "integer",
-    labels = "array",
-    colors = "array"
+    p_vals = "numeric",
+    c_vals = "numeric",
+    lisa_vals = "numeric",
+    nn_vals = "numeric",
+    labels = "character",
+    colors = "character"
   ),
   methods = list(
     initialize = function(lisa_obj) {
       "Constructor with a LISA object (internally used)"
       .self$gda_lisa = lisa_obj
+      .self$p_vals = lisa_obj$GetLocalSignificanceValues()
+      .self$c_vals = lisa_obj$GetClusterIndicators()
+      .self$lisa_vals = lisa_obj$GetLISAValues()
+      .self$nn_vals = lisa_obj$GetNumNeighbors()
+      .self$labels = lisa_obj$GetLabels()
+      .self$colors = lisa_obj$GetColors()
     },
     Run = function() {
       "Call to run LISA computation"
