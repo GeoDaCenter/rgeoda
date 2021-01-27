@@ -771,14 +771,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// p_GeoDaWeight__HasIsolations
-bool p_GeoDaWeight__HasIsolations(SEXP xp);
-RcppExport SEXP _rgeoda_p_GeoDaWeight__HasIsolations(SEXP xpSEXP) {
+// p_GeoDaWeight__HasIsolates
+bool p_GeoDaWeight__HasIsolates(SEXP xp);
+RcppExport SEXP _rgeoda_p_GeoDaWeight__HasIsolates(SEXP xpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_GeoDaWeight__HasIsolations(xp));
+    rcpp_result_gen = Rcpp::wrap(p_GeoDaWeight__HasIsolates(xp));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -790,17 +790,6 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
     rcpp_result_gen = Rcpp::wrap(p_GeoDaWeight__GetSparsity(xp));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_GeoDaWeight__GetDensity
-double p_GeoDaWeight__GetDensity(SEXP xp);
-RcppExport SEXP _rgeoda_p_GeoDaWeight__GetDensity(SEXP xpSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_GeoDaWeight__GetDensity(xp));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1082,9 +1071,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_GeoDaWeight__GetPointer", (DL_FUNC) &_rgeoda_p_GeoDaWeight__GetPointer, 1},
     {"_rgeoda_p_GeoDaWeight__GetNumObs", (DL_FUNC) &_rgeoda_p_GeoDaWeight__GetNumObs, 1},
     {"_rgeoda_p_GeoDaWeight__IsSymmetric", (DL_FUNC) &_rgeoda_p_GeoDaWeight__IsSymmetric, 1},
-    {"_rgeoda_p_GeoDaWeight__HasIsolations", (DL_FUNC) &_rgeoda_p_GeoDaWeight__HasIsolations, 1},
+    {"_rgeoda_p_GeoDaWeight__HasIsolates", (DL_FUNC) &_rgeoda_p_GeoDaWeight__HasIsolates, 1},
     {"_rgeoda_p_GeoDaWeight__GetSparsity", (DL_FUNC) &_rgeoda_p_GeoDaWeight__GetSparsity, 1},
-    {"_rgeoda_p_GeoDaWeight__GetDensity", (DL_FUNC) &_rgeoda_p_GeoDaWeight__GetDensity, 1},
     {"_rgeoda_p_GeoDaWeight__GetMinNeighbors", (DL_FUNC) &_rgeoda_p_GeoDaWeight__GetMinNeighbors, 1},
     {"_rgeoda_p_GeoDaWeight__GetMaxNeighbors", (DL_FUNC) &_rgeoda_p_GeoDaWeight__GetMaxNeighbors, 1},
     {"_rgeoda_p_GeoDaWeight__GetMeanNeighbors", (DL_FUNC) &_rgeoda_p_GeoDaWeight__GetMeanNeighbors, 1},

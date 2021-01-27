@@ -15,7 +15,6 @@ const GeoDaWeight& GeoDaWeight::operator=(const GeoDaWeight& gw)
 	is_symmetric = gw.is_symmetric;
 	num_obs = gw.num_obs;
 	sparsity = gw.sparsity;
-	density = gw.density;
 	min_nbrs = gw.min_nbrs;
 	max_nbrs = gw.max_nbrs;
 	mean_nbrs = gw.mean_nbrs;
@@ -38,10 +37,6 @@ bool GeoDaWeight::IsSymmetric() const
 double GeoDaWeight::GetSparsity() const
 {
     return sparsity;
-}
-double GeoDaWeight::GetDensity() const
-{
-    return density;
 }
 int GeoDaWeight::GetNumObs() const
 {

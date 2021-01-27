@@ -4,10 +4,12 @@
 \alias{lisa_clusters}
 \title{Get local cluster indicators}
 \usage{
-lisa_clusters(gda_lisa)
+lisa_clusters(gda_lisa, cutoff = 0)
 }
 \arguments{
 \item{gda_lisa}{An instance of LISA object}
+
+\item{cutoff}{A value of cutoff for significance p-values to filter not-significant clusters, default=0.0, means not used}
 }
 \value{
 A numeric vector of LISA cluster indicator

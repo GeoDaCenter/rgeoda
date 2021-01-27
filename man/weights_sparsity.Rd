@@ -13,7 +13,7 @@ weights_sparsity(gda_w)
 A numeric value of spatial weights sparsity
 }
 \description{
-Get sparsity computed from weights matrix
+Get sparsity (% Non-zero) computed from weights matrix
 }
 \examples{
 \dontrun{

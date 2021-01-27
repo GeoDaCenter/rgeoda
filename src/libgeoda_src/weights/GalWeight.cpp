@@ -264,15 +264,6 @@ double GalWeight::SpatialLag(int obs_idx, const std::vector<double> &data)
 
 void GalWeight::GetNbrStats()
 {
-    // sparsity
-    double empties = 0;
-    for (int i=0; i<num_obs; i++) {
-        if (gal[i].Size() == 0)
-        empties += 1;
-    }
-    sparsity = empties / (double)num_obs;
-    
-    // density
     // other
     int sum_nnbrs = 0;
     vector<int> nnbrs_array;
@@ -295,7 +286,7 @@ void GalWeight::GetNbrStats()
         nnbrs_array.push_back(n_nbrs);
     }
     //double n_edges = e_dict.size() / 2.0;
-    density = 100.0 * sum_nnbrs / (double)(num_obs * num_obs);
+    sparsity = 100.0 * sum_nnbrs / (double)(num_obs * num_obs);
     
     if (num_obs > 0) mean_nbrs = sum_nnbrs / (double)num_obs;
     std::sort(nnbrs_array.begin(), nnbrs_array.end());

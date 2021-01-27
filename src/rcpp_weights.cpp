@@ -42,13 +42,13 @@ bool p_GeoDaWeight__IsSymmetric(SEXP xp)
 }
 
 //  [[Rcpp::export]]
-bool p_GeoDaWeight__HasIsolations(SEXP xp)
+bool p_GeoDaWeight__HasIsolates(SEXP xp)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp);
 
   // invoke the function
-  bool has_iso = ptr->HasIsolations();
+  bool has_iso = ptr->HasIsolates();
 
   return has_iso;
 }
@@ -63,18 +63,6 @@ double p_GeoDaWeight__GetSparsity(SEXP xp)
   double sparsity = ptr->GetSparsity();
 
   return sparsity;
-}
-
-//  [[Rcpp::export]]
-double p_GeoDaWeight__GetDensity(SEXP xp)
-{
-  // grab the object as a XPtr (smart pointer) to GeoDaWeight
-  Rcpp::XPtr<GeoDaWeight> ptr(xp);
-
-  // invoke the function
-  double density = ptr->GetDensity();
-
-  return density;
 }
 
 //  [[Rcpp::export]]

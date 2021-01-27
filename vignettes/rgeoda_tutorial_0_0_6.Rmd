@@ -136,10 +136,6 @@ has_isolates(queen_w)
 weights_sparsity(queen_w)
 ```
 
-```{r}
-weights_density(queen_w)
-```
-
 We can also access the details of the weights: e.g. list the neighbors of a specified observation, which is very helpful in exploratory spatial data analysis (which is focused in next tutorial):
 
 ```{r}
@@ -316,7 +312,7 @@ pvals
 We can use `lisa_clusters()` to get the cluster indicators of local Moran computation. The p-value threshold can be specified via the argument `cutoff`. 
 
 ```{r}
-cats <- lisa_clusters(lisa, cutoff = 0.05)
+cats <- lisa_clusters(lisa)
 cats
 ```
 

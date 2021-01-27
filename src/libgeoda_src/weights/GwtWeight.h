@@ -54,7 +54,7 @@ public:
 	GwtElement* gwt;
 	static bool HasIsolates(GwtElement *gwt, int num_obs);
     
-	virtual bool HasIsolations() { return HasIsolates(gwt, num_obs); }
+	virtual bool HasIsolates() { return HasIsolates(gwt, num_obs); }
     virtual bool CheckNeighbor(int obs_idx, int nbr_idx);
     virtual const std::vector<long> GetNeighbors(int obs_idx);
     virtual const std::vector<double> GetNeighborWeights(int obs_idx);

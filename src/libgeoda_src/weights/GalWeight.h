@@ -52,7 +52,7 @@ public:
     
 	virtual GalWeight& operator=(const GalWeight& gw);
     
-	virtual bool HasIsolations() { return HasIsolates(gal, num_obs); }
+	virtual bool HasIsolates() { return HasIsolates(gal, num_obs); }
     
     virtual void Update(const std::vector<bool>& undefs);
     

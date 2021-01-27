@@ -229,16 +229,12 @@ p_GeoDaWeight__IsSymmetric <- function(xp) {
     .Call('_rgeoda_p_GeoDaWeight__IsSymmetric', PACKAGE = 'rgeoda', xp)
 }
 
-p_GeoDaWeight__HasIsolations <- function(xp) {
-    .Call('_rgeoda_p_GeoDaWeight__HasIsolations', PACKAGE = 'rgeoda', xp)
+p_GeoDaWeight__HasIsolates <- function(xp) {
+    .Call('_rgeoda_p_GeoDaWeight__HasIsolates', PACKAGE = 'rgeoda', xp)
 }
 
 p_GeoDaWeight__GetSparsity <- function(xp) {
     .Call('_rgeoda_p_GeoDaWeight__GetSparsity', PACKAGE = 'rgeoda', xp)
-}
-
-p_GeoDaWeight__GetDensity <- function(xp) {
-    .Call('_rgeoda_p_GeoDaWeight__GetDensity', PACKAGE = 'rgeoda', xp)
 }
 
 p_GeoDaWeight__GetMinNeighbors <- function(xp) {

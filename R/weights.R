@@ -4,26 +4,24 @@
 #' @field gda_w An object of p_GeoDaWeight-class
 #' @field is_symmetric If weights matrix is symmetric
 #' @field sparsity Sparsity of weights matrix
-#' @field density Density of weights matrix
 #' @field min_neighbors Minimum number of neighbors
 #' @field max_neighbors Maximum number of neighbors
 #' @field num_obs Number of observations
 #' @field mean_neighbors Mean number of neighbors
 #' @field median_neighbors Median number of neighbors
-#' @field has_isolations If the weights matrix has any isolations
+#' @field has_isolates If the weights matrix has any isolates
 #' @export
 Weight <- setRefClass("Weight",
   fields = list(
     gda_w = "p_GeoDaWeight",
     is_symmetric = "logical",
     sparsity = "numeric",
-    density = "numeric",
     min_neighbors = "integer",
     max_neighbors = "integer",
     num_obs = "integer",
     mean_neighbors = "numeric",
     median_neighbors = "numeric",
-    has_isolations = "logical"
+    has_isolates= "logical"
   ),
   methods = list(
     initialize = function(o_gda_w) {
@@ -31,29 +29,24 @@ Weight <- setRefClass("Weight",
       .self$gda_w = o_gda_w
       .self$is_symmetric = gda_w$IsSymmetric()
       .self$sparsity = gda_w$GetSparsity()
-      .self$density = gda_w$GetDensity()
       .self$min_neighbors = gda_w$GetMinNeighbors()
       .self$max_neighbors = gda_w$GetMaxNeighbors()
       .self$mean_neighbors = gda_w$GetMeanNeighbors()
       .self$median_neighbors = gda_w$GetMedianNeighbors()
       .self$num_obs = gda_w$GetNumObs()
-      .self$has_isolations = gda_w$HasIsolations()
+      .self$has_isolates = gda_w$HasIsolates()
     },
     IsSymmetric = function() {
       "Check if weights matrix is symmetric"
       return(gda_w$IsSymmetric())
     },
-    HasIsolations = function() {
+    HasIsolates = function() {
       "Check if weights matrix has isolates, or if any observation has no neighbors"
-      return(gda_w$HasIsolations())
+      return(gda_w$HasIsolates())
     },
     GetSparsity = function() {
       "Get sparsity computed from weights matrix"
       return(gda_w$GetSparsity())
-    },
-    GetDensity = function() {
-      "Get density computed from weights matrix"
-      return (gda_w$GetDensity())
     },
     GetNeighborSize = function(idx) {
       return (gda_w$GetNeighborSize(idx))
@@ -105,22 +98,20 @@ summary.Weight <- function(object, ...) {
   name <- c("number of observations:",
             "is symmetric: ",
             "sparsity:",
-            "density:",
             "# min neighbors:",
             "# max neighbors:",
             "# mean neighbors:",
             "# median neighbors:",
-            "has isolations:"
+            "has isolates:"
             )
   value <- c( gda_w$num_obs,
               gda_w$is_symmetric,
               gda_w$sparsity,
-              gda_w$density,
               gda_w$min_neighbors,
               gda_w$max_neighbors,
               gda_w$mean_neighbors,
               gda_w$median_neighbors,
-              gda_w$has_isolations)
+              gda_w$has_isolates)
 
   output <- data.frame(name, value)
   format(output)
@@ -157,12 +148,12 @@ is_symmetric <- function(gda_w) {
 #' }
 #' @export
 has_isolates <- function(gda_w) {
-  return(gda_w$HasIsolations())
+  return(gda_w$HasIsolates())
 }
 
 #################################################################
 #' @title Sparsity of Spatial Weights
-#' @description Get sparsity computed from weights matrix
+#' @description Get sparsity (% Non-zero) computed from weights matrix
 #' @param gda_w A Weight object
 #' @return A numeric value of spatial weights sparsity
 #' @examples
@@ -175,23 +166,6 @@ has_isolates <- function(gda_w) {
 #' @export
 weights_sparsity <- function(gda_w) {
   return(gda_w$sparsity)
-}
-
-#################################################################
-#' @title Density of Spatial Weights
-#' @description Get density computed from weights matrix
-#' @param gda_w A Weight object
-#' @return A numeric value of spatial weights density
-#' @examples
-#' \dontrun{
-#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
-#' queen_w <- queen_weights(guerry)
-#' weights_density(queen_w)
-#' }
-#' @export
-weights_density <- function(gda_w) {
-  return (gda_w$density)
 }
 
 #################################################################

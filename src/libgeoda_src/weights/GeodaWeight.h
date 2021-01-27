@@ -15,7 +15,7 @@ public:
     virtual const  std::vector<long> GetNeighbors(int obs_idx) = 0;
     virtual const  std::vector<double> GetNeighborWeights(int obs_idx) = 0;
     virtual void   Update(const std::vector<bool>& undefs) = 0;
-    virtual bool   HasIsolations() = 0;
+    virtual bool   HasIsolates() = 0;
     virtual void   GetNbrStats() = 0;
 
     virtual int    GetNbrSize(int obs_idx) = 0;
@@ -33,7 +33,6 @@ public:
     // functions:
     virtual bool   IsSymmetric() const;
     virtual double GetSparsity() const;
-    virtual double GetDensity() const;
     virtual int    GetMinNbrs() const;
     virtual int    GetMaxNbrs() const;
     virtual double GetMeanNbrs() const;
@@ -59,8 +58,7 @@ public:
 	bool          symmetry_checked; // indicates validity of is_symmetric bool
 	bool          is_symmetric; // true iff matrix is symmetric
 	int           num_obs;
-    double        sparsity;
-    double        density;
+    double        sparsity; // % non-zeros
     int        min_nbrs;
     int        max_nbrs;
     double     mean_nbrs;
