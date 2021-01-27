@@ -30,10 +30,22 @@ devtools::install_github("geodacenter/rgeoda")
 
 #### Mac
 
-For Mac users, the “Xcode Command Line Tools” needs to be installed for installing rgeoda. It is a free software provided by Apple, which can be installed by using the following command in a terminal:
+For Mac users, the “Xcode Command Line Tools” need to be installed for installing rgeoda. It is a free software provided by Apple, which can be installed by using the following command in a terminal:
 ```
 xcode-select --install 
 ```
+
+Note that the Xcode tools are not automatically updated when a new version of Xcode is installed. In order to make
+sure you have the latest version, use:
+
+```
+sudo rm -rf /Library/Developer/CommandLineTools
+xcode-select --install
+```
+
+In order to make sure to have the correct C++ compiler for R 4.0 and later, follow the instructions
+on https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/.
+
 
 #### Windows
 
