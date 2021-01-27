@@ -7,8 +7,8 @@
 #include "UniGeary.h"
 
 UniGeary::UniGeary(int num_obs, GeoDaWeight *w, const std::vector<double> &_data, const std::vector<bool> &_undefs,
-                   int _nCPUs, int _perm, uint64_t _last_seed)
-: LISA(num_obs, w, _undefs, _nCPUs, _perm, _last_seed), 
+                   double significance_cutoff, int _nCPUs, int _perm, uint64_t _last_seed)
+: LISA(num_obs, w, _undefs, significance_cutoff, _nCPUs, _perm, _last_seed),
   CLUSTER_NOT_SIG(0),
   CLUSTER_HIGHHIGH(1),
   CLUSTER_LOWLOW(2),
@@ -75,7 +75,7 @@ void UniGeary::ComputeLoalSA() {
                 // compute geary's i
                 lag_vec[i] = sp_lag;
                 lisa_vec[i] = data_square[i] - 2.0 * data[i] * sp_lag + sp_lag_square;
-                
+
                 // assign the cluster
                 if (data[i] > 0 && sp_lag > 0) cluster_vec[i] = CLUSTER_HIGHHIGH;
                 else if (data[i] < 0 && sp_lag > 0) cluster_vec[i] = CLUSTER_OTHERPOS;

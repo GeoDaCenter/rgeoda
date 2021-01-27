@@ -41,11 +41,13 @@ std::map<std::string, bool>  LISA::has_cached_perm;
 std::map<std::string, std::vector<std::vector<int> > >  LISA::cached_perm_nbrs;
 #endif
 
-LISA::LISA(int num_obs, GeoDaWeight* w, const std::vector<bool>& _undefs, int _nCPUs, int _perm, uint64_t _last_seed)
+LISA::LISA(int num_obs, GeoDaWeight* w, const std::vector<bool>& _undefs,
+           double _significance_cutoff, int _nCPUs, int _perm, uint64_t _last_seed)
 : nCPUs(_nCPUs),
 num_obs(num_obs),
 row_standardize(true),
 permutations(_perm),
+significance_cutoff(_significance_cutoff),
 user_sig_cutoff(0),
 has_undefined(false),
 has_isolates(w->HasIsolations()),
@@ -61,14 +63,16 @@ undefs(_undefs)
         cached_perm_nbrs[w->GetUID()] = std::vector<std::vector<int> >(0);
     }
 #endif
-    SetSignificanceFilter(1);
+    //SetSignificanceFilter(1);
 }
 
-LISA::LISA(int num_obs, GeoDaWeight* w, const std::vector<std::vector<bool> >& _undefs, int _nCPUs, int _perm, uint64_t _last_seed)
+LISA::LISA(int num_obs, GeoDaWeight* w, const std::vector<std::vector<bool> >& _undefs,
+           double _significance_cutoff, int _nCPUs, int _perm, uint64_t _last_seed)
 : nCPUs(_nCPUs),
 num_obs(num_obs),
 row_standardize(true),
 permutations(_perm),
+significance_cutoff(_significance_cutoff),
 user_sig_cutoff(0),
 has_undefined(false),
 has_isolates(w->HasIsolations()),
@@ -86,7 +90,7 @@ weights(w)
         }
     }
 
-    SetSignificanceFilter(1);
+    //SetSignificanceFilter(1);
 }
 
 LISA::~LISA()

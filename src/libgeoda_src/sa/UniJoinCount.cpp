@@ -2,6 +2,7 @@
 // Created by Xun Li on 9/27/19.
 //
 #include <vector>
+#include <iostream>
 
 #include "UniJoinCount.h"
 #include "../weights/GeodaWeight.h"
@@ -10,8 +11,9 @@
 UniJoinCount::UniJoinCount(int num_obs, GeoDaWeight *w,
         const std::vector<double> &_data,
         const std::vector<bool> &_undefs,
+        double significance_cutoff,
         int _nCPUs, int _perm, uint64_t _last_seed)
-: LISA(num_obs, w, _undefs, _nCPUs, _perm, _last_seed), 
+: LISA(num_obs, w, _undefs, significance_cutoff, _nCPUs, _perm, _last_seed),
   CLUSTER_NOT_SIG(0),
   CLUSTER_SIG(1),
   CLUSTER_UNDEFINED(2),
@@ -94,9 +96,9 @@ uint64_t UniJoinCount::CountLargerSA(int cnt, const std::vector<double> &permute
 
 std::vector<int> UniJoinCount::GetClusterIndicators() {
     std::vector<int> clusters(num_obs);
-    double cuttoff = GetSignificanceCutoff();
+    double cutoff = GetSignificanceCutoff();
     for (int i=0; i<num_obs; i++) {
-        if (sig_local_vec[i] <= cuttoff ) {
+        if (sig_local_vec[i] <= cutoff ) {
             if (lisa_vec[i] == 0) {
                 clusters[i] = CLUSTER_NOT_SIG;
             } else {

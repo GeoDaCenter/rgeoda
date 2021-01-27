@@ -174,7 +174,6 @@ lisa_pvalues <- function(gda_lisa) {
 #' @title  Get local cluster indicators
 #' @description Get the local cluster indicators returned from LISA computation.
 #' @param gda_lisa An instance of LISA object
-#' @param cutoff A value of cutoff for significance p-values to filter not-significant clusters, default=0.05
 #' @return A numeric vector of LISA cluster indicator
 #' @examples
 #' \dontrun{
@@ -188,8 +187,7 @@ lisa_pvalues <- function(gda_lisa) {
 #' clsts
 #' }
 #' @export
-lisa_clusters <- function(gda_lisa, cutoff=0.05) {
-  gda_lisa$SetSignificanceCutoff(cutoff)
+lisa_clusters <- function(gda_lisa) {
   return (gda_lisa$GetClusterIndicators())
 }
 

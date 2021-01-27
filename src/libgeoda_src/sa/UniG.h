@@ -24,6 +24,7 @@ public:
          GeoDaWeight* w,
          const std::vector<double>& data,
          const std::vector<bool>& undefs,
+         double significance_cutoff,
          int nCPUs, int permutations, uint64_t last_seed_used);
 
 

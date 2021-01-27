@@ -15,7 +15,7 @@ using namespace Rcpp;
 //  [[Rcpp::export]]
 void p_LISA__Run(SEXP xp)
 {
-  // grab the object as a XPtr (smart pointer) to LISA 
+  // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<LISA> ptr(xp);
 
   // invoke the function
@@ -25,7 +25,7 @@ void p_LISA__Run(SEXP xp)
 //  [[Rcpp::export]]
 void p_LISA__SetNumPermutations(SEXP xp, int num_perm)
 {
-  // grab the object as a XPtr (smart pointer) to LISA 
+  // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<LISA> ptr(xp);
 
   // invoke the function
@@ -35,7 +35,7 @@ void p_LISA__SetNumPermutations(SEXP xp, int num_perm)
 //  [[Rcpp::export]]
 void p_LISA__SetNumThreads(SEXP xp, int num_threads)
 {
-  // grab the object as a XPtr (smart pointer) to LISA 
+  // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<LISA> ptr(xp);
 
   // invoke the function
@@ -45,7 +45,7 @@ void p_LISA__SetNumThreads(SEXP xp, int num_threads)
 //  [[Rcpp::export]]
 std::vector<double> p_LISA__GetLISAValues(SEXP xp)
 {
-  // grab the object as a XPtr (smart pointer) to LISA 
+  // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<LISA> ptr(xp);
 
   return ptr->GetLISAValues();
@@ -54,7 +54,7 @@ std::vector<double> p_LISA__GetLISAValues(SEXP xp)
 //  [[Rcpp::export]]
 std::vector<double> p_LISA__GetLocalSignificanceValues(SEXP xp)
 {
-  // grab the object as a XPtr (smart pointer) to LISA 
+  // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<LISA> ptr(xp);
 
   return ptr->GetLocalSignificanceValues();
@@ -63,7 +63,7 @@ std::vector<double> p_LISA__GetLocalSignificanceValues(SEXP xp)
 //  [[Rcpp::export]]
 std::vector<int> p_LISA__GetClusterIndicators(SEXP xp)
 {
-  // grab the object as a XPtr (smart pointer) to LISA 
+  // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<LISA> ptr(xp);
 
   return ptr->GetClusterIndicators();
@@ -72,7 +72,7 @@ std::vector<int> p_LISA__GetClusterIndicators(SEXP xp)
 //  [[Rcpp::export]]
 std::vector<int> p_LISA__GetNumNeighbors(SEXP xp)
 {
-  // grab the object as a XPtr (smart pointer) to LISA 
+  // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<LISA> ptr(xp);
 
   return ptr->GetNumNeighbors();
@@ -81,7 +81,7 @@ std::vector<int> p_LISA__GetNumNeighbors(SEXP xp)
 //  [[Rcpp::export]]
 void p_LISA__SetSignificanceCutoff(SEXP xp, double cutoff)
 {
-  // grab the object as a XPtr (smart pointer) to LISA 
+  // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<LISA> ptr(xp);
 
   ptr->SetSignificanceCutoff(cutoff);
@@ -90,7 +90,7 @@ void p_LISA__SetSignificanceCutoff(SEXP xp, double cutoff)
 //  [[Rcpp::export]]
 std::vector<std::string> p_LISA__GetLabels(SEXP xp)
 {
-  // grab the object as a XPtr (smart pointer) to LISA 
+  // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<LISA> ptr(xp);
 
   return ptr->GetLabels();
@@ -99,7 +99,7 @@ std::vector<std::string> p_LISA__GetLabels(SEXP xp)
 //  [[Rcpp::export]]
 std::vector<std::string> p_LISA__GetColors(SEXP xp)
 {
-  // grab the object as a XPtr (smart pointer) to LISA 
+  // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<LISA> ptr(xp);
 
   return ptr->GetColors();
@@ -108,7 +108,7 @@ std::vector<std::string> p_LISA__GetColors(SEXP xp)
 //  [[Rcpp::export]]
 double p_LISA__GetBO(SEXP xp, double pval)
 {
-  // grab the object as a XPtr (smart pointer) to LISA 
+  // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<LISA> ptr(xp);
 
   return ptr->GetBO(pval);
@@ -117,7 +117,7 @@ double p_LISA__GetBO(SEXP xp, double pval)
 //  [[Rcpp::export]]
 double p_LISA__GetFDR(SEXP xp, double pval)
 {
-  // grab the object as a XPtr (smart pointer) to LISA 
+  // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<LISA> ptr(xp);
 
   return ptr->GetFDR(pval);

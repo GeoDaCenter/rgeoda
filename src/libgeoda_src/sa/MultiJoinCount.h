@@ -17,6 +17,7 @@ public:
     MultiJoinCount(int num_obs, GeoDaWeight* w,
                  const std::vector<std::vector<double> >& data,
                  const std::vector<std::vector<bool> >& undefs,
+                 double significance_cutoff,
                  int nCPUs, int permutations, uint64_t last_seed_used);
 
     virtual ~MultiJoinCount();
