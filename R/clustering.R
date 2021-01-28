@@ -447,3 +447,24 @@ within_sumofsquare <- function(clusters, data) {
   return(p_withinsumofsquare(clusters, data))
 }
 
+############################################################
+#' @title Flat a group of clusters to an integer array
+#' @description Flat the result of a spatial clustering method (e.g. skater, redcap etc.) to an integer array
+#' @param clusters A list of numeric vectors which returns from spatial clustering methods, e.g. skater()
+#' @return An integer array
+#' @export
+flat_clusters <- function(clusters) {
+  n <- 0
+  for (c in clusters) {
+    n = n + length(c)
+  }
+  result <- integer(n)
+  cid <- 1
+  for (c in clusters) {
+    for (idx in c) {
+      result[[idx+1]] <- cid
+    }
+    cid <- cid+1
+  }
+  return(result)
+}
