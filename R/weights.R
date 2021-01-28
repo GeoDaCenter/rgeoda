@@ -216,6 +216,74 @@ spatial_lag <- function(gda_w, idx, values) {
 }
 
 #################################################################
+#' @title Maximum Neighbors of Spatial Weights
+#' @description Get the number of maximum neighbors of spatial weights
+#' @param gda_w A Weight object
+#' @return The number of maximum neighbors of spatial weights
+#' @examples
+#' \dontrun{
+#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+#' guerry <- geoda_open(guerry_path)
+#' queen_w <- queen_weights(guerry)
+#' max_neighbors(queen_w)
+#' }
+#' @export
+max_neighbors <- function(gda_w) {
+  return(gda_w$max_neighbors)
+}
+
+#################################################################
+#' @title Minimum Neighbors of Spatial Weights
+#' @description Get the number of minimum neighbors of spatial weights
+#' @param gda_w A Weight object
+#' @return The number of minimum neighbors of spatial weights
+#' @examples
+#' \dontrun{
+#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+#' guerry <- geoda_open(guerry_path)
+#' queen_w <- queen_weights(guerry)
+#' min_neighbors(queen_w)
+#' }
+#' @export
+min_neighbors <- function(gda_w) {
+  return(gda_w$min_neighbors)
+}
+
+#################################################################
+#' @title Mean Neighbors of Spatial Weights
+#' @description Get the number of mean neighbors of spatial weights
+#' @param gda_w A Weight object
+#' @return The number of mean neighbors of spatial weights
+#' @examples
+#' \dontrun{
+#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+#' guerry <- geoda_open(guerry_path)
+#' queen_w <- queen_weights(guerry)
+#' mean_neighbors(queen_w)
+#' }
+#' @export
+mean_neighbors <- function(gda_w) {
+  return(gda_w$mean_neighbors)
+}
+
+#################################################################
+#' @title Median Neighbors of Spatial Weights
+#' @description Get the number of median neighbors of spatial weights
+#' @param gda_w A Weight object
+#' @return The number of median neighbors of spatial weights
+#' @examples
+#' \dontrun{
+#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+#' guerry <- geoda_open(guerry_path)
+#' queen_w <- queen_weights(guerry)
+#' median_neighbors(queen_w)
+#' }
+#' @export
+median_neighbors <- function(gda_w) {
+  return(gda_w$median_neighbors)
+}
+
+#################################################################
 #' @title Save Spatial Weights
 #' @description Save current spatial weights to a file
 #' @param gda_w A Weight object
@@ -244,7 +312,7 @@ save_weights <- function(gda_w, out_path, layer_name, id_name, id_values) {
 #' @description Get minimum threshold of distance that makes sure each observation has at least one neighbor
 #' @param geoda_obj An object of [geoda] class
 #' @param is_arc (optional) FALSE (default) or TRUE, compute arc distance between two observations
-#' @param is_mile (optional) TRUE (default) or FALSE, convert distance unit from mile to km.
+#' @param is_mile (optional) TRUE (default) or FALSE, if 'is_arc' option is TRUE, then 'is_mile' will set distance unit to 'mile' or 'km'.
 #' @return A numeric value of minimum threshold of distance
 #' @examples
 #' \dontrun{

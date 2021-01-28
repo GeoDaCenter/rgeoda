@@ -11,7 +11,7 @@ min_distthreshold(geoda_obj, is_arc = FALSE, is_mile = TRUE)
 
 \item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance between two observations}
 
-\item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from mile to km.}
+\item{is_mile}{(optional) TRUE (default) or FALSE, if 'is_arc' option is TRUE, then 'is_mile' will set distance unit to 'mile' or 'km'.}
 }
 \value{
 A numeric value of minimum threshold of distance
