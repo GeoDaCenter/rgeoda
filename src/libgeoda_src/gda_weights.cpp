@@ -81,7 +81,7 @@ GeoDaWeight* gda_knn_weights(AbstractGeoDa* geoda, unsigned int k,
                              const std::string& kernel,
                              double bandwidth,
                              bool adaptive_bandwidth,
-                             bool use_kernel_diagnals,
+                             bool use_kernel_diagonal,
                              const std::string& polyid)
 {
     if (geoda == 0) return 0;
@@ -90,7 +90,7 @@ GeoDaWeight* gda_knn_weights(AbstractGeoDa* geoda, unsigned int k,
 
     GwtWeight* poW = SpatialIndAlgs::knn_build(centroids, k, is_arc,
                                                is_mile, is_inverse, power,
-                                               kernel, bandwidth, adaptive_bandwidth, use_kernel_diagnals);
+                                               kernel, bandwidth, adaptive_bandwidth, use_kernel_diagonal);
     poW->GetNbrStats();
     return (GeoDaWeight*)poW;
 }
@@ -120,7 +120,7 @@ GeoDaWeight* gda_distance_weights(AbstractGeoDa* geoda, double dist_thres,
                                   bool is_arc,
                                   bool is_mile,
                                   const std::string& kernel,
-                                  bool use_kernel_diagnals)
+                                  bool use_kernel_diagonal)
 {
     if (geoda == 0) return 0;
 
@@ -135,7 +135,7 @@ GeoDaWeight* gda_distance_weights(AbstractGeoDa* geoda, double dist_thres,
     }
     dist_thres = dist_thres * 1.00000; //m_thres_delta_factor
     GwtWeight* poW = SpatialIndAlgs::thresh_build(x, y, dist_thres, power, is_arc, is_mile,
-                                                  kernel, use_kernel_diagnals);
+                                                  kernel, use_kernel_diagonal);
 
     poW->GetNbrStats();
     return (GeoDaWeight*)poW;

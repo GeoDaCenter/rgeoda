@@ -11,7 +11,7 @@ typedef unsigned __int32 uint32_t;
 typedef __int64 int64_t;
 typedef unsigned __int64 uint64_t;
 
-#if (_MSC_VER == 1500)
+#if (_MSC_VER == 1500) || defined(__PG_GEODSA__)
 //typedef unsigned __int32 size_t;
 #define inline __inline
 #define isnan _isnan

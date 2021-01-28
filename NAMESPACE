@@ -2,6 +2,7 @@
 
 S3method(as.data.frame,geoda)
 S3method(summary,Weight)
+export(as.geoda)
 export(azp_greedy)
 export(azp_sa)
 export(azp_tabu)

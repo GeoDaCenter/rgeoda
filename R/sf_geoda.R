@@ -11,7 +11,7 @@ random_string <- function(n = 5000) {
 #' @param sf_obj  An instance of 'sf' object
 #' @return An instance of geoda-class
 #' @export
-sf_to_geoda = function(sf_obj) {
+sf_to_geoda <- function(sf_obj) {
   if (!requireNamespace("sf", quietly = TRUE)) {
     stop("package sf not available: install first?")
   }
@@ -74,12 +74,30 @@ sf_to_geoda = function(sf_obj) {
   return(geoda$new(gda))
 }
 
+#' @title Create an instance of geoda-class from either an 'sf' or 'sp' object
+#' @description Create an instance of geoda-class from an 'sf' object returned from 'st_read()' function,
+#' or a 'sp' object returned from 'readOGR()' function.
+#' NOTE: The table content is NOT used to create an instance of geoda-class.
+#' @param obj  An instance of 'sf' or 'sp' object
+#' @return An instance of geoda-class
+#' @export
+as.geoda <- function(obj) {
+  if (length(class(obj)) == 1 && class(obj) == "SpatialPolygonsDataFrame") {
+    return (sp_to_geoda(obj))
+  } else if (length(class(obj)) == 2 && class(obj)[[1]] == "sf") {
+    # fall back to try sf object
+    return (sf_to_geoda(obj))
+  } else {
+    stop("as.geoda() takes either an 'sf' or 'sp' object.")
+  }
+}
+
 #' @title Create an instance of geoda-class from a 'sp' object
 #' @description Create an instance of geoda-class from a 'sp' object. NOTE: The table content is NOT used to create an instance of geoda-class.
 #' @param sp_obj  An instance of 'sp' object
 #' @return An instance of geoda-class
 #' @export
-sp_to_geoda = function(sp_obj) {
+sp_to_geoda <- function(sp_obj) {
   if (!requireNamespace("sp", quietly = TRUE)) {
     stop("package sp not available: install first?")
   }
@@ -134,6 +152,6 @@ sp_to_geoda = function(sp_obj) {
     stop("rgeoda does not support line/polyline data.")
   }
 
-  gda <- p_GeoDa(file_name, map_type, n_obs, geoms_wkb, wkb_bytes_len)
+  gda <- p_GeoDa(file_name, map_type, n_obs, wkb_vec, wkb_bytes_len)
   return(geoda$new(gda))
 }
