@@ -18,7 +18,7 @@ install.packages("rgeoda")
 ```
 
 ![cran status](https://www.r-pkg.org/badges/version/rgeoda)
-![cran release](https://cranlogs.r-pkg.org/badges/last-release/rgeoda)
+![cran release](https://www.r-pkg.org/badges/last-release/rgeoda)
 ![cran downloads](https://cranlogs.r-pkg.org/badges/grand-total/rgeoda)
 
 #### Build and install from source code
