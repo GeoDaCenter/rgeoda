@@ -105,6 +105,7 @@ schc <- function(k, w, data, method="average", bound_vals=vector('numeric'), min
 #' @param cpu_threads (optional) The number of cpu threads used for parallel computation
 #' @return A list of numeric vectors represents a group of clusters
 #' @examples
+#' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
 #' queen_w <- queen_weights(guerry)
@@ -112,6 +113,7 @@ schc <- function(k, w, data, method="average", bound_vals=vector('numeric'), min
 #' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 #' guerry_clusters <- redcap(4, queen_w, data, "fullorder-completelinkage")
 #' guerry_clusters
+#' }
 #' @export
 redcap <- function(k, w, data, method="fullorder-averagelinkage", bound_vals=vector('numeric'), min_bound=0, distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
   if (w$num_obs < 1) {

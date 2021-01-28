@@ -58,8 +58,8 @@ redcap_wrapper::redcap_wrapper(unsigned int k,
             double** ragged_distances = distancematrix(num_obs, n_cols, matrix,  mask, weight, dist, transpose);
             double** distances = DataUtils::fullRaggedMatrix(ragged_distances, num_obs, num_obs);
             if (ragged_distances) {
-                for (int i = 1; i < num_obs; i++) delete[] ragged_distances[i];
-                delete[] ragged_distances;
+                for (int i = 1; i < num_obs; i++) free(ragged_distances[i]);
+                free(ragged_distances);
             }
 
             // call redcap
