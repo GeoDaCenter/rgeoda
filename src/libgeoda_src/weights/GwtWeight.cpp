@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <fstream>
 #include <string.h>
-#include <iomanip> 
+#include <iomanip>
 
 using namespace std;
 
@@ -78,7 +78,7 @@ std::vector<double> GwtElement::GetNbrWeights()
 
 void GwtWeight::Update(const std::vector<bool>& undefs)
 {
-    
+
 }
 
 const std::vector<long> GwtWeight::GetNeighbors(int obs_idx)
@@ -139,8 +139,8 @@ void GwtWeight::GetNbrStats()
         nnbrs_array.push_back(n_nbrs);
     }
     //double n_edges = e_dict.size() / 2.0;
-    sparsity = 100.0* sum_nnbrs / (double)(num_obs * num_obs);
-    
+    sparsity = sum_nnbrs / (double)(num_obs * num_obs);
+
     if (num_obs > 0) mean_nbrs = sum_nnbrs / (double)num_obs;
     std::sort(nnbrs_array.begin(), nnbrs_array.end());
     if (num_obs % 2 ==0) {
@@ -214,7 +214,7 @@ bool GwtWeight::Save(const char *ofname, const char *layer_name, const char *id_
 ////////////////////////////////////////////////////////////////////////////////
 GalElement* Gda::Gwt2Gal(const GwtElement* g, int num_obs)
 {
-    
+
     if (g == NULL) return 0;
     GalElement* gal = new GalElement[num_obs];
     for (int i=0; i<num_obs; ++i) {

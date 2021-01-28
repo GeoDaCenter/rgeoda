@@ -104,14 +104,14 @@ summary.Weight <- function(object, ...) {
             "# median neighbors:",
             "has isolates:"
             )
-  value <- c( gda_w$num_obs,
-              gda_w$is_symmetric,
-              gda_w$sparsity,
-              gda_w$min_neighbors,
-              gda_w$max_neighbors,
-              gda_w$mean_neighbors,
-              gda_w$median_neighbors,
-              gda_w$has_isolates)
+  value <- c( as.character(gda_w$num_obs),
+              as.character(gda_w$is_symmetric),
+              as.character(gda_w$sparsity),
+              as.character(gda_w$min_neighbors),
+              as.character(gda_w$max_neighbors),
+              as.character(gda_w$mean_neighbors),
+              as.character(gda_w$median_neighbors),
+              as.character(gda_w$has_isolates))
 
   output <- data.frame(name, value)
   format(output)

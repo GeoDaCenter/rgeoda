@@ -12,13 +12,14 @@ The rgeoda site is built using pkgdown: https://geodacenter.github.io/rgeoda
     
 ## Installation
 
-NOTE: we are working to make rgeoda avaiable in CRAN. Once it's available on CRAN, one could install it using
 
 ```R
 install.packages("rgeoda")
 ```
 
 ![cran status](https://www.r-pkg.org/badges/version/rgeoda)
+![cran release](https://cranlogs.r-pkg.org/badges/last-release/rgeoda)
+![cran downloads](https://cranlogs.r-pkg.org/badges/grand-total/rgeoda)
 
 #### Build and install from source code
 

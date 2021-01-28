@@ -4,7 +4,7 @@
 #include <utility>
 #include <fstream>
 #include <string.h>
-#include <iomanip> 
+#include <iomanip>
 
 #ifdef _WIN32
 #if (_MSC_VER > 1900)
@@ -41,16 +41,16 @@ double GalElement::GetRW(int idx)
         size_t sz = nbr.size();
         nbrAvgW.resize(sz);
         double sumW = 0.0;
-        
+
         for (size_t i=0; i<sz; i++)
             sumW += nbrWeight[i];
-        
+
         for (size_t i=0; i<sz; i++) {
             nbrAvgW[i] = nbrWeight[i] / sumW;
         }
         is_nbrAvgW_empty = false;
     }
-    
+
     if (nbrLookup.find(idx) != nbrLookup.end())
         return nbrAvgW[nbrLookup[idx]];
     return 0;
@@ -90,8 +90,8 @@ void GalElement::SetNbr(size_t pos, long n, double w)
         nbr.push_back(n);
         nbrLookup[n] = pos;
     }
-    
-    // this should be called by GWT-GAL 
+
+    // this should be called by GWT-GAL
     if (pos < nbrWeight.size()) {
         nbrWeight[pos] = w;
     } else {
@@ -104,7 +104,7 @@ void GalElement::SetNbr(size_t pos, long n, double w)
 void GalElement::Update(const std::vector<bool>& undefs)
 {
     std::vector<int> undef_obj_positions;
-   
+
     for (size_t i=0; i<nbr.size(); i++) {
         int obj_id = nbr[i];
         if (undefs[obj_id]) {
@@ -112,14 +112,14 @@ void GalElement::Update(const std::vector<bool>& undefs)
             undef_obj_positions.push_back(pos);
         }
     }
-   
+
     if (undef_obj_positions.empty())
         return;
-    
+
     // sort the positions in descending order, for removing from std::vector
 	std::sort(undef_obj_positions.begin(),
               undef_obj_positions.end(), std::greater<int>());
-   
+
     for (size_t i=0; i<undef_obj_positions.size(); i++) {
         size_t pos = undef_obj_positions[i];
         if (pos < nbr.size()) {
@@ -137,7 +137,7 @@ void GalElement::SetNbrs(const GalElement& gal)
     size_t sz = gal.Size();
     nbr.resize(sz);
     nbrWeight.resize(sz);
-    
+
     nbr = gal.GetNbrs();
     nbrLookup = gal.nbrLookup;
     nbrWeight = gal.GetNbrWeights();
@@ -171,12 +171,12 @@ double GalElement::SpatialLag(const std::vector<double>& x) const
 {
 	double lag = 0;
 	size_t sz = Size();
-   
+
     for (size_t i=0; i<sz; ++i) {
         lag += x[nbr[i]];
     }
     if (sz>1) lag /= (double) sz;
-	
+
 	return lag;
 }
 
@@ -186,7 +186,7 @@ double GalElement::SpatialLag(const double *x) const
 {
 	double lag = 0;
 	size_t sz = Size();
-    
+
     for (size_t i=0; i<sz; ++i) lag += x[nbr[i]];
     if (sz>1) lag /= (double) sz;
 
@@ -194,7 +194,7 @@ double GalElement::SpatialLag(const double *x) const
 }
 
 double GalElement::SpatialLag(const std::vector<double>& x,
-							  const int* perm) const  
+							  const int* perm) const
 {
     // todo: this should also handle ReadGWtAsGAL like previous 2 functions
 	double lag = 0;
@@ -219,15 +219,15 @@ GalWeight& GalWeight::operator=(const GalWeight& gw)
 {
 	GeoDaWeight::operator=(gw);
 	gal = new GalElement[num_obs];
-    
+
     for (int i=0; i<num_obs; ++i) {
         gal[i].SetNbrs(gw.gal[i]);
     }
-    
+
     this->num_obs = gw.num_obs;
     this->wflnm = gw.wflnm;
     this->id_field = gw.id_field;
-    
+
 	return *this;
 }
 
@@ -268,7 +268,7 @@ void GalWeight::GetNbrStats()
     int sum_nnbrs = 0;
     vector<int> nnbrs_array;
     std::map<int, int> e_dict;
-    
+
     for (int i=0; i<num_obs; i++) {
         int n_nbrs = 0;
         const std::vector<long>& nbrs = gal[i].GetNbrs();
@@ -286,8 +286,8 @@ void GalWeight::GetNbrStats()
         nnbrs_array.push_back(n_nbrs);
     }
     //double n_edges = e_dict.size() / 2.0;
-    sparsity = 100.0 * sum_nnbrs / (double)(num_obs * num_obs);
-    
+    sparsity = sum_nnbrs / (double)(num_obs * num_obs);
+
     if (num_obs > 0) mean_nbrs = sum_nnbrs / (double)num_obs;
     std::sort(nnbrs_array.begin(), nnbrs_array.end());
     if (num_obs % 2 ==0) {
@@ -386,7 +386,7 @@ bool GalWeight::Save(const char* ofname,
 void Gda::MakeHigherOrdContiguity(size_t distance, size_t obs,
                                   GalElement* W,
                                   bool cummulative)
-{	
+{
 	if (obs < 1 || distance <=1) return;
 	vector<vector<long> > X(obs);
 	for (size_t i=0; i<obs; ++i) {

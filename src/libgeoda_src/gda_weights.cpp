@@ -92,6 +92,9 @@ GeoDaWeight* gda_knn_weights(AbstractGeoDa* geoda, unsigned int k,
                                                is_mile, is_inverse, power,
                                                kernel, bandwidth, adaptive_bandwidth, use_kernel_diagonal);
     poW->GetNbrStats();
+    poW->is_symmetric = false;
+    poW->symmetry_checked = true;
+
     return (GeoDaWeight*)poW;
 }
 
@@ -127,7 +130,7 @@ GeoDaWeight* gda_distance_weights(AbstractGeoDa* geoda, double dist_thres,
     int num_obs = geoda->GetNumObs();
 
     const std::vector<gda::PointContents*>& centroids = geoda->GetCentroids();
-    
+
     std::vector<double> x(num_obs), y(num_obs);
     for (int i=0; i<num_obs; ++i) {
         x[i] = centroids[i]->x;
@@ -138,5 +141,7 @@ GeoDaWeight* gda_distance_weights(AbstractGeoDa* geoda, double dist_thres,
                                                   kernel, use_kernel_diagonal);
 
     poW->GetNbrStats();
+    poW->is_symmetric = true;
+    poW->symmetry_checked = true;
     return (GeoDaWeight*)poW;
 }
