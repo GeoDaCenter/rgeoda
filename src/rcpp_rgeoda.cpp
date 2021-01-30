@@ -21,14 +21,18 @@ SEXP p_GeoDa__new(std::string file_path)
 }
 
 //  [[Rcpp::export]]
-SEXP p_GeoDa__new1(std::string layer_name, std::string map_type, int num_features, RawVector wkbs, NumericVector wkb_bytes_len)
+SEXP p_GeoDa__new1(SEXP xp, std::string layer_name, std::string map_type, int num_features, RawVector wkbs, NumericVector wkb_bytes_len)
 {
+  // grab the object as a XPtr (smart pointer) to GeoDaTable
+  Rcpp::XPtr<GeoDaTable> ptr_tbl(xp);
+  GeoDaTable* geoda_tbl = static_cast<GeoDaTable*> (R_ExternalPtrAddr(ptr_tbl));
+
   std::vector<unsigned char> _wkbs = as<std::vector<unsigned char> >(wkbs);
   std::vector<int> _wkb_bytes_len = as<std::vector<int> >(wkb_bytes_len);
 
   // create a pointer to an GeoDa object and wrap it
   // as an external pointer
-  Rcpp::XPtr<GeoDa> ptr( new GeoDa(layer_name, map_type, num_features, _wkbs.data(), _wkb_bytes_len),
+  Rcpp::XPtr<GeoDa> ptr( new GeoDa(geoda_tbl, layer_name, map_type, num_features, _wkbs.data(), _wkb_bytes_len),
                          true );
 
   // return the external pointer to the R side
@@ -203,4 +207,77 @@ SEXP p_GeoDa__GetPointer(SEXP xp)
 {
   // return c++ object pointer
   return xp;
-} 
+}
+
+
+//  [[Rcpp::export]]
+SEXP p_GeoDaTable__new()
+{
+  // create a pointer to an GeoDaTable object and wrap it
+  // as an external pointer
+  Rcpp::XPtr<GeoDaTable> ptr( new GeoDaTable(), true );
+
+  // return the external pointer to the R side
+  return ptr;
+}
+
+//  [[Rcpp::export]]
+void p_GeoDaTable__AddIntColumn(SEXP xp, std::string col_name, NumericVector& vals)
+{
+  // grab the object as a XPtr (smart pointer) to GeoDaTable
+  Rcpp::XPtr<GeoDaTable> ptr(xp);
+
+  int n = vals.size();
+  std::vector<long long> raw_vals(n);
+
+  for (int i=0; i< n; ++i) {
+    raw_vals[i] = vals[i];
+    //undefs[i] = data.is_na(i);
+  }
+
+  // invoke the function
+  ptr->AddIntColumn(col_name, raw_vals);
+}
+
+//  [[Rcpp::export]]
+void p_GeoDaTable__AddStringColumn(SEXP xp, std::string col_name, StringVector& vals)
+{
+  // grab the object as a XPtr (smart pointer) to GeoDaTable
+  Rcpp::XPtr<GeoDaTable> ptr(xp);
+
+  int n = vals.size();
+  std::vector<std::string> raw_vals(n);
+
+  for (int i=0; i< n; ++i) {
+    raw_vals[i] = vals[i];
+    //undefs[i] = data.is_na(i);
+  }
+
+  // invoke the function
+  ptr->AddStringColumn(col_name, raw_vals);
+}
+
+//  [[Rcpp::export]]
+void p_GeoDaTable__AddRealColumn(SEXP xp, std::string col_name, NumericVector& vals)
+{
+  // grab the object as a XPtr (smart pointer) to GeoDaTable
+  Rcpp::XPtr<GeoDaTable> ptr(xp);
+
+  int n = vals.size();
+  std::vector<double> raw_vals(n);
+
+  for (int i=0; i< n; ++i) {
+    raw_vals[i] = vals[i];
+    //undefs[i] = data.is_na(i);
+  }
+
+  // invoke the function
+  ptr->AddRealColumn(col_name, raw_vals);
+}
+
+// [[Rcpp::export]]
+SEXP p_GeoDaTable__GetPointer(SEXP xp)
+{
+  // return c++ object pointer
+  return xp;
+}

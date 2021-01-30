@@ -21,12 +21,13 @@ const std::string GeoDa::DT_STRING = "string";
 const std::string GeoDa::DT_INTEGER= "integer";
 const std::string GeoDa::DT_NUMERIC = "numeric";
 
+// Create GeoDa instance from GeoPandas
 GeoDa* CreateGeoDaFromGPD(const std::string& layer_name,
                          const std::string& map_type,
                          const std::vector<unsigned char> &wkbs,
                          const std::vector<int>& wkb_bytes_len)
 {
-    return new GeoDa(layer_name, map_type, wkbs, wkb_bytes_len);
+    return new GeoDa(NULL, layer_name, map_type, wkbs, wkb_bytes_len);
 }
 
 
@@ -51,23 +52,23 @@ GeoDaColumn *ToGeoDaColumn(GeoDaRealColumn *col) {
 int test() { return 100;}
 
 // this constructor is for R
-GeoDa::GeoDa(const std::string &layer_name,
+GeoDa::GeoDa(GeoDaTable* table, const std::string &layer_name,
              const std::string& map_type,
              int num_features,
              unsigned char* wkbs,
              const std::vector<int>& wkb_bytes_len)
-: numObs(num_features), numCols(0), table(NULL)
+: numObs(num_features), numCols(0), table(table)
 {
     main_map = new gda::MainMap();
     Init(layer_name, map_type, num_features, wkbs, wkb_bytes_len);
 }
 
 // this constructor is for Python
-GeoDa::GeoDa(const std::string& layer_name,
+GeoDa::GeoDa(GeoDaTable* table, const std::string& layer_name,
              const std::string& map_type,
              const std::vector<unsigned char> &wkbs,
              const std::vector<int>& wkb_bytes_len)
-: numObs(wkb_bytes_len.size()), numCols(0), table(NULL)
+: numObs(wkb_bytes_len.size()), numCols(0), table(table)
 {
     main_map = new gda::MainMap();
 	Init(layer_name, map_type, wkb_bytes_len.size(), (unsigned char*)(&wkbs[0]), wkb_bytes_len);

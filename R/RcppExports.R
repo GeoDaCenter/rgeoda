@@ -137,8 +137,8 @@ p_GeoDa__new <- function(file_path) {
     .Call('_rgeoda_p_GeoDa__new', PACKAGE = 'rgeoda', file_path)
 }
 
-p_GeoDa__new1 <- function(layer_name, map_type, num_features, wkbs, wkb_bytes_len) {
-    .Call('_rgeoda_p_GeoDa__new1', PACKAGE = 'rgeoda', layer_name, map_type, num_features, wkbs, wkb_bytes_len)
+p_GeoDa__new1 <- function(xp, layer_name, map_type, num_features, wkbs, wkb_bytes_len) {
+    .Call('_rgeoda_p_GeoDa__new1', PACKAGE = 'rgeoda', xp, layer_name, map_type, num_features, wkbs, wkb_bytes_len)
 }
 
 p_GeoDa__GetNumObs <- function(xp) {
@@ -179,6 +179,26 @@ p_GeoDa__GetNullValues <- function(xp, col_name) {
 
 p_GeoDa__GetPointer <- function(xp) {
     .Call('_rgeoda_p_GeoDa__GetPointer', PACKAGE = 'rgeoda', xp)
+}
+
+p_GeoDaTable__new <- function() {
+    .Call('_rgeoda_p_GeoDaTable__new', PACKAGE = 'rgeoda')
+}
+
+p_GeoDaTable__AddIntColumn <- function(xp, col_name, vals) {
+    invisible(.Call('_rgeoda_p_GeoDaTable__AddIntColumn', PACKAGE = 'rgeoda', xp, col_name, vals))
+}
+
+p_GeoDaTable__AddStringColumn <- function(xp, col_name, vals) {
+    invisible(.Call('_rgeoda_p_GeoDaTable__AddStringColumn', PACKAGE = 'rgeoda', xp, col_name, vals))
+}
+
+p_GeoDaTable__AddRealColumn <- function(xp, col_name, vals) {
+    invisible(.Call('_rgeoda_p_GeoDaTable__AddRealColumn', PACKAGE = 'rgeoda', xp, col_name, vals))
+}
+
+p_GeoDaTable__GetPointer <- function(xp) {
+    .Call('_rgeoda_p_GeoDaTable__GetPointer', PACKAGE = 'rgeoda', xp)
 }
 
 p_gda_demean <- function(data) {

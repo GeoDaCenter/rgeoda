@@ -7,7 +7,7 @@
 # 12/23/2020 Add p_Weight class
 # 12/23/2020 Add p_LISA class
 
-
+################################################################################
 #' @title p_GeoDa
 #' @description p_GeoDa class is a RefClass that wraps the C++ 'GeoDa' class.
 #' See C++ functions in rcpp_rgeoda.cpp
@@ -53,6 +53,48 @@ setMethod( "initialize", "p_GeoDa", function(.Object, ...) {
 
 
 
+################################################################################
+#' @title p_GeoDaTable
+#' @description p_GeoDaTable class is a RefClass that wraps the C++ 'GeoDaTable' class.
+#' See C++ functions in rcpp_rgeoda.cpp
+#' @export
+p_GeoDaTable <- setClass( "p_GeoDaTable", representation( pointer = "externalptr" ) )
+
+# GeoDaTable_method, helper function to generate C functions
+# e.g. p_GeoDaTable__GetNumObs
+# Methods are listed in RcppExports.R
+#
+p_GeoDaTable_method <- function(name) {
+  paste( "p_GeoDaTable", name, sep = "__" )
+}
+
+#' @name $,p_GeoDaTable-method
+#' @aliases $,p_GeoDaTable-method
+#' @docType methods
+#' @rdname p_GeoDaTable-class
+NULL
+setMethod( "$", "p_GeoDaTable", function(x = "p_GeoDaTable", name = "ANY") {
+  function(...) do.call( p_GeoDaTable_method(name) , list(x@pointer , ... ))
+})
+
+# Constructors for p_GeoDaTable class
+# Note: here simply using argc to determine which constructor should be called
+#
+setMethod( "initialize", "p_GeoDaTable", function(.Object, ...) {
+  argv = list(...)
+  argtypes <- mapply(class, argv);
+  argc <- length(argtypes);
+
+  if (argc == 0) {
+    # this is for using p_GeoDaTable as a member in class('GeoDaTable')  in read_geoda.R
+    .Object@pointer <- do.call( p_GeoDaTable_method("new"), list(...) )
+  } else {
+  }
+  .Object
+})
+
+
+################################################################################
 #' @title p_GeoDaWeight
 #' @description p_GeoDaWeight class is a RefClass that wraps the C++ GeoDaWeight class.
 #' See C++ functions in rcpp_weights.cpp

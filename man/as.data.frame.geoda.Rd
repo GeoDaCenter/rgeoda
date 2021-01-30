@@ -4,10 +4,10 @@
 \alias{as.data.frame.geoda}
 \title{convert rgeoda instance to data.frame}
 \usage{
-\method{as.data.frame}{geoda}(x, row.names = NULL, optional = FALSE, ...)
+\method{as.data.frame}{geoda}(obj, row.names = NULL, optional = FALSE, ...)
 }
 \arguments{
-\item{x}{A rgeoda object}
+\item{obj}{A rgeoda object}
 
 \item{row.names}{NULL or a character vector giving the row names for the data frame. Missing values are not allowed.}
 

@@ -4,10 +4,12 @@
 \alias{as.geoda}
 \title{Create an instance of geoda-class from either an 'sf' or 'sp' object}
 \usage{
-as.geoda(obj)
+as.geoda(obj, with_table = TRUE)
 }
 \arguments{
 \item{obj}{An instance of 'sf' or 'sp' object}
+
+\item{with_table}{A boolean flag indicates if table is copied from sf object to create geoda object. Default is TRUE}
 }
 \value{
 An instance of geoda-class

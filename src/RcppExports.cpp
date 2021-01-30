@@ -509,17 +509,18 @@ BEGIN_RCPP
 END_RCPP
 }
 // p_GeoDa__new1
-SEXP p_GeoDa__new1(std::string layer_name, std::string map_type, int num_features, RawVector wkbs, NumericVector wkb_bytes_len);
-RcppExport SEXP _rgeoda_p_GeoDa__new1(SEXP layer_nameSEXP, SEXP map_typeSEXP, SEXP num_featuresSEXP, SEXP wkbsSEXP, SEXP wkb_bytes_lenSEXP) {
+SEXP p_GeoDa__new1(SEXP xp, std::string layer_name, std::string map_type, int num_features, RawVector wkbs, NumericVector wkb_bytes_len);
+RcppExport SEXP _rgeoda_p_GeoDa__new1(SEXP xpSEXP, SEXP layer_nameSEXP, SEXP map_typeSEXP, SEXP num_featuresSEXP, SEXP wkbsSEXP, SEXP wkb_bytes_lenSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
     Rcpp::traits::input_parameter< std::string >::type layer_name(layer_nameSEXP);
     Rcpp::traits::input_parameter< std::string >::type map_type(map_typeSEXP);
     Rcpp::traits::input_parameter< int >::type num_features(num_featuresSEXP);
     Rcpp::traits::input_parameter< RawVector >::type wkbs(wkbsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type wkb_bytes_len(wkb_bytes_lenSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_GeoDa__new1(layer_name, map_type, num_features, wkbs, wkb_bytes_len));
+    rcpp_result_gen = Rcpp::wrap(p_GeoDa__new1(xp, layer_name, map_type, num_features, wkbs, wkb_bytes_len));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -634,6 +635,63 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
     rcpp_result_gen = Rcpp::wrap(p_GeoDa__GetPointer(xp));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_GeoDaTable__new
+SEXP p_GeoDaTable__new();
+RcppExport SEXP _rgeoda_p_GeoDaTable__new() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(p_GeoDaTable__new());
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_GeoDaTable__AddIntColumn
+void p_GeoDaTable__AddIntColumn(SEXP xp, std::string col_name, NumericVector& vals);
+RcppExport SEXP _rgeoda_p_GeoDaTable__AddIntColumn(SEXP xpSEXP, SEXP col_nameSEXP, SEXP valsSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
+    Rcpp::traits::input_parameter< std::string >::type col_name(col_nameSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type vals(valsSEXP);
+    p_GeoDaTable__AddIntColumn(xp, col_name, vals);
+    return R_NilValue;
+END_RCPP
+}
+// p_GeoDaTable__AddStringColumn
+void p_GeoDaTable__AddStringColumn(SEXP xp, std::string col_name, StringVector& vals);
+RcppExport SEXP _rgeoda_p_GeoDaTable__AddStringColumn(SEXP xpSEXP, SEXP col_nameSEXP, SEXP valsSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
+    Rcpp::traits::input_parameter< std::string >::type col_name(col_nameSEXP);
+    Rcpp::traits::input_parameter< StringVector& >::type vals(valsSEXP);
+    p_GeoDaTable__AddStringColumn(xp, col_name, vals);
+    return R_NilValue;
+END_RCPP
+}
+// p_GeoDaTable__AddRealColumn
+void p_GeoDaTable__AddRealColumn(SEXP xp, std::string col_name, NumericVector& vals);
+RcppExport SEXP _rgeoda_p_GeoDaTable__AddRealColumn(SEXP xpSEXP, SEXP col_nameSEXP, SEXP valsSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
+    Rcpp::traits::input_parameter< std::string >::type col_name(col_nameSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type vals(valsSEXP);
+    p_GeoDaTable__AddRealColumn(xp, col_name, vals);
+    return R_NilValue;
+END_RCPP
+}
+// p_GeoDaTable__GetPointer
+SEXP p_GeoDaTable__GetPointer(SEXP xp);
+RcppExport SEXP _rgeoda_p_GeoDaTable__GetPointer(SEXP xpSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_GeoDaTable__GetPointer(xp));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1048,7 +1106,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_quantilelisa", (DL_FUNC) &_rgeoda_p_quantilelisa, 8},
     {"_rgeoda_p_multiquantilelisa", (DL_FUNC) &_rgeoda_p_multiquantilelisa, 8},
     {"_rgeoda_p_GeoDa__new", (DL_FUNC) &_rgeoda_p_GeoDa__new, 1},
-    {"_rgeoda_p_GeoDa__new1", (DL_FUNC) &_rgeoda_p_GeoDa__new1, 5},
+    {"_rgeoda_p_GeoDa__new1", (DL_FUNC) &_rgeoda_p_GeoDa__new1, 6},
     {"_rgeoda_p_GeoDa__GetNumObs", (DL_FUNC) &_rgeoda_p_GeoDa__GetNumObs, 1},
     {"_rgeoda_p_GeoDa__GetNumCols", (DL_FUNC) &_rgeoda_p_GeoDa__GetNumCols, 1},
     {"_rgeoda_p_GeoDa__GetMapType", (DL_FUNC) &_rgeoda_p_GeoDa__GetMapType, 1},
@@ -1059,6 +1117,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_GeoDa__GetStringCol", (DL_FUNC) &_rgeoda_p_GeoDa__GetStringCol, 2},
     {"_rgeoda_p_GeoDa__GetNullValues", (DL_FUNC) &_rgeoda_p_GeoDa__GetNullValues, 2},
     {"_rgeoda_p_GeoDa__GetPointer", (DL_FUNC) &_rgeoda_p_GeoDa__GetPointer, 1},
+    {"_rgeoda_p_GeoDaTable__new", (DL_FUNC) &_rgeoda_p_GeoDaTable__new, 0},
+    {"_rgeoda_p_GeoDaTable__AddIntColumn", (DL_FUNC) &_rgeoda_p_GeoDaTable__AddIntColumn, 3},
+    {"_rgeoda_p_GeoDaTable__AddStringColumn", (DL_FUNC) &_rgeoda_p_GeoDaTable__AddStringColumn, 3},
+    {"_rgeoda_p_GeoDaTable__AddRealColumn", (DL_FUNC) &_rgeoda_p_GeoDaTable__AddRealColumn, 3},
+    {"_rgeoda_p_GeoDaTable__GetPointer", (DL_FUNC) &_rgeoda_p_GeoDaTable__GetPointer, 1},
     {"_rgeoda_p_gda_demean", (DL_FUNC) &_rgeoda_p_gda_demean, 1},
     {"_rgeoda_p_gda_standardize", (DL_FUNC) &_rgeoda_p_gda_standardize, 1},
     {"_rgeoda_p_gda_mad", (DL_FUNC) &_rgeoda_p_gda_mad, 1},
