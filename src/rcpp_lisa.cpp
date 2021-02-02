@@ -369,7 +369,6 @@ DataFrame p_neighbor_match_test(SEXP xp_geoda, int k, double power, bool is_inve
   std::vector<std::vector<double> > result = gda_neighbor_match_test(geoda, k, power, is_inverse, is_arc, is_mile,
                                                                      raw_data, scale_method, dist_type);
 
-  Rcout << result.size() << std::endl;
   if (result.empty()) {
     return DataFrame::create();
   }
@@ -381,7 +380,6 @@ DataFrame p_neighbor_match_test(SEXP xp_geoda, int k, double power, bool is_inve
     v2[i] = result[1][i];
   }
 
-  Rcout << "here";
   DataFrame df = DataFrame::create(Named("Cardinality") = v1,
                                    Named("Probability") = v2);
 

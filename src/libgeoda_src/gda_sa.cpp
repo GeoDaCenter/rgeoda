@@ -326,19 +326,20 @@ std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, 
                                       use_kernel_diagonal, polyid);
 
     // transform data
+    for (int i=0; i<columns; i++) {
+        gda_transform_inplace(data[i], scale_method);
+    }
+
     double **input_data = new double*[rows];
     for (int i=0; i<rows; i++) {
         input_data[i] = new double[columns];
     }
-    for (int i=0; i<columns; i++) {
-        gda_transform_inplace(data[i], scale_method);
-    }
     for (int i=0; i<columns; ++i) {
         for (int k=0; k< rows;k++) { // row
-            input_data[k][columns] = data[i][k];
+            input_data[k][i] = data[i][k];
         }
     }
-    std::cout << "after transform dadta" << std::endl;
+
 
     // create knn variable weights
     double eps = 0; // error bound
@@ -367,7 +368,6 @@ std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, 
     for (int i=0; i<rows; i++) delete[] input_data[i];
     delete[] input_data;
 
-    std::cout << "after knn search" << std::endl;
 
     GalWeight* gw = new GalWeight();
     gw->num_obs = rows;
@@ -382,7 +382,6 @@ std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, 
     two_weights.push_back(gw);
     GalWeight* intersect_w = WeightUtils::WeightsIntersection(two_weights);
 
-    std::cout << "after weights intersection" << std::endl;
     // compute cnbrs (number of common neighbors), p value
     GalElement* new_gal = intersect_w->gal;
     std::vector<double> val_cnbrs(rows);
@@ -412,6 +411,5 @@ std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, 
     result.push_back(val_cnbrs);
     result.push_back(val_p);
 
-    std::cout << "return " << result.size() << std::endl;
     return result;
 }
