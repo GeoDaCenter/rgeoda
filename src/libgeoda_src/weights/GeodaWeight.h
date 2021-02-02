@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+class GalWeight;
+
 class GeoDaWeight {
 public:
 	GeoDaWeight() : symmetry_checked(false), num_obs(0) {}
@@ -67,5 +69,8 @@ public:
     std::string uid;
 };
 
+namespace WeightUtils {
+    GalWeight* WeightsIntersection(std::vector<GeoDaWeight*> ws);
+}
 #endif
 

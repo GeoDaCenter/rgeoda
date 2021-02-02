@@ -1,4 +1,12 @@
-context("sa.R")
+context("lisa.R")
+
+testthat::test_that('neighbor_match_test', {
+    guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+    guerry <- geoda_open(guerry_path)
+    guerry_df <- as.data.frame(guerry)
+    data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+    nbr_test <- neighbor_match_test(guerry, 6, data)
+})
 
 testthat::test_that('local_joincount', {
     guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")

@@ -209,16 +209,19 @@ double Gda::factorial(unsigned int n)
     return r;
 }
 
-double Gda::nChoosek(unsigned int n, unsigned int k) {
+double Gda::combinatorial(unsigned int n, unsigned int k) {
 
-    double r = 1;
-    double s = 1;
-    int i;
-    int kk = k > n/2 ? k : n-k;
+  uint64_t r = 1;
+  uint64_t s = 1;
 
-    for(i=n; i > kk; i--) r *= i;
-    for(i=(n-kk); i>0; i--) s *= i;
-    return r/s;
+  size_t i;
+  int kk = k > n/2 ? k : n-k;
+
+  for(i=n; i > kk; i--) r *= i;
+
+  for(i=(n-kk); i>0; i--) s *= i;
+
+  return (double)r / s;
 }
 
 std::string Gda::CreateUUID(int nSize)
@@ -230,7 +233,7 @@ std::string Gda::CreateUUID(int nSize)
 
     Xoroshiro128Random rng;
     rng.SetSeed(4101842887655102017L);
-    
+
     std::string uid;
     while ((int)uid.length() < nSize) {
         int iSecret = rng.nextLong() % letters.size();
@@ -1286,6 +1289,73 @@ bool GenUtils::StandardizeData(std::vector<double>& data, std::vector<bool>& und
     return true;
 }
 
+void GenUtils::RangeAdjust(std::vector<double>& data)
+{
+    double min_val = DBL_MAX, max_val = DBL_MIN;
+    for (size_t i=0; i<data.size(); ++i) {
+        if (data[i] < min_val) min_val = data[i];
+        else if (data[i] > max_val) max_val = data[i];
+    }
+    //  divide each variable by the range
+    double range_val = max_val - min_val;
+    if (range_val != 0) {
+        for (size_t i=0; i<data.size(); ++i) {
+            data[i] = data[i] /  range_val;
+        }
+    }
+}
+
+void GenUtils::RangeAdjust(std::vector<double>& data, std::vector<bool>& undef)
+{
+    double min_val = DBL_MAX, max_val = DBL_MIN;
+    for (size_t i=0; i<data.size(); ++i) {
+        if (undef[i]) continue;
+        if (data[i] < min_val) min_val = data[i];
+        else if (data[i] > max_val) max_val = data[i];
+    }
+    //  divide each variable by the range
+    double range_val = max_val - min_val;
+    if (range_val != 0) {
+        for (size_t i=0; i<data.size(); ++i) {
+            if (undef[i]) continue;
+            data[i] = data[i] /  range_val;
+        }
+    }
+}
+
+void GenUtils::RangeStandardize(std::vector<double>& data)
+{
+    double min_val = DBL_MAX, max_val = DBL_MIN;
+    for (size_t i=0; i<data.size(); ++i) {
+        if (data[i] < min_val) min_val = data[i];
+        else if (data[i] > max_val) max_val = data[i];
+    }
+    //  subtract the min from each variable and then divide by the range
+    double range_val = max_val - min_val;
+    if (range_val != 0) {
+        for (size_t i=0; i<data.size(); ++i) {
+            data[i] = (data[i] - min_val) /  range_val;
+        }
+    }
+}
+
+void GenUtils::RangeStandardize(std::vector<double>& data, std::vector<bool>& undef)
+{
+    double min_val = DBL_MAX, max_val = DBL_MIN;
+    for (size_t i=0; i<data.size(); ++i) {
+        if (undef[i]) continue;
+        if (data[i] < min_val) min_val = data[i];
+        else if (data[i] > max_val) max_val = data[i];
+    }
+    //  subtract the min from each variable and then divide by the range
+    double range_val = max_val - min_val;
+    if (range_val != 0) {
+        for (size_t i=0; i<data.size(); ++i) {
+            if (undef[i]) continue;
+            data[i] = (data[i] - min_val) /  range_val;
+        }
+    }
+}
 
 /*
  Reverse

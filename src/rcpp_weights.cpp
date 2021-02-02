@@ -8,6 +8,7 @@
 #include <Rcpp.h>
 #include "libgeoda_src/weights/GeodaWeight.h"
 #include "libgeoda_src/gda_weights.h"
+#include "libgeoda_src/gda_interface.h"
 #include "libgeoda_src/libgeoda.h"
 
 using namespace Rcpp;

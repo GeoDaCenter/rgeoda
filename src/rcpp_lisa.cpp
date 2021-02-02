@@ -9,6 +9,7 @@
 #include "libgeoda_src/weights/GeodaWeight.h"
 #include "libgeoda_src/sa/LISA.h"
 #include "libgeoda_src/gda_sa.h"
+#include "libgeoda_src/libgeoda.h"
 
 using namespace Rcpp;
 
@@ -341,4 +342,48 @@ SEXP p_multiquantilelisa(SEXP xp_w, NumericVector& k_s, NumericVector& q_s, Rcpp
 
   Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
   return lisa_ptr;
+}
+
+// [[Rcpp::export]]
+DataFrame p_neighbor_match_test(SEXP xp_geoda, int k, double power, bool is_inverse, bool is_arc, bool is_mile, Rcpp::List& data_s, const std::string& scale_method, const std::string& dist_type)
+{
+  // grab the object as a XPtr (smart pointer) to GeoDa
+  Rcpp::XPtr<GeoDa> ptr(xp_geoda);
+  GeoDa* geoda = static_cast<GeoDa*> (R_ExternalPtrAddr(ptr));
+
+  // translate List to 2d vector
+  int n_vars = data_s.size();
+  std::vector<std::vector<double> > raw_data(n_vars);
+
+  int n_obs = geoda->GetNumObs();
+
+  for (int i=0; i< n_vars; ++i) {
+    Rcpp::NumericVector tmp = data_s[i];
+    raw_data[i].resize(n_obs);
+    for (int j=0; j< n_obs; ++j) {
+      raw_data[i][j] = tmp[j];
+    }
+  }
+
+  // invoke the function
+  std::vector<std::vector<double> > result = gda_neighbor_match_test(geoda, k, power, is_inverse, is_arc, is_mile,
+                                                                     raw_data, scale_method, dist_type);
+
+  Rcout << result.size() << std::endl;
+  if (result.empty()) {
+    return DataFrame::create();
+  }
+
+  Rcpp::IntegerVector v1(n_obs);
+  Rcpp::NumericVector v2(n_obs);
+  for (int i=0; i<n_obs; ++i) {
+    v1[i] = result[0][i];
+    v2[i] = result[1][i];
+  }
+
+  Rcout << "here";
+  DataFrame df = DataFrame::create(Named("Cardinality") = v1,
+                                   Named("Probability") = v2);
+
+  return df;
 }

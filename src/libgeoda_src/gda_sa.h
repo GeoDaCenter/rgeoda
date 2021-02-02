@@ -7,6 +7,7 @@
 class GeoDaWeight;
 class LISA;
 class BatchLISA;
+class AbstractGeoDa;
 
 // APIs of local spatial autocorrelation
 /**
@@ -129,5 +130,15 @@ double gda_fdr(LISA *lisa, double current_p);
  * @return
  */
 double gda_bo(LISA *lisa, double current_p);
+
+
+std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, unsigned int k,
+                                                           double power,
+                                                           bool is_inverse,
+                                                           bool is_arc,
+                                                           bool is_mile,
+                                                           std::vector<std::vector<double> >& data,
+                                                           const std::string& scale_method,
+                                                           const std::string& dist_type);
 
 #endif

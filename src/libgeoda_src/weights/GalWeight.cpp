@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string.h>
 #include <iomanip>
+#include <boost/unordered_map.hpp>
 
 #ifdef _WIN32
 #if (_MSC_VER > 1900)
@@ -454,4 +455,51 @@ GalElement* Gda::NeighborMapToGal(std::vector<std::set<int> >& nbr_map)
 		}
 	}
 	return gal;
+}
+
+
+
+GalWeight* WeightUtils::WeightsIntersection(std::vector<GeoDaWeight*> ws)
+{
+    // Get the intersection from an array of weights
+    int num_obs = ws[0]->GetNumObs();
+    std::string id_field = ws[0]->GetIDName();
+    GalElement* gal = new GalElement[num_obs];
+    boost::unordered_map<int, int>::iterator it;
+
+    int n_w = (int)ws.size();
+    for (int i=0; i<num_obs; ++i) {
+        boost::unordered_map<int, int> nbr_dict;
+
+        for (int j=0; j<n_w; ++j) {
+            GeoDaWeight* w = ws[j];
+            const std::vector<long>& nbr_ids = w->GetNeighbors(i);
+            for (int k=0; k<nbr_ids.size(); ++k) {
+                if (nbr_dict.find(nbr_ids[k])==nbr_dict.end()) {
+                    nbr_dict[ nbr_ids[k] ] = 1;
+                } else {
+                    nbr_dict[ nbr_ids[k] ] += 1;
+                }
+            }
+        }
+        // the intersect observation should be shared by ws.size() weights
+        std::vector<long> nbrs;
+        for (it=nbr_dict.begin(); it !=nbr_dict.end(); ++it) {
+            if (it->second == n_w) {
+                nbrs.push_back(it->first);
+            }
+        }
+        gal[i].SetSizeNbrs(nbrs.size());
+        for (size_t j=0; j<nbrs.size(); ++j) {
+            gal[i].SetNbr(j, nbrs[j]);
+        }
+    }
+
+    GalWeight* new_w = new GalWeight();
+    new_w->num_obs = num_obs;
+    new_w->gal = gal;
+    new_w->is_symmetric = false;
+
+    new_w->id_field = id_field;
+    return new_w;
 }

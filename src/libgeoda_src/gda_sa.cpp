@@ -1,7 +1,10 @@
 #include <iostream>
 #include <float.h>
+#include <boost/algorithm/string.hpp>
 
+#include "knn/ANN/ANN.h"
 #include "weights/GeodaWeight.h"
+#include "weights/GalWeight.h"
 #include "sa/UniGeary.h"
 #include "sa/UniG.h"
 #include "sa/UniGstar.h"
@@ -10,8 +13,11 @@
 #include "sa/MultiGeary.h"
 #include "sa/MultiJoinCount.h"
 #include "sa/BatchLocalMoran.h"
+#include "gda_data.h"
 #include "GenUtils.h"
 #include "gda_sa.h"
+#include "gda_weights.h"
+#include "gda_interface.h"
 
 LISA *gda_localg(GeoDaWeight *w,
                  const std::vector<double> &data,
@@ -295,4 +301,117 @@ LISA *gda_multiquantilelisa(GeoDaWeight *w, const std::vector<int>& k_s, const s
 
     MultiJoinCount *jc = new MultiJoinCount(num_obs, w, data, undefs, significance_cutoff, nCPUs, permutations, last_seed_used);
     return jc;
+}
+
+std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, unsigned int knn,
+                                                          double power,
+                                                          bool is_inverse,
+                                                          bool is_arc,
+                                                          bool is_mile,
+                                                          std::vector<std::vector<double> >& data,
+                                                          const std::string& scale_method,
+                                                          const std::string& dist_type)
+{
+    int rows = geoda->GetNumObs();
+    int columns = data.size();
+
+    // knn weights
+    std::string kernel = "";
+    double bandwidth = 0;
+    bool adaptive_bandwidth = false;
+    bool use_kernel_diagonal = false;
+    std::string polyid = "";
+    GeoDaWeight* sw = gda_knn_weights(geoda, knn, power, is_inverse, is_arc,
+                                      is_mile, kernel, bandwidth, adaptive_bandwidth,
+                                      use_kernel_diagonal, polyid);
+
+    // transform data
+    double **input_data = new double*[rows];
+    for (int i=0; i<rows; i++) {
+        input_data[i] = new double[columns];
+    }
+    for (int i=0; i<columns; i++) {
+        gda_transform_inplace(data[i], scale_method);
+    }
+    for (int i=0; i<columns; ++i) {
+        for (int k=0; k< rows;k++) { // row
+            input_data[k][columns] = data[i][k];
+        }
+    }
+    std::cout << "after transform dadta" << std::endl;
+
+    // create knn variable weights
+    double eps = 0; // error bound
+    ANN_DIST_TYPE = 2; // euclidean, default
+    if (boost::iequals(dist_type, "manhattan")) ANN_DIST_TYPE = 1; // manhattan
+
+    // since KNN search will always return the query point itself, so add 1
+    // to make sure returning min_samples number of results
+    //min_samples = min_samples + 1;
+    GalElement* gal = new GalElement[rows];
+
+    ANNkd_tree* kdTree = new ANNkd_tree(input_data, rows, columns);
+    ANNidxArray nnIdx = new ANNidx[knn+1];
+    ANNdistArray dists = new ANNdist[knn+1];
+    for (size_t i=0; i<rows; ++i) {
+        kdTree->annkSearch(input_data[i], (int)knn+1, nnIdx, dists, eps);
+        //core_d[i] = sqrt(dists[min_samples-1]);
+        gal[i].SetSizeNbrs(knn);
+        for (size_t j=0; j<knn; j++) {
+            gal[i].SetNbr(j, nnIdx[j+1], 1.0);
+        }
+    }
+    delete[] nnIdx;
+    delete[] dists;
+    delete kdTree;
+    for (int i=0; i<rows; i++) delete[] input_data[i];
+    delete[] input_data;
+
+    std::cout << "after knn search" << std::endl;
+
+    GalWeight* gw = new GalWeight();
+    gw->num_obs = rows;
+    gw->wflnm = "";
+    gw->id_field = "";
+    gw->gal = gal;
+    gw->GetNbrStats();
+
+    // intersection weights
+    std::vector<GeoDaWeight*> two_weights;
+    two_weights.push_back(sw);
+    two_weights.push_back(gw);
+    GalWeight* intersect_w = WeightUtils::WeightsIntersection(two_weights);
+
+    std::cout << "after weights intersection" << std::endl;
+    // compute cnbrs (number of common neighbors), p value
+    GalElement* new_gal = intersect_w->gal;
+    std::vector<double> val_cnbrs(rows);
+    for (size_t i=0; i<rows; ++i) {
+        val_cnbrs[i] = (double)new_gal[i].Size();
+    }
+
+    // clean up weights
+    delete[] new_gal;
+    delete gw;
+    delete sw;
+
+    int k = (int)knn;
+    std::vector<double> pval_dict(knn,  -1);
+    for (int v=1; v<knn; ++v) {
+        // p = C(k,v).C(N-k,k-v) / C(N,k),
+        pval_dict[v] = Gda::combinatorial(k, v) * Gda::combinatorial(rows-k-1, k-v);
+        pval_dict[v] /= Gda::combinatorial(rows-1, k);
+    }
+    std::vector<double> val_p(rows);
+    for (size_t i=0; i<rows; ++i) {
+        val_p[i] = pval_dict[val_cnbrs[i]];
+    }
+
+    // save the results: cnbrs (number of common neighbors), p value
+    std::vector<std::vector<double> > result;
+    result.push_back(val_cnbrs);
+    result.push_back(val_p);
+
+    std::cout << "return " << result.size() << std::endl;
+    return result;
 }

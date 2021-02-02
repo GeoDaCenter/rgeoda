@@ -16,7 +16,7 @@ std::vector<std::vector<double> > gda_standardize(const std::vector<std::vector<
 std::vector<std::vector<double> > gda_standardize_mad(const std::vector<std::vector<double> >& data);
 
 std::vector<double>  gda_naturalbreaks(int k, const std::vector<double>& data,
-        const std::vector<bool>& undefs); 
+        const std::vector<bool>& undefs);
 
 std::vector<double>  gda_quantilebreaks(int k, const std::vector<double>& data,
         const std::vector<bool>&  undefs);
@@ -32,5 +32,7 @@ std::vector<double>  gda_percentilebreaks(const std::vector<double>& data,
 
 std::vector<double>  gda_stddevbreaks( const std::vector<double>& data,
         const std::vector<bool>&  undefs);
+
+void gda_transform_inplace(std::vector<double>& vals, const std::string& method);
 
 #endif //GEODA_GDA_DATA_H

@@ -2,7 +2,7 @@
  * GeoDa TM, Copyright (C) 2011-2015 by Luc Anselin - all rights reserved
  *
  * This file is part of GeoDa.
- * 
+ *
  * GeoDa is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -53,28 +53,29 @@ namespace Gda {
 	 is useful for doing parallel Monte Carlo simulations with a common
 	 random seed for reproducibility. */
 	uint64_t ThomasWangHashUInt64(uint64_t key);
-	
+
 	/** Returns a uniformly distributed
 	 random double on the unit interval given unsigned 64-bit integer as
 	 a seed.  Has the property that seed, seed+1, seed+2, .... seed+n are
 	 good random numbers. This is useful for doing parallel Monte Carlo
 	 simulations with a common random seed for reproducibility. */
 	double ThomasWangHashDouble(uint64_t key);
-    
+
 	double ThomasWangDouble(uint64_t& key);
-	
+
 	inline bool IsNaN(double x) { return x != x; }
+
 	inline bool IsFinite(double x) { return x-x == 0; }
-    
-    double factorial(unsigned int n);
-    
-    double nChoosek(unsigned int n, unsigned int r);
-    
-    std::string CreateUUID(int nSize);
-    
+
+  double factorial(unsigned int n);
+
+  double combinatorial(unsigned int n, unsigned int r);
+
+  std::string CreateUUID(int nSize);
+
 	// useful for sorting a vector of double with their original indexes:
 	// vector<dbl_int_pair_type> data;
-	// sort(data.begin(), data.end(), Gda::dbl_int_pair_cmp_less);	
+	// sort(data.begin(), data.end(), Gda::dbl_int_pair_cmp_less);
 	typedef pair<double, int> dbl_int_pair_type;
 	typedef vector<dbl_int_pair_type> dbl_int_pair_vec_type;
 	bool dbl_int_pair_cmp_less(const dbl_int_pair_type& ind1,
@@ -87,7 +88,7 @@ namespace Gda {
 										 const dbl_int_pair_type& ind2);
     typedef pair<std::string, int> str_int_pair_type;
     typedef vector<str_int_pair_type> str_int_pair_vec_type;
-    
+
     // Percentile using Linear interpolation between closest ranks
     // Definition as described in Matlab documentation
     // and at http://en.wikipedia.org/wiki/Percentile
@@ -116,7 +117,7 @@ namespace Gda {
 // Q2 = the value at (N+1)/2 (the usual median)
 // Note: In the above Tukey assumes the values are enumerated 1, 2, 3,...,
 // but we enumerate as 0, 1, 2,... and therefore we subtract 1 from each
-// of the above. Just as for medians when N is even, when indecies 
+// of the above. Just as for medians when N is even, when indecies
 // defined above are of the form k + 1/2, we take the average of the values
 // at k and k+1.
 
@@ -141,7 +142,7 @@ namespace Gda {
 struct HingeStats {
 	HingeStats() : num_obs(0), min_val(0),
 		max_val(0), is_even_num_obs(false),
-		Q1(0), Q1_ind(0), Q2(0), Q2_ind(0), 
+		Q1(0), Q1_ind(0), Q2(0), Q2_ind(0),
 		Q3(0), Q3_ind(0), min_IQR_ind(0), max_IQR_ind(0) {}
 	void CalculateHingeStats(const vector<Gda::dbl_int_pair_type>& data);
 	void CalculateHingeStats(const vector<Gda::dbl_int_pair_type>& data,
@@ -182,9 +183,9 @@ struct SampleStatistics {
                              const vector<bool>& undefs);
     void CalculateFromSample(const vector<Gda::dbl_int_pair_type>& data,
                              const vector<bool>& undefs);
-    
+
 	string ToString();
-	
+
 	int sample_size;
 	double min;
 	double max;
@@ -193,14 +194,14 @@ struct SampleStatistics {
 	double var_without_bessel;
 	double sd_with_bessel;
 	double sd_without_bessel;
-	
+
 	static double CalcMin(const vector<double>& data);
 	static double CalcMax(const vector<double>& data);
 	static void   CalcMinMax(const vector<double>& data, double& min,
 						     double& max);
 	static double CalcMean(const vector<double>& data);
 	static double CalcMean(const vector<Gda::dbl_int_pair_type>& data);
-    
+
 };
 
 struct SimpleLinearRegression {
@@ -210,26 +211,26 @@ struct SimpleLinearRegression {
 		p_value_alpha(0), p_value_beta(0),
 		valid(false), valid_correlation(false),
 		valid_std_err(false) {}
-    
+
 	SimpleLinearRegression(const vector<double>& X,
 						   const vector<double>& Y,
 						   double meanX, double meanY,
 						   double varX, double varY);
-    
+
 	SimpleLinearRegression(const vector<double>& X,
 						   const vector<double>& Y,
                            const vector<bool>& X_undef,
 						   const vector<bool>& Y_undef,
 						   double meanX, double meanY,
 						   double varX, double varY);
-    
+
 	void CalculateRegression(const vector<double>& X,
 							 const vector<double>& Y,
 							 double meanX, double meanY,
 							 double varX, double varY);
-    
+
 	static double TScoreTo2SidedPValue(double tscore, int df);
-    
+
 	string ToString();
 
     int n;
@@ -262,13 +263,13 @@ struct AxisScale {
 	void SkipEvenTics(); // only display every other tic value
 	void ShowAllTics();
 	string ToString();
-	
+
 	double data_min;
 	double data_max;
 	double scale_min;
 	double scale_max;
 	double scale_range;
-	double tic_inc;	
+	double tic_inc;
     int lbl_precision;
     bool lbl_prec_fixed_point;
 	int ticks;
@@ -288,28 +289,33 @@ namespace GenUtils {
     std::string PadTrim(const std::string& s, int width, bool pad_left=true);
 	std::string DblToStr(double x, int precision = 3, bool fixed_point=false);
     std::string IntToStr(int x, int precision = 0);
-	
+
     void Transformation(int trans_type, vector<vector<double> >& data,
                         vector<vector<bool> >& undef);
-    
+
 	void MeanAbsoluteDeviation(int nObs, double* data);
     void MeanAbsoluteDeviation(int nObs, double* data, vector<bool>& undef);
 	void MeanAbsoluteDeviation(vector<double>& data);
     void MeanAbsoluteDeviation(vector<double>& data, vector<bool>& undef);
-    
+
 	void DeviationFromMean(int nObs, double* data);
     void DeviationFromMean(int nObs, double* data, vector<bool>& undef);
 	void DeviationFromMean(vector<double>& data);
     void DeviationFromMean(std::vector<double>& data, std::vector<bool>& undef);
-    
+
 	double Sum(vector<double>& data);
 	double SumOfSquares(vector<double>& data);
     double Median(std::vector<double>& data);
-    
+
 	bool StandardizeData(int nObs, double* data);
     bool StandardizeData(int nObs, double* data, vector<bool>& undef);
 	bool StandardizeData(vector<double>& data);
     bool StandardizeData(vector<double>& data, vector<bool>& undef);
+
+	void RangeAdjust(std::vector<double>& data);
+    void RangeAdjust(std::vector<double>& data, std::vector<bool>& undef);
+    void RangeStandardize(std::vector<double>& data);
+    void RangeStandardize(std::vector<double>& data, std::vector<bool>& undef);
 
     std::vector<double>  NaturalBreaks(int k, const vector<double>& data, vector<bool>& undef);
     std::vector<double>  QuantileBreaks(int k, const vector<double>& data, vector<bool>& undef);
@@ -336,7 +342,7 @@ namespace GenUtils {
 								  bool case_sensitive=false);
 
     bool less_vectors(const vector<int>& a,const vector<int>& b);
-    
+
     // Act like matlab's [Y,I] = SORT(X)
     // Input:
     //   unsorted  unsorted vector
@@ -358,7 +364,7 @@ namespace GenUtils {
                  vector<T> & unordered,
                  vector<size_t> const & index_map,
                  vector<T> & ordered);
-    
+
     // Comparison struct used by sort
     // http://bytes.com/topic/c/answers/132045-sort-get-index
     template<class T> struct index_cmp
@@ -370,7 +376,7 @@ namespace GenUtils {
         }
         const T arr;
     };
-    
+
     template <class T>
     void sort(
               vector<T> & unsorted,
@@ -388,7 +394,7 @@ namespace GenUtils {
              index_map.begin(),
              index_map.end(),
              index_cmp<vector<T>& >(unsorted));
-        
+
         sorted.resize(unsorted.size());
         reorder(unsorted,index_map,sorted);
     }

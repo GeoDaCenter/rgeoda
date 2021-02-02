@@ -616,3 +616,30 @@ local_multiquantilelisa <- function(w, quantile_data, permutations=999, signific
   lisa_obj <- p_multiquantilelisa(w$GetPointer(), k_s, q_s, data_s, permutations, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
+
+#################################################################
+#' @title Local Neighbor Match Test
+#' @description The local neighbor match test is to assess the extent of overlap between k-nearest neighbors in geographical space and k-nearest neighbors in multi-attribute space.
+#' @param geoda_obj An instance of geoda.
+#' @param k a positive integer number for k-nearest neighbors searching.
+#' @param data A list of numeric values of selected variables.
+#' @param scale_method One of the scaling methods {'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
+#' @param distance_type The type of distance metrics used to measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.
+#' @param power (optional) The power (or exponent) of a number says how many times to use the number in a multiplication.
+#' @param is_inverse (optional) FALSE (default) or TRUE, apply inverse on distance value.
+#' @param is_arc (optional) FALSE (default) or TRUE, compute arc distance between two observations.
+#' @param is_mile (optional) TRUE (default) or FALSE, convert distance unit from mile to km.
+#' @return A data.frame with two columns "Cardinality" and "Probability".
+#' @examples
+#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+#' guerry <- geoda_open(guerry_path)
+#' guerry_df <- as.data.frame(guerry) # use as data.frame
+#' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+#' nbr_test <- neighbor_match_test(guerry, 6, data)
+#' nbr_test
+#' @export
+neighbor_match_test <- function(geoda_obj, k, data, scale_method = "standardize", distance_type = "euclidean", power = 1.0, is_inverse = FALSE,
+                                is_arc = FALSE, is_mile = TRUE) {
+
+  return (p_neighbor_match_test(geoda_obj$GetPointer(), k, power, is_inverse, is_arc, is_mile, data, scale_method, distance_type))
+}

@@ -59,3 +59,4 @@ double GeoDaWeight::GetMedianNbrs() const
 {
     return median_nbrs;
 }
+

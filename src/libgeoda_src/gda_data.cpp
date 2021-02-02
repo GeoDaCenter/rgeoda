@@ -1,6 +1,7 @@
 //
 // Created by Xun Li on 2019-11-27.
 //
+#include <boost/algorithm/string.hpp>
 
 #include "GenUtils.h"
 #include "gda_data.h"
@@ -32,32 +33,48 @@ std::vector<std::vector<double> > gda_standardize_mad(const std::vector<std::vec
     return results;
 }
 
-std::vector<double> gda_naturalbreaks(int k, const std::vector<double> &data, const vector<bool> &undefs) {
-    vector<bool> copy_undefs = undefs;
+std::vector<double> gda_naturalbreaks(int k, const std::vector<double> &data, const std::vector<bool> &undefs) {
+    std::vector<bool> copy_undefs = undefs;
     return GenUtils::NaturalBreaks(k, data, copy_undefs);
 }
 
-std::vector<double> gda_quantilebreaks(int k, const std::vector<double> &data, const vector<bool> &undefs) {
-    vector<bool> copy_undefs = undefs;
+std::vector<double> gda_quantilebreaks(int k, const std::vector<double> &data, const std::vector<bool> &undefs) {
+    std::vector<bool> copy_undefs = undefs;
     return GenUtils::QuantileBreaks(k, data, copy_undefs);
 }
 
-std::vector<double> gda_hinge15breaks(const std::vector<double> &data, const vector<bool> &undefs) {
-    vector<bool> copy_undefs = undefs;
+std::vector<double> gda_hinge15breaks(const std::vector<double> &data, const std::vector<bool> &undefs) {
+    std::vector<bool> copy_undefs = undefs;
     return GenUtils::Hinge15Breaks(data, copy_undefs);
 }
 
-std::vector<double> gda_hinge30breaks(const std::vector<double> &data, const vector<bool> &undefs) {
-    vector<bool> copy_undefs = undefs;
+std::vector<double> gda_hinge30breaks(const std::vector<double> &data, const std::vector<bool> &undefs) {
+    std::vector<bool> copy_undefs = undefs;
     return GenUtils::Hinge30Breaks(data, copy_undefs);
 }
 
-std::vector<double> gda_percentilebreaks(const std::vector<double> &data, const vector<bool> &undefs) {
-    vector<bool> copy_undefs = undefs;
+std::vector<double> gda_percentilebreaks(const std::vector<double> &data, const std::vector<bool> &undefs) {
+    std::vector<bool> copy_undefs = undefs;
     return GenUtils::PercentileBreaks(data, copy_undefs);
 }
 
-std::vector<double> gda_stddevbreaks(const std::vector<double> &data, const vector<bool> &undefs) {
-    vector<bool> copy_undefs = undefs;
+std::vector<double> gda_stddevbreaks(const std::vector<double> &data, const std::vector<bool> &undefs) {
+    std::vector<bool> copy_undefs = undefs;
     return GenUtils::StddevBreaks(data, copy_undefs);
+}
+
+void gda_transform_inplace(std::vector<double>& vals, const std::string& method)
+{
+    if (boost::iequals(method, "range_standardize")) {
+        GenUtils::RangeStandardize(vals);
+    } else if (boost::iequals(method, "range_adjust")) {
+        GenUtils::RangeAdjust(vals);
+    } else if (boost::iequals(method, "mad")) {
+        GenUtils::MeanAbsoluteDeviation(vals);
+    } else if (boost::iequals(method, "demean")) {
+        GenUtils::DeviationFromMean(vals);
+    } else {
+        // z-standardization
+        GenUtils::StandardizeData(vals);
+    }
 }

@@ -38,3 +38,5 @@ vignettes/*.pdf
 *.tmp
 *.o
 *.so
+.DS_Store
+.DS_Store

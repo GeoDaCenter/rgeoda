@@ -50,6 +50,20 @@ CPP_SRC_FILES = \
 	$(RGEODALIB)/clustering/azp_wrapper.cpp \
 	$(RGEODALIB)/clustering/schc_wrapper.cpp \
 	$(RGEODALIB)/clustering/cluster.cpp \
+	$(RGEODALIB)/knn/ANN.cpp \
+	$(RGEODALIB)/knn/perf.cpp \
+	$(RGEODALIB)/knn/kd_util.cpp \
+	$(RGEODALIB)/knn/kd_tree.cpp \
+	$(RGEODALIB)/knn/kd_split.cpp \
+	$(RGEODALIB)/knn/kd_search.cpp \
+	$(RGEODALIB)/knn/kd_pr_search.cpp \
+	$(RGEODALIB)/knn/kd_fix_rad_search.cpp \
+	$(RGEODALIB)/knn/kd_dump.cpp \
+	$(RGEODALIB)/knn/brute.cpp \
+	$(RGEODALIB)/knn/bd_tree.cpp \
+	$(RGEODALIB)/knn/bd_search.cpp \
+	$(RGEODALIB)/knn/bd_pr_search.cpp \
+	$(RGEODALIB)/knn/bd_fix_rad_search.cpp \
 	rcpp_rgeoda.cpp \
 	rcpp_weights.cpp \
 	rcpp_utils.cpp \
@@ -100,6 +114,20 @@ OBJECTS = \
 	$(RGEODALIB)/clustering/azp_wrapper.o \
 	$(RGEODALIB)/clustering/schc_wrapper.o \
 	$(RGEODALIB)/clustering/cluster.o \
+	$(RGEODALIB)/knn/ANN.o \
+	$(RGEODALIB)/knn/perf.o \
+	$(RGEODALIB)/knn/kd_util.o \
+	$(RGEODALIB)/knn/kd_tree.o \
+	$(RGEODALIB)/knn/kd_split.o \
+	$(RGEODALIB)/knn/kd_search.o \
+	$(RGEODALIB)/knn/kd_pr_search.o \
+	$(RGEODALIB)/knn/kd_fix_rad_search.o \
+	$(RGEODALIB)/knn/kd_dump.o \
+	$(RGEODALIB)/knn/brute.o \
+	$(RGEODALIB)/knn/bd_tree.o \
+	$(RGEODALIB)/knn/bd_search.o \
+	$(RGEODALIB)/knn/bd_pr_search.o \
+	$(RGEODALIB)/knn/bd_fix_rad_search.o \
 	rcpp_rgeoda.o \
 	rcpp_weights.o \
 	rcpp_utils.o \
