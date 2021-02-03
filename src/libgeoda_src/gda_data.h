@@ -35,4 +35,7 @@ std::vector<double>  gda_stddevbreaks( const std::vector<double>& data,
 
 void gda_transform_inplace(std::vector<double>& vals, const std::string& method);
 
+bool gda_rateStandardizeEB(const std::vector<double>& P, const std::vector<double>& E,
+                           std::vector<double>& results, std::vector<bool> &undefined);
+
 #endif //GEODA_GDA_DATA_H

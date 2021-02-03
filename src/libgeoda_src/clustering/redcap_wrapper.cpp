@@ -4,7 +4,7 @@
 
 #include <boost/algorithm/string.hpp>
 #include "../GenUtils.h"
-#include "DataUtils.h"
+#include "../DataUtils.h"
 #include "cluster.h"
 #include "redcap.h"
 #include "redcap_wrapper.h"

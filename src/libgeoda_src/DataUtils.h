@@ -1,4 +1,8 @@
-
+//
+// Author: lixun910@gmail.com
+// Changes:
+// 07/01/2020 init DataUtils.h
+// 02/02/2021 Add gda_rateStandardizeEB()
 
 #ifndef __GEODA_CENTER_DATAUTILS_H
 #define __GEODA_CENTER_DATAUTILS_H
@@ -15,6 +19,10 @@
 #include "GdaConst.h"
 #include "./weights/GalWeight.h"
 using namespace std;
+
+namespace GdaAlgs {
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///

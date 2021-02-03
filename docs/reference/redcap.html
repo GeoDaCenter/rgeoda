@@ -212,27 +212,16 @@ exactly the same with SKATER. In GeoDa and pygeoda, the following methods are pr
     <p>A list of numeric vectors represents a group of clusters</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>guerry_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Guerry.shp"</span>, package <span class='op'>=</span> <span class='st'>"rgeoda"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>guerry_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Guerry.shp"</span>, package <span class='op'>=</span> <span class='st'>"rgeoda"</span><span class='op'>)</span>
 <span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='geoda_open.html'>geoda_open</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
 <span class='va'>queen_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='queen_weights.html'>queen_weights</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span>
 <span class='va'>guerry_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span> <span class='co'># use as data.frame</span>
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>guerry_df</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Crm_prs'</span>,<span class='st'>'Crm_prp'</span>,<span class='st'>'Litercy'</span>,<span class='st'>'Donatns'</span>,<span class='st'>'Infants'</span>,<span class='st'>'Suicids'</span><span class='op'>)</span><span class='op'>]</span>
 <span class='va'>guerry_clusters</span> <span class='op'>&lt;-</span> <span class='fu'>redcap</span><span class='op'>(</span><span class='fl'>4</span>, <span class='va'>queen_w</span>, <span class='va'>data</span>, <span class='st'>"fullorder-completelinkage"</span><span class='op'>)</span>
 <span class='va'>guerry_clusters</span>
-</div><div class='output co'>#&gt; [[1]]
-#&gt;  [1] 46 50 34 38 15 74 21 16 55 13 60 69 47 58 19 32 33 53 39 68 17 82  0 41 81
-#&gt; [26]  2 14  5 26 80 20
-#&gt; 
-#&gt; [[2]]
-#&gt;  [1] 49 52 72 84 56 59  1 57 25 42  8 48 54 64 51 18 36 73 24 71  6 67 83 75 65
-#&gt; [26] 22 70 12
-#&gt; 
-#&gt; [[3]]
-#&gt; [1] 40
-#&gt; 
-#&gt; [[4]]
-#&gt;  [1] 23 79 29 61 44  3 28 76 77  9 27 45 11 78 43 35 66 31 30 37 10 63  4  7 62
-#&gt; </div></pre>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

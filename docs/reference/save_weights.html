@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Save current spatial weights to a file — save_weights • rgeoda</title>
+<title>Save Spatial Weights — save_weights • rgeoda</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Save current spatial weights to a file — save_weights" />
+<meta property="og:title" content="Save Spatial Weights — save_weights" />
 <meta property="og:description" content="Save current spatial weights to a file" />
 
 
@@ -123,7 +123,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Save current spatial weights to a file</h1>
+    <h1>Save Spatial Weights</h1>
     <small class="dont-index">Source: <a href='https://github.com/geodacenter/rgeoda/blob/master/R/weights.R'><code>R/weights.R</code></a></small>
     <div class="hidden name"><code>save_weights.Rd</code></div>
     </div>
@@ -161,16 +161,16 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Boolean value indicates if save successfully or failed</p>
+    <p>A boolean value indicates if save successfully or failed</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>guerry_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Guerry.shp"</span>, package <span class='op'>=</span> <span class='st'>"rgeoda"</span><span class='op'>)</span>
 <span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='geoda_open.html'>geoda_open</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
 <span class='va'>queen_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='queen_weights.html'>queen_weights</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span>
-<span class='fu'>save_weights</span><span class='op'>(</span><span class='va'>rook_w</span>, out_path <span class='op'>=</span> <span class='st'>'/Users/xun/Downloads/Guerry_r.gal'</span>, 
-            layer_name <span class='op'>=</span> <span class='st'>'Guerry'</span>, 
-            id_name <span class='op'>=</span> <span class='st'>'CODE_DE'</span>, 
+<span class='fu'>save_weights</span><span class='op'>(</span><span class='va'>rook_w</span>, out_path <span class='op'>=</span> <span class='st'>'/Users/xun/Downloads/Guerry_r.gal'</span>,
+            layer_name <span class='op'>=</span> <span class='st'>'Guerry'</span>,
+            id_name <span class='op'>=</span> <span class='st'>'CODE_DE'</span>,
             id_values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='va'>guerry_df</span><span class='op'>[</span><span class='st'>'CODE_DE'</span><span class='op'>]</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>

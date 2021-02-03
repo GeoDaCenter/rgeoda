@@ -25,6 +25,22 @@ LISA *gda_localmoran(GeoDaWeight *w,
 /**
  *
  * @param w
+ * @param event_data
+ * @param base_data
+ * @param significance_cutoff
+ * @param nCPUs
+ * @param permutations
+ * @param last_seed_used
+ * @return
+ */
+LISA *gda_localmoran_eb(GeoDaWeight *w,
+                        const std::vector<double> &event_data,
+                        const std::vector<double> &base_data,
+                        double significance_cutoff,
+                        int nCPUs, int permutations, int last_seed_used);
+/**
+ *
+ * @param w
  * @param data
  * @param undefs
  * @return
@@ -131,7 +147,19 @@ double gda_fdr(LISA *lisa, double current_p);
  */
 double gda_bo(LISA *lisa, double current_p);
 
-
+/**
+ *
+ * @param geoda
+ * @param k
+ * @param power
+ * @param is_inverse
+ * @param is_arc
+ * @param is_mile
+ * @param data
+ * @param scale_method
+ * @param dist_type
+ * @return
+ */
 std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, unsigned int k,
                                                            double power,
                                                            bool is_inverse,

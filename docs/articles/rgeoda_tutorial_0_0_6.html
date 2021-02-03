@@ -106,7 +106,7 @@
 <a href="#load-rgeoda-library-in-r" class="anchor"></a>Load <code>rgeoda</code> library in R</h3>
 <p>If everything installed without error, you should be able to load <code>rgeoda</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rgeoda</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geodacenter/rgeoda">rgeoda</a></span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="load-spatial-data" class="section level2">
@@ -236,16 +236,15 @@
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">queen_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/queen_weights.html">queen_weights</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">queen_w</span><span class="op">)</span></code></pre></div>
-<pre><code>##                      name     value
-## 1 number of observations: 85.000000
-## 2          is symmetric:   1.000000
-## 3               sparsity:  0.000000
-## 4                density:  5.813149
-## 5        # min neighbors:  2.000000
-## 6        # max neighbors:  8.000000
-## 7       # mean neighbors:  4.941176
-## 8     # median neighbors:  5.000000
-## 9         has isolations:  0.000000</code></pre>
+<pre><code>##                      name              value
+## 1 number of observations:                 85
+## 2          is symmetric:                TRUE
+## 3               sparsity: 0.0581314878892734
+## 4        # min neighbors:                  2
+## 5        # max neighbors:                  8
+## 6       # mean neighbors:   4.94117647058824
+## 7     # median neighbors:                  5
+## 8           has isolates:              FALSE</code></pre>
 <p>The function <code><a href="../reference/queen_weights.html">queen_weights()</a></code> returns an instance of <code>Weight</code> object. One can access the meta data of the spatial weights by accessing the attributes of <code>GeoDaWeight</code> object:</p>
 <div id="attributes-of-weight-object" class="section level4">
 <h4 class="hasAnchor">
@@ -258,18 +257,15 @@
 <pre><code>## [1] FALSE</code></pre>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/weights_sparsity.html">weights_sparsity</a></span><span class="op">(</span><span class="va">queen_w</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0</code></pre>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/weights_density.html">weights_density</a></span><span class="op">(</span><span class="va">queen_w</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 5.813149</code></pre>
+<pre><code>## [1] 0.05813149</code></pre>
 <p>We can also access the details of the weights: e.g. list the neighbors of a specified observation, which is very helpful in exploratory spatial data analysis (which is focused in next tutorial):</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nbrs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_neighbors.html">get_neighbors</a></span><span class="op">(</span><span class="va">queen_w</span>, idx <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"\nNeighbors of the 1-st observation are:"</span>, <span class="va">nbrs</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## Neighbors of the 1-st observation are: 36 37 67 69</code></pre>
 <p>We can also compute the spatial lag of a specified observation by passing the values of the selected variable:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lag0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spatial_lag.html">spatial_lag</a></span><span class="op">(</span><span class="va">queen_w</span>, idx <span class="op">=</span> <span class="fl">1</span>, values <span class="op">=</span> <span class="va">crm_prs</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"\nSpatial lag of the 1-st observation of variable crm_prs is:"</span>, <span class="va">lag0</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
@@ -280,30 +276,29 @@
 <h3 class="hasAnchor">
 <a href="#rook-contiguity-weights" class="anchor"></a>3.2 Rook Contiguity Weights</h3>
 <p>To create a Rook contiguity weights, we can call <code>rgeoda</code>’s function <code>rook_weights</code>:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/rook_weights.html">rook_weights</a></span><span class="op">(</span><span class="va">gda</span>, order<span class="op">=</span><span class="fl">1</span>,include_lower_order<span class="op">=</span><span class="va">False</span>, precision_threshold <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
 <p>by passing the <code>GeoDa</code> object <code>guerry</code> we just created:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rook_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rook_weights.html">rook_weights</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">rook_w</span><span class="op">)</span></code></pre></div>
-<pre><code>##                      name     value
-## 1 number of observations: 85.000000
-## 2          is symmetric:   1.000000
-## 3               sparsity:  0.000000
-## 4                density:  5.813149
-## 5        # min neighbors:  2.000000
-## 6        # max neighbors:  8.000000
-## 7       # mean neighbors:  4.941176
-## 8     # median neighbors:  5.000000
-## 9         has isolations:  0.000000</code></pre>
+<pre><code>##                      name              value
+## 1 number of observations:                 85
+## 2          is symmetric:                TRUE
+## 3               sparsity: 0.0581314878892734
+## 4        # min neighbors:                  2
+## 5        # max neighbors:                  8
+## 6       # mean neighbors:   4.94117647058824
+## 7     # median neighbors:                  5
+## 8           has isolates:              FALSE</code></pre>
 <p>The weights we created are in memory, which makes it straight forward for spatial data analysis and also are good for programming your application. To save the weights to a file, we need to call the function <code>save_weights</code></p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/save_weights.html">save_weights</a></span><span class="op">(</span><span class="va">gda_w</span>, <span class="va">out_path</span>, <span class="va">layer_name</span>, <span class="va">id_name</span>, <span class="va">id_values</span><span class="op">)</span></code></pre></div>
 <p>The <code>layer_name</code> is the layer name of loaded dataset. For a ESRI shapefile, the layer name is the file name without the suffix (e.g. Guerry).</p>
 <p>The <code>id_name</code> is a key (column name), which means the associated column contains unique values, that makes sure that the weights are connected to the correct observations in the data table.</p>
 <p>The <code>id_vec</code> is the actual column data of <code>id_name</code>, it could be a tuple of integer or string values.</p>
 <p>For example, in Guerry dataset, the column “CODE_DE” can be used as a key to save a weights file:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/save_weights.html">save_weights</a></span><span class="op">(</span><span class="va">rook_w</span>, out_path <span class="op">=</span> <span class="st">'/Users/xun/Downloads/Guerry_r.gal'</span>, 
              layer_name <span class="op">=</span> <span class="st">'Guerry'</span>, 
              id_name <span class="op">=</span> <span class="st">'CODE_DE'</span>, 
@@ -315,50 +310,48 @@
 <h3 class="hasAnchor">
 <a href="#distance-based-weights" class="anchor"></a>3.3 Distance Based Weights</h3>
 <p>To create a Distance based weights, we can call <code>rgeoda</code>’s function <code>distance_weights</code></p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/distance_weights.html">distance_weights</a></span><span class="op">(</span><span class="va">geoda_obj</span>, <span class="va">dist_thres</span>, power<span class="op">=</span><span class="fl">1.0</span>,  is_inverse<span class="op">=</span><span class="va">False</span>, is_arc<span class="op">=</span><span class="va">False</span>, is_mile<span class="op">=</span><span class="va">True</span><span class="op">)</span></code></pre></div>
 <p>by passing the <code>GeoDa</code> object <code>guerry</code> we just created the value of distance threshold.</p>
 <p>Like <code>GeoDa</code>, <code>rgeoda</code> also provides a function <code>min_distthreshold</code> to help you find a optimized distance threshold that guarantees that every observation has at least one neighbor:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="kw">min_distthreshold</span>(GeoDa gda, bool <span class="dt">is_arc =</span> False, <span class="dt">is_mile =</span> True)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="kw">min_distthreshold</span>(GeoDa gda, bool <span class="dt">is_arc =</span> False, <span class="dt">is_mile =</span> True)</span></code></pre></div>
 <p>For example, we first find the distance threshold using <code>min_distthreshold</code>, save the results into <code>dist_thres</code>, then pass this threshold <code>dist_thres</code> into the function <code>dist_w</code> to create a distance based weights for <code>guerry</code>.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dist_thres</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/min_distthreshold.html">min_distthreshold</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span>
 <span class="va">dist_thres</span></code></pre></div>
 <pre><code>## [1] 96726.14</code></pre>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dist_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/distance_weights.html">distance_weights</a></span><span class="op">(</span><span class="va">guerry</span>, <span class="va">dist_thres</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">dist_w</span><span class="op">)</span></code></pre></div>
-<pre><code>##                      name     value
-## 1 number of observations: 85.000000
-## 2          is symmetric:   0.000000
-## 3               sparsity:  0.000000
-## 4                density:  4.346021
-## 5        # min neighbors:  1.000000
-## 6        # max neighbors:  7.000000
-## 7       # mean neighbors:  3.694118
-## 8     # median neighbors:  4.000000
-## 9         has isolations:  0.000000</code></pre>
+<pre><code>##                      name              value
+## 1 number of observations:                 85
+## 2          is symmetric:                TRUE
+## 3               sparsity: 0.0434602076124567
+## 4        # min neighbors:                  1
+## 5        # max neighbors:                  7
+## 6       # mean neighbors:   3.69411764705882
+## 7     # median neighbors:                  4
+## 8           has isolates:              FALSE</code></pre>
 </div>
 <div id="k-nearest-neighbor-weights" class="section level3">
 <h3 class="hasAnchor">
 <a href="#k-nearest-neighbor-weights" class="anchor"></a>3.4 K-Nearest Neighbor Weights</h3>
 <p>A special case of distance based weights is K-Nearest neighbor weights, in which every obersvation will have exactly k neighbors. To create a KNN weights, we can call <code>rgeoda</code>’s function <code>knn_weights</code>:</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/knn_weights.html">knn_weights</a></span><span class="op">(</span><span class="va">gda</span>, <span class="va">k</span>, power <span class="op">=</span> <span class="fl">1.0</span>,is_inverse <span class="op">=</span> <span class="va">False</span>, is_arc <span class="op">=</span> <span class="va">False</span>, is_mile <span class="op">=</span> <span class="va">True</span><span class="op">)</span></code></pre></div>
 <p>For example, to create a 6-nearest neighbor weights using Guerry dataset:</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">knn6_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn_weights.html">knn_weights</a></span><span class="op">(</span><span class="va">guerry</span>, <span class="fl">6</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">knn6_w</span><span class="op">)</span></code></pre></div>
-<pre><code>##                      name     value
-## 1 number of observations: 85.000000
-## 2          is symmetric:   0.000000
-## 3               sparsity:  0.000000
-## 4                density:  7.058824
-## 5        # min neighbors:  6.000000
-## 6        # max neighbors:  6.000000
-## 7       # mean neighbors:  6.000000
-## 8     # median neighbors:  6.000000
-## 9         has isolations:  0.000000</code></pre>
+<pre><code>##                      name              value
+## 1 number of observations:                 85
+## 2          is symmetric:               FALSE
+## 3               sparsity: 0.0705882352941176
+## 4        # min neighbors:                  6
+## 5        # max neighbors:                  6
+## 6       # mean neighbors:                  6
+## 7     # median neighbors:                  6
+## 8           has isolates:              FALSE</code></pre>
 </div>
 <div id="kernel-weights" class="section level3">
 <h3 class="hasAnchor">
@@ -378,20 +371,19 @@
 <h4 class="hasAnchor">
 <a href="#use-kernel_weights-for-kernel-weights-with-adaptive-bandwidth" class="anchor"></a>Use <code>kernel_weights</code> for Kernel Weights with adaptive bandwidth</h4>
 <p>To create a kernel weights with fixed bandwith:</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bandwidth</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/min_distthreshold.html">min_distthreshold</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span>
 <span class="va">kernel_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kernel_weights.html">kernel_weights</a></span><span class="op">(</span><span class="va">guerry</span>, <span class="va">bandwidth</span>, kernel_method <span class="op">=</span> <span class="st">"uniform"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">kernel_w</span><span class="op">)</span></code></pre></div>
-<pre><code>##                      name     value
-## 1 number of observations: 85.000000
-## 2          is symmetric:   0.000000
-## 3               sparsity:  0.000000
-## 4                density:  4.346021
-## 5        # min neighbors:  1.000000
-## 6        # max neighbors:  7.000000
-## 7       # mean neighbors:  3.694118
-## 8     # median neighbors:  4.000000
-## 9         has isolations:  0.000000</code></pre>
+<pre><code>##                      name              value
+## 1 number of observations:                 85
+## 2          is symmetric:                TRUE
+## 3               sparsity: 0.0434602076124567
+## 4        # min neighbors:                  1
+## 5        # max neighbors:                  7
+## 6       # mean neighbors:   3.69411764705882
+## 7     # median neighbors:                  4
+## 8           has isolates:              FALSE</code></pre>
 <p>The arguments <code>is_inverse</code>, <code>power</code>, <code>is_arc</code> and <code>is_mile</code> are the same with the distance based weights. Additionally, <code>kernel_weights</code> has another argument that user can specify:</p>
 <pre><code>use_kernel_diagonals    
 (optional) FALSE (default) or TRUE, apply kernel on the diagonal of weights matrix</code></pre>
@@ -400,20 +392,19 @@
 <h4 class="hasAnchor">
 <a href="#use-kernel_knn_weights-for-kernel-weights-with-adaptive-bandwidth" class="anchor"></a>Use <code>kernel_knn_weights</code> for Kernel Weights with adaptive bandwidth</h4>
 <p>To create a kernel weights with adaptive bandwidth or using max Knn distance as bandwidth:</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">adptkernel_w</span> <span class="op">=</span> <span class="fu"><a href="../reference/kernel_knn_weights.html">kernel_knn_weights</a></span><span class="op">(</span><span class="va">guerry</span>, <span class="fl">6</span>, <span class="st">"uniform"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">adptkernel_w</span><span class="op">)</span></code></pre></div>
-<pre><code>##                      name     value
-## 1 number of observations: 85.000000
-## 2          is symmetric:   0.000000
-## 3               sparsity:  0.000000
-## 4                density:  7.058824
-## 5        # min neighbors:  6.000000
-## 6        # max neighbors:  6.000000
-## 7       # mean neighbors:  6.000000
-## 8     # median neighbors:  6.000000
-## 9         has isolations:  0.000000</code></pre>
+<pre><code>##                      name              value
+## 1 number of observations:                 85
+## 2          is symmetric:               FALSE
+## 3               sparsity: 0.0705882352941176
+## 4        # min neighbors:                  6
+## 5        # max neighbors:                  6
+## 6       # mean neighbors:                  6
+## 7     # median neighbors:                  6
+## 8           has isolates:              FALSE</code></pre>
 <p>This kernel weights function two more arguments that user can specify:</p>
 <pre><code>adaptive_bandwidth  
 (optional) TRUE (default) or FALSE: TRUE use adaptive bandwidth calculated using distance of k-nearest neithbors, FALSE use max distance of all observation to their k-nearest neighbors
@@ -443,11 +434,11 @@ use_kernel_diagonals
 <h4 class="hasAnchor">
 <a href="#local-moran" class="anchor"></a>4.1.1 Local Moran</h4>
 <p>The Local Moran statistic is a method to identify local clusters and local spatial outliers. For example, we can call the function <code><a href="../reference/local_moran.html">local_moran()</a></code> with the created Queen weights and apply the Local Moran to analyze the spatial patterns for the variable “crm_prp”:</p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lisa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_moran.html">local_moran</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">crm_prs</span><span class="op">)</span></code></pre></div>
 <p>The <code><a href="../reference/local_moran.html">local_moran()</a></code> function will return a <code>lisa</code> object, which we can call its public functions to access the results of lisa computation.</p>
 <p>For example, we can call the function <code><a href="../reference/lisa_values.html">lisa_values()</a></code> to get the values of the local Moran:</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lms</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lisa_values.html">lisa_values</a></span><span class="op">(</span>gda_lisa <span class="op">=</span> <span class="va">lisa</span><span class="op">)</span>
 <span class="va">lms</span></code></pre></div>
 <pre><code>##  [1]  0.516120231  0.818275138  0.794086560  0.733161543  0.228467334
@@ -468,7 +459,7 @@ use_kernel_diagonals
 ## [76]  1.166507105  0.773315084  0.523682291  0.851277285  0.884651013
 ## [81]  0.025497212 -0.326497225 -0.306819894  0.001277301 -0.125219240</code></pre>
 <p>We can use <code><a href="../reference/lisa_pvalues.html">lisa_pvalues()</a></code> to get the pseudo-p values of significance of local Moran computation:</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pvals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">lisa</span><span class="op">)</span>
 <span class="va">pvals</span></code></pre></div>
 <pre><code>##  [1] 0.197 0.013 0.023 0.068 0.111 0.045 0.281 0.048 0.183 0.004 0.002 0.052
@@ -480,8 +471,8 @@ use_kernel_diagonals
 ## [73] 0.358 0.443 0.290 0.075 0.034 0.026 0.060 0.005 0.310 0.122 0.064 0.494
 ## [85] 0.126</code></pre>
 <p>We can use <code><a href="../reference/lisa_clusters.html">lisa_clusters()</a></code> to get the cluster indicators of local Moran computation. The p-value threshold can be specified via the argument <code>cutoff</code>.</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">lisa</span>, cutoff <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">cats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">lisa</span><span class="op">)</span>
 <span class="va">cats</span></code></pre></div>
 <pre><code>##  [1] 0 1 1 0 0 2 0 2 0 2 2 0 0 2 0 0 1 0 0 0 0 0 0 2 0 0 0 2 2 0 0 2 1 0 3 0 0 0
 ## [39] 0 0 0 0 0 0 0 2 0 0 3 0 1 0 0 0 0 0 1 0 0 1 0 0 0 2 0 0 0 0 1 1 0 0 0 0 0 0
@@ -495,7 +486,7 @@ use_kernel_diagonals
 5 Undefined
 6 Isolated</code></pre>
 <p>which can be accessed via the function <code><a href="../reference/lisa_labels.html">lisa_labels()</a></code>:</p>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lbls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lisa_labels.html">lisa_labels</a></span><span class="op">(</span><span class="va">lisa</span><span class="op">)</span>
 <span class="va">lbls</span></code></pre></div>
 <pre><code>## [1] "Not significant" "High-High"       "Low-Low"         "High-Low"       
@@ -505,10 +496,10 @@ use_kernel_diagonals
 seed for random number generator: 123456789</code></pre>
 <p>These default parameters are identical to the GeoDa desktop software so that we can replicate the results as using the GeoDa software. It is also easy to change these paremters by specifying particular arguments and re-run the LISA computation.</p>
 <p>For example, re-run the above local Moran example using 9999 permutations.</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lisa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_moran.html">local_moran</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">crm_prs</span>, perm <span class="op">=</span> <span class="fl">9999</span><span class="op">)</span></code></pre></div>
 <p>Then, we can use the same <code>lisa</code> object to get the new results after 9999 permutations:</p>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pvals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">lisa</span><span class="op">)</span>
 <span class="va">pvals</span></code></pre></div>
 <pre><code>##  [1] 0.1942 0.0060 0.0110 0.0588 0.1209 0.0474 0.2793 0.0575 0.1797 0.0019
@@ -521,15 +512,15 @@ seed for random number generator: 123456789</code></pre>
 ## [71] 0.3262 0.1026 0.3571 0.4595 0.2792 0.0637 0.0264 0.0302 0.0507 0.0033
 ## [81] 0.3292 0.1137 0.0635 0.4967 0.1410</code></pre>
 <p><code>rgeoda</code> uses <code>GeoDa</code> C++ code, in which multi-threading is used to accelerate the computation of LISA. We can use the argument <code>ncpu</code> to specify how many threads to run the computation:</p>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lisa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_moran.html">local_moran</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">crm_prs</span>, cpu_threads <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></code></pre></div>
 <p>Get the False Discovery Rate value based on current pseudo-p values:</p>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fdr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lisa_fdr.html">lisa_fdr</a></span><span class="op">(</span><span class="va">lisa</span>, <span class="fl">0.05</span><span class="op">)</span>
 <span class="va">fdr</span></code></pre></div>
 <pre><code>## [1] 0.0005882353</code></pre>
 <p>Then, one can set the FDR value as the cutoff p-value to filter the cluster results:</p>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cat_fdr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">lisa</span>, cutoff <span class="op">=</span> <span class="va">fdr</span><span class="op">)</span>
 <span class="va">cat_fdr</span></code></pre></div>
 <pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -541,16 +532,16 @@ seed for random number generator: 123456789</code></pre>
 <a href="#use-local_geary-for-local-geary" class="anchor"></a>4.1.2 Use <code>local_geary</code> for Local Geary</h4>
 <p>Local Geary is a type of LISA that focuses on squared differences/dissimilarity. A small value of the local geary statistics suggests positive spatial autocorrelation, whereas large values suggest negative spatial autocorrelation.</p>
 <p>For example, we can call the function <code><a href="../reference/local_geary.html">local_geary()</a></code> with the created Queen weights and apply the Local Gary to analyze the spatial patterns of the variable “crm_prp”:</p>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">geary_crmprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_geary.html">local_geary</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">crm_prs</span><span class="op">)</span></code></pre></div>
 <p>To get the cluster indicators of the local Geary computation:</p>
-<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">geary_crmprs</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0 0 1 2 0 0 0 0 0 0 2 2 0 0 0 0 0 0 1 0 0 0 0 2 0 0 0 2 0 2 0 2 0 0 0 0 0 0
 ## [39] 0 0 0 0 0 0 0 2 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 1
 ## [77] 2 0 2 2 0 0 0 0 0</code></pre>
 <p>To get the pseudo-p values of the local Geary computation:</p>
-<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">geary_crmprs</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0.103 0.094 0.047 0.003 0.114 0.058 0.244 0.069 0.415 0.240 0.001 0.001
 ## [13] 0.144 0.391 0.300 0.058 0.375 0.251 0.028 0.056 0.212 0.394 0.281 0.015
@@ -564,11 +555,11 @@ seed for random number generator: 123456789</code></pre>
 <div id="use-local_multigeary-for-multivariate-local-geary" class="section level4">
 <h4 class="hasAnchor">
 <a href="#use-local_multigeary-for-multivariate-local-geary" class="anchor"></a>4.1.3 Use <code>local_multigeary</code> for Multivariate Local Geary:</h4>
-<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span><span class="va">guerry_df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Crm_prs'</span>,<span class="st">'Crm_prp'</span>,<span class="st">'Litercy'</span>,<span class="st">'Donatns'</span>,<span class="st">'Infants'</span>,<span class="st">'Suicids'</span><span class="op">)</span><span class="op">]</span>
 <span class="va">multigeary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_multigeary.html">local_multigeary</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">data</span><span class="op">)</span></code></pre></div>
 <p>To get the cluster indicators of the local Geary computation:</p>
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">multigeary</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0 1 1 1 0 1 1 1 1 1 1 1 0 0 0 0 0 1 1 1 1 1 0 0 1 1 1 1 0 1 0 0 1 0 0 0 0 0
 ## [39] 1 0 1 2 1 1 1 0 0 0 1 1 1 0 1 1 0 0 1 1 0 1 1 0 1 0 1 1 0 1 0 1 1 0 1 1 0 1
@@ -580,16 +571,16 @@ seed for random number generator: 123456789</code></pre>
 <p>There are two types of local Getis-Ord statistics: one is computing a ratio of the weighted average of the values in the neighboring locations, not including the value at the location; while another type of statistic includes the value at the location in both numerator and denominator.</p>
 <p>A value larger than the mean suggests a high-high cluster or hot spot, a value smaller than the mean indicates a low-low cluster or cold spot.</p>
 <p>For example, we can call the function <code><a href="../reference/local_g.html">local_g()</a></code> with the created Queen weights and the data “crm_prp” as input parameters:</p>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">localg_crmprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_g.html">local_g</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">crm_prs</span><span class="op">)</span></code></pre></div>
 <p>To get the cluster indicators of the local G computation:</p>
-<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">localg_crmprs</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0 1 1 0 0 2 0 2 0 2 2 0 0 2 0 0 1 0 0 0 0 0 0 2 0 0 0 2 2 0 0 2 1 0 1 0 0 0
 ## [39] 0 0 0 0 0 0 0 2 0 0 1 0 1 0 0 0 0 0 1 0 0 1 0 0 0 2 0 0 0 0 1 1 0 0 0 0 0 0
 ## [77] 2 2 0 2 0 0 0 0 0</code></pre>
 <p>To get the pseudo-p values of the local G computation:</p>
-<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">localg_crmprs</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0.197 0.013 0.023 0.068 0.111 0.045 0.281 0.048 0.183 0.004 0.002 0.052
 ## [13] 0.106 0.002 0.266 0.267 0.017 0.401 0.091 0.123 0.219 0.281 0.207 0.035
@@ -600,7 +591,7 @@ seed for random number generator: 123456789</code></pre>
 ## [73] 0.358 0.443 0.290 0.075 0.034 0.026 0.060 0.005 0.310 0.122 0.064 0.494
 ## [85] 0.126</code></pre>
 <p>For the second type of local Getis-Ord statistics, we can call the function <code><a href="../reference/local_gstar.html">local_gstar()</a></code> with the created Queen weights and the data “crm_prp” as input parameters:</p>
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">localgstar_crmprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_gstar.html">local_gstar</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">crm_prs</span><span class="op">)</span>
 <span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">localgstar_crmprs</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0.197 0.013 0.023 0.068 0.111 0.045 0.281 0.048 0.183 0.004 0.002 0.052
@@ -617,11 +608,11 @@ seed for random number generator: 123456789</code></pre>
 <a href="#local-join-count" class="anchor"></a>4.1.5 Local Join Count</h4>
 <p>Local Join Count is a method to identify local clusters for binary data by using a local version of the so-called BB join count statistic. The statistic is only meaningful for those observations with value 1.</p>
 <p>For example, we can call the function <code><a href="../reference/local_joincount.html">local_joincount()</a></code> with a Queen weights and the data “TopCrm”, which is a set of binary (0,1) values, as input parameters:</p>
-<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">top_crm</span> <span class="op">&lt;-</span> <span class="va">guerry_df</span><span class="op">[</span><span class="st">'TopCrm'</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
 <span class="va">localjc_crm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_joincount.html">local_joincount</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">top_crm</span><span class="op">)</span></code></pre></div>
 <p>To get the pseudo-p values of the local Join Count computation:</p>
-<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">localjc_crm</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0.395 0.085 0.094 0.001 0.001 0.001 0.231 0.001 0.001 0.001 0.001 0.001
 ## [13] 0.001 0.001 0.001 0.001 0.001 0.001 0.181 0.269 0.376 0.001 0.001 0.001
@@ -632,13 +623,13 @@ seed for random number generator: 123456789</code></pre>
 ## [73] 0.001 0.001 0.001 0.058 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001
 ## [85] 0.001</code></pre>
 <p>To get the cluster indicators of the local Join Count computation:</p>
-<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">localjc_crm</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 ## [39] 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0
 ## [77] 0 0 0 0 0 0 0 0 0</code></pre>
 <p>To get the number of neighbors of the local Join Count computation:</p>
-<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_num_nbrs.html">lisa_num_nbrs</a></span><span class="op">(</span><span class="va">localjc_crm</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 4 6 6 4 3 7 3 3 5 5 7 3 3 6 5 5 6 6 7 3 6 7 2 5 6 6 2 6 6 6 4 4 6 6 5 6 5 4
 ## [39] 6 7 5 4 7 6 6 5 8 4 6 6 5 4 5 4 2 6 3 6 6 2 6 3 3 2 4 2 4 5 7 6 2 3 8 6 5 5
@@ -648,14 +639,14 @@ seed for random number generator: 123456789</code></pre>
 <h4 class="hasAnchor">
 <a href="#multivariate-local-join-count" class="anchor"></a>4.1.6 Multivariate Local Join Count:</h4>
 <p>Bivariate Local Join Count: in a bivariate local join count, the two events cannot happen in the same location, which is also called “no-colocation” in this tutorial. To demonstrate this function, we just manually create a new variable from top_crm:</p>
-<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">top_crm</span> <span class="op">&lt;-</span> <span class="va">guerry_df</span><span class="op">[</span><span class="st">'TopCrm'</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="co"># get 0/1 values </span>
 <span class="va">inv_crm</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">top_crm</span> <span class="co"># create no-location case</span></code></pre></div>
 <p>Now, top_crm and inv_crm are no-colocation bivariate cases. Then, we apply the local_bijoicount():</p>
-<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">jc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_bijoincount.html">local_bijoincount</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">top_crm</span>, <span class="va">inv_crm</span><span class="op">)</span></code></pre></div>
 <p>To get the cluster indicators of the multivariate local join count computation:</p>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">jc</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0.106 0.013 0.017 0.000 0.000 0.000 0.035 0.000 0.000 0.000 0.000 0.000
 ## [13] 0.000 0.000 0.135 0.000 0.000 0.000 0.040 0.024 0.296 0.000 0.000 0.000
@@ -666,17 +657,17 @@ seed for random number generator: 123456789</code></pre>
 ## [73] 0.000 0.000 0.000 0.005 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
 ## [85] 0.000</code></pre>
 <p>To get the cluster indicators of the local Join Count computation:</p>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">jc</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0
 ## [39] 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1
 ## [77] 0 0 0 0 0 0 0 0 0</code></pre>
 <p>Co-location Local Join Count: where two or more events happen in the same location. Therefore, the function local_multijoincount takes a list of variables with 0/1 values as the input parameter:</p>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bin_data</span> <span class="op">&lt;-</span> <span class="va">guerry_df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'TopWealth'</span>,<span class="st">'TopWealth'</span>, <span class="st">'TopLit'</span><span class="op">)</span><span class="op">]</span> 
 <span class="va">jc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_multijoincount.html">local_multijoincount</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">bin_data</span><span class="op">)</span></code></pre></div>
 <p>To get the cluster indicators of the multivariate local join count computation:</p>
-<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">jc</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0.000 0.000 0.000 0.256 0.205 0.000 0.000 0.000 0.000 0.000 0.000 0.000
 ## [13] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
@@ -691,10 +682,10 @@ seed for random number generator: 123456789</code></pre>
 <h4 class="hasAnchor">
 <a href="#quantile-lisa" class="anchor"></a>4.1.7 Quantile LISA</h4>
 <p>The quantile LISA converts the continuous variable to a binary variable that takes the value of 1 for a specific quantile, and then apply local join count statistics on the binary data. For example, we take the first from the 4 quantiles of variable “crm_prs” and apply local_quantilelisa()</p>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">qsa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_quantilelisa.html">local_quantilelisa</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="fl">4</span>, <span class="fl">1</span>, <span class="va">crm_prs</span><span class="op">)</span></code></pre></div>
 <p>To get the p-values and cluster indicators of the quantile LISA computation:</p>
-<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">qsa</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0.001 0.001 0.001 0.044 0.001 0.050 0.001 0.422 0.001 0.001 0.010 0.013
 ## [13] 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.095
@@ -704,19 +695,19 @@ seed for random number generator: 123456789</code></pre>
 ## [61] 0.001 0.001 0.001 0.433 0.249 0.428 0.001 0.001 0.001 0.001 0.458 0.001
 ## [73] 0.001 0.181 0.001 0.001 0.352 0.001 0.010 0.001 0.001 0.001 0.001 0.001
 ## [85] 0.001</code></pre>
-<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">qsa</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0 0 0 1 0 1 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0
 ## [39] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 ## [77] 0 0 1 1 0 0 0 0 0</code></pre>
 <p>Multivariate Quantile LISA</p>
 <p>One can construct binary data from different variables with different configurations of number of quantiles and which quantile to use (set value to 1), and check the local spatial autocorrelation:</p>
-<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">crm_prp</span> <span class="op">&lt;-</span> <span class="va">guerry_df</span><span class="op">[</span><span class="st">'Crm_prp'</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
 <span class="va">quantiles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">1</span>,<span class="va">crm_prs</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">1</span>, <span class="va">crm_prp</span><span class="op">)</span><span class="op">)</span>
 <span class="va">qsa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_multiquantilelisa.html">local_multiquantilelisa</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">quantiles</span><span class="op">)</span></code></pre></div>
 <p>To get the p-values and cluster indicators of the quantile LISA computation:</p>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">qsa</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.244
 ## [13] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
@@ -726,11 +717,19 @@ seed for random number generator: 123456789</code></pre>
 ## [61] 0.000 0.000 0.000 0.000 0.040 0.170 0.000 0.000 0.000 0.000 0.158 0.000
 ## [73] 0.000 0.441 0.000 0.000 0.000 0.000 0.000 0.421 0.000 0.000 0.000 0.000
 ## [85] 0.000</code></pre>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">qsa</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 ## [39] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
 ## [77] 0 0 0 0 0 0 0 0 0</code></pre>
+</div>
+<div id="local-moran-with-eb-rates" class="section level4">
+<h4 class="hasAnchor">
+<a href="#local-moran-with-eb-rates" class="anchor"></a>4.1.8 Local Moran with EB Rates</h4>
+<p>Local Moran with EB rates is an extensions of the local Moran’s I pertains to the special case where the variable of interest is a rate or proportion. The statistic is computed for the standardized Emperical Bayes rates (see: <a href="http://geodacenter.github.io/workbook/3b_rates/lab3b.html#empirical-bayes-eb-smoothed-rate-map" class="uri">http://geodacenter.github.io/workbook/3b_rates/lab3b.html#empirical-bayes-eb-smoothed-rate-map</a>).</p>
+<p>The function <code><a href="../reference/local_moran_eb.html">local_moran_eb()</a></code> takes two variables: one for “event” variable (e.g. HR60) and another one for “base” variable (e.g. PO60). However, there is little gain from using the EB rates when the base population is more or less equal by design (e.g. for census tracts in the U.S.):</p>
+<p>One can get the EB rates by calling <code>eb_rates</code>:</p>
+<p>The result is a data.frame with two columns “EB Rate” and “IsNull” which indicates if there is any rate can not be computed.</p>
 </div>
 </div>
 </div>
@@ -741,16 +740,16 @@ seed for random number generator: 123456789</code></pre>
 <p>In <code>GeoDa</code>, there are three different methods explicitly incorporate the contiguity constraint in the optimization process: SKATER, Redcap and Max-p. More details, please check: <a href="http://geodacenter.github.io/workbook/8_spatial_clusters/lab8.html" class="uri">http://geodacenter.github.io/workbook/8_spatial_clusters/lab8.html</a> All of these methods are included in rgeoda 0.0.6.</p>
 <p>For example, to apply spatial clustering on the Guerry dataset, we use the queen weights to define the spatial contiguity and select 6 variables for similarity measure: “Crm_prs”, “Crm_prp”, “Litercy”, “Donatns”, “Infants”, “Suicids”.</p>
 <p>The following code is used to get a 2D data vector for the selected variables:</p>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span><span class="op">(</span><span class="va">guerry_df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Crm_prs'</span>,<span class="st">'Crm_prp'</span>,<span class="st">'Litercy'</span>,<span class="st">'Donatns'</span>,<span class="st">'Infants'</span>,<span class="st">'Suicids'</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <div id="skater" class="section level3">
 <h3 class="hasAnchor">
 <a href="#skater" class="anchor"></a>5.1 SKATER</h3>
 <p>The Spatial C(K)luster Analysis by Tree Edge Removal(SKATER) algorithm introduced by Assuncao et al. (2006) is based on the optimal pruning of a minimum spanning tree that reflects the contiguity structure among the observations. It provides an optimized algorithm to prune to tree into several clusters that their values of selected variables are as similar as possible.</p>
 <p>The <code>rgeoda</code>’s SKATER function is:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1"></a><span class="kw">skater</span>(k, w, data, <span class="dt">distance_method=</span><span class="st">'euclidean'</span>, <span class="dt">bound_vals =</span> [],  <span class="dt">min_bound =</span> <span class="dv">0</span>, <span class="dt">random_seed=</span><span class="dv">123456789</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1"></a><span class="kw">skater</span>(k, w, data, <span class="dt">distance_method=</span><span class="st">'euclidean'</span>, <span class="dt">bound_vals =</span> [],  <span class="dt">min_bound =</span> <span class="dv">0</span>, <span class="dt">random_seed=</span><span class="dv">123456789</span>)</span></code></pre></div>
 <p>For example, to create 4 spatially contiguous clusters using Guerry dataset, the queen weights and the values of the 6 selected variables:</p>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">guerry_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/skater.html">skater</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">queen_w</span>, <span class="va">data</span><span class="op">)</span>
 <span class="va">guerry_clusters</span></code></pre></div>
 <pre><code>## [[1]]
@@ -768,7 +767,7 @@ seed for random number generator: 123456789</code></pre>
 ## [26] 70 22 12</code></pre>
 <p>This <code><a href="../reference/skater.html">skater()</a></code> function returns a 2D list, which represents 4 clusters. Each cluster is composed by several contiguity areas, e.g. 15, 74, 16, 55, 60, 39, 68, 33, 17, 82, 81, 0, 2, 40, 20, 80</p>
 <p><code>rgeoda</code> also provides utility functions to compute some descriptive statistics of the clustering results, e.g. to compute the ratio of between to total sum of squares:</p>
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">betweenss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/between_sumofsquare.html">between_sumofsquare</a></span><span class="op">(</span><span class="va">guerry_clusters</span>, <span class="va">data</span><span class="op">)</span>
 <span class="va">totalss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/total_sumofsquare.html">total_sumofsquare</a></span><span class="op">(</span> <span class="va">data</span><span class="op">)</span>
 <span class="va">ratio</span> <span class="op">&lt;-</span>  <span class="va">betweenss</span> <span class="op">/</span> <span class="va">totalss</span>
@@ -787,7 +786,7 @@ seed for random number generator: 123456789</code></pre>
 <li>Full-order and Wards-linkage</li>
 </ul>
 <p>For example, to find 4 clusters using the same dataset and weights as above using REDCAP with Full-order and Complete-linkage method:</p>
-<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">redcap_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/redcap.html">redcap</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">queen_w</span>, <span class="va">data</span>, <span class="st">"fullorder-completelinkage"</span><span class="op">)</span>
 <span class="va">redcap_clusters</span></code></pre></div>
 <pre><code>## [[1]]
@@ -803,7 +802,7 @@ seed for random number generator: 123456789</code></pre>
 ## 
 ## [[4]]
 ##  [1] 23 79 29 61 44  3 28 76 77  9 27 45 11 78 43 35 66 31 30 37 10 63  4  7 62</code></pre>
-<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">betweenss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/between_sumofsquare.html">between_sumofsquare</a></span><span class="op">(</span><span class="va">redcap_clusters</span>, <span class="va">data</span><span class="op">)</span>
 <span class="va">totalss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/total_sumofsquare.html">total_sumofsquare</a></span><span class="op">(</span> <span class="va">data</span><span class="op">)</span>
 <span class="va">ratio</span> <span class="op">&lt;-</span> <span class="va">betweenss</span> <span class="op">/</span> <span class="va">totalss</span>
@@ -821,7 +820,7 @@ seed for random number generator: 123456789</code></pre>
 <li>Simulated Annealing</li>
 </ul>
 <p>The original AZP heuristic is a local optimization procedure that cycles through a series of possible swaps between spatial units at the boundary of a set of regions. The process starts with an initial feasible solution, i.e., a grouping of n spatial units into p contiguous regions. This initial solution can be constructed in several different ways. The initial solution must satisfy the contiguity constraints. For example, this can be accomplished by growing a set of contiguous regions from p randomly selected seed units by adding neighboring locations until the contiguity constraint can no longer be met.</p>
-<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">azp_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/azp_greedy.html">azp_greedy</a></span><span class="op">(</span><span class="fl">5</span>, <span class="va">queen_w</span>, <span class="va">data</span><span class="op">)</span>
 
 <span class="va">betweenss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/between_sumofsquare.html">between_sumofsquare</a></span><span class="op">(</span><span class="va">azp_clusters</span>, <span class="va">data</span><span class="op">)</span>
@@ -829,7 +828,7 @@ seed for random number generator: 123456789</code></pre>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"The ratio of between to total sum of square:"</span>, <span class="va">ratio</span><span class="op">)</span></code></pre></div>
 <pre><code>## The ratio of between to total sum of square: 0.3598541</code></pre>
 <p>To call AZP simulate annealing algorithm, one needs to specify <code>cooling_rate</code> (default: 0.85):</p>
-<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">azp_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/azp_sa.html">azp_sa</a></span><span class="op">(</span><span class="fl">5</span>, <span class="va">queen_w</span>, <span class="va">data</span>, cooling_rate <span class="op">=</span> <span class="fl">0.85</span><span class="op">)</span>
 
 <span class="va">betweenss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/between_sumofsquare.html">between_sumofsquare</a></span><span class="op">(</span><span class="va">azp_clusters</span>, <span class="va">data</span><span class="op">)</span>
@@ -837,7 +836,7 @@ seed for random number generator: 123456789</code></pre>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"The ratio of between to total sum of square:"</span>, <span class="va">ratio</span><span class="op">)</span></code></pre></div>
 <pre><code>## The ratio of between to total sum of square: 0.4211363</code></pre>
 <p>To call AZP Tabu search algorithm, one needs to specify <code>tabu_length</code> (deafult: 10) , or <code>conv_tabu</code> (default: 10):</p>
-<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">azp_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/azp_tabu.html">azp_tabu</a></span><span class="op">(</span><span class="fl">5</span>, <span class="va">queen_w</span>, <span class="va">data</span>, tabu_length <span class="op">=</span> <span class="fl">10</span>, conv_tabu <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
 
 <span class="va">betweenss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/between_sumofsquare.html">between_sumofsquare</a></span><span class="op">(</span><span class="va">azp_clusters</span>, <span class="va">data</span><span class="op">)</span>
@@ -858,11 +857,11 @@ seed for random number generator: 123456789</code></pre>
 <p>Unlike SKATER and REDCAP that one can specify the number of clusters as an input parameter, max-p doesn’t allow to specify the number of clusters explicitly, but a constrained variable and the minimum bounding value that each cluster should reach that are used to find an optimized number of clusters.</p>
 <p>For example, to use the <code>greedy</code> algorithm in maxp function with the same dataset and weights as above to find optimal clusters using max-p:</p>
 <p>First, we need to specify, for example, every cluster must have population &gt;= 3236.67 thousand people:</p>
-<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bound_vals</span> <span class="op">&lt;-</span> <span class="va">guerry_df</span><span class="op">[</span><span class="st">'Pop1831'</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
 <span class="va">min_bound</span> <span class="op">&lt;-</span> <span class="fl">3236.67</span> <span class="co"># 10% of Pop1831</span></code></pre></div>
 <p>Then, we can call the max-p function with the “greedy” algorithm, the bound values, and minimum bound value:</p>
-<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">maxp_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/maxp_greedy.html">maxp_greedy</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">data</span>, <span class="va">bound_vals</span>, <span class="va">min_bound</span>, iterations<span class="op">=</span><span class="fl">99</span><span class="op">)</span>
 
 <span class="va">betweenss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/between_sumofsquare.html">between_sumofsquare</a></span><span class="op">(</span><span class="va">maxp_clusters</span>, <span class="va">data</span><span class="op">)</span>
@@ -873,7 +872,7 @@ seed for random number generator: 123456789</code></pre>
 
 If you want to replicate the identical results as in GeoDa software, please install BH == 1.58.0-1 and build/install rgeoda from source using: devtools::install_github("lixun910/rgeoda")</code></pre>
 <p>We can also specify using <code>tabu search</code> algorithm in maxp function with the parameter of tabu length:</p>
-<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">maxp_tabu_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/maxp_tabu.html">maxp_tabu</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">data</span>, <span class="va">bound_vals</span>, <span class="va">min_bound</span>, tabu_length<span class="op">=</span><span class="fl">10</span>, conv_tabu<span class="op">=</span><span class="fl">10</span><span class="op">)</span>
 
 <span class="va">betweenss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/between_sumofsquare.html">between_sumofsquare</a></span><span class="op">(</span><span class="va">maxp_tabu_clusters</span>, <span class="va">data</span><span class="op">)</span>
@@ -881,7 +880,7 @@ If you want to replicate the identical results as in GeoDa software, please inst
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"The ratio of between to total sum of square:"</span>, <span class="va">ratio</span><span class="op">)</span></code></pre></div>
 <pre><code>## The ratio of between to total sum of square: 0.4893668</code></pre>
 <p>To apply <code>simulated annealing</code> algorithm in maxp function with the parameter of cooling rate:</p>
-<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">maxp_sa_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/maxp_sa.html">maxp_sa</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">data</span>, <span class="va">bound_vals</span>, <span class="va">min_bound</span>, cooling_rate<span class="op">=</span><span class="fl">0.85</span>, sa_maxit<span class="op">=</span><span class="fl">1</span><span class="op">)</span>
 
 <span class="va">betweenss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/between_sumofsquare.html">between_sumofsquare</a></span><span class="op">(</span><span class="va">maxp_sa_clusters</span>, <span class="va">data</span><span class="op">)</span>
@@ -889,7 +888,7 @@ If you want to replicate the identical results as in GeoDa software, please inst
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"The ratio of between to total sum of square:"</span>, <span class="va">ratio</span><span class="op">)</span></code></pre></div>
 <pre><code>## The ratio of between to total sum of square: 0.4585352</code></pre>
 <p>We can also increase the number of iterations for local search process by specifying the parameter <code>iterations</code> (default value is 99):</p>
-<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">maxp_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/maxp_greedy.html">maxp_greedy</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">data</span>, <span class="va">bound_vals</span>, <span class="va">min_bound</span>, iterations<span class="op">=</span><span class="fl">199</span><span class="op">)</span>
 
 <span class="va">betweenss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/between_sumofsquare.html">between_sumofsquare</a></span><span class="op">(</span><span class="va">maxp_clusters</span>, <span class="va">data</span><span class="op">)</span>

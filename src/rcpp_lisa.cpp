@@ -8,6 +8,7 @@
 #include <Rcpp.h>
 #include "libgeoda_src/weights/GeodaWeight.h"
 #include "libgeoda_src/sa/LISA.h"
+#include "libgeoda_src/gda_data.h"
 #include "libgeoda_src/gda_sa.h"
 #include "libgeoda_src/libgeoda.h"
 
@@ -147,18 +148,54 @@ SEXP p_localmoran(SEXP xp_w, NumericVector data, int permutations, double signif
 }
 
 //  [[Rcpp::export]]
-SEXP p_localgeary(SEXP xp_w, NumericVector data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+DataFrame p_eb_rate(NumericVector& event_data, NumericVector& base_data)
+{
+  std::vector<double> raw_event_data =  as<std::vector<double> >(event_data);
+  std::vector<double> raw_base_data =  as<std::vector<double> >(base_data);
+
+  int n = (int)raw_event_data.size();
+  std::vector<double> results(n);
+  std::vector<bool> undefined(n, false);
+
+  gda_rateStandardizeEB(raw_event_data, raw_base_data, results, undefined);
+
+  Rcpp::NumericVector v1(results.begin(), results.end());
+  Rcpp::LogicalVector v2(undefined.begin(), undefined.end());
+
+  DataFrame df = DataFrame::create(Named("EB Rate") = v1,
+                                   Named("IsNull") = v2);
+
+  return df;
+}
+
+//  [[Rcpp::export]]
+SEXP p_localmoran_eb(SEXP xp_w, NumericVector& event_data, NumericVector& base_data, int permutations, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
   GeoDaWeight* w = static_cast<GeoDaWeight*> (R_ExternalPtrAddr(ptr));
 
-  int n = data.size();
-  std::vector<double> raw_data(n);
+  std::vector<double> raw_event_data =  as<std::vector<double> >(event_data);
+  std::vector<double> raw_base_data =  as<std::vector<double> >(base_data);
+
+  LISA* lisa = gda_localmoran_eb(w, raw_event_data, raw_base_data, significance_cutoff, cpu_threads, permutations, seed);
+
+  Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
+  return lisa_ptr;
+}
+
+//  [[Rcpp::export]]
+SEXP p_localgeary(SEXP xp_w, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+{
+  // grab the object as a XPtr (smart pointer) to GeoDaWeight
+  Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
+  GeoDaWeight* w = static_cast<GeoDaWeight*> (R_ExternalPtrAddr(ptr));
+
+  int n = (int)data.size();
+  std::vector<double> raw_data = as<std::vector<double> >(data);
   std::vector<bool> undefs(n, false);
 
-  for (int i=0; i< data.size(); ++i) {
-    raw_data[i] = data[i];
+  for (int i=0; i< n; ++i) {
     undefs[i] = data.is_na(i);
   }
 
@@ -198,7 +235,7 @@ SEXP p_localmultigeary(SEXP xp_w, Rcpp::List& data, int permutations, double sig
 
 
 //  [[Rcpp::export]]
-SEXP p_localg(SEXP xp_w, NumericVector data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localg(SEXP xp_w, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -220,7 +257,7 @@ SEXP p_localg(SEXP xp_w, NumericVector data, int permutations, double significan
 }
 
 //  [[Rcpp::export]]
-SEXP p_localgstar(SEXP xp_w, NumericVector data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localgstar(SEXP xp_w, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -242,7 +279,7 @@ SEXP p_localgstar(SEXP xp_w, NumericVector data, int permutations, double signif
 }
 
 //  [[Rcpp::export]]
-SEXP p_localjoincount(SEXP xp_w, NumericVector data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localjoincount(SEXP xp_w, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);

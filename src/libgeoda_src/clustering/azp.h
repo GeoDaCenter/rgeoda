@@ -33,7 +33,7 @@
 
 #include "../weights/GalWeight.h"
 #include "../rng.h"
-#include "DataUtils.h"
+#include "../DataUtils.h"
 
 #ifndef __NO_THREAD__
 #ifndef __USE_PTHREAD__

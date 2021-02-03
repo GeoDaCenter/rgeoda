@@ -277,7 +277,7 @@ lisa_colors <- function(gda_lisa) {
 #' guerry_df <- as.data.frame(guerry) # use as data.frame
 #' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
 #' lisa <- local_moran(queen_w, crm_prs)
-#' lms <- lisa_values(gda_lisa = lisa)
+#' lms <- lisa_values(lisa)
 #' lms
 #' @export
 local_moran <- function(w, data, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
@@ -285,10 +285,51 @@ local_moran <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
     stop("Weights object is not valid.")
   }
   if (length(data) != w$num_obs) {
-    stop("The size of data doesnt not match the number of observations")
+    stop("The size of data does not match the number of observations")
   }
 
   lisa_obj <- p_localmoran(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
+  return (LISA$new(p_LISA(lisa_obj)))
+}
+
+#################################################################
+#' @title  Local Moran with Empirical Bayes(EB) Rate
+#' @description The function to apply local Moran with EB Rate statistics. The EB rate is first computed from "event" and "base" variables, and then used in local moran statistics.
+#' @param w An instance of Weight object
+#' @param event_data A numeric array of selected "event" variable
+#' @param base_data A numeric array of selected "base" variable
+#' @param permutations The number of permutations for the LISA computation
+#' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
+#' @param cpu_threads The number of cpu threads used for parallel LISA computation
+#' @param seed The seed for random number generator
+#' @return An instance of LISA-class
+#' @examples
+#' \dontrun{
+#' nat <- geoda_open("natregimes.shp")
+#' nat_w <- queen_weights(nat)
+#' nat_df <- as.data.frame(nat)
+#' hr60 <- guerry_df['HR60'][,1]
+#' po60 <- guerry_df['PO60'][,1]
+#' lisa <- local_moran_eb(queen_w, hr60, po60)
+#' lms <- lisa_values(lisa)
+#' lms
+#' }
+#' @export
+local_moran_eb <- function(w, event_data, base_data, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+  if (class(w)[[1]] != "Weight") {
+    stop("The parameter 'w' needs to be an instance of Weight object.")
+  }
+  if (w$num_obs <= 0) {
+    stop("Weights object is not valid.")
+  }
+  if (length(event_data) != w$num_obs) {
+    stop("The size of event data does not match the number of observations")
+  }
+  if (length(base_data) != w$num_obs) {
+    stop("The size of base data does not match the number of observations")
+  }
+
+  lisa_obj <- p_localmoran_eb(w$GetPointer(), event_data, base_data, permutations, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
@@ -317,7 +358,7 @@ local_geary <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
     stop("Weights object is not valid.")
   }
   if (length(data) != w$num_obs) {
-    stop("The size of data doesnt not match the number of observations")
+    stop("The size of data does not match the number of observations")
   }
 
   lisa_obj <- p_localgeary(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
@@ -381,7 +422,7 @@ local_g <- function(w, data, permutations=999, significance_cutoff=0.05, cpu_thr
     stop("Weights object is not valid.")
   }
   if (length(data) != w$num_obs) {
-    stop("The size of data doesnt not match the number of observations")
+    stop("The size of data does not match the number of observations")
   }
 
   lisa_obj <- p_localg(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
@@ -413,7 +454,7 @@ local_gstar <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
     stop("Weights object is not valid.")
   }
   if (length(data) != w$num_obs) {
-    stop("The size of data doesnt not match the number of observations")
+    stop("The size of data does not match the number of observations")
   }
 
   lisa_obj <- p_localgstar(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
@@ -445,7 +486,7 @@ local_joincount <- function(w, data, permutations=999, significance_cutoff=0.05,
     stop("Weights object is not valid.")
   }
   if (length(data) != w$num_obs) {
-    stop("The size of data doesnt not match the number of observations")
+    stop("The size of data does not match the number of observations")
   }
 
   lisa_obj <- p_localjoincount(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
@@ -479,10 +520,10 @@ local_bijoincount <- function(w, data1, data2, permutations=999, significance_cu
     stop("Weights object is not valid.")
   }
   if (length(data1) != w$num_obs) {
-    stop("The size of data1 doesnt not match the number of observations")
+    stop("The size of data1 does not match the number of observations")
   }
   if (length(data2) != w$num_obs) {
-    stop("The size of data2 doesnt not match the number of observations")
+    stop("The size of data2 does not match the number of observations")
   }
   if (sum(data1 + data2) != w$num_obs) {
     stop("The bivariate local join count only applies on two variables with no-colocation.")
@@ -551,7 +592,7 @@ local_quantilelisa <- function(w, k, q, data, permutations=999, significance_cut
     stop("Weights object is not valid.")
   }
   if (length(data) != w$num_obs) {
-    stop("The size of data doesnt not match the number of observations")
+    stop("The size of data does not match the number of observations")
   }
   if (q < 1 || q > k) {
     stop("The value of which quantile been selected should be in the range of [1, k]")

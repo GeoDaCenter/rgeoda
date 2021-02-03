@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>K-NN Kernel Spatial Weights — kernel_knn_weights • rgeoda</title>
+<title>p_GeoDaTable — p_GeoDaTable-class • rgeoda</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="K-NN Kernel Spatial Weights — kernel_knn_weights" />
-<meta property="og:description" content="Create a kernel weights by specifying k-nearest neighbors and a kernel method" />
+<meta property="og:title" content="p_GeoDaTable — p_GeoDaTable-class" />
+<meta property="og:description" content="p_GeoDaTable class is a RefClass that wraps the C++ 'GeoDaTable' class.
+See C++ functions in rcpp_rgeoda.cpp" />
 
 
 
@@ -123,87 +124,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>K-NN Kernel Spatial Weights</h1>
-    <small class="dont-index">Source: <a href='https://github.com/geodacenter/rgeoda/blob/master/R/weights.R'><code>R/weights.R</code></a></small>
-    <div class="hidden name"><code>kernel_knn_weights.Rd</code></div>
+    <h1>p_GeoDaTable</h1>
+    <small class="dont-index">Source: <a href='https://github.com/geodacenter/rgeoda/blob/master/R/rgeoda.R'><code>R/rgeoda.R</code></a></small>
+    <div class="hidden name"><code>p_GeoDaTable-class.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a kernel weights by specifying k-nearest neighbors and a kernel method</p>
+    <p>p_GeoDaTable class is a RefClass that wraps the C++ 'GeoDaTable' class.
+See C++ functions in rcpp_rgeoda.cpp</p>
     </div>
 
-    <pre class="usage"><span class='fu'>kernel_knn_weights</span><span class='op'>(</span>
-  <span class='va'>geoda_obj</span>,
-  <span class='va'>k</span>,
-  <span class='va'>kernel_method</span>,
-  adaptive_bandwidth <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  use_kernel_diagonals <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  power <span class='op'>=</span> <span class='fl'>1</span>,
-  is_inverse <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  is_arc <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  is_mile <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>geoda_obj</th>
-      <td><p>An instance of geoda</p></td>
-    </tr>
-    <tr>
-      <th>k</th>
-      <td><p>a positive integer number for k-nearest neighbors</p></td>
-    </tr>
-    <tr>
-      <th>kernel_method</th>
-      <td><p>a string value, which has to be one of 'triangular', 'uniform', 'epanechnikov', 'quartic', 'gaussian'</p></td>
-    </tr>
-    <tr>
-      <th>adaptive_bandwidth</th>
-      <td><p>(optional) TRUE (default) or FALSE: TRUE use adaptive bandwidth calculated using distance of k-nearest neithbors,
-FALSE use max distance of all observation to their k-nearest neighbors</p></td>
-    </tr>
-    <tr>
-      <th>use_kernel_diagonals</th>
-      <td><p>(optional) FALSE (default) or TRUE, apply kernel on the diagonal of weights matrix</p></td>
-    </tr>
-    <tr>
-      <th>power</th>
-      <td><p>(optional) The power (or exponent) of a number says how many times to use the number in a multiplication.</p></td>
-    </tr>
-    <tr>
-      <th>is_inverse</th>
-      <td><p>(optional) FALSE (default) or TRUE, apply inverse on distance value</p></td>
-    </tr>
-    <tr>
-      <th>is_arc</th>
-      <td><p>(optional) FALSE (default) or TRUE, compute arc distance between two observations</p></td>
-    </tr>
-    <tr>
-      <th>is_mile</th>
-      <td><p>(optional) TRUE (default) or FALSE, convert distance unit from mile to km.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An instance of Weight-class</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>guerry_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Guerry.shp"</span>, package <span class='op'>=</span> <span class='st'>"rgeoda"</span><span class='op'>)</span>
-<span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='geoda_open.html'>geoda_open</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
-<span class='va'>adptkernel_w</span> <span class='op'>=</span> <span class='fu'>kernel_knn_weights</span><span class='op'>(</span><span class='va'>guerry</span>, <span class='fl'>6</span>, <span class='st'>"uniform"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>adptkernel_w</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                      name              value
-#&gt; 1 number of observations:                 85
-#&gt; 2          is symmetric:               FALSE
-#&gt; 3               sparsity: 0.0705882352941176
-#&gt; 4        # min neighbors:                  6
-#&gt; 5        # max neighbors:                  6
-#&gt; 6       # mean neighbors:                  6
-#&gt; 7     # median neighbors:                  6
-#&gt; 8           has isolates:              FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

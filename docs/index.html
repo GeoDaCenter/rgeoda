@@ -102,22 +102,25 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>NOTE: we are working to make rgeoda avaiable in CRAN. Once it’s available on CRAN, one could install it using</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rgeoda"</span><span class="op">)</span></code></pre></div>
-<p><img src="https://www.r-pkg.org/badges/version/rgeoda" alt="cran status"></p>
+<p><img src="https://www.r-pkg.org/badges/version/rgeoda" alt="cran status"><img src="https://www.r-pkg.org/badges/last-release/rgeoda" alt="cran release"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rgeoda" alt="cran downloads"></p>
 <div id="build-and-install-from-source-code" class="section level4">
 <h4 class="hasAnchor">
 <a href="#build-and-install-from-source-code" class="anchor"></a>Build and install from source code</h4>
-<p>In R console, one can use devtools to install rgeoda from its <strong>source pacakge</strong>:</p>
+<p>In R console, one can use devtools to install rgeoda from its <strong>source package</strong>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"geodacenter/rgeoda"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="mac" class="section level4">
 <h4 class="hasAnchor">
 <a href="#mac" class="anchor"></a>Mac</h4>
-<p>For Mac users, the “Xcode Command Line Tools” needs to be installed for installing rgeoda. It is a free software provided by Apple, which can be installed by using the following command in a terminal:</p>
+<p>For Mac users, the “Xcode Command Line Tools” need to be installed for installing rgeoda. It is a free software provided by Apple, which can be installed by using the following command in a terminal:</p>
 <pre><code>xcode-select --install </code></pre>
+<p>Note that the Xcode tools are not automatically updated when a new version of Xcode is installed. In order to make sure you have the latest version, use:</p>
+<pre><code>sudo rm -rf /Library/Developer/CommandLineTools
+xcode-select --install</code></pre>
+<p>In order to make sure to have the correct C++ compiler for R 4.0 and later, follow the instructions on <a href="https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/" class="uri">https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/</a>.</p>
 </div>
 <div id="windows" class="section level4">
 <h4 class="hasAnchor">
@@ -158,15 +161,16 @@ sudo apt-get install build-essential</code></pre>
 <li>Spatial Autocorrelation
 <ul>
 <li>Local Moran</li>
+<li>Local Moran EB Rates</li>
 <li>Local Geary</li>
 <li>Local Getis-Ord</li>
-<li>Local Join Count</li>
 <li>Multivariate Local Geary</li>
 <li>Local Join Count</li>
 <li>Bivariate Local Join Count</li>
 <li>(Multivariate) Colocation Local Join Count</li>
 <li>Quantile LISA</li>
 <li>Multivariate Quantile LISA</li>
+<li>Neighbor Match Test</li>
 </ul>
 </li>
 <li>Spatial Clustering
@@ -221,6 +225,8 @@ sudo apt-get install build-essential</code></pre>
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=rgeoda">https://​cloud.r-project.org/​package=rgeoda</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/geodacenter/rgeoda/">https://​github.com/​geodacenter/​rgeoda/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/geodacenter/rgeoda/issues/">https://​github.com/​geodacenter/​rgeoda/​issues/​</a>

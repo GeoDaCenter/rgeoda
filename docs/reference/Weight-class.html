@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Weight class (Internally Used) — Weight-class" />
-<meta property="og:description" content="A wrapper class for GeoDaWeight class" />
+<meta property="og:description" content="A wrapper class for p_GeoDaWeight class" />
 
 
 
@@ -129,7 +129,7 @@
     </div>
 
     <div class="ref-description">
-    <p>A wrapper class for GeoDaWeight class</p>
+    <p>A wrapper class for p_GeoDaWeight class</p>
     </div>
 
 
@@ -139,13 +139,11 @@
     
 
 <dl>
-<dt><code>gda_w</code></dt><dd><p>An object of GeoDaWeight</p></dd>
+<dt><code>gda_w</code></dt><dd><p>An object of p_GeoDaWeight-class</p></dd>
 
 <dt><code>is_symmetric</code></dt><dd><p>If weights matrix is symmetric</p></dd>
 
 <dt><code>sparsity</code></dt><dd><p>Sparsity of weights matrix</p></dd>
-
-<dt><code>density</code></dt><dd><p>Density of weights matrix</p></dd>
 
 <dt><code>min_neighbors</code></dt><dd><p>Minimum number of neighbors</p></dd>
 
@@ -157,7 +155,7 @@
 
 <dt><code>median_neighbors</code></dt><dd><p>Median number of neighbors</p></dd>
 
-<dt><code>has_isolations</code></dt><dd><p>If the weights matrix has any isolations</p></dd>
+<dt><code>has_isolates</code></dt><dd><p>If the weights matrix has any isolates</p></dd>
 
 </dl>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
@@ -165,17 +163,17 @@
     
 
 <dl>
-<dt><code>GetDensity()</code></dt><dd><p>Get density computed from weights matrix</p></dd>
+<dt><code>GetNeighbors(idx)</code></dt><dd><p>Get neighbors for idx-th observation, idx starts from 0</p></dd>
 
 <dt><code>GetNeighborWeights(idx)</code></dt><dd><p>Get weights values of neighbors for idx-th observation, idx starts from 0</p></dd>
-
-<dt><code>GetNeighbors(idx)</code></dt><dd><p>Get neighbors for idx-th observation, idx starts from 0</p></dd>
 
 <dt><code>GetPointer()</code></dt><dd><p>Get the C++ object pointer (internally used)</p></dd>
 
 <dt><code>GetSparsity()</code></dt><dd><p>Get sparsity computed from weights matrix</p></dd>
 
-<dt><code>HasIsolations()</code></dt><dd><p>Check if weights matrix has isolates, or if any observation has no neighbors</p></dd>
+<dt><code>HasIsolates()</code></dt><dd><p>Check if weights matrix has isolates, or if any observation has no neighbors</p></dd>
+
+<dt><code>initialize(o_gda_w)</code></dt><dd><p>Constructor with a GeoDaWeight object (internally used)</p></dd>
 
 <dt><code>IsSymmetric()</code></dt><dd><p>Check if weights matrix is symmetric</p></dd>
 
@@ -186,8 +184,6 @@ id_name : The id name (or field name), which is an associated column contains un
 id_values : The tuple of values of selected id_name (column/field)</p></dd>
 
 <dt><code>SpatialLag(idx, values)</code></dt><dd><p>Compute spatial lag values of idx-th observation, idx starts from 0</p></dd>
-
-<dt><code>initialize(o_gda_w)</code></dt><dd><p>Constructor with a GeoDaWeight object (internally used)</p></dd>
 
 </dl>
 

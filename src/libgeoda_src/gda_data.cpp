@@ -78,3 +78,66 @@ void gda_transform_inplace(std::vector<double>& vals, const std::string& method)
         GenUtils::StandardizeData(vals);
     }
 }
+
+bool gda_rateStandardizeEB(const std::vector<double>& P,
+                           const std::vector<double>& E,
+                           std::vector<double>& results,
+                           std::vector<bool>& undefined)
+{
+    int obs = (int)P.size();
+    bool has_undef = false;
+    double	sP=0.0, sE=0.0;
+    double* p = new double[obs];
+    int i = 0;
+
+    // compute pi, the rate i, and the pop. rate b_hat
+    for (i=0; i<obs; i++) {
+        if (undefined[i]) {
+            p[i] = 0;
+            continue;
+        }
+
+        if (P[i] == 0.0) {
+            undefined[i] = true;
+            p[i] = 0;
+        } else {
+            sP += P[i];
+            sE += E[i];
+            p[i] = E[i] / P[i];
+        }
+    }
+
+    if (sP == 0.0) {
+        delete [] p;
+        for (int i=0; i<obs; i++) {
+            undefined[i] = true;
+            results[i] = 0;
+        }
+        return has_undef;
+    }
+
+    const double b_hat = sE / sP;
+
+    // compute a_hat, the variance
+    double obs_valid = 0.0;
+    double gamma=0.0;
+    for (i=0; i< obs; i++) {
+        if (!undefined[i]) {
+            gamma += P[i] * ((p[i] - b_hat) * (p[i] - b_hat));
+            obs_valid += 1;
+        }
+    }
+
+    double a = (gamma / sP) - (b_hat / (sP / obs_valid));
+    const double a_hat = a > 0 ? a : 0.0;
+
+    for (i=0; i<obs; i++) {
+        results[i] = 0.0;
+        if (!undefined[i]) {
+            const double se = P[i] > 0 ? sqrt(a_hat + b_hat/P[i]) : 0.0;
+            results[i] = se > 0 ? (p[i] - b_hat) / se : 0.0;
+        }
+    }
+    delete [] p;
+    return !has_undef;
+}

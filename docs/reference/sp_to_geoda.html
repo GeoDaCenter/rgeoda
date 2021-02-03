@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a geoda object from a sp object — sp_to_geoda • rgeoda</title>
+<title>Create an instance of geoda-class from a 'sp' object — sp_to_geoda • rgeoda</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Create a geoda object from a sp object — sp_to_geoda" />
-<meta property="og:description" content="The sp package has been an essential tool which provides spatial data-structures and many utility functions to do spatial analysis in R. It has been a core dependent library for many other packages, e.g. rgdal (IO), maptools (mapping), spdep (spatial weights, spatial statistics, and spatial models) etc.
-Using rgdal to read a ESRI Shapefile will return a sp (Spatial object) object, which could be either a SpatialPointsDataFrame (using an AttributeList for its data slot directly), a SpatialLinesDataFrame, or a SpatialPolygonsDataFrame." />
+<meta property="og:title" content="Create an instance of geoda-class from a 'sp' object — sp_to_geoda" />
+<meta property="og:description" content="Create an instance of geoda-class from a 'sp' object. NOTE: The table content is NOT used to create an instance of geoda-class." />
 
 
 
@@ -124,34 +123,33 @@ Using rgdal to read a ESRI Shapefile will return a sp (Spatial object) object, w
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a geoda object from a sp object</h1>
+    <h1>Create an instance of geoda-class from a 'sp' object</h1>
     <small class="dont-index">Source: <a href='https://github.com/geodacenter/rgeoda/blob/master/R/sf_geoda.R'><code>R/sf_geoda.R</code></a></small>
     <div class="hidden name"><code>sp_to_geoda.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The sp package has been an essential tool which provides spatial data-structures and many utility functions to do spatial analysis in R. It has been a core dependent library for many other packages, e.g. rgdal (IO), maptools (mapping), spdep (spatial weights, spatial statistics, and spatial models) etc.
-Using rgdal to read a ESRI Shapefile will return a sp (Spatial object) object, which could be either a SpatialPointsDataFrame (using an AttributeList for its data slot directly), a SpatialLinesDataFrame, or a SpatialPolygonsDataFrame.</p>
+    <p>Create an instance of geoda-class from a 'sp' object. NOTE: The table content is NOT used to create an instance of geoda-class.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sp_to_geoda</span><span class='op'>(</span><span class='va'>sp_obj</span>, with_table <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sp_to_geoda</span><span class='op'>(</span><span class='va'>sp_obj</span>, with_table <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>sp_obj</th>
-      <td><p>An instance of sp object</p></td>
+      <td><p>An instance of 'sp' object</p></td>
     </tr>
     <tr>
       <th>with_table</th>
-      <td><p>Optional, Default: FALSE If create a table from sp dataframe object.</p></td>
+      <td><p>A boolean flag indicates if table is copied from sf object to create geoda object. Default is TRUE</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>geoda_obj An instance of GeoDa object</p>
+    <p>An instance of geoda-class</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

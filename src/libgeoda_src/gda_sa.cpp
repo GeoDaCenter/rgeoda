@@ -76,6 +76,32 @@ LISA *gda_localmoran(GeoDaWeight *w,
     return lisa;
 }
 
+LISA *gda_localmoran_eb(GeoDaWeight *w,
+                        const std::vector<double> &event_data,
+                        const std::vector<double> &base_data,
+                        double significance_cutoff,
+                        int nCPUs, int permutations, int last_seed_used)
+{
+    if (w == 0)
+        return 0;
+
+    int num_obs = w->num_obs;
+
+    std::vector<double> E, P, local_smoothed_results(num_obs, 0.0);
+    E = event_data;
+    P = base_data;
+
+    // eb_rate_standardized
+    std::vector<bool> undef_res(num_obs, false);
+    bool success = gda_rateStandardizeEB(P, E, local_smoothed_results, undef_res);
+
+    if (success == false)
+        return 0;
+
+    UniLocalMoran *lisa = new UniLocalMoran(num_obs, w, local_smoothed_results, undef_res, significance_cutoff, nCPUs, permutations, last_seed_used);
+    return lisa;
+}
+
 BatchLISA *gda_batchlocalmoran(GeoDaWeight *w,
                                const std::vector<std::vector<double> > &data,
                                const std::vector<std::vector<bool> > &undefs,

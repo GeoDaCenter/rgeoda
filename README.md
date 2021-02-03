@@ -79,6 +79,7 @@ sudo apt-get install build-essential
     
 * Spatial Autocorrelation
     * Local Moran
+    * Local Moran EB Rates
     * Local Geary
     * Local Getis-Ord 
     * Multivariate Local Geary
@@ -87,6 +88,7 @@ sudo apt-get install build-essential
     * (Multivariate) Colocation Local Join Count
     * Quantile LISA
     * Multivariate Quantile LISA
+    * Neighbor Match Test
 
 * Spatial Clustering
     * SCHC Spatial Constrained Hierarchical Clustering 

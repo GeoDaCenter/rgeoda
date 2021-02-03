@@ -528,6 +528,30 @@ lisa_pvalues(qsa)
 lisa_clusters(qsa)
 ```
 
+#### 4.1.8 Local Moran with EB Rates
+
+Local Moran with EB rates is an extensions of the local Moran’s I pertains to the special case where the variable of interest is a rate or proportion. The statistic is computed for the standardized Emperical Bayes rates (see: http://geodacenter.github.io/workbook/3b_rates/lab3b.html#empirical-bayes-eb-smoothed-rate-map).
+
+The function `local_moran_eb()` takes two variables: one for "event" variable (e.g. HR60) and another one for "base" variable (e.g. PO60).  However, there is little gain from using the EB rates when the base population is more or less equal by design (e.g. for census tracts in the U.S.):
+
+```{r eval=FALSE, include=FALSE}
+nat <- geoda_open("natregimes.shp")
+nat_w <- queen_weights(nat)
+nat_df <- as.data.frame(nat)
+hr60 <- guerry_df['HR60'][,1]
+po60 <- guerry_df['PO60'][,1]
+lisa <- local_moran_eb(queen_w, hr60, po60)
+lms <- lisa_values(lisa)
+lms
+```
+
+One can get the EB rates by calling `eb_rates`:
+```{r eval=FALSE, include=FALSE}
+ebr <- eb_rates(hr60, po60)
+```
+
+The result is a data.frame with two columns "EB Rate" and "IsNull" which indicates if there is any rate can not be computed.
+
 
 ## 5 Spatial Clustering
 
