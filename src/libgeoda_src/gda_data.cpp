@@ -2,6 +2,7 @@
 // Created by Xun Li on 2019-11-27.
 //
 #include <boost/algorithm/string.hpp>
+#include <cmath>
 
 #include "GenUtils.h"
 #include "gda_data.h"

@@ -33,17 +33,15 @@ A wrapper class for p_GeoDaWeight class
 \section{Methods}{
 
 \describe{
-\item{\code{GetNeighbors(idx)}}{Get neighbors for idx-th observation, idx starts from 0}
-
 \item{\code{GetNeighborWeights(idx)}}{Get weights values of neighbors for idx-th observation, idx starts from 0}
+
+\item{\code{GetNeighbors(idx)}}{Get neighbors for idx-th observation, idx starts from 0}
 
 \item{\code{GetPointer()}}{Get the C++ object pointer (internally used)}
 
 \item{\code{GetSparsity()}}{Get sparsity computed from weights matrix}
 
 \item{\code{HasIsolates()}}{Check if weights matrix has isolates, or if any observation has no neighbors}
-
-\item{\code{initialize(o_gda_w)}}{Constructor with a GeoDaWeight object (internally used)}
 
 \item{\code{IsSymmetric()}}{Check if weights matrix is symmetric}
 
@@ -54,5 +52,7 @@ id_name : The id name (or field name), which is an associated column contains un
 id_values : The tuple of values of selected id_name (column/field)}
 
 \item{\code{SpatialLag(idx, values)}}{Compute spatial lag values of idx-th observation, idx starts from 0}
+
+\item{\code{initialize(o_gda_w)}}{Constructor with a GeoDaWeight object (internally used)}
 }}
 
