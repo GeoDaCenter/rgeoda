@@ -39,7 +39,6 @@ public:
 protected:
     std::vector<double> data;
     std::vector<double> data_square;
-    std::vector<bool> undefs;
 };
 
 

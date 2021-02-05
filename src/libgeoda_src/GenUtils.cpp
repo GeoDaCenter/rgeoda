@@ -214,7 +214,7 @@ double Gda::combinatorial(unsigned int n, unsigned int k) {
   uint64_t r = 1;
   uint64_t s = 1;
 
-  size_t i;
+  int i = 0;
   int kk = k > n/2 ? k : n-k;
 
   for(i=n; i > kk; i--) r *= i;

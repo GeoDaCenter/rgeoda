@@ -25,7 +25,7 @@ UniGstar::UniGstar(int num_obs,
           CLUSTER_LOWLOW(2),
           CLUSTER_UNDEFINED(3),
           CLUSTER_NEIGHBORLESS(4),
-          data(_data), undefs(_undefs),
+          data(_data),
           sum_x(0)
 
 {

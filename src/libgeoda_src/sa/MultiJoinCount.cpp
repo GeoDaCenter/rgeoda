@@ -91,13 +91,16 @@ void MultiJoinCount::ComputeLoalSA() {
                 if (weights->GetNbrSize(i) == 0) {
                     cluster_vec[i] = CLUSTER_NEIGHBORLESS;
                 } else {
-                    if (data[0][i] > 0) { // x_i = 1
+                    if (data[0][i] > 0) { // x_i = 1 (major event)
                         int nbr_size = weights->GetNbrSize(i);
                         const std::vector<long>& nbrs = weights->GetNeighbors(i);
                         for (int j=0; j<nbr_size; ++j) {
                             if (nbrs[j] != i &&  !undefs[nbrs[j]])
                                 lisa_vec[i] += zz[ nbrs[j] ];
                         }
+                    } else {
+                        // there is no need to do permutation test if there is no major event
+                        skip_perm[i] = true;
                     }
                 }
             }
@@ -120,6 +123,9 @@ void MultiJoinCount::ComputeLoalSA() {
                             lisa_vec[i] += zz[nbrs[j]];
                         }
                     }
+                } else {
+                    // there is no need to do permutation test if there is no colocation event
+                    skip_perm[i] = true;
                 }
             }
         }

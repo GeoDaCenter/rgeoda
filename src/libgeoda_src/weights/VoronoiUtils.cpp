@@ -2,7 +2,7 @@
  * GeoDa TM, Copyright (C) 2011-2015 by Luc Anselin - all rights reserved
  *
  * This file is part of GeoDa.
- * 
+ *
  * GeoDa is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -53,28 +53,28 @@ struct Segment {
 
 namespace boost {
 	namespace polygon {
-		
+
 		template <>
 		struct geometry_concept<Point> { typedef point_concept type; };
-		
+
 		template <>
 		struct point_traits<Point> {
 			typedef int coordinate_type;
-			
+
 			static inline coordinate_type get(const Point& point,
 											  orientation_2d orient) {
 				return (orient == HORIZONTAL) ? point.a : point.b;
 			}
 		};
-		
+
 		template <>
 		struct geometry_concept<Segment> { typedef segment_concept type; };
-		
+
 		template <>
 		struct segment_traits<Segment> {
 			typedef int coordinate_type;
 			typedef Point point_type;
-			
+
 			static inline point_type get(const Segment& segment,
 										 direction_1d dir) {
 				return dir.to_int() ? segment.p1 : segment.p0;
@@ -93,7 +93,7 @@ namespace Gda {
 	namespace VoronoiUtils {
 		typedef voronoi_builder<int> VB;
 		typedef voronoi_diagram<double> VD;
-		
+
 		std::list<int>* getCellList(
 							const VD::cell_type& cell,
 							std::map<std::pair<int,int>,
@@ -295,7 +295,7 @@ bool Gda::VoronoiUtils::PointsToContiguity(const std::vector<double>& x,
 	//LOG_MSG("Entering Gda::VoronoiUtils::PointsToContiguity");
 	typedef std::pair<int,int> int_pair;
 	typedef std::list<int> id_list;
-	
+
 	int num_obs = x.size();
 	double x_orig_min=0, x_orig_max=0;
 	double y_orig_min=0, y_orig_max=0;
@@ -306,7 +306,7 @@ bool Gda::VoronoiUtils::PointsToContiguity(const std::vector<double>& x,
 	if (orig_scale == 0) orig_scale = 1;
 	double big_dbl = 1073741824; // 2^30
 	double p = (big_dbl/orig_scale);
-	
+
 	// Add 2% offset to the bounding rectangle
 	const double bb_pad = 0.02;
 	// note data has been translated to origin and scaled
@@ -314,21 +314,21 @@ bool Gda::VoronoiUtils::PointsToContiguity(const std::vector<double>& x,
 	double bb_xmax = (x_orig_max-x_orig_min)*p + bb_pad*big_dbl;
 	double bb_ymin = -bb_pad*big_dbl;
 	double bb_ymax = (y_orig_max-y_orig_min)*p + bb_pad*big_dbl;
-		
+
 	std::map<int_pair, id_list* > pt_to_id_list;
 	// for each unique point, the list of cells at that point
 	std::map<int_pair, id_list* >::iterator pt_to_id_list_iter;
-	
+
 	std::map<int_pair, std::set<id_list* > > pt_to_nbr_sets;
 	// for each unique point, the set of lists of points that are neighbors
 	std::map<int_pair, std::set<id_list* > >::iterator pt_to_nbr_sets_iter;
-	
+
 	std::vector<int_pair> int_pts(num_obs);
 	for (int i=0; i<num_obs; i++) {
 		int_pts[i].first = (int) ((x[i]-x_orig_min)*p);
 		int_pts[i].second = (int) ((y[i]-y_orig_min)*p);
-	}		
-	
+	}
+
 	for (int i=0; i<num_obs; i++) {
 		pt_to_id_list_iter = pt_to_id_list.find(int_pts[i]);
 		if (pt_to_id_list_iter == pt_to_id_list.end()) {
@@ -336,10 +336,10 @@ bool Gda::VoronoiUtils::PointsToContiguity(const std::vector<double>& x,
 		}
 		pt_to_id_list[int_pts[i]]->push_back(i);
 	}
-		
+
 	nbr_map.clear();
 	nbr_map.resize(num_obs);
-	
+
 	VD vd;
 	VB vb;
 	for (int i=0; i<num_obs; i++) {
@@ -347,15 +347,15 @@ bool Gda::VoronoiUtils::PointsToContiguity(const std::vector<double>& x,
 		vb.insert_point(int_pts[i].first, int_pts[i].second);
 	}
 	vb.construct(&vd);
-		
+
 	for (VD::const_cell_iterator it = vd.cells().begin();
 		 it != vd.cells().end(); ++it) {
 		const VD::cell_type &cell = *it;
-		
+
 		int_pair key = int_pts[cell.source_index()];
-		
+
 		std::set<id_list* >& nbr_set = pt_to_nbr_sets[key];
-		
+
 		const VD::edge_type* edge = cell.incident_edge();
 		typedef std::list<const VD::vertex_type*> v_list;
 		v_list verts;
@@ -365,14 +365,14 @@ bool Gda::VoronoiUtils::PointsToContiguity(const std::vector<double>& x,
 			if (!nbr_list) {
 				return false;
 			}
-			
-			double x0, y0, x1, y1;
+
+			double x0=0, y0=0, x1=0, y1=0;
 			if (clipEdge(*edge, int_pts,
 						 bb_xmin, bb_ymin, bb_xmax, bb_ymax,
 						 x0, y0, x1, y1)) {
 				nbr_set.insert(nbr_list);
 			}
-			
+
 			if (queen) { // add all cells that share each edge vertex
 				if (edge->vertex0() &&
 					!isVertexOutsideBB(*edge->vertex0(), bb_xmin, bb_ymin,
@@ -387,7 +387,7 @@ bool Gda::VoronoiUtils::PointsToContiguity(const std::vector<double>& x,
 			}
 			edge = edge->next();
 		} while (edge != cell.incident_edge());
-		
+
 		// add all neighboring cells.  List will be empty if !queen
 		for (v_list::iterator it = verts.begin(); it != verts.end(); it++) {
 			const VD::edge_type *edge =
@@ -399,17 +399,17 @@ bool Gda::VoronoiUtils::PointsToContiguity(const std::vector<double>& x,
 					return false;
 				}
 				nbr_set.insert(nbr_list);
-				
+
 				edge = edge->rot_next();
 			} while (edge != (*it)->incident_edge());
 		}
 	}
-	
+
 	for (int i=0; i<num_obs; i++) {
 		std::set<id_list* >& nbr_set = pt_to_nbr_sets[int_pts[i]];
 		//LOG_MSG(wxString::Format("obs %d has %d neighbors",
 		//        i, nbr_set.size()));
-		
+
 		for (std::set<id_list* >::iterator set_iter = nbr_set.begin();
 			 set_iter != nbr_set.end(); set_iter++) {
 			for (id_list::iterator list_iter = (*set_iter)->begin();
@@ -424,13 +424,13 @@ bool Gda::VoronoiUtils::PointsToContiguity(const std::vector<double>& x,
 			if (*it != i) nbr_map[i].insert(*it);
 		}
 	}
-	
+
 	for (pt_to_id_list_iter = pt_to_id_list.begin();
 		 pt_to_id_list_iter != pt_to_id_list.end();
 		 pt_to_id_list_iter++) {
 		delete pt_to_id_list_iter->second;
 	}
-	
+
 	return true;
 }
 

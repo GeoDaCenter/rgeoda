@@ -17,8 +17,10 @@ public:
 		memset(flags, '\x0', size);
 	}
 	virtual ~GeoDaSet() {
-		if (buffer) delete [] buffer; buffer = 0;
-		if (flags) delete [] flags; flags = 0;
+		if (buffer) delete [] buffer;
+		buffer = 0;
+		if (flags) delete [] flags;
+		flags = 0;
 		size = current = 0;
 	}
     bool Belongs( const int elt) const {

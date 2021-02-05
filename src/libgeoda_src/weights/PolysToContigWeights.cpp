@@ -38,8 +38,10 @@ BasePartition::BasePartition(const int els, const int cls, const double range)
  */
 BasePartition::~BasePartition()
 {
-	if (cell) delete [] cell; cell = 0;
-	if (next) delete [] next; next = 0;
+	if (cell) delete [] cell;
+	cell = 0;
+	if (next) delete [] next;
+	next = 0;
 	elements = 0;
 	cells = 0;
 }
@@ -113,7 +115,10 @@ void PartitionP::remove(const int del)  {
  PolygonPartition:: destructor
  */
 PolygonPartition::~PolygonPartition()   {
-	if (nbrPoints)  {  delete [] nbrPoints;  nbrPoints= NULL;  };
+	if (nbrPoints)  {
+	  delete [] nbrPoints;
+	  nbrPoints= NULL;
+	}
 	return;
 }
 
@@ -125,21 +130,21 @@ bool PolygonPartition::edge(PolygonPartition &p, const int host,
 							const int guest, double precision_threshold)
 {
 	using namespace gda;
-	
+
 	Point* guestPrev = p.GetPoint(p.prev(guest));
 	Point* hostPoint = this->GetPoint(succ(host));
-	
+
 	if (hostPoint->equals(guestPrev, precision_threshold)) return true;
-	
+
 	Point* guestSucc= p.GetPoint(p.succ(guest));
 	if (hostPoint->equals( guestSucc, precision_threshold) ) return true;
-	
+
 	hostPoint= this->GetPoint( prev(host) );
-	
+
 	if (hostPoint->equals( guestSucc, precision_threshold )) return true;
-	
+
 	if (hostPoint->equals( guestPrev, precision_threshold )) return true;
-	
+
 	return false;
 }
 
@@ -157,13 +162,13 @@ int PolygonPartition::MakePartition(int mX, int mY)  {
 		pY.initIx(cnt, GetPoint(cnt)->y - yStart);
 	};
 	MakeNeighbors();
-	return 0;	
+	return 0;
 }
 
 /*
  PolygonPartition
  */
-void PolygonPartition::MakeNeighbors()  
+void PolygonPartition::MakeNeighbors()
 {
 	nbrPoints= new int [ NumPoints ];
 	if (nbrPoints == NULL) return;
@@ -176,7 +181,7 @@ void PolygonPartition::MakeNeighbors()
 		nbrPoints [ first ] = -(last-2);
 		nbrPoints [ last-1 ] = first+1;
 		first= last;
-	}	
+	}
 }
 
 /*
@@ -223,7 +228,7 @@ int PolygonPartition::sweep(PolygonPartition & guest, bool is_queen,
                     {
 						if (is_queen || edge(guest, host, dot, precision_threshold)) {
 							pY.cleanup(pX, cell);
-							return 1;  
+							return 1;
 						}
 					}
 				}
@@ -232,7 +237,7 @@ int PolygonPartition::sweep(PolygonPartition & guest, bool is_queen,
 		pY.cleanup(pX, cell);
 	}
 	return 0;
-	
+
 }
 
 
@@ -290,21 +295,21 @@ int PartitionM::Sum() const {
 void PartitionM::initIx(const int incl, const double lwr, const double upr)  {
     int lower= (int)floor(lwr/step);
     int upper= (int)floor(upr/step);
-    
-    
+
+
     if (lower < 0) {
         lower= 0;
     } else if (lower >= cells) {
         lower= cells-1;
     }
-    
+
     if (upper >= cells) {
         upper= cells-1;
     }
     else if (upper < 0) {
         upper= 0;
     }
-    
+
     if (lower < 0 || upper > cells || incl < 0 || incl >= elements)
     {
 #ifndef __RGEODA__
@@ -313,7 +318,7 @@ void PartitionM::initIx(const int incl, const double lwr, const double upr)  {
 #endif
     }
 
-    
+
 	cellIndex [ incl ] = lower;
 	lastIndex [ incl ] = upper;
 	return;
@@ -365,7 +370,7 @@ GalElement* PolysToContigWeights(gda::MainMap& main, bool is_queen,
                                  double precision_threshold)
 {
 	using namespace gda;
-	
+
     // # of records in the Shapefile == dimesion of the weights matrix
     long gRecords= 0;
     // locations of the polygon records in the shp file
@@ -375,7 +380,7 @@ GalElement* PolysToContigWeights(gda::MainMap& main, bool is_queen,
     BasePartition  gMinX, gMaxX;
     // partition constructed on y for each polygon
     PartitionM* gY;
-    
+
 	gRecords = main.records.size();
 	double shp_min_x = (double)main.bbox_x_min;
 	double shp_max_x = (double)main.bbox_x_max;
@@ -383,21 +388,21 @@ GalElement* PolysToContigWeights(gda::MainMap& main, bool is_queen,
 	double shp_max_y = (double)main.bbox_y_max;
 	double shp_x_len = shp_max_x - shp_min_x;
 	double shp_y_len = shp_max_y - shp_min_y;
-	
+
 	long gx, gy, cnt, total=0;
 	gx= gRecords / 8 + 2;
-	
+
 	gMinX.alloc(gRecords, gx, shp_x_len );
 	gMaxX.alloc(gRecords, gx, shp_x_len );
-	
+
 	for (cnt= 0; cnt < gRecords; ++cnt) {
         GeometryContent* rec = main.records[cnt];
 		PolygonContents* ply = dynamic_cast<PolygonContents*>(rec);
-	
+
 		gMinX.include( cnt, ply->box[0] - shp_min_x );
 		gMaxX.include( cnt, ply->box[2] - shp_min_x );
 	}
-	
+
 	gy= (int)(sqrt((long double)gRecords) + 2);
 	do {
 		gY= new PartitionM(gRecords, gy, shp_y_len );
@@ -415,15 +420,15 @@ GalElement* PolysToContigWeights(gda::MainMap& main, bool is_queen,
 			total= 0;
 		}
 	} while ( total == 0);
-	
+
 	//GalElement * gl= MakeContiguity(main, is_queen, precision_threshold);
     int curr;
     GalElement * gl= new GalElement [ gRecords ];
-    
+
     if (!gl) return NULL;
     GeoDaSet   Neighbors(gRecords), Related(gRecords);
     //  cout << "total steps= " << gMinX.Cells() << endl;
-    
+
     for (int step= 0; step < gMinX.Cells(); ++step) {
         // include all elements from xmin[step]
         for (curr= gMinX.first(step); curr != GdaConst_EMPTY;
@@ -431,7 +436,7 @@ GalElement* PolysToContigWeights(gda::MainMap& main, bool is_queen,
         {
             gY->include(curr);
         }
-        
+
         // test each element in xmax[step]
         for (curr= gMaxX.first(step); curr != GdaConst_EMPTY;
              curr= gMaxX.tail(curr))
@@ -440,7 +445,7 @@ GalElement* PolysToContigWeights(gda::MainMap& main, bool is_queen,
             PolygonContents* ply = dynamic_cast<PolygonContents*> (rec);
             PolygonPartition testPoly(ply);
             testPoly.MakePartition();
-            
+
             // form a list of neighbors
             for (int cell=gY->lowest(curr); cell <= gY->upmost(curr); ++cell) {
                 int potential = gY->first( cell );
@@ -449,43 +454,45 @@ GalElement* PolysToContigWeights(gda::MainMap& main, bool is_queen,
                     potential = gY->tail(potential, cell);
                 }
             }
-            
+
             // test each potential neighbor
             for (int nbr = Neighbors.Pop(); nbr != GdaConst_EMPTY;
                  nbr = Neighbors.Pop()) {
                 GeometryContent* nbr_rec = main.records[nbr];
                 PolygonContents* nbr_ply = dynamic_cast<PolygonContents*>(nbr_rec);
-                
+
                 if (ply->intersect(nbr_ply)) {
-                    
+
                     PolygonPartition nbrPoly(nbr_ply);
                     //shp.seekg(gOffset[nbr]+12, ios::beg);
                     //nbrPoly.ReadShape(shp);
-                    
+
                     if (curr == 0 && nbr == 0) {
-                        
+
                     }
                     // run sweep with testPoly as a host and nbrPoly as a guest
                     int related = testPoly.sweep(nbrPoly, is_queen, precision_threshold);
                     if (related) Related.Push(nbr);
                 }
             }
-            
-            
+
+
             if (size_t sz = Related.Size()) {
                 gl[curr].SetSizeNbrs(sz);
                 for (size_t i=0; i<sz; ++i) {
                     gl[curr].SetNbr(i, Related.Pop());
                 }
             }
-            
+
             gY->remove(curr);       // remove from the partition
         }
     }
     // end MakeContiguity(main, is_queen, precision_threshold);
-	
-	if (gY) delete gY; gY = 0;
-	if (gOffset) delete [] gOffset; gOffset = 0;
+
+	if (gY) delete gY;
+	gY = 0;
+	if (gOffset) delete [] gOffset;
+	gOffset = 0;
 
 	//MakeFull(gl, gRecords);
     vector<set<long> > G(gRecords);
@@ -508,7 +515,7 @@ GalElement* PolysToContigWeights(gda::MainMap& main, bool is_queen,
         gl[i].SortNbrs();
         gl[i].ReverseNbrs();
     }
-    
+
 	return gl;
 }
 

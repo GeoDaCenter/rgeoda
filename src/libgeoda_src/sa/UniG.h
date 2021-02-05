@@ -41,7 +41,6 @@ public:
 
 protected:
     std::vector<double> data;
-    std::vector<bool> undefs;
 
     double sum_x;
     std::vector<bool> G_defined;

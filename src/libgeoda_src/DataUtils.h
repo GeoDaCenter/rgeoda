@@ -296,13 +296,13 @@ public:
 
     static double normalize(vector<double>& x) {
         double norm = sqrt(prod(x, x));
-        for (int i = 0; i < x.size(); i++) x[i] /= norm;
+        for (size_t i = 0; i < x.size(); i++) x[i] /= norm;
         return norm;
     }
 
     static void normalize(vector<vector<double> >& x)
     {
-        for (int i = 0; i < x.size(); i++) normalize(x[i]);
+        for (size_t i = 0; i < x.size(); i++) normalize(x[i]);
     }
 
     static void eigen(vector<vector<double> >& matrix, vector<vector<double> >& evecs, vector<double>& evals, int maxiter) {
@@ -435,7 +435,7 @@ public:
     static void randomize(vector<vector<double> >& matrix) {
         Xoroshiro128Random rng;
         rng.SetSeed(4101842887655102017L);
-        
+
         int k = (int)matrix.size();
         int n = (int)matrix[0].size();
         for (int i = 0; i < k; i++) {
@@ -498,11 +498,11 @@ public:
                                           , double dist(double* , double* , size_t, double*))
     {
         double** dist_matrix  = new double*[rows];
-        for (size_t i=0; i<rows; ++i) {
+        for (int i=0; i<rows; ++i) {
             dist_matrix[i] = new double[rows];
         }
-        for (size_t i=0; i<rows; ++i) {
-            for (size_t j=i; j<rows; ++j) {
+        for (int i=0; i<rows; ++i) {
+            for (int j=i; j<rows; ++j) {
                 if ( i == j ) {
                     dist_matrix[i][j] = 0;
                     continue;

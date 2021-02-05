@@ -135,7 +135,7 @@ class Orientation {
 
         // find highest point
         const gda::Point* hiPt = &pts[start];
-        int hiIndex = start;
+        size_t hiIndex = start;
 
         for(int i = start+1; i <= end; ++i) {
             const gda::Point* p = &pts[i];
@@ -220,7 +220,7 @@ public:
     {
         // The first element in the array represents the exterior ring.
         // Any subsequent elements represent interior rings
-        for (size_t p = 0; p < poly->num_parts; ++p) {
+        for (int p = 0; p < poly->num_parts; ++p) {
             int start = poly->parts[p];
             int end = p+1 < poly->num_parts ? poly->parts[p+1] : poly->num_points;
             if (poly->holes[p]) {
@@ -316,9 +316,9 @@ private:
 
     void addLineSegments(const std::vector<gda::Point>& pts, int start, int end)
     {
-        size_t npts = end - start + 1;
+        int npts = end - start + 1;
         double lineLen = 0.0;
-        for(size_t i = start; i < end; i++) {
+        for(int i = start; i < end; i++) {
             double segmentLen = pts[i].distance(pts[i + 1]);
             if(segmentLen == 0.0) {
                 continue;
@@ -340,12 +340,12 @@ private:
     void addShell(gda::PolygonContents* poly, int start, int end)
     {
         // ext ring
-        size_t len = end - start + 1;
+        int len = end - start + 1;
         if(len > 0) {
             setAreaBasePoint(poly->points[start]);
         }
         bool isPositiveArea = ! Orientation::isCCW(poly->points, start, end);
-        for(size_t i = start; i < end; ++i) {
+        for(int i = start; i < end; ++i) {
             addTriangle(areaBasePt, poly->points[i], poly->points[i + 1], isPositiveArea);
         }
         addLineSegments(poly->points, start, end);

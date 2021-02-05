@@ -302,7 +302,7 @@ LISA *gda_multiquantilelisa(GeoDaWeight *w, const std::vector<int>& k_s, const s
         {
             break_right = breaks[q];
         }
-        else if (q== breaks.size())
+        else if (q == (int)breaks.size())
         {
             break_left = breaks[q - 1];
         }
@@ -380,11 +380,11 @@ std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, 
     ANNkd_tree* kdTree = new ANNkd_tree(input_data, rows, columns);
     ANNidxArray nnIdx = new ANNidx[knn+1];
     ANNdistArray dists = new ANNdist[knn+1];
-    for (size_t i=0; i<rows; ++i) {
+    for (int i=0; i<rows; ++i) {
         kdTree->annkSearch(input_data[i], (int)knn+1, nnIdx, dists, eps);
         //core_d[i] = sqrt(dists[min_samples-1]);
         gal[i].SetSizeNbrs(knn);
-        for (size_t j=0; j<knn; j++) {
+        for (int j=0; j<knn; j++) {
             gal[i].SetNbr(j, nnIdx[j+1], 1.0);
         }
     }
@@ -411,7 +411,7 @@ std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, 
     // compute cnbrs (number of common neighbors), p value
     GalElement* new_gal = intersect_w->gal;
     std::vector<double> val_cnbrs(rows);
-    for (size_t i=0; i<rows; ++i) {
+    for (int i=0; i<rows; ++i) {
         val_cnbrs[i] = (double)new_gal[i].Size();
     }
 
@@ -422,13 +422,13 @@ std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, 
 
     int k = (int)knn;
     std::vector<double> pval_dict(knn,  -1);
-    for (int v=1; v<knn; ++v) {
+    for (int v=1; v<k; ++v) {
         // p = C(k,v).C(N-k,k-v) / C(N,k),
         pval_dict[v] = Gda::combinatorial(k, v) * Gda::combinatorial(rows-k-1, k-v);
         pval_dict[v] /= Gda::combinatorial(rows-1, k);
     }
     std::vector<double> val_p(rows);
-    for (size_t i=0; i<rows; ++i) {
+    for (int i=0; i<rows; ++i) {
         val_p[i] = pval_dict[val_cnbrs[i]];
     }
 

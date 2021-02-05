@@ -2,7 +2,7 @@
 % Please edit documentation in R/lisa.R
 \name{local_bijoincount}
 \alias{local_bijoincount}
-\title{Local Bivariate Join Count Statistics}
+\title{Bivariate Local Join Count Statistics}
 \usage{
 local_bijoincount(
   w,

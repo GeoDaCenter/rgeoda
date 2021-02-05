@@ -474,7 +474,7 @@ GalWeight* WeightUtils::WeightsIntersection(std::vector<GeoDaWeight*> ws)
         for (int j=0; j<n_w; ++j) {
             GeoDaWeight* w = ws[j];
             const std::vector<long>& nbr_ids = w->GetNeighbors(i);
-            for (int k=0; k<nbr_ids.size(); ++k) {
+            for (size_t k=0; k<nbr_ids.size(); ++k) {
                 if (nbr_dict.find(nbr_ids[k])==nbr_dict.end()) {
                     nbr_dict[ nbr_ids[k] ] = 1;
                 } else {

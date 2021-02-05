@@ -106,7 +106,7 @@
 <a href="#load-rgeoda-library-in-r" class="anchor"></a>Load <code>rgeoda</code> library in R</h3>
 <p>If everything installed without error, you should be able to load <code>rgeoda</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geodacenter/rgeoda">rgeoda</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geodacenter/rgeoda/">rgeoda</a></span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="load-spatial-data" class="section level2">
@@ -614,19 +614,19 @@ seed for random number generator: 123456789</code></pre>
 <p>To get the pseudo-p values of the local Join Count computation:</p>
 <div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">localjc_crm</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] 0.395 0.085 0.094 0.001 0.001 0.001 0.231 0.001 0.001 0.001 0.001 0.001
-## [13] 0.001 0.001 0.001 0.001 0.001 0.001 0.181 0.269 0.376 0.001 0.001 0.001
-## [25] 0.001 0.001 0.102 0.001 0.001 0.001 0.001 0.001 0.001 0.103 0.001 0.001
-## [37] 0.182 0.001 0.001 0.281 0.001 0.001 0.001 0.001 0.001 0.001 0.222 0.396
-## [49] 0.001 0.365 0.041 0.202 0.184 0.369 0.001 0.289 0.029 0.370 0.298 0.106
-## [61] 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.003 0.293 0.001 0.001
-## [73] 0.001 0.001 0.001 0.058 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001
-## [85] 0.001</code></pre>
+<pre><code>##  [1] 0.395 0.085 0.094 0.000 0.000 0.000 0.255 0.000 0.000 0.000 0.000 0.000
+## [13] 0.000 0.000 0.001 0.000 0.000 0.000 0.170 0.242 0.394 0.000 0.000 0.000
+## [25] 0.000 0.000 0.111 0.000 0.000 0.000 0.001 0.000 0.000 0.090 0.000 0.000
+## [37] 0.202 0.000 0.000 0.283 0.000 0.000 0.000 0.000 0.000 0.000 0.218 0.378
+## [49] 0.000 0.367 0.037 0.233 0.174 0.392 0.000 0.282 0.028 0.370 0.298 0.106
+## [61] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.009 0.325 0.000 0.000
+## [73] 0.000 0.000 0.000 0.041 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+## [85] 0.000</code></pre>
 <p>To get the cluster indicators of the local Join Count computation:</p>
 <div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">localjc_crm</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-## [39] 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0
+## [39] 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1
 ## [77] 0 0 0 0 0 0 0 0 0</code></pre>
 <p>To get the number of neighbors of the local Join Count computation:</p>
 <div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
@@ -687,17 +687,17 @@ seed for random number generator: 123456789</code></pre>
 <p>To get the p-values and cluster indicators of the quantile LISA computation:</p>
 <div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">qsa</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] 0.001 0.001 0.001 0.044 0.001 0.050 0.001 0.422 0.001 0.001 0.010 0.013
-## [13] 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.095
-## [25] 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.045 0.001 0.001 0.001 0.001
-## [37] 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.173 0.001 0.083 0.001 0.001
-## [49] 0.001 0.001 0.001 0.001 0.001 0.001 0.426 0.001 0.001 0.001 0.001 0.001
-## [61] 0.001 0.001 0.001 0.433 0.249 0.428 0.001 0.001 0.001 0.001 0.458 0.001
-## [73] 0.001 0.181 0.001 0.001 0.352 0.001 0.010 0.001 0.001 0.001 0.001 0.001
-## [85] 0.001</code></pre>
+<pre><code>##  [1] 0.000 0.000 0.000 0.038 0.000 0.057 0.000 0.436 0.000 0.000 0.010 0.010
+## [13] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.001 0.086
+## [25] 0.000 0.000 0.000 0.001 0.000 0.000 0.000 0.045 0.000 0.000 0.000 0.000
+## [37] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.173 0.000 0.093 0.000 0.000
+## [49] 0.000 0.000 0.000 0.000 0.000 0.000 0.417 0.000 0.000 0.000 0.000 0.000
+## [61] 0.000 0.000 0.001 0.419 0.260 0.417 0.000 0.000 0.000 0.000 0.407 0.000
+## [73] 0.000 0.183 0.000 0.000 0.353 0.000 0.012 0.001 0.000 0.000 0.000 0.000
+## [85] 0.000</code></pre>
 <div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">qsa</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] 0 0 0 1 0 1 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0
+<pre><code>##  [1] 0 0 0 1 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0
 ## [39] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 ## [77] 0 0 1 1 0 0 0 0 0</code></pre>
 <p>Multivariate Quantile LISA</p>

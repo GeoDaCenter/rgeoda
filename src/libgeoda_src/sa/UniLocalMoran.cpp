@@ -25,7 +25,7 @@ UniLocalMoran::UniLocalMoran(int num_obs,
   CLUSTER_HIGHLOW(4),
   CLUSTER_UNDEFINED(5),
   CLUSTER_NEIGHBORLESS(6),
-  data(_data), undefs(_undefs)
+  data(_data)
 {
     labels.push_back("Not significant");
     labels.push_back("High-High");

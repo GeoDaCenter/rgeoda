@@ -37,7 +37,6 @@ protected:
     int num_vars;
     std::vector<std::vector<double> > data;
     std::vector<std::vector<double> > data_square;
-    std::vector<bool> undefs;
 };
 
 #endif //GEODA_MULTIGEARY_H

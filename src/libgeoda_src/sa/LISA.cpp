@@ -64,6 +64,7 @@ undefs(_undefs)
     }
 #endif
     //SetSignificanceFilter(1);
+    skip_perm.resize(num_obs, false);
 }
 
 LISA::LISA(int num_obs, GeoDaWeight* w, const std::vector<std::vector<bool> >& _undefs,
@@ -89,8 +90,8 @@ weights(w)
             }
         }
     }
-
     //SetSignificanceFilter(1);
+    skip_perm.resize(num_obs, false);
 }
 
 LISA::~LISA()
@@ -320,7 +321,7 @@ void LISA::CalcPseudoP_range(int obs_start, int obs_end, uint64_t seed_start)
 #endif
 
     for (int cnt=obs_start; cnt<=obs_end; cnt++) {
-        if (undefs[cnt]) {
+        if (undefs[cnt] || skip_perm[cnt]) {
             sig_cat_vec[cnt] = 6; // undefined
             continue;
         }

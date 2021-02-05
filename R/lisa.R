@@ -494,7 +494,7 @@ local_joincount <- function(w, data, permutations=999, significance_cutoff=0.05,
 }
 
 #################################################################
-#' @title  Local Bivariate Join Count Statistics
+#' @title  Bivariate Local Join Count Statistics
 #' @description The function to apply local Bivariate Join Count statistics
 #' @param w An instance of Weight object
 #' @param data1 A numeric array of selected variable
@@ -534,8 +534,8 @@ local_bijoincount <- function(w, data1, data2, permutations=999, significance_cu
 }
 
 #################################################################
-#' @title  Local Multivariate Join Count Statistics
-#' @description The function to apply local Multivariate Join Count statistics
+#' @title (Multivariate) Colocation Local Join Count Statistics
+#' @description The function to apply (multivariate) colocation local Join Count statistics
 #' @param w An instance of Weight object
 #' @param data A list of numeric values of selected variables
 #' @param permutations The number of permutations for the LISA computation
@@ -559,6 +559,11 @@ local_multijoincount <- function(w, data, permutations=999, significance_cutoff=
   }
   if (length(data) <  1) {
     stop("The number of variables has to be larger than 1.")
+  }
+  if (length(data) == 2) {
+    if (sum(data1 + data2) == w$num_obs) {
+      stop("The input two variables have no colocations. Please use bivariate local join count: local_bijoincount().")
+    }
   }
 
   lisa_obj <- p_localmultijoincount(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)

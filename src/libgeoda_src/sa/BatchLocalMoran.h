@@ -43,7 +43,6 @@ public:
 
 protected:
     std::vector<std::vector<double> > data;
-    std::vector<std::vector<bool> > undefs;
 };
 
 #endif //GEODA_BATCHLOCALMORAN_H

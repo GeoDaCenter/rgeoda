@@ -18,7 +18,7 @@ UniJoinCount::UniJoinCount(int num_obs, GeoDaWeight *w,
   CLUSTER_SIG(1),
   CLUSTER_UNDEFINED(2),
   CLUSTER_NEIGHBORLESS(3),
-  data(_data), undefs(_undefs)
+  data(_data)
 {
     labels.push_back("Not significant");
     labels.push_back("Significant");
@@ -46,7 +46,7 @@ void UniJoinCount::ComputeLoalSA() {
         } else {
             if (weights->GetNbrSize(i) == 0) {
                 cluster_vec[i] = CLUSTER_NEIGHBORLESS;
-            } else {
+            } else if (lisa_vec[i] == 0){
                 if (data[i] > 0) { // x_i = 1
                     int nbr_size = weights->GetNbrSize(i);
                     const std::vector<long>& nbrs = weights->GetNeighbors(i);
@@ -55,6 +55,9 @@ void UniJoinCount::ComputeLoalSA() {
                             lisa_vec[i] += data[nbrs[j]];
                         }
                     }
+                } else {
+                    // there is no need to run permutation test data=0 (no event) case
+                    skip_perm[i] = true;
                 }
             }
         }

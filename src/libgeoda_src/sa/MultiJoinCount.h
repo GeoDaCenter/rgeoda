@@ -36,7 +36,6 @@ protected:
     int num_vars;
     std::vector<int> zz;
     std::vector<std::vector<double> > data;
-    std::vector<bool> undefs;
 };
 
 #endif //GEODA_MULTIJOINCOUNT_H

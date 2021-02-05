@@ -124,6 +124,7 @@ protected:
     GeoDaWeight* weights;
 
     std::vector<bool> undefs;
+    std::vector<bool> skip_perm; // indicate if skipping a permutation test, used by Local Join Count
     std::vector<double> sig_local_vec;
     std::vector<int> sig_cat_vec;
     std::vector<int> cluster_vec;

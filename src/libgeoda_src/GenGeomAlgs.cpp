@@ -2,7 +2,7 @@
  * GeoDa TM, Copyright (C) 2011-2015 by Luc Anselin - all rights reserved
  *
  * This file is part of GeoDa.
- * 
+ *
  * GeoDa is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -163,11 +163,11 @@ double GenGeomAlgs::ShortestDeg(double d)
 	if (d < 0) d = -d;
 	if (d <= 180.0) return d;
 	d = fmod(d, 360.0);
-	if (d <= 180.0) return d; 
+	if (d <= 180.0) return d;
 	return 360.0 - d;
 }
 
-double GenGeomAlgs::ComputeEucDist(double x1, double y1, double x2, double y2) 
+double GenGeomAlgs::ComputeEucDist(double x1, double y1, double x2, double y2)
 {
 	return sqrt((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1));
 }
@@ -261,7 +261,7 @@ double GenGeomAlgs::findArea(int n, double *x, double *y) // 2D polygon
 	y[n] = y[0];
 	x[n+1] = x[1];
 	y[n+1] = y[1];
-	
+
 	double sum = 0.0;
 	double *xptr = x+1, *ylow = y, *yhigh = y+2;
 	for (int i=1; i <= n; i++) {
@@ -279,13 +279,13 @@ double GenGeomAlgs::ComputeArea2D(int n, double *x, double *y)
 	double nwx = GenGeomAlgs::findArea(n, y, z);
 	double nwy = GenGeomAlgs::findArea(n, z, x);
 	double nwz = GenGeomAlgs::findArea(n, x, y);
-	
+
 	// get length of the Newell normal
 	double nlen = sqrt( nwx*nwx + nwy*nwy + nwz*nwz );
 	return nlen;    // area of polygon = length of Newell normal
 }
 
-double GenGeomAlgs::ComputePerimeter2D(int n, double *x, double *y) 
+double GenGeomAlgs::ComputePerimeter2D(int n, double *x, double *y)
 {
 	double Peri = GenGeomAlgs::ComputeEucDist(x[0],y[0],x[n-1],y[n-1]);
 	for (int i=0; i < n-1; i++) {
@@ -306,7 +306,7 @@ namespace GenGeomAlgs {
 										 const double& xmax, const double& ymax)
 	{
         int code = INSIDE;       // initialised as being inside of clip window
-		
+
         if (x < xmin)           // to the left of clip window
 			code |= LEFT;
         else if (x > xmax)      // to the right of clip window
@@ -315,13 +315,13 @@ namespace GenGeomAlgs {
 			code |= BOTTOM;
         else if (y > ymax)      // above the clip window
 			code |= TOP;
-		
+
         return code;
 	}
 }
 
 // Cohen-Sutherland clipping algorithm clips a line from
-// P0 = (x0, y0) to P1 = (x1, y1) against a rectangle with 
+// P0 = (x0, y0) to P1 = (x1, y1) against a rectangle with
 // diagonal from (xmin, ymin) to (xmax, ymax).
 // Based on http://en.wikipedia.org/wiki/Cohen-Sutherland_algorithm
 // return false if line segment outside of bounding box
@@ -334,7 +334,7 @@ bool GenGeomAlgs::ClipToBB(double& x0, double& y0, double& x1, double& y1,
 	int outcode0 = ComputeOutCode(x0, y0, xmin, ymin, xmax, ymax);
 	int outcode1 = ComputeOutCode(x1, y1, xmin, ymin, xmax, ymax);
 	bool accept = false;
-	
+
 	while (true) {
 		if (!(outcode0 | outcode1)) {
 			// Bitwise OR is 0. Trivially accept and get out of loop
@@ -346,11 +346,11 @@ bool GenGeomAlgs::ClipToBB(double& x0, double& y0, double& x1, double& y1,
 		} else {
 			// failed both tests, so calculate the line segment to clip
 			// from an outside point to an intersection with clip edge
-			double x, y;
-			
+			double x=0, y=0;
+
 			// At least one endpoint is outside the clip rectangle; pick it.
 			int outcodeOut = outcode0 ? outcode0 : outcode1;
-			
+
 			// Now find the intersection point;
 			// use formulas y = y0 + slope * (x - x0),
 			//   x = x0 + (1 / slope) * (y - y0)
@@ -371,7 +371,7 @@ bool GenGeomAlgs::ClipToBB(double& x0, double& y0, double& x1, double& y1,
 				y = y0 + (y1 - y0) * (xmin - x0) / (x1 - x0);
 				x = xmin;
 			}
-			
+
 			// Now we move outside point to intersection point to clip
 			// and get ready for next pass.
 			if (outcodeOut == outcode0) {
@@ -418,17 +418,17 @@ bool GenGeomAlgs::ExtendRayToBB(double x0, double y0, double x1, double y1,
 		y2 = y0;
 		return true;
 	}
-	
+
 	// At this point we are not dealing with a special case.  In particular,
 	// we shouldn't have to worry about dividing by zero when calculating
 	// line slopes.
-	
+
 	// Let y = s*x + t be equation for line through original points.
 	// Or, solving for x we get: x = (y-t)/s
 	// Calculate slope a and y-intercept b as follows:
 	double s = (y1-y0)/(x1-x0);
 	double t = y0 - s*x0;
-	
+
 	double b0x, b0y, b1x, b1y;
 	if (x0 < x1) {
 		// ray travels to the right and intersects xmax
@@ -442,7 +442,7 @@ bool GenGeomAlgs::ExtendRayToBB(double x0, double y0, double x1, double y1,
 			b1y = ymin;
 		}
 		b1x = (b1y-t)/s;
-		
+
 		if (b0x < b1x) {
 			x2 = b0x;
 			y2 = b0y;
@@ -462,7 +462,7 @@ bool GenGeomAlgs::ExtendRayToBB(double x0, double y0, double x1, double y1,
 			b1y = ymin;
 		}
 		b1x = (b1y-t)/s;
-		
+
 		if (b0x > b1x) {
 			x2 = b0x;
 			y2 = b0y;
