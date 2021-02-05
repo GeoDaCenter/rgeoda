@@ -561,7 +561,7 @@ local_multijoincount <- function(w, data, permutations=999, significance_cutoff=
     stop("The number of variables has to be larger than 1.")
   }
   if (length(data) == 2) {
-    if (sum(data1 + data2) == w$num_obs) {
+    if (sum(data[[1]] + data[[2]]) == w$num_obs) {
       stop("The input two variables have no colocations. Please use bivariate local join count: local_bijoincount().")
     }
   }
