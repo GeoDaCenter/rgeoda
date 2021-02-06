@@ -3,10 +3,13 @@
 //
 #include <vector>
 #include <iostream>
+#include <math.h>
 
 #include "UniJoinCount.h"
 #include "../weights/GeodaWeight.h"
+#include "../weights/GwtWeight.h"
 #include "../GenUtils.h"
+#include "../GeoDaSet.h"
 
 UniJoinCount::UniJoinCount(int num_obs, GeoDaWeight *w,
         const std::vector<double> &_data,
@@ -30,6 +33,7 @@ UniJoinCount::UniJoinCount(int num_obs, GeoDaWeight *w,
     colors.push_back("#464646");
     colors.push_back("#999999");
 
+    skip_perm.resize(num_obs, false);
     Run();
 }
 
@@ -64,9 +68,122 @@ void UniJoinCount::ComputeLoalSA() {
     }
 }
 
+void UniJoinCount::CalcPseudoP_range(int obs_start, int obs_end, uint64_t seed_start)
+{
+    GeoDaSet workPermutation(num_obs);
+    int max_rand = num_obs-1;
+
+#ifdef __JSGEODA__
+    std::string wuid = weights->GetUID();
+    bool using_cache = has_cached_perm[wuid];
+    std::vector<std::vector<int> >& cache = cached_perm_nbrs[wuid];
+#endif
+
+    for (int cnt=obs_start; cnt<=obs_end; cnt++) {
+        if (undefs[cnt]) {
+            sig_cat_vec[cnt] = 6; // undefined
+            continue;
+        }
+
+        if (skip_perm[cnt] || lisa_vec[cnt] == 0) {
+            sig_local_vec[cnt] = 0.0;
+            continue;
+        }
+
+        // get full neighbors even if has undefined value
+        int numNeighbors = weights->GetNbrSize(cnt);
+        if (numNeighbors <= 0) {
+            sig_cat_vec[cnt] = 5; // neighborless cat
+            // isolate: don't do permutation
+            continue;
+        }
+
+#ifdef __JSGEODA__
+        if (using_cache == false) {
+            for (size_t perm = 0; perm < permutations; perm++) {
+                int rand = 0, newRandom;
+                double rng_val;
+                while (rand < numNeighbors) {
+                    // computing 'perfect' permutation of given size
+                    rng_val = Gda::ThomasWangHashDouble(seed_start++) * max_rand;
+                    // round is needed to fix issue
+                    // https://github.com/GeoDaCenter/geoda/issues/488
+                    newRandom = (int) (rng_val < 0.0 ? ceil(rng_val - 0.5) : floor(rng_val + 0.5));
+
+                    if (newRandom != cnt && !workPermutation.Belongs(newRandom) && weights->GetNbrSize(newRandom) > 0) {
+                        workPermutation.Push(newRandom);
+                        rand++;
+                    }
+                }
+                std::vector<int> permNeighbors(numNeighbors);
+                for (int cp = 0; cp < numNeighbors; cp++) {
+                    permNeighbors[cp] = workPermutation.Pop();
+                }
+                cache.push_back(permNeighbors);
+                PermLocalSA(cnt, perm, permNeighbors, permutedSA);
+
+            }
+        } else {
+            for (size_t perm = 0; perm < permutations; perm++) {
+                PermLocalSA(cnt, perm, cache[perm], permutedSA);
+            }
+        }
+#else
+
+        int countLarger = 0;
+        for (int perm=0; perm<permutations; perm++) {
+            int rand=0, newRandom;
+            double rng_val;
+            while (rand < numNeighbors) {
+                // computing 'perfect' permutation of given size
+                rng_val = Gda::ThomasWangHashDouble(seed_start++) * max_rand;
+                // round is needed to fix issue
+                // https://github.com/GeoDaCenter/geoda/issues/488
+                newRandom = (int)(rng_val<0.0?ceil(rng_val - 0.5):floor(rng_val + 0.5));
+
+                if (newRandom != cnt && !workPermutation.Belongs(newRandom) && undefs[newRandom] == false) {
+                    workPermutation.Push(newRandom);
+                    rand++;
+                }
+            }
+
+            double perm_jc = 0;
+            // use permutation to compute the lags
+            for (int cp=0; cp<numNeighbors; cp++) {
+                int perm_idx = workPermutation.Pop();
+                perm_jc += data[perm_idx];
+            }
+
+            // binary weights
+            if (perm_jc >= lisa_vec[cnt]) {
+                countLarger++;
+            }
+        }
+#endif
+
+        // pick the smallest counts
+        if (permutations-countLarger <= countLarger) {
+            countLarger = permutations-countLarger;
+        }
+
+        double _sigLocal = (countLarger+1.0)/(permutations+1);
+
+        // 'significance' of local sa
+        if (_sigLocal <= 0.0001) sig_cat_vec[cnt] = 4;
+        else if (_sigLocal <= 0.001) sig_cat_vec[cnt] = 3;
+        else if (_sigLocal <= 0.01) sig_cat_vec[cnt] = 2;
+        else if (_sigLocal <= 0.05) sig_cat_vec[cnt] = 1;
+        else sig_cat_vec[cnt] = 0;
+
+        sig_local_vec[cnt] = _sigLocal;
+        // observations with no neighbors get marked as isolates
+        // NOTE: undefined should be marked as well, however, since undefined_cat has covered undefined category, we don't need to handle here
+    }
+}
+
 void
 UniJoinCount::PermLocalSA(int cnt, int perm, const std::vector<int> &permNeighbors, std::vector<double> &permutedSA) {
-
+    /*
     int validNeighbors = 0;
     double permutedLag = 0;
     int numNeighbors = permNeighbors.size();
@@ -80,10 +197,12 @@ UniJoinCount::PermLocalSA(int cnt, int perm, const std::vector<int> &permNeighbo
         }
     }
     permutedSA[perm] = permutedLag;
+     */
 }
 
 uint64_t UniJoinCount::CountLargerSA(int cnt, const std::vector<double> &permutedSA) {
     uint64_t countLarger = 0;
+    /*
     for (int i=0; i<permutations; ++i) {
         if (permutedSA[i] >= lisa_vec[cnt]) {
             countLarger += 1;
@@ -94,6 +213,7 @@ uint64_t UniJoinCount::CountLargerSA(int cnt, const std::vector<double> &permute
     if (permutations-countLarger <= countLarger) {
         countLarger = permutations-countLarger;
     }
+     */
     return countLarger;
 }
 

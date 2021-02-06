@@ -143,8 +143,8 @@ void MultiJoinCount::CalcPseudoP_range(int obs_start, int obs_end, uint64_t seed
             sig_cat_vec[cnt] = 6; // undefined cat
             continue;
         }
-        if (lisa_vec[cnt] == 0) {
-            sig_local_vec[cnt] = 0;
+        if (lisa_vec[cnt] == 0 || skip_perm[cnt]) {
+            sig_local_vec[cnt] = 0.0;
             continue;
         }
 
@@ -167,7 +167,7 @@ void MultiJoinCount::CalcPseudoP_range(int obs_start, int obs_end, uint64_t seed
                 // https://github.com/GeoDaCenter/geoda/issues/488
                 newRandom = (int)(rng_val<0.0?ceil(rng_val - 0.5):floor(rng_val + 0.5));
 
-                if (newRandom != cnt && !workPermutation.Belongs(newRandom) && weights->GetNbrSize(newRandom)>0) {
+                if (newRandom != cnt && !workPermutation.Belongs(newRandom) && undefs[newRandom]==false) {
                     workPermutation.Push(newRandom);
                     rand++;
                 }
