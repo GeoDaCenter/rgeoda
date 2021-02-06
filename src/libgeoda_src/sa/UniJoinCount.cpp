@@ -33,7 +33,6 @@ UniJoinCount::UniJoinCount(int num_obs, GeoDaWeight *w,
     colors.push_back("#464646");
     colors.push_back("#999999");
 
-    skip_perm.resize(num_obs, false);
     Run();
 }
 
@@ -49,8 +48,9 @@ void UniJoinCount::ComputeLoalSA() {
             cluster_vec[i] = CLUSTER_UNDEFINED;
         } else {
             if (weights->GetNbrSize(i) == 0) {
+                undefs[i] = true; // same logic as in GeoDa
                 cluster_vec[i] = CLUSTER_NEIGHBORLESS;
-            } else if (lisa_vec[i] == 0){
+            } else {
                 if (data[i] > 0) { // x_i = 1
                     int nbr_size = weights->GetNbrSize(i);
                     const std::vector<long>& nbrs = weights->GetNeighbors(i);
@@ -59,9 +59,6 @@ void UniJoinCount::ComputeLoalSA() {
                             lisa_vec[i] += data[nbrs[j]];
                         }
                     }
-                } else {
-                    // there is no need to run permutation test data=0 (no event) case
-                    skip_perm[i] = true;
                 }
             }
         }
@@ -85,7 +82,7 @@ void UniJoinCount::CalcPseudoP_range(int obs_start, int obs_end, uint64_t seed_s
             continue;
         }
 
-        if (skip_perm[cnt] || lisa_vec[cnt] == 0) {
+        if (lisa_vec[cnt] == 0) {
             sig_local_vec[cnt] = 0.0;
             continue;
         }

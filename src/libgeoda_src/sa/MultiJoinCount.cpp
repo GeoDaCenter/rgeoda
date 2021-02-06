@@ -89,6 +89,7 @@ void MultiJoinCount::ComputeLoalSA() {
                 cluster_vec[i] = CLUSTER_UNDEFINED;
             } else {
                 if (weights->GetNbrSize(i) == 0) {
+                    undefs[i] = true; // the isolates should be excluded as undefined
                     cluster_vec[i] = CLUSTER_NEIGHBORLESS;
                 } else {
                     if (data[0][i] > 0) { // x_i = 1 (major event)
@@ -98,9 +99,6 @@ void MultiJoinCount::ComputeLoalSA() {
                             if (nbrs[j] != i &&  !undefs[nbrs[j]])
                                 lisa_vec[i] += zz[ nbrs[j] ];
                         }
-                    } else {
-                        // there is no need to do permutation test if there is no major event
-                        skip_perm[i] = true;
                     }
                 }
             }
@@ -123,9 +121,6 @@ void MultiJoinCount::ComputeLoalSA() {
                             lisa_vec[i] += zz[nbrs[j]];
                         }
                     }
-                } else {
-                    // there is no need to do permutation test if there is no colocation event
-                    skip_perm[i] = true;
                 }
             }
         }
@@ -143,7 +138,7 @@ void MultiJoinCount::CalcPseudoP_range(int obs_start, int obs_end, uint64_t seed
             sig_cat_vec[cnt] = 6; // undefined cat
             continue;
         }
-        if (lisa_vec[cnt] == 0 || skip_perm[cnt]) {
+        if (lisa_vec[cnt] == 0 ) {
             sig_local_vec[cnt] = 0.0;
             continue;
         }

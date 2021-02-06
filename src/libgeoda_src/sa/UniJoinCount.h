@@ -36,7 +36,6 @@ public:
 
 protected:
     std::vector<double> data;
-    std::vector<bool> skip_perm;
 };
 
 
