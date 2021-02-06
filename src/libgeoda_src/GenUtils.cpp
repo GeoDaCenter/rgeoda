@@ -211,8 +211,8 @@ double Gda::factorial(unsigned int n)
 
 double Gda::combinatorial(unsigned int n, unsigned int k) {
 
-  uint64_t r = 1;
-  uint64_t s = 1;
+  double r = 1;
+  double s = 1;
 
   int i = 0;
   int kk = k > n/2 ? k : n-k;
@@ -221,7 +221,7 @@ double Gda::combinatorial(unsigned int n, unsigned int k) {
 
   for(i=(n-kk); i>0; i--) s *= i;
 
-  return (double)r / s;
+  return r / s;
 }
 
 std::string Gda::CreateUUID(int nSize)
