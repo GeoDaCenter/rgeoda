@@ -490,7 +490,17 @@ local_joincount <- function(w, data, permutations=999, significance_cutoff=0.05,
   }
 
   lisa_obj <- p_localjoincount(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
-  return (LISA$new(p_LISA(lisa_obj)))
+
+  jc <- LISA$new(p_LISA(lisa_obj))
+
+  # update the probability results: change these with jc=0 to NA
+  for (idx in 1:w$num_obs) {
+    if (jc$lisa_vals[idx] == 0) {
+      jc$p_vals[idx] <- NA
+    }
+  }
+
+  return(jc)
 }
 
 #################################################################
@@ -530,7 +540,16 @@ local_bijoincount <- function(w, data1, data2, permutations=999, significance_cu
   }
   data <- list(data1, data2)
   lisa_obj <- p_localmultijoincount(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
-  return (LISA$new(p_LISA(lisa_obj)))
+  jc <- LISA$new(p_LISA(lisa_obj))
+
+  # update the probability results: change these with jc=0 to NA
+  for (idx in 1:w$num_obs) {
+    if (jc$lisa_vals[idx] == 0) {
+      jc$p_vals[idx] <- NA
+    }
+  }
+
+  return(jc)
 }
 
 #################################################################
@@ -567,7 +586,16 @@ local_multijoincount <- function(w, data, permutations=999, significance_cutoff=
   }
 
   lisa_obj <- p_localmultijoincount(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
-  return (LISA$new(p_LISA(lisa_obj)))
+  jc <- LISA$new(p_LISA(lisa_obj))
+
+  # update the probability results: change these with jc=0 to NA
+  for (idx in 1:w$num_obs) {
+    if (jc$lisa_vals[idx] == 0) {
+      jc$p_vals[idx] <- NA
+    }
+  }
+
+  return(jc)
 }
 
 #################################################################
@@ -687,5 +715,14 @@ local_multiquantilelisa <- function(w, quantile_data, permutations=999, signific
 neighbor_match_test <- function(geoda_obj, k, data, scale_method = "standardize", distance_type = "euclidean", power = 1.0, is_inverse = FALSE,
                                 is_arc = FALSE, is_mile = TRUE) {
 
-  return (p_neighbor_match_test(geoda_obj$GetPointer(), k, power, is_inverse, is_arc, is_mile, data, scale_method, distance_type))
+  result <- p_neighbor_match_test(geoda_obj$GetPointer(), k, power, is_inverse, is_arc, is_mile, data, scale_method, distance_type)
+
+  # update the probability results: change those with -1 to NA
+  for (row_idx in 1:geoda_obj$n_obs) {
+    if (result[row_idx, 2] == -1) {
+      result[row_idx, 2] <- NA
+    }
+  }
+
+  return(result)
 }
