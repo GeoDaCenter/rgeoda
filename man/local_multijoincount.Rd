@@ -37,7 +37,7 @@ library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-lisa <- local_multijoincount(queen_w,  guerry_df[c('TopWealth','TopWealth', 'TopLit')])
+lisa <- local_multijoincount(queen_w,  guerry[c('TopWealth','TopWealth', 'TopLit')])
 clsts <- lisa_clusters(lisa)
 clsts
 }

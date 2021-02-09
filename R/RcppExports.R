@@ -141,8 +141,8 @@ p_multiquantilelisa <- function(xp_w, k_s, q_s, data_s, permutations, significan
     .Call('_rgeoda_p_multiquantilelisa', PACKAGE = 'rgeoda', xp_w, k_s, q_s, data_s, permutations, significance_cutoff, cpu_threads, seed)
 }
 
-p_neighbor_match_test <- function(xp_geoda, k, power, is_inverse, is_arc, is_mile, data_s, scale_method, dist_type) {
-    .Call('_rgeoda_p_neighbor_match_test', PACKAGE = 'rgeoda', xp_geoda, k, power, is_inverse, is_arc, is_mile, data_s, scale_method, dist_type)
+p_neighbor_match_test <- function(xp_geoda, k, power, is_inverse, is_arc, is_mile, data_s, n_vars, scale_method, dist_type) {
+    .Call('_rgeoda_p_neighbor_match_test', PACKAGE = 'rgeoda', xp_geoda, k, power, is_inverse, is_arc, is_mile, data_s, n_vars, scale_method, dist_type)
 }
 
 p_GeoDa__new <- function(file_path) {

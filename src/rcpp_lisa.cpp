@@ -382,14 +382,14 @@ SEXP p_multiquantilelisa(SEXP xp_w, NumericVector& k_s, NumericVector& q_s, Rcpp
 }
 
 // [[Rcpp::export]]
-DataFrame p_neighbor_match_test(SEXP xp_geoda, int k, double power, bool is_inverse, bool is_arc, bool is_mile, Rcpp::List& data_s, const std::string& scale_method, const std::string& dist_type)
+DataFrame p_neighbor_match_test(SEXP xp_geoda, int k, double power, bool is_inverse, bool is_arc, bool is_mile, Rcpp::List& data_s, int n_vars, const std::string& scale_method, const std::string& dist_type)
 {
   // grab the object as a XPtr (smart pointer) to GeoDa
   Rcpp::XPtr<GeoDa> ptr(xp_geoda);
   GeoDa* geoda = static_cast<GeoDa*> (R_ExternalPtrAddr(ptr));
 
   // translate List to 2d vector
-  int n_vars = data_s.size();
+  //int n_vars = data_s.size();
   std::vector<std::vector<double> > raw_data(n_vars);
 
   int n_obs = geoda->GetNumObs();

@@ -13,7 +13,7 @@
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' queen_w <- queen_weights(guerry)
+#' queen_w <- gda_queen_weights(guerry)
 #' guerry_df <- as.data.frame(guerry) # use as data.frame
 #' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 #' guerry_clusters <- skater(4, queen_w, data)
@@ -53,7 +53,7 @@ skater <- function(k, w, data, bound_vals=vector('numeric'), min_bound=0, distan
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' queen_w <- queen_weights(guerry)
+#' queen_w <- gda_queen_weights(guerry)
 #' guerry_df <- as.data.frame(guerry) # use as data.frame
 #' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 #' guerry_clusters <- schc(4, queen_w, data, "complete")
@@ -108,7 +108,7 @@ schc <- function(k, w, data, method="average", bound_vals=vector('numeric'), min
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' queen_w <- queen_weights(guerry)
+#' queen_w <- gda_queen_weights(guerry)
 #' guerry_df <- as.data.frame(guerry) # use as data.frame
 #' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 #' guerry_clusters <- redcap(4, queen_w, data, "fullorder-completelinkage")
@@ -155,7 +155,7 @@ redcap <- function(k, w, data, method="fullorder-averagelinkage", bound_vals=vec
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' queen_w <- queen_weights(guerry)
+#' queen_w <- gda_queen_weights(guerry)
 #' guerry_df <- as.data.frame(guerry) # use as data.frame
 #' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 #' bound_vals <- guerry_df['Pop1831'][,1]
@@ -206,7 +206,7 @@ maxp_greedy <- function(w, data, bound_vals, min_bound, iterations=99, initial_r
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' queen_w <- queen_weights(guerry)
+#' queen_w <- gda_queen_weights(guerry)
 #' guerry_df <- as.data.frame(guerry) # use as data.frame
 #' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 #' bound_vals <- guerry_df['Pop1831'][,1]
@@ -257,7 +257,7 @@ maxp_sa <- function(w, data, bound_vals, min_bound, cooling_rate, sa_maxit=1, it
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' queen_w <- queen_weights(guerry)
+#' queen_w <- gda_queen_weights(guerry)
 #' guerry_df <- as.data.frame(guerry) # use as data.frame
 #' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 #' bound_vals <- guerry_df['Pop1831'][,1]
@@ -303,7 +303,7 @@ maxp_tabu <- function(w, data, bound_vals, min_bound, tabu_length=10, conv_tabu=
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' queen_w <- queen_weights(guerry)
+#' queen_w <- gda_queen_weights(guerry)
 #' guerry_df <- as.data.frame(guerry) # use as data.frame
 #' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 #' azp_clusters <- azp_greedy(5, queen_w, data)
@@ -346,7 +346,7 @@ azp_greedy <- function(p, w, data, bound_vals=vector('numeric'), min_bound=0, in
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' queen_w <- queen_weights(guerry)
+#' queen_w <- gda_queen_weights(guerry)
 #' guerry_df <- as.data.frame(guerry) # use as data.frame
 #' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 #' azp_clusters <- azp_sa(5, queen_w, data, cooling_rate = 0.85)
@@ -389,7 +389,7 @@ azp_sa<- function(p, w, data, cooling_rate, sa_maxit=1, bound_vals=vector('numer
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' queen_w <- queen_weights(guerry)
+#' queen_w <- gda_queen_weights(guerry)
 #' guerry_df <- as.data.frame(guerry) # use as data.frame
 #' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 #' azp_clusters <- azp_tabu(5, queen_w, data, tabu_length=10, conv_tabu=10)

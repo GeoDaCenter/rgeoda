@@ -54,7 +54,7 @@ geographically connected and the clusters could maximize internal homogeneity.
 \dontrun{
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- geoda_open(guerry_path)
-queen_w <- queen_weights(guerry)
+queen_w <- gda_queen_weights(guerry)
 guerry_df <- as.data.frame(guerry) # use as data.frame
 data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 bound_vals <- guerry_df['Pop1831'][,1]

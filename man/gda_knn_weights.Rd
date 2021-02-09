@@ -35,7 +35,7 @@ Create a k-nearest neighbors based spatial weights
 \examples{
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- geoda_open(guerry_path)
-knn6_w <- knn_weights(guerry, 6)
+knn6_w <- gda_knn_weights(guerry, 6)
 summary(knn6_w)
 }
 \keyword{knn}

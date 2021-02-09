@@ -347,7 +347,7 @@ local_moran_eb <- function(w, df, permutations=999, significance_cutoff=0.05, cp
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' lisa <- local_geary(queen_w, guerry["crm_prs"])
+#' lisa <- local_geary(queen_w, guerry["Crm_prs"])
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
@@ -581,7 +581,7 @@ local_bijoincount <- function(w, df, permutations=999, significance_cutoff=0.05,
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' lisa <- local_multijoincount(queen_w,  guerry_df[c('TopWealth','TopWealth', 'TopLit')])
+#' lisa <- local_multijoincount(queen_w,  guerry[c('TopWealth','TopWealth', 'TopLit')])
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
@@ -682,7 +682,7 @@ local_quantilelisa <- function(w, df, k, q, permutations=999, significance_cutof
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' lisa <- local_multiquantilelisa(queen_w, guerry[c("Crm_prp", "Litercy)], ks=c(4,4), qs=c(1,1))
+#' lisa <- local_multiquantilelisa(queen_w, guerry[c("Crm_prp", "Litercy")], ks=c(4,4), qs=c(1,1))
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
@@ -739,13 +739,25 @@ local_multiquantilelisa <- function(w, df, ks, qs, permutations=999, significanc
 #' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- st_read(guerry_path)
-#' nbr_test <- neighbor_match_test(guerry, 6, guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
+#' data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+#' nbr_test <- neighbor_match_test(guerry, 6, data)
 #' nbr_test
 #' @export
-neighbor_match_test <- function(sf_obj, k, data, scale_method = "standardize", distance_type = "euclidean", power = 1.0, is_inverse = FALSE,
+neighbor_match_test <- function(sf_obj, k, df, scale_method = "standardize", distance_type = "euclidean", power = 1.0, is_inverse = FALSE,
                                 is_arc = FALSE, is_mile = TRUE) {
   geoda_obj <- getGeoDaObj(sf_obj) # get from cache or create instantly
-  result <- p_neighbor_match_test(geoda_obj$GetPointer(), k, power, is_inverse, is_arc, is_mile, data, scale_method, distance_type)
+
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
+  }
+
+  n_vars <- length(df)
+
+  if (inherits(df, "sf")) {
+    n_vars <- n_vars - 1
+  }
+
+  result <- p_neighbor_match_test(geoda_obj$GetPointer(), k, power, is_inverse, is_arc, is_mile, df, n_vars, scale_method, distance_type)
 
   # update the probability results: change those with -1 to NA
   for (row_idx in 1:geoda_obj$n_obs) {

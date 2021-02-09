@@ -7,7 +7,7 @@
 neighbor_match_test(
   sf_obj,
   k,
-  data,
+  df,
   scale_method = "standardize",
   distance_type = "euclidean",
   power = 1,
@@ -21,6 +21,8 @@ neighbor_match_test(
 
 \item{k}{a positive integer number for k-nearest neighbors searching.}
 
+\item{df}{A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
+
 \item{scale_method}{One of the scaling methods {'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).}
 
 \item{distance_type}{The type of distance metrics used to measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.}
@@ -32,8 +34,6 @@ neighbor_match_test(
 \item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance between two observations.}
 
 \item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from mile to km.}
-
-\item{df}{A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 }
 \value{
 A data.frame with two columns "Cardinality" and "Probability".
@@ -45,6 +45,7 @@ The local neighbor match test is to assess the extent of overlap between k-neare
 library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- st_read(guerry_path)
-nbr_test <- neighbor_match_test(guerry, 6, guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
+data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+nbr_test <- neighbor_match_test(guerry, 6, data)
 nbr_test
 }

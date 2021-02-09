@@ -37,7 +37,7 @@ library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-lisa <- local_geary(queen_w, guerry["crm_prs"])
+lisa <- local_geary(queen_w, guerry["Crm_prs"])
 lms <- lisa_values(lisa)
 lms
 }

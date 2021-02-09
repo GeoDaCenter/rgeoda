@@ -45,7 +45,7 @@ Create a kernel weights by specifying k-nearest neighbors and a kernel method
 \examples{
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- geoda_open(guerry_path)
-adptkernel_w = kernel_knn_weights(guerry, 6, "uniform")
+adptkernel_w = gda_kernel_knn_weights(guerry, 6, "uniform")
 summary(adptkernel_w)
 }
 \keyword{kernel}

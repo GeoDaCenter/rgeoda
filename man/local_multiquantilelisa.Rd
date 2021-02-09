@@ -38,3 +38,12 @@ An instance of LISA-class
 \description{
 The function to apply multivariate quantile LISA statistics
 }
+\examples{
+library(sf)
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- st_read(guerry_path)
+queen_w <- queen_weights(guerry)
+lisa <- local_multiquantilelisa(queen_w, guerry[c("Crm_prp", "Litercy")], ks=c(4,4), qs=c(1,1))
+clsts <- lisa_clusters(lisa)
+clsts
+}

@@ -30,6 +30,6 @@ Create a Rook contiguity weights with options of "order", "include lower order" 
 library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- st_read(guerry_path)
-rook_w <- gda_rook_weights(guerry)
+rook_w <- rook_weights(guerry)
 summary(rook_w)
 }

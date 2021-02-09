@@ -1,5 +1,6 @@
 #' @importFrom Rcpp evalCpp
 #' @importFrom methods is new
+#' @importFrom digest digest
 #' @useDynLib rgeoda
 NULL
 

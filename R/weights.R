@@ -341,7 +341,7 @@ queen_weights <- function(sf_obj, order=1, include_lower_order = FALSE, precisio
 #' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- st_read(guerry_path)
-#' rook_w <- gda_rook_weights(guerry)
+#' rook_w <- rook_weights(guerry)
 #' summary(rook_w)
 #' @export
 rook_weights <- function(sf_obj, order = 1, include_lower_order = FALSE, precision_threshold = 0) {
@@ -556,14 +556,6 @@ gda_rook_weights <- function(geoda_obj, order = 1, include_lower_order = FALSE, 
 #' @param is_arc (optional) FALSE (default) or TRUE, compute arc distance between two observations
 #' @param is_mile (optional) TRUE (default) or FALSE, if 'is_arc' option is TRUE, then 'is_mile' will set distance unit to 'mile' or 'km'.
 #' @return A numeric value of minimum threshold of distance
-#' @examples
-#' \dontrun{
-#' library(sf)
-#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
-#' dist_thres <- min_distthreshold(guerry)
-#' dist_thres
-#' }
 #' @export
 gda_min_distthreshold <- function(geoda_obj, is_arc = FALSE, is_mile = TRUE) {
   return (p_gda_min_distthreshold(geoda_obj$GetPointer(), is_arc, is_mile))
@@ -584,8 +576,8 @@ gda_min_distthreshold <- function(geoda_obj, is_arc = FALSE, is_mile = TRUE) {
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' dist_thres <- min_distthreshold(guerry)
-#' dist_w <- distance_weights(guerry, dist_thres)
+#' dist_thres <- gda_min_distthreshold(guerry)
+#' dist_w <- gda_distance_weights(guerry, dist_thres)
 #' summary(dist_w)
 #' @export
 gda_distance_weights <- function(geoda_obj, dist_thres, power = 1.0, is_inverse = FALSE, is_arc = FALSE, is_mile=TRUE){
@@ -620,8 +612,8 @@ gda_distance_weights <- function(geoda_obj, dist_thres, power = 1.0, is_inverse 
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' bandwidth <- min_distthreshold(guerry)
-#' kernel_w <- kernel_weights(guerry, bandwidth, kernel_method = "uniform")
+#' bandwidth <- gda_min_distthreshold(guerry)
+#' kernel_w <- gda_kernel_weights(guerry, bandwidth, kernel_method = "uniform")
 #' summary(kernel_w)
 #' @export
 gda_kernel_weights <- function(geoda_obj, bandwidth, kernel_method,
@@ -660,7 +652,7 @@ gda_kernel_weights <- function(geoda_obj, bandwidth, kernel_method,
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' knn6_w <- knn_weights(guerry, 6)
+#' knn6_w <- gda_knn_weights(guerry, 6)
 #' summary(knn6_w)
 #' @export
 gda_knn_weights <- function(geoda_obj, k, power = 1.0, is_inverse = FALSE,
@@ -698,7 +690,7 @@ gda_knn_weights <- function(geoda_obj, k, power = 1.0, is_inverse = FALSE,
 #' @examples
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
-#' adptkernel_w = kernel_knn_weights(guerry, 6, "uniform")
+#' adptkernel_w = gda_kernel_knn_weights(guerry, 6, "uniform")
 #' summary(adptkernel_w)
 #' @export
 gda_kernel_knn_weights <- function(geoda_obj, k, kernel_method, adaptive_bandwidth = TRUE,

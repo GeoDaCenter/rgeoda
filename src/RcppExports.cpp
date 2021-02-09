@@ -529,8 +529,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // p_neighbor_match_test
-DataFrame p_neighbor_match_test(SEXP xp_geoda, int k, double power, bool is_inverse, bool is_arc, bool is_mile, Rcpp::List& data_s, const std::string& scale_method, const std::string& dist_type);
-RcppExport SEXP _rgeoda_p_neighbor_match_test(SEXP xp_geodaSEXP, SEXP kSEXP, SEXP powerSEXP, SEXP is_inverseSEXP, SEXP is_arcSEXP, SEXP is_mileSEXP, SEXP data_sSEXP, SEXP scale_methodSEXP, SEXP dist_typeSEXP) {
+DataFrame p_neighbor_match_test(SEXP xp_geoda, int k, double power, bool is_inverse, bool is_arc, bool is_mile, Rcpp::List& data_s, int n_vars, const std::string& scale_method, const std::string& dist_type);
+RcppExport SEXP _rgeoda_p_neighbor_match_test(SEXP xp_geodaSEXP, SEXP kSEXP, SEXP powerSEXP, SEXP is_inverseSEXP, SEXP is_arcSEXP, SEXP is_mileSEXP, SEXP data_sSEXP, SEXP n_varsSEXP, SEXP scale_methodSEXP, SEXP dist_typeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -541,9 +541,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type is_arc(is_arcSEXP);
     Rcpp::traits::input_parameter< bool >::type is_mile(is_mileSEXP);
     Rcpp::traits::input_parameter< Rcpp::List& >::type data_s(data_sSEXP);
+    Rcpp::traits::input_parameter< int >::type n_vars(n_varsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type scale_method(scale_methodSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type dist_type(dist_typeSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_neighbor_match_test(xp_geoda, k, power, is_inverse, is_arc, is_mile, data_s, scale_method, dist_type));
+    rcpp_result_gen = Rcpp::wrap(p_neighbor_match_test(xp_geoda, k, power, is_inverse, is_arc, is_mile, data_s, n_vars, scale_method, dist_type));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1168,7 +1169,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_localmultijoincount", (DL_FUNC) &_rgeoda_p_localmultijoincount, 7},
     {"_rgeoda_p_quantilelisa", (DL_FUNC) &_rgeoda_p_quantilelisa, 8},
     {"_rgeoda_p_multiquantilelisa", (DL_FUNC) &_rgeoda_p_multiquantilelisa, 8},
-    {"_rgeoda_p_neighbor_match_test", (DL_FUNC) &_rgeoda_p_neighbor_match_test, 9},
+    {"_rgeoda_p_neighbor_match_test", (DL_FUNC) &_rgeoda_p_neighbor_match_test, 10},
     {"_rgeoda_p_GeoDa__new", (DL_FUNC) &_rgeoda_p_GeoDa__new, 1},
     {"_rgeoda_p_GeoDa__new1", (DL_FUNC) &_rgeoda_p_GeoDa__new1, 6},
     {"_rgeoda_p_GeoDa__GetNumObs", (DL_FUNC) &_rgeoda_p_GeoDa__GetNumObs, 1},
