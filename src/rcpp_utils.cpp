@@ -11,6 +11,18 @@ using namespace Rcpp;
 #include "libgeoda_src/gda_data.h"
 
 //  [[Rcpp::export]]
+bool p_gda_isbinary(Rcpp::NumericVector& values)
+{
+  int n = values.size();
+  for (int i=0; i<n; ++i) {
+    if (values[i] != 0 && values[i] != 1) {
+      return false;
+    }
+  }
+  return true;
+}
+
+//  [[Rcpp::export]]
 Rcpp::List p_gda_demean(Rcpp::List data)
 {
   std::vector<std::vector<double> > _data;

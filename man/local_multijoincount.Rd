@@ -6,7 +6,7 @@
 \usage{
 local_multijoincount(
   w,
-  data,
+  df,
   permutations = 999,
   significance_cutoff = 0.05,
   cpu_threads = 6,
@@ -16,7 +16,7 @@ local_multijoincount(
 \arguments{
 \item{w}{An instance of Weight object}
 
-\item{data}{A list of numeric values of selected variables}
+\item{df}{A data frame with selected variables only. E.g. guerry[c("TopCrm", "TopWealth", "TopLit")]}
 
 \item{permutations}{The number of permutations for the LISA computation}
 
@@ -33,12 +33,11 @@ An instance of LISA-class
 The function to apply (multivariate) colocation local Join Count statistics
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-bin_data <- guerry_df[c('TopWealth','TopWealth', 'TopLit')]
-lisa <- local_multijoincount(queen_w, bin_data)
+lisa <- local_multijoincount(queen_w,  guerry_df[c('TopWealth','TopWealth', 'TopLit')])
 clsts <- lisa_clusters(lisa)
 clsts
 }

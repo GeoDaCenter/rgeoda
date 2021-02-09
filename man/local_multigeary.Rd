@@ -6,7 +6,7 @@
 \usage{
 local_multigeary(
   w,
-  data,
+  df,
   permutations = 999,
   significance_cutoff = 0.05,
   cpu_threads = 6,
@@ -16,7 +16,7 @@ local_multigeary(
 \arguments{
 \item{w}{An instance of Weight object}
 
-\item{data}{A list of numeric values of selected variables}
+\item{df}{A data frame with selected variables only. E.g. guerry["Crm_prs"]}
 
 \item{permutations}{The number of permutations for the LISA computation}
 
@@ -33,11 +33,11 @@ An instance of LISA-class
 The function to apply local Multivariate Geary statistics
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 lisa <- local_multigeary(queen_w, data)
 lms <- lisa_clusters(lisa)
 lms

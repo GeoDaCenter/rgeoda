@@ -6,8 +6,7 @@
 \usage{
 local_bijoincount(
   w,
-  data1,
-  data2,
+  df,
   permutations = 999,
   significance_cutoff = 0.05,
   cpu_threads = 6,
@@ -17,9 +16,7 @@ local_bijoincount(
 \arguments{
 \item{w}{An instance of Weight object}
 
-\item{data1}{A numeric array of selected variable}
-
-\item{data2}{A numeric array of selected variable}
+\item{df}{A data frame with two selected variable. E.g. guerry[c("TopCrm", "InvCrm")]}
 
 \item{permutations}{The number of permutations for the LISA computation}
 
@@ -36,13 +33,12 @@ An instance of LISA-class
 The function to apply local Bivariate Join Count statistics
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-top_crm <- guerry_df['TopCrm'][,1]
-inv_crm <-  1 - top_crm
-lisa <- local_bijoincount(queen_w, top_crm, inv_crm)
+guerry["InvCrm"] <-  1 - guerry[["TopCrm"]]
+lisa <- local_bijoincount(queen_w, guerry[c("TopCrm", "InvCrm")])
 clsts<- lisa_clusters(lisa)
 clsts
 }

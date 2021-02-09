@@ -264,30 +264,31 @@ lisa_colors <- function(gda_lisa) {
 #' @title  Local Moran Statistics
 #' @description The function to apply local Moran statistics
 #' @param w An instance of Weight object
-#' @param data A numeric array of selected variable
+#' @param df A data frame with only selected variable. E.g. guerry["Crm_prs"]
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-#' lisa <- local_moran(queen_w, crm_prs)
+#' lisa <- local_moran(queen_w, guerry["Crm_prs"])
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
-local_moran <- function(w, data, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_moran <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
-  if (length(data) != w$num_obs) {
-    stop("The size of data does not match the number of observations")
+
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
   }
 
+  data <- df[[1]]
   lisa_obj <- p_localmoran(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
@@ -296,8 +297,7 @@ local_moran <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
 #' @title  Local Moran with Empirical Bayes(EB) Rate
 #' @description The function to apply local Moran with EB Rate statistics. The EB rate is first computed from "event" and "base" variables, and then used in local moran statistics.
 #' @param w An instance of Weight object
-#' @param event_data A numeric array of selected "event" variable
-#' @param base_data A numeric array of selected "base" variable
+#' @param df A data frame with two selected variable: one is "event", anothor is "base" variable. E.g. guerry[c("hr60", "po60")]
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
@@ -305,29 +305,28 @@ local_moran <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
 #' @return An instance of LISA-class
 #' @examples
 #' \dontrun{
-#' nat <- geoda_open("natregimes.shp")
+#' library(sf)
+#' nat <- st_read("natregimes.shp")
 #' nat_w <- queen_weights(nat)
-#' nat_df <- as.data.frame(nat)
-#' hr60 <- guerry_df['HR60'][,1]
-#' po60 <- guerry_df['PO60'][,1]
-#' lisa <- local_moran_eb(queen_w, hr60, po60)
+#' lisa <- local_moran_eb(queen_w, guerry[c("hr60", "po60")])
 #' lms <- lisa_values(lisa)
 #' lms
 #' }
 #' @export
-local_moran_eb <- function(w, event_data, base_data, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_moran_eb <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (class(w)[[1]] != "Weight") {
     stop("The parameter 'w' needs to be an instance of Weight object.")
   }
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
-  if (length(event_data) != w$num_obs) {
-    stop("The size of event data does not match the number of observations")
+
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
   }
-  if (length(base_data) != w$num_obs) {
-    stop("The size of base data does not match the number of observations")
-  }
+
+  event_data <- df[[1]]
+  base_data <- df[[2]]
 
   lisa_obj <- p_localmoran_eb(w$GetPointer(), event_data, base_data, permutations, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
@@ -337,31 +336,33 @@ local_moran_eb <- function(w, event_data, base_data, permutations=999, significa
 #' @title  Local Geary Statistics
 #' @description The function to apply local Geary statistics
 #' @param w An instance of Weight object
-#' @param data A numeric array of selected variable
+#' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-#' lisa <- local_geary(queen_w, crm_prs)
+#' lisa <- local_geary(queen_w, guerry["crm_prs"])
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
-local_geary <- function(w, data, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_geary <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
-  if (length(data) != w$num_obs) {
-    stop("The size of data does not match the number of observations")
+
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
   }
 
+  data <- df[[1]]
   lisa_obj <- p_localgeary(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
+
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
@@ -369,31 +370,38 @@ local_geary <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
 #' @title  Local Multivariate Geary Statistics
 #' @description The function to apply local Multivariate Geary statistics
 #' @param w An instance of Weight object
-#' @param data A list of numeric values of selected variables
+#' @param df A data frame with selected variables only. E.g. guerry["Crm_prs"]
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+#' data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 #' lisa <- local_multigeary(queen_w, data)
 #' lms <- lisa_clusters(lisa)
 #' lms
 #' @export
-local_multigeary <- function(w, data, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_multigeary <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
-  if (length(data) <  1) {
-    stop("The number of variables has to be larger than 1.")
+
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
   }
 
-  lisa_obj <- p_localmultigeary(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
+  num_vars <- length(df)
+
+  if (inherits(df, "sf")) {
+    num_vars <- num_vars - 1
+  }
+
+  lisa_obj <- p_localmultigeary(w$GetPointer(), df, num_vars, permutations, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
@@ -401,29 +409,30 @@ local_multigeary <- function(w, data, permutations=999, significance_cutoff=0.05
 #' @title  Local Getis-Ord's G Statistics
 #' @description The function to apply Getis-Ord's local G statistics
 #' @param w An instance of Weight object
-#' @param data A numeric array of selected variable
+#' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-#' lisa <- local_g(queen_w, crm_prs)
+#' lisa <- local_g(queen_w, guerry["Crm_prs"])
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
-local_g <- function(w, data, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_g <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
-  if (length(data) != w$num_obs) {
-    stop("The size of data does not match the number of observations")
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
   }
+
+  data <- df[[1]]
 
   lisa_obj <- p_localg(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
@@ -433,29 +442,30 @@ local_g <- function(w, data, permutations=999, significance_cutoff=0.05, cpu_thr
 #' @title  Local Getis-Ord's G* Statistics
 #' @description The function to apply Getis-Ord's local G* statistics
 #' @param w An instance of Weight object
-#' @param data A numeric array of selected variable
+#' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-#' lisa <- local_gstar(queen_w, crm_prs)
+#' lisa <- local_gstar(queen_w,  guerry["Crm_prs"])
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
-local_gstar <- function(w, data, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_gstar <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
-  if (length(data) != w$num_obs) {
-    stop("The size of data does not match the number of observations")
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
   }
+
+  data <- df[[1]]
 
   lisa_obj <- p_localgstar(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
@@ -465,29 +475,30 @@ local_gstar <- function(w, data, permutations=999, significance_cutoff=0.05, cpu
 #' @title  Local Join Count Statistics
 #' @description The function to apply local Join Count statistics
 #' @param w An instance of Weight object
-#' @param data A numeric array of selected variable
+#' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' top_crm <- guerry_df['TopCrm'][,1] # get 0/1 values of variable "top_crm"
-#' lisa <- local_joincount(queen_w, top_crm)
+#' lisa <- local_joincount(queen_w, guerry['TopCrm'])
 #' clsts<- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_joincount <- function(w, data, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_joincount <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
-  if (length(data) != w$num_obs) {
-    stop("The size of data does not match the number of observations")
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
   }
+
+  data <- df[[1]]
 
   lisa_obj <- p_localjoincount(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
 
@@ -507,39 +518,42 @@ local_joincount <- function(w, data, permutations=999, significance_cutoff=0.05,
 #' @title  Bivariate Local Join Count Statistics
 #' @description The function to apply local Bivariate Join Count statistics
 #' @param w An instance of Weight object
-#' @param data1 A numeric array of selected variable
-#' @param data2 A numeric array of selected variable
+#' @param df A data frame with two selected variable. E.g. guerry[c("TopCrm", "InvCrm")]
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' top_crm <- guerry_df['TopCrm'][,1]
-#' inv_crm <-  1 - top_crm
-#' lisa <- local_bijoincount(queen_w, top_crm, inv_crm)
+#' guerry["InvCrm"] <-  1 - guerry[["TopCrm"]]
+#' lisa <- local_bijoincount(queen_w, guerry[c("TopCrm", "InvCrm")])
 #' clsts<- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_bijoincount <- function(w, data1, data2, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_bijoincount <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
-  if (length(data1) != w$num_obs) {
-    stop("The size of data1 does not match the number of observations")
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
   }
-  if (length(data2) != w$num_obs) {
-    stop("The size of data2 does not match the number of observations")
+
+  data1 <- df[[1]]
+  data2 <- df[[2]]
+
+  if (p_gda_isbinary(data1) == FALSE || p_gda_isbinary(data2) == FALSE) {
+    stop("The input data is not binary.")
   }
+
   if (sum(data1 + data2) != w$num_obs) {
     stop("The bivariate local join count only applies on two variables with no-colocation.")
   }
-  data <- list(data1, data2)
-  lisa_obj <- p_localmultijoincount(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
+
+  lisa_obj <- p_localmultijoincount(w$GetPointer(), df, 2, permutations, significance_cutoff, cpu_threads, seed)
   jc <- LISA$new(p_LISA(lisa_obj))
 
   # update the probability results: change these with jc=0 to NA
@@ -556,36 +570,49 @@ local_bijoincount <- function(w, data1, data2, permutations=999, significance_cu
 #' @title (Multivariate) Colocation Local Join Count Statistics
 #' @description The function to apply (multivariate) colocation local Join Count statistics
 #' @param w An instance of Weight object
-#' @param data A list of numeric values of selected variables
+#' @param df A data frame with selected variables only. E.g. guerry[c("TopCrm", "TopWealth", "TopLit")]
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' bin_data <- guerry_df[c('TopWealth','TopWealth', 'TopLit')]
-#' lisa <- local_multijoincount(queen_w, bin_data)
+#' lisa <- local_multijoincount(queen_w,  guerry_df[c('TopWealth','TopWealth', 'TopLit')])
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_multijoincount <- function(w, data, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_multijoincount <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
-  if (length(data) <  1) {
-    stop("The number of variables has to be larger than 1.")
+
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
   }
-  if (length(data) == 2) {
-    if (sum(data[[1]] + data[[2]]) == w$num_obs) {
+
+  num_vars <- length(df)
+
+  if (inherits(df, "sf")) {
+    num_vars <- num_vars - 1
+  }
+
+  for ( idx in 1:num_vars)  {
+    if (p_gda_isbinary(df[[idx]]) == FALSE) {
+      stop("The input data is not binary.")
+    }
+  }
+
+  if (num_vars == 2) {
+    if (sum(df[[1]] + df[[2]]) == w$num_obs) {
       stop("The input two variables have no colocations. Please use bivariate local join count: local_bijoincount().")
     }
   }
 
-  lisa_obj <- p_localmultijoincount(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_localmultijoincount(w$GetPointer(), df, num_vars, permutations, significance_cutoff, cpu_threads, seed)
   jc <- LISA$new(p_LISA(lisa_obj))
 
   # update the probability results: change these with jc=0 to NA
@@ -604,34 +631,37 @@ local_multijoincount <- function(w, data, permutations=999, significance_cutoff=
 #' @param w An instance of Weight object
 #' @param k A value indicates the number of quantiles. Value range e.g. [1, 10]
 #' @param q A value indicates which quantile or interval used in local join count statistics. Value stars from 1.
-#' @param data A numeric array of selected variable
+#' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1]
-#' lisa <- local_quantilelisa(queen_w, k=4, q=1, crm_prs)
+#' lisa <- local_quantilelisa(queen_w, guerry["Crm_prs"], k=4, q=1)
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_quantilelisa <- function(w, k, q, data, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_quantilelisa <- function(w, df, k, q, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
-  if (length(data) != w$num_obs) {
-    stop("The size of data does not match the number of observations")
+
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
   }
+
+  num_vars <- length(df)
+
   if (q < 1 || q > k) {
     stop("The value of which quantile been selected should be in the range of [1, k]")
   }
 
-  lisa_obj <- p_quantilelisa(w$GetPointer(), k, q, data, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_quantilelisa(w$GetPointer(), k, q, df[[1]], permutations, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
@@ -639,64 +669,65 @@ local_quantilelisa <- function(w, k, q, data, permutations=999, significance_cut
 #' @title  Multivariate Quantile LISA Statistics
 #' @description The function to apply multivariate quantile LISA statistics
 #' @param w An instance of Weight object
-#' @param quantile_data A list of [k, q, data] for more than one variable. Each variable will be set with: k, indicates the number of quantiles; q, indicates which quantile or interval used in local join count statistics; data, is a numeric array of selected variable
+#' @param df A data frame with selected variables only. E.g. guerry[c("TopCrm", "TopWealth", "TopLit")]
+#' @param ks A vector of "k" values indicate the number of quantiles for each variable. Value range e.g. [1, 10]
+#' @param qs A vector of "q" values indicate which quantile or interval for each variable used in local join count statistics. Value stars from 1.
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
 #' @param seed The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prp <- guerry_df['Crm_prp'][,1]
-#' lit <- guerry_df['Litercy'][,1]
-#' quantiles <- list(list(4,1,crm_prp), list(4,1, lit))
-#' lisa <- local_multiquantilelisa(queen_w, quantiles)
+#' lisa <- local_multiquantilelisa(queen_w, guerry[c("Crm_prp", "Litercy)], ks=c(4,4), qs=c(1,1))
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_multiquantilelisa <- function(w, quantile_data, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_multiquantilelisa <- function(w, df, ks, qs, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
 
-  n_vars = length(quantile_data)
-
-  if (n_vars <= 0) {
-    stop("Please specify quantile for at least one variable.")
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
   }
 
-  k_s <- vector('numeric', n_vars)
-  q_s <- vector('numeric', n_vars)
-  data_s <- vector('list', n_vars)
+  n_vars <- length(df)
+
+  if (inherits(df, "sf")) {
+    n_vars <- n_vars - 1
+  }
+
+  if (n_vars <= 0) {
+    stop("Please specify more than one variable for multi-quantile lisa.")
+  }
+
+  if (length(ks) != length(qs) || length(ks) != n_vars) {
+    stop("Please specify 'k' and 'q' values for each variable.")
+  }
 
   for (i in 1:n_vars) {
-    qd <- quantile_data[[i]]
-    k <- qd[[1]]
-    q <- qd[[2]]
+    k <- ks[i]
+    q <- qs[i]
 
     if (q < 1 || q > k) {
       stop("The value of which quantile been selected should be in the range of [1, k]")
     }
-
-    data <- qd[[3]]
-    k_s[[i]] <- k
-    q_s[[i]] <- q
-    data_s[[i]] <- data
   }
 
-  lisa_obj <- p_multiquantilelisa(w$GetPointer(), k_s, q_s, data_s, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_multiquantilelisa(w$GetPointer(), ks, qs, df, permutations, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
 #################################################################
 #' @title Local Neighbor Match Test
 #' @description The local neighbor match test is to assess the extent of overlap between k-nearest neighbors in geographical space and k-nearest neighbors in multi-attribute space.
-#' @param geoda_obj An instance of geoda.
+#' @param sf_obj An sf (simple feature) object
 #' @param k a positive integer number for k-nearest neighbors searching.
-#' @param data A list of numeric values of selected variables.
+#' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
 #' @param scale_method One of the scaling methods {'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_type The type of distance metrics used to measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.
 #' @param power (optional) The power (or exponent) of a number says how many times to use the number in a multiplication.
@@ -705,16 +736,15 @@ local_multiquantilelisa <- function(w, quantile_data, permutations=999, signific
 #' @param is_mile (optional) TRUE (default) or FALSE, convert distance unit from mile to km.
 #' @return A data.frame with two columns "Cardinality" and "Probability".
 #' @examples
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
-#' nbr_test <- neighbor_match_test(guerry, 6, data)
+#' guerry <- st_read(guerry_path)
+#' nbr_test <- neighbor_match_test(guerry, 6, guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
 #' nbr_test
 #' @export
-neighbor_match_test <- function(geoda_obj, k, data, scale_method = "standardize", distance_type = "euclidean", power = 1.0, is_inverse = FALSE,
+neighbor_match_test <- function(sf_obj, k, data, scale_method = "standardize", distance_type = "euclidean", power = 1.0, is_inverse = FALSE,
                                 is_arc = FALSE, is_mile = TRUE) {
-
+  geoda_obj <- getGeoDaObj(sf_obj) # get from cache or create instantly
   result <- p_neighbor_match_test(geoda_obj$GetPointer(), k, power, is_inverse, is_arc, is_mile, data, scale_method, distance_type)
 
   # update the probability results: change those with -1 to NA

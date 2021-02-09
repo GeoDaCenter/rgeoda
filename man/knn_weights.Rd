@@ -5,7 +5,7 @@
 \title{K-Nearest Neighbors-based Spatial Weights}
 \usage{
 knn_weights(
-  geoda_obj,
+  sf_obj,
   k,
   power = 1,
   is_inverse = FALSE,
@@ -14,7 +14,7 @@ knn_weights(
 )
 }
 \arguments{
-\item{geoda_obj}{An instance of geoda}
+\item{sf_obj}{An sf (simple feature) object}
 
 \item{k}{a positive integer number for k-nearest neighbors}
 
@@ -33,8 +33,9 @@ An instance of Weight-class
 Create a k-nearest neighbors based spatial weights
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 knn6_w <- knn_weights(guerry, 6)
 summary(knn6_w)
 }

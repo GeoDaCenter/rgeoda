@@ -113,8 +113,8 @@ p_localgeary <- function(xp_w, data, permutations, significance_cutoff, cpu_thre
     .Call('_rgeoda_p_localgeary', PACKAGE = 'rgeoda', xp_w, data, permutations, significance_cutoff, cpu_threads, seed)
 }
 
-p_localmultigeary <- function(xp_w, data, permutations, significance_cutoff, cpu_threads, seed) {
-    .Call('_rgeoda_p_localmultigeary', PACKAGE = 'rgeoda', xp_w, data, permutations, significance_cutoff, cpu_threads, seed)
+p_localmultigeary <- function(xp_w, data, n_vars, permutations, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_localmultigeary', PACKAGE = 'rgeoda', xp_w, data, n_vars, permutations, significance_cutoff, cpu_threads, seed)
 }
 
 p_localg <- function(xp_w, data, permutations, significance_cutoff, cpu_threads, seed) {
@@ -129,8 +129,8 @@ p_localjoincount <- function(xp_w, data, permutations, significance_cutoff, cpu_
     .Call('_rgeoda_p_localjoincount', PACKAGE = 'rgeoda', xp_w, data, permutations, significance_cutoff, cpu_threads, seed)
 }
 
-p_localmultijoincount <- function(xp_w, data, permutations, significance_cutoff, cpu_threads, seed) {
-    .Call('_rgeoda_p_localmultijoincount', PACKAGE = 'rgeoda', xp_w, data, permutations, significance_cutoff, cpu_threads, seed)
+p_localmultijoincount <- function(xp_w, data, n_vars, permutations, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_localmultijoincount', PACKAGE = 'rgeoda', xp_w, data, n_vars, permutations, significance_cutoff, cpu_threads, seed)
 }
 
 p_quantilelisa <- function(xp_w, k, quantile, data, permutations, significance_cutoff, cpu_threads, seed) {
@@ -211,6 +211,10 @@ p_GeoDaTable__AddRealColumn <- function(xp, col_name, vals) {
 
 p_GeoDaTable__GetPointer <- function(xp) {
     .Call('_rgeoda_p_GeoDaTable__GetPointer', PACKAGE = 'rgeoda', xp)
+}
+
+p_gda_isbinary <- function(values) {
+    .Call('_rgeoda_p_gda_isbinary', PACKAGE = 'rgeoda', values)
 }
 
 p_gda_demean <- function(data) {

@@ -5,7 +5,7 @@
 \title{K-NN Kernel Spatial Weights}
 \usage{
 kernel_knn_weights(
-  geoda_obj,
+  sf_obj,
   k,
   kernel_method,
   adaptive_bandwidth = TRUE,
@@ -17,7 +17,7 @@ kernel_knn_weights(
 )
 }
 \arguments{
-\item{geoda_obj}{An instance of geoda}
+\item{sf_obj}{An sf (simple feature) object}
 
 \item{k}{a positive integer number for k-nearest neighbors}
 
@@ -43,8 +43,9 @@ An instance of Weight-class
 Create a kernel weights by specifying k-nearest neighbors and a kernel method
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 adptkernel_w = kernel_knn_weights(guerry, 6, "uniform")
 summary(adptkernel_w)
 }

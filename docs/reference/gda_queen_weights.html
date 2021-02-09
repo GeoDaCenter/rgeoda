@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Spatial C(K)luster Analysis by Tree Edge Removal — skater • rgeoda</title>
+<title>(For internally use and test only) Queen Contiguity Spatial Weights — gda_queen_weights • rgeoda</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Spatial C(K)luster Analysis by Tree Edge Removal — skater" />
-<meta property="og:description" content="SKATER forms clusters by spatially partitioning data that has similar values for features of interest." />
+<meta property="og:title" content="(For internally use and test only) Queen Contiguity Spatial Weights — gda_queen_weights" />
+<meta property="og:description" content="Create a Queen contiguity weights with options of &quot;order&quot;, &quot;include lower order&quot; and &quot;precision threshold&quot;" />
 
 
 
@@ -123,76 +123,61 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Spatial C(K)luster Analysis by Tree Edge Removal</h1>
-    <small class="dont-index">Source: <a href='https://github.com/geodacenter/rgeoda/blob/master/R/clustering.R'><code>R/clustering.R</code></a></small>
-    <div class="hidden name"><code>skater.Rd</code></div>
+    <h1>(For internally use and test only) Queen Contiguity Spatial Weights</h1>
+    <small class="dont-index">Source: <a href='https://github.com/geodacenter/rgeoda/blob/master/R/weights.R'><code>R/weights.R</code></a></small>
+    <div class="hidden name"><code>gda_queen_weights.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>SKATER forms clusters by spatially partitioning data that has similar values for features of interest.</p>
+    <p>Create a Queen contiguity weights with options of "order", "include lower order" and "precision threshold"</p>
     </div>
 
-    <pre class="usage"><span class='fu'>skater</span><span class='op'>(</span>
-  <span class='va'>k</span>,
-  <span class='va'>w</span>,
-  <span class='va'>data</span>,
-  bound_vals <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span><span class='st'>"numeric"</span><span class='op'>)</span>,
-  min_bound <span class='op'>=</span> <span class='fl'>0</span>,
-  distance_method <span class='op'>=</span> <span class='st'>"euclidean"</span>,
-  random_seed <span class='op'>=</span> <span class='fl'>123456789</span>,
-  cpu_threads <span class='op'>=</span> <span class='fl'>6</span>
+    <pre class="usage"><span class='fu'>gda_queen_weights</span><span class='op'>(</span>
+  <span class='va'>geoda_obj</span>,
+  order <span class='op'>=</span> <span class='fl'>1</span>,
+  include_lower_order <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  precision_threshold <span class='op'>=</span> <span class='fl'>0</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>k</th>
-      <td><p>The number of clusters</p></td>
+      <th>geoda_obj</th>
+      <td><p>An object of [geoda] class</p></td>
     </tr>
     <tr>
-      <th>w</th>
-      <td><p>An instance of Weight class</p></td>
+      <th>order</th>
+      <td><p>(Optional) Order of contiguity</p></td>
     </tr>
     <tr>
-      <th>data</th>
-      <td><p>A list of numeric vectors of selected variable</p></td>
+      <th>include_lower_order</th>
+      <td><p>(Optional)  Whether or not the lower order neighbors should be included in the weights structure</p></td>
     </tr>
     <tr>
-      <th>bound_vals</th>
-      <td><p>(optional) A numeric vector of selected bounding variable</p></td>
-    </tr>
-    <tr>
-      <th>min_bound</th>
-      <td><p>(optional) A minimum value that the sum value of bounding variable int each cluster should be greater than</p></td>
-    </tr>
-    <tr>
-      <th>distance_method</th>
-      <td><p>(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"</p></td>
-    </tr>
-    <tr>
-      <th>random_seed</th>
-      <td><p>(int,optional) The seed for random number generator. Defaults to 123456789.</p></td>
-    </tr>
-    <tr>
-      <th>cpu_threads</th>
-      <td><p>(optional) The number of cpu threads used for parallel computation</p></td>
+      <th>precision_threshold</th>
+      <td><p>(Optional) The precision of the underlying shape file is insufficient to allow for an exact match of coordinates to determine which polygons are neighbors</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of numeric vectors represents a group of clusters</p>
+    <p>An instance of Weight-class</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>guerry_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Guerry.shp"</span>, package <span class='op'>=</span> <span class='st'>"rgeoda"</span><span class='op'>)</span>
 <span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='geoda_open.html'>geoda_open</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
-<span class='va'>queen_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='queen_weights.html'>queen_weights</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in as.geoda(sf_obj, with_table = FALSE): as.geoda() takes either an 'sf' or 'sp' object.</span></div><div class='input'><span class='va'>guerry_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span> <span class='co'># use as data.frame</span>
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>guerry_df</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Crm_prs'</span>,<span class='st'>'Crm_prp'</span>,<span class='st'>'Litercy'</span>,<span class='st'>'Donatns'</span>,<span class='st'>'Infants'</span>,<span class='st'>'Suicids'</span><span class='op'>)</span><span class='op'>]</span>
-<span class='va'>guerry_clusters</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='fl'>4</span>, <span class='va'>queen_w</span>, <span class='va'>data</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in skater(4, queen_w, data): object 'queen_w' not found</span></div><div class='input'><span class='va'>guerry_clusters</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'guerry_clusters' not found</span></div></pre>
+<span class='va'>queen_w</span> <span class='op'>&lt;-</span> <span class='fu'>gda_queen_weights</span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>queen_w</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                      name              value
+#&gt; 1 number of observations:                 85
+#&gt; 2          is symmetric:                TRUE
+#&gt; 3               sparsity: 0.0581314878892734
+#&gt; 4        # min neighbors:                  2
+#&gt; 5        # max neighbors:                  8
+#&gt; 6       # mean neighbors:   4.94117647058824
+#&gt; 7     # median neighbors:                  5
+#&gt; 8           has isolates:              FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

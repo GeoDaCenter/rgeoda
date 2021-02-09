@@ -206,14 +206,14 @@ SEXP p_localgeary(SEXP xp_w, NumericVector& data, int permutations, double signi
 }
 
 //  [[Rcpp::export]]
-SEXP p_localmultigeary(SEXP xp_w, Rcpp::List& data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localmultigeary(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
   GeoDaWeight* w = static_cast<GeoDaWeight*> (R_ExternalPtrAddr(ptr));
 
   int n_obs = w->GetNumObs();
-  int n_vars = data.size();
+  //int n_vars = data.size();
   std::vector<std::vector<bool> > undefs(n_vars);
   std::vector<std::vector<double> > raw_data(n_vars);
 
@@ -301,14 +301,14 @@ SEXP p_localjoincount(SEXP xp_w, NumericVector& data, int permutations, double s
 }
 
 //  [[Rcpp::export]]
-SEXP p_localmultijoincount(SEXP xp_w, Rcpp::List& data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localmultijoincount(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
   GeoDaWeight* w = static_cast<GeoDaWeight*> (R_ExternalPtrAddr(ptr));
 
   int n_obs = w->GetNumObs();
-  int n_vars = data.size();
+  //int n_vars = data.size();
   std::vector<std::vector<bool> > undefs(n_vars);
   std::vector<std::vector<double> > raw_data(n_vars);
 
@@ -360,7 +360,7 @@ SEXP p_multiquantilelisa(SEXP xp_w, NumericVector& k_s, NumericVector& q_s, Rcpp
   std::vector<int> ks = as<std::vector<int> >(k_s);
   std::vector<int> qs = as<std::vector<int> >(q_s);
 
-  int n = data_s.size();
+  int n = ks.size();
   std::vector<std::vector<double> > raw_data_s(n);
   std::vector<std::vector<bool> > undefs_s(n);
 

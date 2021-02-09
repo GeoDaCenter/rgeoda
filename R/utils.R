@@ -153,23 +153,18 @@ stddev_breaks <- function(data) {
 #################################################################
 #' @title  Empirical Bayes(EB) Rate
 #' @description The function to compute EB Rate from an event variable and a base variable.
-#' @param event_data A numeric array of selected "event" variable
-#' @param base_data A numeric array of selected "base" variable
+#' @param df A data frame with two selected variable: one is "event", anothor is "base" variable. E.g. guerry[c("hr60", "po60")]
 #' @return A data.frame with two columns "EB Rate" and "IsNull".
 #' @examples
 #' \dontrun{
-#' nat <- geoda_open("natregimes.shp")
-#' nat_df <- as.data.frame(nat)
-#' hr60 <- guerry_df['HR60'][,1]
-#' po60 <- guerry_df['PO60'][,1]
-#' ebr <- eb_rates(hr60, po60)
+#' library(sf)
+#' nat <- st_read("natregimes.shp")
+#' ebr <- eb_rates(nat[c("HR60", "PO60")]
 #' ebr
 #' }
 #' @export
-eb_rates <- function(event_data, base_data) {
-  if (length(event_data) != length(base_data)) {
-    stop("The size of event data doesn't not match the event data")
-  }
-
+eb_rates <- function(df) {
+  event_data <- df[[1]]
+  base_data <- df[[2]]
   return (p_eb_rate(event_data, base_data))
 }

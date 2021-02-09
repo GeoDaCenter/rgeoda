@@ -5,7 +5,7 @@
 \title{Local Neighbor Match Test}
 \usage{
 neighbor_match_test(
-  geoda_obj,
+  sf_obj,
   k,
   data,
   scale_method = "standardize",
@@ -17,11 +17,9 @@ neighbor_match_test(
 )
 }
 \arguments{
-\item{geoda_obj}{An instance of geoda.}
+\item{sf_obj}{An sf (simple feature) object}
 
 \item{k}{a positive integer number for k-nearest neighbors searching.}
-
-\item{data}{A list of numeric values of selected variables.}
 
 \item{scale_method}{One of the scaling methods {'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).}
 
@@ -34,6 +32,8 @@ neighbor_match_test(
 \item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance between two observations.}
 
 \item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from mile to km.}
+
+\item{df}{A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 }
 \value{
 A data.frame with two columns "Cardinality" and "Probability".
@@ -42,10 +42,9 @@ A data.frame with two columns "Cardinality" and "Probability".
 The local neighbor match test is to assess the extent of overlap between k-nearest neighbors in geographical space and k-nearest neighbors in multi-attribute space.
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
-nbr_test <- neighbor_match_test(guerry, 6, data)
+guerry <- st_read(guerry_path)
+nbr_test <- neighbor_match_test(guerry, 6, guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
 nbr_test
 }

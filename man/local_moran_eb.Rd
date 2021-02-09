@@ -6,8 +6,7 @@
 \usage{
 local_moran_eb(
   w,
-  event_data,
-  base_data,
+  df,
   permutations = 999,
   significance_cutoff = 0.05,
   cpu_threads = 6,
@@ -17,9 +16,7 @@ local_moran_eb(
 \arguments{
 \item{w}{An instance of Weight object}
 
-\item{event_data}{A numeric array of selected "event" variable}
-
-\item{base_data}{A numeric array of selected "base" variable}
+\item{df}{A data frame with two selected variable: one is "event", anothor is "base" variable. E.g. guerry[c("hr60", "po60")]}
 
 \item{permutations}{The number of permutations for the LISA computation}
 
@@ -37,12 +34,10 @@ The function to apply local Moran with EB Rate statistics. The EB rate is first 
 }
 \examples{
 \dontrun{
-nat <- geoda_open("natregimes.shp")
+library(sf)
+nat <- st_read("natregimes.shp")
 nat_w <- queen_weights(nat)
-nat_df <- as.data.frame(nat)
-hr60 <- guerry_df['HR60'][,1]
-po60 <- guerry_df['PO60'][,1]
-lisa <- local_moran_eb(queen_w, hr60, po60)
+lisa <- local_moran_eb(queen_w, guerry[c("hr60", "po60")])
 lms <- lisa_values(lisa)
 lms
 }

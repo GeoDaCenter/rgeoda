@@ -5,14 +5,14 @@
 \title{Queen Contiguity Spatial Weights}
 \usage{
 queen_weights(
-  geoda_obj,
+  sf_obj,
   order = 1,
   include_lower_order = FALSE,
   precision_threshold = 0
 )
 }
 \arguments{
-\item{geoda_obj}{An object of [geoda] class}
+\item{sf_obj}{An sf (simple feature) object}
 
 \item{order}{(Optional) Order of contiguity}
 
@@ -27,8 +27,9 @@ An instance of Weight-class
 Create a Queen contiguity weights with options of "order", "include lower order" and "precision threshold"
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
 summary(queen_w)
 }

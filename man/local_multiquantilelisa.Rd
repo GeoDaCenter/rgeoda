@@ -6,7 +6,9 @@
 \usage{
 local_multiquantilelisa(
   w,
-  quantile_data,
+  df,
+  ks,
+  qs,
   permutations = 999,
   significance_cutoff = 0.05,
   cpu_threads = 6,
@@ -16,7 +18,11 @@ local_multiquantilelisa(
 \arguments{
 \item{w}{An instance of Weight object}
 
-\item{quantile_data}{A list of [k, q, data] for more than one variable. Each variable will be set with: k, indicates the number of quantiles; q, indicates which quantile or interval used in local join count statistics; data, is a numeric array of selected variable}
+\item{df}{A data frame with selected variables only. E.g. guerry[c("TopCrm", "TopWealth", "TopLit")]}
+
+\item{ks}{A vector of "k" values indicate the number of quantiles for each variable. Value range e.g. [1, 10]}
+
+\item{qs}{A vector of "q" values indicate which quantile or interval for each variable used in local join count statistics. Value stars from 1.}
 
 \item{permutations}{The number of permutations for the LISA computation}
 
@@ -31,16 +37,4 @@ An instance of LISA-class
 }
 \description{
 The function to apply multivariate quantile LISA statistics
-}
-\examples{
-guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
-queen_w <- queen_weights(guerry)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-crm_prp <- guerry_df['Crm_prp'][,1]
-lit <- guerry_df['Litercy'][,1]
-quantiles <- list(list(4,1,crm_prp), list(4,1, lit))
-lisa <- local_multiquantilelisa(queen_w, quantiles)
-clsts <- lisa_clusters(lisa)
-clsts
 }

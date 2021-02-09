@@ -35,70 +35,24 @@ library(rgeoda)
 
 ## 2. Load Spatial Data
 
-The data formats that `rgeoda` can read directly includes ESRI Shapefile and Geojson (coming in next version).
+### 2.1 Start from `sf` package
 
-For example, to load the ESRI Shapefile `Guerry.shp` comes with the package:
+The sf package has been popular tool to handle geospatial data. It is a good substitute of sp package which will be deprecated soon.
 
-```{r}
+For example, to load a geospatial data (e.g. a ESRI Shapefile) using sf:
+
+```{r, class.source='rCode'}
+library(rgeoda)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+
+library(sf)
+guerry <- st_read(guerry_path)
 ```
 
-The `geoda_open` function returns a `geoda` object, which can be used to access the meta-data, fields, and columns of the input dataset.
-
-```{r}
-guerry_df <- as.data.frame(guerry)
-class(guerry_df)
-```
-
-Now guerry_df is a data frame.
-
-#### 2.1 Attributes of `geoda_df` dataframe
-
-```{r}
-head(guerry_df)
-ncol(guerry_df)
-nrow(guerry_df)
-names(guerry_df)
-```
-
-### 2.2 Access Table Data
-
-Get data from first colum:
-```{r}
-guerry_df[,1]
-```
-
-Get data from first row:
-```{r}
-guerry_df[1,]
-```
-
-Get data from 3-rd and 5-th columns:
-```
-guerry_df[,c(3,5)]
-```
-
-Get data from column 'Crm_prs'
-```
-guerry_df['Crm_prs']
-```
-
-The above code returns a data.frame, you can get the list values by:
-```{r}
-crm_prs <- guerry_df['Crm_prs'][,1]
-class(crm_prs)
-```
-
-Get data from multiple columns using the column names:
-```{r}
-crm_prs_prp <- guerry_df[c('Crm_prs', 'Crm_prp')]
-head(crm_prs_prp)
-```
 
 ## 3. Spatial Weights
 
-Spatial weights are central components in spatial data analysis. The spatial weights represent the possible spatial interactions between observations in space. Like `GeoDa` desktop software, `rgeoda` provides a rich variety of methods to create several different types of spatial weights:
+Spatial weights are central components in spatial data analysis. The spatial weights represent the possible spatial interactions between observations in space. Like `GeoDa` desktop software, `rgeoda` provides a rich variety of methods to create several different types of spatial weights from a `sf` object:
 
 * Contiguity Based Weights: `queen_weights()`, `rook_weights()`
 * Distance Based Weights: `distance_weights()`
@@ -109,9 +63,9 @@ Spatial weights are central components in spatial data analysis. The spatial wei
 
 To create a Queen contiguity weights, we can call rgeoda's function 
 ```r
-queen_weights(gda, order=1, include_lower_order = False, precision_threshold = 0)
+queen_weights(sf_obj, order=1, include_lower_order = False, precision_threshold = 0)
 ``` 
-by passing the `GeoDa` object `guerry` we just created: 
+by passing the `sf` object `guerry` we just created: 
 
 ```{r}
 queen_w <- queen_weights(guerry)
@@ -288,10 +242,11 @@ In this tutorial, we will only introduce how to call these methods using `rgeoda
 
 #### 4.1.1 Local Moran
 
-The Local Moran statistic is a method to identify local clusters and local spatial outliers. For example, we can call  the function `local_moran()` with the created Queen weights and apply the Local Moran to analyze the spatial patterns for the variable "crm_prp":
+The Local Moran statistic is a method to identify local clusters and local spatial outliers. For example, we can call  the function `local_moran()` with the created Queen weights and apply the Local Moran to analyze the spatial patterns for the variable "Crm_prs":
 
 ```{r}
-lisa <- local_moran(queen_w, crm_prs)
+lisa <- local_moran(queen_w, guerry['Crm_prs'])
+str(lisa)
 ```
 
 The `local_moran()` function will return a `lisa` object, which we can call its public functions to access the results of lisa computation.
@@ -299,7 +254,7 @@ The `local_moran()` function will return a `lisa` object, which we can call its 
 For example, we can call the function `lisa_values()` to get the values of the local Moran:
 
 ```{r}
-lms <- lisa_values(gda_lisa = lisa)
+lms <- lisa_values(lisa)
 lms
 ```
 
@@ -341,7 +296,7 @@ These default parameters are identical to the GeoDa desktop software so that we 
 
 For example, re-run the above local Moran example using 9999 permutations. 
 ```{r}
-lisa <- local_moran(queen_w, crm_prs, perm = 9999)
+lisa <- local_moran(queen_w, guerry['Crm_prs'], permutations = 9999)
 ```
 Then, we can use the same `lisa` object to get the new results after 9999 permutations:
 ```{r}
@@ -352,7 +307,7 @@ pvals
 `rgeoda` uses `GeoDa` C++ code, in which multi-threading is used to accelerate the computation of LISA. We can use the argument `ncpu` to specify how many threads to run the computation:
 
 ```{r}
-lisa <- local_moran(queen_w, crm_prs, cpu_threads = 4)
+lisa <- local_moran(queen_w, guerry['Crm_prs'], cpu_threads = 4)
 ```
 
 Get the False Discovery Rate value based on current pseudo-p values:
@@ -371,10 +326,10 @@ cat_fdr
 
 Local Geary is a type of LISA that focuses on squared differences/dissimilarity. A small value of the local geary statistics suggests positive spatial autocorrelation, whereas large values suggest negative spatial autocorrelation. 
 
-For example, we can call the function `local_geary()` with the created Queen weights and apply the Local Gary to analyze the spatial patterns of the variable "crm_prp":
+For example, we can call the function `local_geary()` with the created Queen weights and apply the Local Gary to analyze the spatial patterns of the variable "crm_prs":
 
 ```{r}
-geary_crmprs <- local_geary(queen_w, crm_prs)
+geary_crmprs <- local_geary(queen_w, guerry['Crm_prs'])
 ```
 
 To get the cluster indicators of the local Geary computation:
@@ -391,7 +346,7 @@ lisa_pvalues(geary_crmprs)
 #### 4.1.3 Use `local_multigeary` for Multivariate Local Geary:
 
 ```{r}
-data <-guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+data <-guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 multigeary <- local_multigeary(queen_w, data)
 ```
 
@@ -409,7 +364,7 @@ A value larger than the mean suggests a high-high cluster or hot spot, a value s
 For example, we can call the function `local_g()` with the created Queen weights and the data "crm_prp" as input parameters:
 
 ```{r}
-localg_crmprs <- local_g(queen_w, crm_prs)
+localg_crmprs <- local_g(queen_w, guerry["Crm_prs"])
 ```
 
 To get the cluster indicators of the local G computation:
@@ -425,7 +380,7 @@ lisa_pvalues(localg_crmprs)
 
 For the second type of local Getis-Ord statistics, we can call the function `local_gstar()` with the created Queen weights and the data "crm_prp" as input parameters:
 ```{r}
-localgstar_crmprs <- local_gstar(queen_w, crm_prs)
+localgstar_crmprs <- local_gstar(queen_w, guerry["Crm_prs"])
 lisa_pvalues(localgstar_crmprs)
 ```
 
@@ -437,8 +392,7 @@ Local Join Count is a method to identify local clusters for binary data by using
 For example, we can call the function `local_joincount()` with a Queen weights and the data "TopCrm", which is a set of binary (0,1) values, as input parameters:
 
 ```{r}
-top_crm <- guerry_df['TopCrm'][,1]
-localjc_crm <- local_joincount(queen_w, top_crm)
+localjc_crm <- local_joincount(queen_w, guerry["TopCrm"])
 ```
 
 To get the pseudo-p values of the local Join Count  computation:
@@ -463,14 +417,13 @@ lisa_num_nbrs(localjc_crm)
 Bivariate Local Join Count: in a bivariate local join count, the two events cannot happen in the same location, which is also called "no-colocation" in this tutorial. To demonstrate this function, we just manually create a new variable from top_crm:
 
 ```{r}
-top_crm <- guerry_df['TopCrm'][,1] # get 0/1 values 
-inv_crm <- 1 - top_crm # create no-location case
+guerry['InvCrm'] <- 1 - guerry[['TopCrm']] # create no-location case
 ```
 
-Now, top_crm and inv_crm are no-colocation bivariate cases. Then, we apply the local_bijoicount():
+Now, TopCrm and InvCrm are no-colocation bivariate cases. Then, we apply the local_bijoicount():
 
 ```{r}
-jc <- local_bijoincount(queen_w, top_crm, inv_crm)
+jc <- local_bijoincount(queen_w, guerry[c('TopCrm', 'InvCrm')])
 ```
 
 To get the cluster indicators of the multivariate local join count computation:
@@ -488,8 +441,7 @@ lisa_clusters(jc)
 Co-location Local Join Count: where two or more events happen in the same location. Therefore, the function local_multijoincount takes a list of variables with 0/1 values as the input parameter:
 
 ```{r}
-bin_data <- guerry_df[c('TopWealth','TopWealth', 'TopLit')] 
-jc <- local_multijoincount(queen_w, bin_data)
+jc <- local_multijoincount(queen_w, guerry[c('TopWealth','TopWealth', 'TopLit')])
 ```
 
 To get the cluster indicators of the multivariate local join count computation:
@@ -503,7 +455,7 @@ lisa_pvalues(jc)
 The quantile LISA converts the continuous variable to a binary variable that takes the value of 1 for a specific quantile, and then apply local join count statistics on the binary data. For example, we take the first from the 4 quantiles of variable "crm_prs" and apply local_quantilelisa()
 
 ```{r}
-qsa <- local_quantilelisa(queen_w, 4, 1, crm_prs)
+qsa <- local_quantilelisa(queen_w, guerry['Crm_prs'], k=4,q=1)
 ```
 
 To get the p-values and cluster indicators of the quantile LISA computation:
@@ -517,9 +469,7 @@ Multivariate Quantile LISA
 One can construct binary data from different variables with different configurations of number of quantiles and which quantile to use (set value to 1), and check the local spatial autocorrelation:
 
 ```{r}
-crm_prp <- guerry_df['Crm_prp'][,1]
-quantiles <- list(list(4,1,crm_prs), list(4,1, crm_prp))
-qsa <- local_multiquantilelisa(queen_w, quantiles)
+qsa <- local_multiquantilelisa(queen_w, guerry_df[c('Crm_prp', 'Litercy')], ks=c(4,4), qs=c(1,1))
 ```
 
 To get the p-values and cluster indicators of the quantile LISA computation:
@@ -537,17 +487,14 @@ The function `local_moran_eb()` takes two variables: one for "event" variable (e
 ```{r eval=FALSE, include=FALSE}
 nat <- geoda_open("natregimes.shp")
 nat_w <- queen_weights(nat)
-nat_df <- as.data.frame(nat)
-hr60 <- guerry_df['HR60'][,1]
-po60 <- guerry_df['PO60'][,1]
-lisa <- local_moran_eb(queen_w, hr60, po60)
+lisa <- local_moran_eb(queen_w, nat[c("HR60","PO60")])
 lms <- lisa_values(lisa)
 lms
 ```
 
 One can get the EB rates by calling `eb_rates`:
 ```{r eval=FALSE, include=FALSE}
-ebr <- eb_rates(hr60, po60)
+ebr <- eb_rates(nat[c("HR60","PO60")])
 ```
 
 The result is a data.frame with two columns "EB Rate" and "IsNull" which indicates if there is any rate can not be computed.

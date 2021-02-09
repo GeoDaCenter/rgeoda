@@ -4,12 +4,10 @@
 \alias{eb_rates}
 \title{Empirical Bayes(EB) Rate}
 \usage{
-eb_rates(event_data, base_data)
+eb_rates(df)
 }
 \arguments{
-\item{event_data}{A numeric array of selected "event" variable}
-
-\item{base_data}{A numeric array of selected "base" variable}
+\item{df}{A data frame with two selected variable: one is "event", anothor is "base" variable. E.g. guerry[c("hr60", "po60")]}
 }
 \value{
 A data.frame with two columns "EB Rate" and "IsNull".
@@ -19,11 +17,9 @@ The function to compute EB Rate from an event variable and a base variable.
 }
 \examples{
 \dontrun{
-nat <- geoda_open("natregimes.shp")
-nat_df <- as.data.frame(nat)
-hr60 <- guerry_df['HR60'][,1]
-po60 <- guerry_df['PO60'][,1]
-ebr <- eb_rates(hr60, po60)
+library(sf)
+nat <- st_read("natregimes.shp")
+ebr <- eb_rates(nat[c("HR60", "PO60")]
 ebr
 }
 }

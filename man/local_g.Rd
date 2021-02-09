@@ -6,7 +6,7 @@
 \usage{
 local_g(
   w,
-  data,
+  df,
   permutations = 999,
   significance_cutoff = 0.05,
   cpu_threads = 6,
@@ -16,7 +16,7 @@ local_g(
 \arguments{
 \item{w}{An instance of Weight object}
 
-\item{data}{A numeric array of selected variable}
+\item{df}{A data frame with selected variable only. E.g. guerry["Crm_prs"]}
 
 \item{permutations}{The number of permutations for the LISA computation}
 
@@ -33,12 +33,11 @@ An instance of LISA-class
 The function to apply Getis-Ord's local G statistics
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-lisa <- local_g(queen_w, crm_prs)
+lisa <- local_g(queen_w, guerry["Crm_prs"])
 lms <- lisa_values(lisa)
 lms
 }

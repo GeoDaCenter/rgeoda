@@ -411,18 +411,19 @@ BEGIN_RCPP
 END_RCPP
 }
 // p_localmultigeary
-SEXP p_localmultigeary(SEXP xp_w, Rcpp::List& data, int permutations, double significance_cutoff, int cpu_threads, int seed);
-RcppExport SEXP _rgeoda_p_localmultigeary(SEXP xp_wSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+SEXP p_localmultigeary(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_localmultigeary(SEXP xp_wSEXP, SEXP dataSEXP, SEXP n_varsSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type xp_w(xp_wSEXP);
     Rcpp::traits::input_parameter< Rcpp::List& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< int >::type n_vars(n_varsSEXP);
     Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
     Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
     Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_localmultigeary(xp_w, data, permutations, significance_cutoff, cpu_threads, seed));
+    rcpp_result_gen = Rcpp::wrap(p_localmultigeary(xp_w, data, n_vars, permutations, significance_cutoff, cpu_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -475,18 +476,19 @@ BEGIN_RCPP
 END_RCPP
 }
 // p_localmultijoincount
-SEXP p_localmultijoincount(SEXP xp_w, Rcpp::List& data, int permutations, double significance_cutoff, int cpu_threads, int seed);
-RcppExport SEXP _rgeoda_p_localmultijoincount(SEXP xp_wSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+SEXP p_localmultijoincount(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_localmultijoincount(SEXP xp_wSEXP, SEXP dataSEXP, SEXP n_varsSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type xp_w(xp_wSEXP);
     Rcpp::traits::input_parameter< Rcpp::List& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< int >::type n_vars(n_varsSEXP);
     Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
     Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
     Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_localmultijoincount(xp_w, data, permutations, significance_cutoff, cpu_threads, seed));
+    rcpp_result_gen = Rcpp::wrap(p_localmultijoincount(xp_w, data, n_vars, permutations, significance_cutoff, cpu_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -740,6 +742,17 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
     rcpp_result_gen = Rcpp::wrap(p_GeoDaTable__GetPointer(xp));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_gda_isbinary
+bool p_gda_isbinary(Rcpp::NumericVector& values);
+RcppExport SEXP _rgeoda_p_gda_isbinary(SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector& >::type values(valuesSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_gda_isbinary(values));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1148,11 +1161,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_eb_rate", (DL_FUNC) &_rgeoda_p_eb_rate, 2},
     {"_rgeoda_p_localmoran_eb", (DL_FUNC) &_rgeoda_p_localmoran_eb, 7},
     {"_rgeoda_p_localgeary", (DL_FUNC) &_rgeoda_p_localgeary, 6},
-    {"_rgeoda_p_localmultigeary", (DL_FUNC) &_rgeoda_p_localmultigeary, 6},
+    {"_rgeoda_p_localmultigeary", (DL_FUNC) &_rgeoda_p_localmultigeary, 7},
     {"_rgeoda_p_localg", (DL_FUNC) &_rgeoda_p_localg, 6},
     {"_rgeoda_p_localgstar", (DL_FUNC) &_rgeoda_p_localgstar, 6},
     {"_rgeoda_p_localjoincount", (DL_FUNC) &_rgeoda_p_localjoincount, 6},
-    {"_rgeoda_p_localmultijoincount", (DL_FUNC) &_rgeoda_p_localmultijoincount, 6},
+    {"_rgeoda_p_localmultijoincount", (DL_FUNC) &_rgeoda_p_localmultijoincount, 7},
     {"_rgeoda_p_quantilelisa", (DL_FUNC) &_rgeoda_p_quantilelisa, 8},
     {"_rgeoda_p_multiquantilelisa", (DL_FUNC) &_rgeoda_p_multiquantilelisa, 8},
     {"_rgeoda_p_neighbor_match_test", (DL_FUNC) &_rgeoda_p_neighbor_match_test, 9},
@@ -1173,6 +1186,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_GeoDaTable__AddStringColumn", (DL_FUNC) &_rgeoda_p_GeoDaTable__AddStringColumn, 3},
     {"_rgeoda_p_GeoDaTable__AddRealColumn", (DL_FUNC) &_rgeoda_p_GeoDaTable__AddRealColumn, 3},
     {"_rgeoda_p_GeoDaTable__GetPointer", (DL_FUNC) &_rgeoda_p_GeoDaTable__GetPointer, 1},
+    {"_rgeoda_p_gda_isbinary", (DL_FUNC) &_rgeoda_p_gda_isbinary, 1},
     {"_rgeoda_p_gda_demean", (DL_FUNC) &_rgeoda_p_gda_demean, 1},
     {"_rgeoda_p_gda_standardize", (DL_FUNC) &_rgeoda_p_gda_standardize, 1},
     {"_rgeoda_p_gda_mad", (DL_FUNC) &_rgeoda_p_gda_mad, 1},

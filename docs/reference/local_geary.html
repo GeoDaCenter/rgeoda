@@ -134,7 +134,7 @@
 
     <pre class="usage"><span class='fu'>local_geary</span><span class='op'>(</span>
   <span class='va'>w</span>,
-  <span class='va'>data</span>,
+  <span class='va'>df</span>,
   permutations <span class='op'>=</span> <span class='fl'>999</span>,
   significance_cutoff <span class='op'>=</span> <span class='fl'>0.05</span>,
   cpu_threads <span class='op'>=</span> <span class='fl'>6</span>,
@@ -149,8 +149,8 @@
       <td><p>An instance of Weight object</p></td>
     </tr>
     <tr>
-      <th>data</th>
-      <td><p>A numeric array of selected variable</p></td>
+      <th>df</th>
+      <td><p>A data frame with selected variable only. E.g. guerry["Crm_prs"]</p></td>
     </tr>
     <tr>
       <th>permutations</th>
@@ -175,29 +175,19 @@
     <p>An instance of LISA-class</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>guerry_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Guerry.shp"</span>, package <span class='op'>=</span> <span class='st'>"rgeoda"</span><span class='op'>)</span>
-<span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='geoda_open.html'>geoda_open</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
-<span class='va'>queen_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='queen_weights.html'>queen_weights</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span>
-<span class='va'>guerry_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span> <span class='co'># use as data.frame</span>
-<span class='va'>crm_prs</span> <span class='op'>&lt;-</span> <span class='va'>guerry_df</span><span class='op'>[</span><span class='st'>'Crm_prs'</span><span class='op'>]</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span> <span class='co'># get values of variable "crm_prs"</span>
-<span class='va'>lisa</span> <span class='op'>&lt;-</span> <span class='fu'>local_geary</span><span class='op'>(</span><span class='va'>queen_w</span>, <span class='va'>crm_prs</span><span class='op'>)</span>
-<span class='va'>lms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='lisa_values.html'>lisa_values</a></span><span class='op'>(</span><span class='va'>lisa</span><span class='op'>)</span>
-<span class='va'>lms</span>
-</div><div class='output co'>#&gt;  [1] 0.987725319 0.838345145 0.702801925 0.100402310 0.244977901 1.353310326
-#&gt;  [7] 3.623634688 1.536196129 0.861013426 0.725268063 0.571428163 0.001151306
-#&gt; [13] 1.912088100 1.140906230 1.007912947 0.303683489 1.214635190 1.920535316
-#&gt; [19] 1.610359805 0.446973853 5.156798989 0.919215466 3.107530093 0.230533117
-#&gt; [25] 1.349244911 1.067920103 0.418377023 0.208541175 0.788634381 0.248262048
-#&gt; [31] 0.364299667 0.136623420 0.708692856 3.108893756 1.981523756 0.922565985
-#&gt; [37] 1.044173246 0.332298593 0.940330887 1.904654615 0.936064027 0.628686757
-#&gt; [43] 0.390598000 2.689756388 1.278289774 0.793948353 1.683658729 1.301187948
-#&gt; [49] 2.342671020 0.832225668 0.296215805 2.268056379 0.876680843 0.414701945
-#&gt; [55] 1.979054136 0.561171709 0.378238452 1.849165484 1.207382342 1.157149740
-#&gt; [61] 1.848857476 0.155525055 0.642205848 0.749419937 1.283938081 1.470817990
-#&gt; [67] 1.263739703 0.964844188 0.338990398 1.924872243 0.659890869 2.135743520
-#&gt; [73] 0.710008255 1.424041460 0.706001903 1.774528303 0.242422537 0.694451670
-#&gt; [79] 0.001874143 0.055356016 0.428128655 2.024633135 2.497611820 1.048741881
-#&gt; [85] 1.026405574</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/sf/'>sf</a></span><span class='op'>)</span>
+<span class='va'>guerry_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Guerry.shp"</span>, package <span class='op'>=</span> <span class='st'>"rgeoda"</span><span class='op'>)</span>
+<span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>st_read</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Reading layer `Guerry' from data source `/private/var/folders/z1/5l2c5r6d41bfkrlq6s66s2gh0000gn/T/RtmptOWFcA/temp_libpathabd924f272c8/rgeoda/extdata/Guerry.shp' using driver `ESRI Shapefile'
+#&gt; Simple feature collection with 85 features and 29 fields
+#&gt; geometry type:  MULTIPOLYGON
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 47680 ymin: 1703258 xmax: 1031401 ymax: 2677441
+#&gt; projected CRS:  NTF (Paris) / Lambert zone II</div><div class='input'><span class='va'>queen_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='queen_weights.html'>queen_weights</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span>
+<span class='va'>lisa</span> <span class='op'>&lt;-</span> <span class='fu'>local_geary</span><span class='op'>(</span><span class='va'>queen_w</span>, <span class='va'>guerry</span><span class='op'>[</span><span class='st'>"crm_prs"</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in `[.data.frame`(x, i): undefined columns selected</span></div><div class='input'><span class='va'>lms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='lisa_values.html'>lisa_values</a></span><span class='op'>(</span><span class='va'>lisa</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in lisa_values(lisa): object 'lisa' not found</span></div><div class='input'><span class='va'>lms</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'lms' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
