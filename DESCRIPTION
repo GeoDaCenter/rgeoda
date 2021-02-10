@@ -14,7 +14,7 @@ Description: Provides spatial data analysis functionalities including Explorator
 URL: https://github.com/geodacenter/rgeoda/, https://geodacenter.github.io/rgeoda/
 BugReports: https://github.com/geodacenter/rgeoda/issues/
 Depends: 
-    R (>= 4.0.0),
+    R (>= 3.6.0),
     methods,
     digest
 License: GPL (>= 2) 

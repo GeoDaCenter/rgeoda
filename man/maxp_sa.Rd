@@ -21,8 +21,6 @@ maxp_sa(
 \arguments{
 \item{w}{An instance of Weight class}
 
-\item{data}{A list of numeric vectors of selected variable}
-
 \item{bound_vals}{A numeric vector of selected bounding variable}
 
 \item{min_bound}{A minimum value that the sum value of bounding variable int each cluster should be greater than}
@@ -40,9 +38,11 @@ maxp_sa(
 \item{random_seed}{(optional) The seed for random number generator. Defaults to 123456789.}
 
 \item{cpu_threads}{(optional) The number of cpu threads used for parallel computation}
+
+\item{df}{A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 }
 \value{
-A list of numeric vectors represents a group of clusters
+A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 }
 \description{
 The max-p-region problem is a special case of constrained
@@ -52,11 +52,11 @@ geographically connected and the clusters could maximize internal homogeneity.
 }
 \examples{
 \dontrun{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
-queen_w <- gda_queen_weights(guerry)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+guerry <- st_read(guerry_path)
+queen_w <- queen_weights(guerry)
+data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 bound_vals <- guerry_df['Pop1831'][,1]
 min_bound <- 3236.67 # 10\% of Pop1831
 maxp_clusters <- maxp_sa(queen_w, data, bound_vals, min_bound, cooling_rate=0.85, sa_maxit=1)

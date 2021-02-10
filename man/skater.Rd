@@ -34,16 +34,18 @@ skater(
 }
 \value{
 A list of numeric vectors represents a group of clusters
+
+A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 }
 \description{
 SKATER forms clusters by spatially partitioning data that has similar values for features of interest.
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
-queen_w <- gda_queen_weights(guerry)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+guerry <- st_read(guerry_path)
+queen_w <- queen_weights(guerry)
+data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 guerry_clusters <- skater(4, queen_w, data)
 guerry_clusters
 }

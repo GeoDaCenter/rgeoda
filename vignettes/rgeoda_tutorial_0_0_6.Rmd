@@ -96,11 +96,11 @@ We can also access the details of the weights: e.g. list the neighbors of a spec
 nbrs <- get_neighbors(queen_w, idx = 1)
 cat("\nNeighbors of the 1-st observation are:", nbrs)
 ```
-We can also compute the spatial lag of a specified observation by passing the values of the selected variable:
+We can also compute the spatial lag values of a selected variable:
 
 ```{r}
-lag0 <- spatial_lag(queen_w, idx = 1, values = crm_prs)
-cat("\nSpatial lag of the 1-st observation of variable crm_prs is:", lag0)
+lag <- spatial_lag(queen_w, guerry['Crm_prs'])
+lag
 ```
 
 ### 3.2 Rook Contiguity Weights
@@ -326,7 +326,7 @@ cat_fdr
 
 Local Geary is a type of LISA that focuses on squared differences/dissimilarity. A small value of the local geary statistics suggests positive spatial autocorrelation, whereas large values suggest negative spatial autocorrelation. 
 
-For example, we can call the function `local_geary()` with the created Queen weights and apply the Local Gary to analyze the spatial patterns of the variable "crm_prs":
+For example, we can call the function `local_geary()` with the created Queen weights and apply the Local Gary to analyze the spatial patterns of the variable "Crm_prs":
 
 ```{r}
 geary_crmprs <- local_geary(queen_w, guerry['Crm_prs'])
@@ -485,7 +485,7 @@ Local Moran with EB rates is an extensions of the local Moran’s I pertains to 
 The function `local_moran_eb()` takes two variables: one for "event" variable (e.g. HR60) and another one for "base" variable (e.g. PO60).  However, there is little gain from using the EB rates when the base population is more or less equal by design (e.g. for census tracts in the U.S.):
 
 ```{r eval=FALSE, include=FALSE}
-nat <- geoda_open("natregimes.shp")
+nat <- st_read("natregimes.shp")
 nat_w <- queen_weights(nat)
 lisa <- local_moran_eb(queen_w, nat[c("HR60","PO60")])
 lms <- lisa_values(lisa)
@@ -509,10 +509,10 @@ In `GeoDa`, there are three different methods explicitly incorporate the contigu
 
 For example, to apply spatial clustering on the Guerry dataset, we use the queen weights to define the spatial contiguity and select 6 variables for similarity measure: "Crm_prs", "Crm_prp", "Litercy", "Donatns", "Infants", "Suicids". 
 
-The following code is used to get a 2D data vector for the selected variables:
+The following code is used to get a data.frame from the selected variables:
 
 ```{r}
-data <- as.list(guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
+data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 ```
 
 ### 5.1 SKATER
@@ -521,26 +521,16 @@ The Spatial C(K)luster Analysis by Tree Edge Removal(SKATER) algorithm introduce
 
 The `rgeoda`'s SKATER function is: 
 ```r
-skater(k, w, data, distance_method='euclidean', bound_vals = [],  min_bound = 0, random_seed=123456789)
+skater(k, w, df, distance_method='euclidean', bound_vals = [],  min_bound = 0, random_seed=123456789)
 ```
 
 For example, to create 4 spatially contiguous clusters using Guerry dataset, the queen weights and the values of the 6 selected variables:
 ```{r}
 guerry_clusters <- skater(4, queen_w, data)
-guerry_clusters
+str(guerry_clusters)
 ```
 
-This `skater()` function returns a 2D list, which represents 4 clusters. Each cluster is composed by several contiguity areas, e.g. 15, 74, 16, 55, 60, 39, 68, 33, 17, 82, 81, 0, 2, 40, 20, 80
-
-`rgeoda` also provides utility functions to compute some descriptive statistics of the clustering results, e.g. to compute the ratio of between to total sum of squares:
-
-
-```{r}
-betweenss <- between_sumofsquare(guerry_clusters, data)
-totalss <- total_sumofsquare( data)
-ratio <-  betweenss / totalss
-cat("The ratio of between to total sum of square:", ratio)
-```
+This `skater()` function returns a names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 
 ### 5.2 REDCAP
 
@@ -555,13 +545,8 @@ REDCAP (Regionalization with dynamically constrained agglomerative clustering an
 For example, to find 4 clusters using the same dataset and weights as above using REDCAP with Full-order and Complete-linkage method:
 
 ```{r}
-redcap_clusters <- redcap(4, queen_w, data, "fullorder-completelinkage")
-redcap_clusters
-
-betweenss <- between_sumofsquare(redcap_clusters, data)
-totalss <- total_sumofsquare( data)
-ratio <- betweenss / totalss
-cat("The ratio of between to total sum of square:", ratio)
+redcap_clusters <- redcap(5, queen_w, data, "fullorder-completelinkage")
+str(redcap_clusters)
 ```
 
 ### 5.3 AZP

@@ -18,7 +18,7 @@ SEXP p_GeoDaWeight__GetPointer(SEXP xp)
 {
   // return c++ object pointer
   return xp;
-} 
+}
 
 //  [[Rcpp::export]]
 int p_GeoDaWeight__GetNumObs(SEXP xp)
@@ -111,7 +111,7 @@ double p_GeoDaWeight__GetMedianNeighbors(SEXP xp)
 }
 
 //  [[Rcpp::export]]
-double p_GeoDaWeight__SpatialLag(SEXP xp, int obs_idx, SEXP vals)
+Rcpp::DataFrame p_GeoDaWeight__SpatialLag(SEXP xp, SEXP vals)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp);
@@ -119,9 +119,15 @@ double p_GeoDaWeight__SpatialLag(SEXP xp, int obs_idx, SEXP vals)
   std::vector<double> _vals = as<std::vector<double> >(vals);
 
   // invoke the function
-  double lag = ptr->SpatialLag(obs_idx, _vals);
+  int num_obs = ptr->GetNumObs();
 
-  return lag;
+  Rcpp::NumericVector lags;
+  for (int i=0; i<num_obs; ++i) {
+    lags.push_back(ptr->SpatialLag(i, _vals));
+  }
+
+  Rcpp::DataFrame df = Rcpp::DataFrame::create(Rcpp::Named("Spatial Lag") = lags);
+  return df;
 }
 
 //  [[Rcpp::export]]

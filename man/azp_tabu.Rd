@@ -23,8 +23,6 @@ azp_tabu(
 
 \item{w}{An instance of Weight class}
 
-\item{data}{A list of numeric vectors of selected variable}
-
 \item{tabu_length}{The length of a tabu search heuristic of tabu algorithm. e.g. 10.}
 
 \item{conv_tabu}{(optional): The number of non-improving moves. Defaults to 10.}
@@ -40,20 +38,22 @@ azp_tabu(
 \item{distance_method}{(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"}
 
 \item{random_seed}{(optional) The seed for random number generator. Defaults to 123456789.}
+
+\item{df}{A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 }
 \value{
-A list of numeric vectors represents a group of clusters
+A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 }
 \description{
 The automatic zoning procedure (AZP) was initially outlined in Openshaw (1977) as a way to address some of the consequences of the modifiable areal unit problem (MAUP). In essence, it consists of a heuristic to find the best set of combinations of contiguous spatial units into p regions, minimizing the within sum of squares as a criterion of homogeneity. The number of regions needs to be specified beforehand.
 }
 \examples{
 \dontrun{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
-queen_w <- gda_queen_weights(guerry)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+guerry <- st_read(guerry_path)
+queen_w <- queen_weights(guerry)
+data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 azp_clusters <- azp_tabu(5, queen_w, data, tabu_length=10, conv_tabu=10)
 azp_clusters
 }
