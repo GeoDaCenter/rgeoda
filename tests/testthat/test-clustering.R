@@ -1,5 +1,14 @@
 context("clustering.R")
 
+testthat::test_that('skater', {
+    library(sf)
+    guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+    guerry <- st_read(guerry_path)
+    queen_w <- queen_weights(guerry)
+    data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+    clusters <- skater(5, queen_w, data)
+})
+
 testthat::test_that('schc', {
     guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
     guerry <- geoda_open(guerry_path)

@@ -245,7 +245,7 @@ double gda_totalsumofsquare(const std::vector<std::vector<double> >& vals);
  * @param vals
  * @return
  */
-double gda_withinsumofsquare(const std::vector<std::vector<int> >& solution,
+std::vector<double> gda_withinsumofsquare(const std::vector<std::vector<int> >& solution,
                              const std::vector<std::vector<double> >& vals);
 
 /**

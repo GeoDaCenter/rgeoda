@@ -9,91 +9,72 @@
 using namespace Rcpp;
 
 #include "libgeoda_src/gda_clustering.h"
+#include "libgeoda_src/GenUtils.h"
 
 //  [[Rcpp::export]]
-double p_betweensumofsquare(Rcpp::List& solution, Rcpp::List& data)
+double p_betweensumofsquares(Rcpp::List& solution, Rcpp::List& data)
 {
-  std::vector<std::vector<int> > raw_sol;
-  std::vector<std::vector<double> > raw_data;
-
-  for (int i=0; i< solution.size(); ++i) {
-    Rcpp::NumericVector tmp = solution[i];
-    std::vector<int> vals = as<std::vector<int> >(tmp);
-    raw_sol.push_back(vals);
-  }
-
-  for (int i=0; i< data.size(); ++i) {
-    Rcpp::NumericVector tmp = data[i];
-    std::vector<double> vals = as<std::vector<double> >(tmp);
-    raw_data.push_back(vals);
-  }
-
-  double out = gda_betweensumofsquare(raw_sol, raw_data);
-  return out;
+  return 0;
 }
 
 //  [[Rcpp::export]]
-double p_totalsumofsquare(Rcpp::List& data)
+double p_totalsumofsquares(Rcpp::List& data)
 {
-  std::vector<std::vector<double> > raw_data;
-
-  for (int i=0; i< data.size(); ++i) {
-    Rcpp::NumericVector tmp = data[i];
-    std::vector<double> vals = as<std::vector<double> >(tmp);
-    raw_data.push_back(vals);
-  }
-
-  double out = gda_totalsumofsquare(raw_data);
-  return out;
+  return 0;
 }
 
 //  [[Rcpp::export]]
-double p_withinsumofsquare(Rcpp::List& solution, Rcpp::List& data)
+double p_withinsumofsquares(Rcpp::List& solution, Rcpp::List& data)
 {
-  std::vector<std::vector<int> > raw_sol;
-  std::vector<std::vector<double> > raw_data;
-
-  for (int i=0; i< solution.size(); ++i) {
-    Rcpp::NumericVector tmp = solution[i];
-    std::vector<int> vals = as<std::vector<int> >(tmp);
-    raw_sol.push_back(vals);
-  }
-
-  for (int i=0; i< data.size(); ++i) {
-    Rcpp::NumericVector tmp = data[i];
-    std::vector<double> vals = as<std::vector<double> >(tmp);
-    raw_data.push_back(vals);
-  }
-
-  double out = gda_withinsumofsquare(raw_sol, raw_data);
-  return out;
+  return 0;
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_skater(int k, SEXP xp_w, Rcpp::List& data, std::string distance_method,
+Rcpp::List p_skater(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string distance_method,
                     NumericVector& bound_vals, double min_bound, int seed, int cpu_threads)
 {
   // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
   GeoDaWeight* w = static_cast<GeoDaWeight*> (R_ExternalPtrAddr(ptr));
 
-  std::vector<std::vector<double> > raw_data;
-  for (int i=0; i< data.size(); ++i) {
+  Rcpp::Rcout << "here" << std::endl;
+
+  std::vector<std::vector<double> > raw_data(n_vars);
+
+  for (int i=0; i< n_vars; ++i) {
     Rcpp::NumericVector tmp = data[i];
     std::vector<double> vals = as<std::vector<double> >(tmp);
     raw_data.push_back(vals);
   }
 
+  Rcpp::Rcout << "here0" << std::endl;
+
   std::vector<double> raw_bound = as<std::vector<double> >(bound_vals);
-  std::vector<std::vector<int> > clusters = gda_skater(k, w, raw_data, distance_method, raw_bound, min_bound, seed, cpu_threads);
 
-  Rcpp::List out(clusters.size());
-  for (int i=0; i< clusters.size(); ++i) {
-    std::vector<int>& vals = clusters[i];
-    Rcpp::NumericVector tmp_vals(vals.begin(), vals.end());
-    out[i] = tmp_vals;
-  }
+  std::vector<std::vector<int> > cluster_ids = gda_skater(k, w, raw_data, distance_method, raw_bound, min_bound, seed, cpu_threads);
 
+  Rcpp::Rcout << "here" << std::endl;
+
+  std::vector<int> clusters = GenUtils::flat_2dclusters(w->GetNumObs(), cluster_ids);
+
+  double between_ss = gda_betweensumofsquare(cluster_ids, raw_data);
+  double total_ss = gda_totalsumofsquare(raw_data);
+  double ratio = between_ss / total_ss; 
+  std::vector<double> within_ss = gda_withinsumofsquare(cluster_ids, raw_data);
+
+  Rcpp::Rcout << "here1" << std::endl;
+  Rcpp::IntegerVector out_clusters(clusters.begin(), clusters.end());
+  Rcpp::NumericVector out_withinss(within_ss.begin(), within_ss.end());
+
+  Rcpp::List out = Rcpp::List::create(
+    Rcpp::Named("Clusters") = out_clusters,
+    Rcpp::Named("Total sum of squares") = total_ss,
+    Rcpp::Named("Within-cluster sum of squares") = out_withinss,
+    Rcpp::Named("Total within-cluster sum of squares") = between_ss,
+    Rcpp::Named("Ratio of between to total sum of squares") = ratio
+  );
+
+  Rcpp::Rcout << "here2" << std::endl;
   return out;
 }
 

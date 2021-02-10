@@ -7,7 +7,7 @@
 skater(
   k,
   w,
-  data,
+  df,
   bound_vals = vector("numeric"),
   min_bound = 0,
   distance_method = "euclidean",
@@ -20,7 +20,7 @@ skater(
 
 \item{w}{An instance of Weight class}
 
-\item{data}{A list of numeric vectors of selected variable}
+\item{df}{A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 
 \item{bound_vals}{(optional) A numeric vector of selected bounding variable}
 

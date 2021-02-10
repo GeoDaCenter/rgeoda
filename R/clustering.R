@@ -3,7 +3,7 @@
 #' @description SKATER forms clusters by spatially partitioning data that has similar values for features of interest.
 #' @param k The number of clusters
 #' @param w An instance of Weight class
-#' @param data A list of numeric vectors of selected variable
+#' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
 #' @param bound_vals (optional) A numeric vector of selected bounding variable
 #' @param min_bound (optional) A minimum value that the sum value of bounding variable int each cluster should be greater than
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
@@ -19,20 +19,32 @@
 #' guerry_clusters <- skater(4, queen_w, data)
 #' guerry_clusters
 #' @export
-skater <- function(k, w, data, bound_vals=vector('numeric'), min_bound=0, distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
+skater <- function(k, w, df, bound_vals=vector('numeric'), min_bound=0, distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
   if (k <1 && k > w$num_obs) {
     stop("The number of clusters should be a positive integer number, which is less than the number of observations.")
   }
-  if (length(data) < 1) {
-    stop("The data from selected variable is empty.")
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
   }
+
+  n_vars <- length(df)
+
+  if (inherits(df, "sf")) {
+    n_vars <- n_vars - 1
+  }
+
+  if (n_vars < 1) {
+    stop("The data.frame is empty.")
+  }
+
   if (distance_method != "euclidean" && distance_method != "manhattan") {
     stop("The distance method needs to be either 'euclidean' or 'manhattan'.")
   }
-  return(p_skater(k, w$GetPointer(), data, distance_method, bound_vals, min_bound, random_seed, cpu_threads))
+
+  return(p_skater(k, w$GetPointer(), df, n_vars, distance_method, bound_vals, min_bound, random_seed, cpu_threads))
 }
 
 

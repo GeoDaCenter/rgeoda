@@ -223,7 +223,37 @@ double gda_totalsumofsquare(const std::vector<std::vector<double> >& vals)
     return ssq;
 }
 
-double gda_withinsumofsquare(const std::vector<std::vector<int> >& solution,
+std::vector<double> gda_withinsumofsquare(const std::vector<std::vector<int> >& solution,
+                             const std::vector<std::vector<double> >& _data)
+{
+    double ssq = 0;
+    size_t cols = _data.size();
+
+    // standardize data
+    std::vector<std::vector<double> > data(cols);
+    for (size_t c=0; c<cols; ++c) {
+        data[c] = _data[c];
+        GenUtils::StandardizeData(data[c]);
+    }
+
+    std::vector<double> within_ss(cols);
+
+    for (size_t c=0; c<cols; ++c) {
+        for (size_t i=0; i<solution.size(); ++i) {
+            std::vector<double> vals;
+            for (size_t j = 0; j < solution[i].size(); ++j) {
+                size_t r = solution[i][j];
+                vals.push_back(data[c][r]);
+            }
+            double ss = gda_sumofsquares(vals);
+            within_ss[c] = ss;
+        }
+    }
+
+    return within_ss;
+}
+
+double gda_totalwithinsumofsquare(const std::vector<std::vector<int> >& solution,
                              const std::vector<std::vector<double> >& _data)
 {
     double ssq = 0;
@@ -250,11 +280,14 @@ double gda_withinsumofsquare(const std::vector<std::vector<int> >& solution,
     return ssq;
 }
 
+
 double gda_betweensumofsquare(const std::vector<std::vector<int> >& solution,
                               const std::vector<std::vector<double> >& data)
 {
     double totss = gda_totalsumofsquare(data);
-    double totwithiness = gda_withinsumofsquare(solution, data);
+    std::vector<double> wss = gda_withinsumofsquare(solution, data);
+    double totwithiness = 0;
+    for (int i=0, sz=(int)wss.size(); i<sz; ++i) totwithiness += wss[i];
     double betweenss = totss - totwithiness;
     return betweenss;
 }
