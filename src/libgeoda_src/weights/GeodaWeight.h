@@ -52,25 +52,27 @@ public:
     virtual std::string GetUID() const {return uid;}
 
     // Properties
-	enum WeightType { gal_type, gwt_type };
+  enum WeightType { gal_type, gwt_type };
 	WeightType    weight_type;
 	std::string   wflnm; // filename
-    std::string   id_field;
+  std::string   id_field;
 	std::string   title; // optional title.  Use wflnm if empty
 	bool          symmetry_checked; // indicates validity of is_symmetric bool
 	bool          is_symmetric; // true iff matrix is symmetric
 	int           num_obs;
-    double        sparsity; // % non-zeros
-    int        min_nbrs;
-    int        max_nbrs;
-    double     mean_nbrs;
-    double     median_nbrs;
-    bool       is_internal_use; // if internally used weights structure, will not be shown and used by users
-    std::string uid;
+  double        sparsity; // % non-zeros
+  int        min_nbrs;
+  int        max_nbrs;
+  double     mean_nbrs;
+  double     median_nbrs;
+  bool       is_internal_use; // if internally used weights structure, will not be shown and used by users
+  std::string uid;
 };
 
 namespace WeightUtils {
     GalWeight* WeightsIntersection(std::vector<GeoDaWeight*> ws);
+
+  const char* ReadIdField(const char* w_fname);
 }
 #endif
 

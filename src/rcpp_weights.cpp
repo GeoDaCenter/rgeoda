@@ -302,3 +302,12 @@ SEXP p_gda_kernel_knn_weights(SEXP xp_geoda, int k, double power, bool is_invers
   Rcpp::XPtr<GeoDaWeight> w_ptr(w, true);
   return w_ptr;
 }
+
+//SEXP p_gda_load_weights(const std::string& weights_path)
+//{
+  // invoke the function
+//  GeoDaWeight* w = gda_load_weights(weights_path);
+
+//  Rcpp::XPtr<GeoDaWeight> w_ptr(w, true);
+//  return w_ptr;
+//}

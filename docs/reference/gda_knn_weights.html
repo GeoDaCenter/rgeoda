@@ -177,9 +177,17 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>guerry_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Guerry.shp"</span>, package <span class='op'>=</span> <span class='st'>"rgeoda"</span><span class='op'>)</span>
 <span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='geoda_open.html'>geoda_open</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
-<span class='va'>knn6_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knn_weights.html'>knn_weights</a></span><span class='op'>(</span><span class='va'>guerry</span>, <span class='fl'>6</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in as.geoda(sf_obj, with_table = FALSE): as.geoda() takes either an 'sf' or 'sp' object.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>knn6_w</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in summary(knn6_w): object 'knn6_w' not found</span></div></pre>
+<span class='va'>knn6_w</span> <span class='op'>&lt;-</span> <span class='fu'>gda_knn_weights</span><span class='op'>(</span><span class='va'>guerry</span>, <span class='fl'>6</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>knn6_w</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                      name              value
+#&gt; 1 number of observations:                 85
+#&gt; 2          is symmetric:               FALSE
+#&gt; 3               sparsity: 0.0705882352941176
+#&gt; 4        # min neighbors:                  6
+#&gt; 5        # max neighbors:                  6
+#&gt; 6       # mean neighbors:                  6
+#&gt; 7     # median neighbors:                  6
+#&gt; 8           has isolates:              FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

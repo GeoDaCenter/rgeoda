@@ -43,6 +43,6 @@ library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- st_read(guerry_path)
 data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
-nbr_test <- neighbor_match_test(guerry, 6, data)
+nbr_test <- neighbor_match_test(data, 6)
 nbr_test
 }

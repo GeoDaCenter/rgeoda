@@ -752,7 +752,7 @@ local_multiquantilelisa <- function(w, df, k, q, permutations=999, significance_
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- st_read(guerry_path)
 #' data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
-#' nbr_test <- neighbor_match_test(guerry, 6, data)
+#' nbr_test <- neighbor_match_test(data, 6)
 #' nbr_test
 #' @export
 neighbor_match_test <- function(df, k, scale_method = "standardize", distance_method = "euclidean", power = 1.0, is_inverse = FALSE,

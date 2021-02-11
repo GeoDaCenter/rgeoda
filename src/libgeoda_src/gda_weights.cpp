@@ -145,3 +145,8 @@ GeoDaWeight* gda_distance_weights(AbstractGeoDa* geoda, double dist_thres,
     poW->symmetry_checked = true;
     return (GeoDaWeight*)poW;
 }
+
+GeoDaWeight* gda_load_weights(const char* weights_path)
+{
+    return 0;
+}
