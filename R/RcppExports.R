@@ -205,18 +205,6 @@ p_gda_isbinary <- function(values) {
     .Call('_rgeoda_p_gda_isbinary', PACKAGE = 'rgeoda', values)
 }
 
-p_gda_demean <- function(data) {
-    .Call('_rgeoda_p_gda_demean', PACKAGE = 'rgeoda', data)
-}
-
-p_gda_standardize <- function(data) {
-    .Call('_rgeoda_p_gda_standardize', PACKAGE = 'rgeoda', data)
-}
-
-p_gda_mad <- function(data) {
-    .Call('_rgeoda_p_gda_mad', PACKAGE = 'rgeoda', data)
-}
-
 p_naturalbreaks <- function(k, data) {
     .Call('_rgeoda_p_naturalbreaks', PACKAGE = 'rgeoda', k, data)
 }

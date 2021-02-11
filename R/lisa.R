@@ -726,8 +726,8 @@ local_multiquantilelisa <- function(w, df, ks, qs, permutations=999, significanc
 #' @title Local Neighbor Match Test
 #' @description The local neighbor match test is to assess the extent of overlap between k-nearest neighbors in geographical space and k-nearest neighbors in multi-attribute space.
 #' @param sf_obj An sf (simple feature) object
-#' @param k a positive integer number for k-nearest neighbors searching.
 #' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
+#' @param k a positive integer number for k-nearest neighbors searching.
 #' @param scale_method One of the scaling methods {'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_type The type of distance metrics used to measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.
 #' @param power (optional) The power (or exponent) of a number says how many times to use the number in a multiplication.
@@ -743,7 +743,7 @@ local_multiquantilelisa <- function(w, df, ks, qs, permutations=999, significanc
 #' nbr_test <- neighbor_match_test(guerry, 6, data)
 #' nbr_test
 #' @export
-neighbor_match_test <- function(sf_obj, k, df, scale_method = "standardize", distance_type = "euclidean", power = 1.0, is_inverse = FALSE,
+neighbor_match_test <- function(sf_obj, df, k, scale_method = "standardize", distance_type = "euclidean", power = 1.0, is_inverse = FALSE,
                                 is_arc = FALSE, is_mile = TRUE) {
   geoda_obj <- getGeoDaObj(sf_obj) # get from cache or create instantly
 

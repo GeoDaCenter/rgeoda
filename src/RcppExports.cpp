@@ -731,39 +731,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// p_gda_demean
-Rcpp::List p_gda_demean(Rcpp::List data);
-RcppExport SEXP _rgeoda_p_gda_demean(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::List >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_gda_demean(data));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_gda_standardize
-Rcpp::List p_gda_standardize(Rcpp::List data);
-RcppExport SEXP _rgeoda_p_gda_standardize(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::List >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_gda_standardize(data));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_gda_mad
-Rcpp::List p_gda_mad(Rcpp::List data);
-RcppExport SEXP _rgeoda_p_gda_mad(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::List >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_gda_mad(data));
-    return rcpp_result_gen;
-END_RCPP
-}
 // p_naturalbreaks
 Rcpp::NumericVector p_naturalbreaks(int k, Rcpp::NumericVector data);
 RcppExport SEXP _rgeoda_p_naturalbreaks(SEXP kSEXP, SEXP dataSEXP) {
@@ -1158,9 +1125,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_GeoDaTable__AddRealColumn", (DL_FUNC) &_rgeoda_p_GeoDaTable__AddRealColumn, 3},
     {"_rgeoda_p_GeoDaTable__GetPointer", (DL_FUNC) &_rgeoda_p_GeoDaTable__GetPointer, 1},
     {"_rgeoda_p_gda_isbinary", (DL_FUNC) &_rgeoda_p_gda_isbinary, 1},
-    {"_rgeoda_p_gda_demean", (DL_FUNC) &_rgeoda_p_gda_demean, 1},
-    {"_rgeoda_p_gda_standardize", (DL_FUNC) &_rgeoda_p_gda_standardize, 1},
-    {"_rgeoda_p_gda_mad", (DL_FUNC) &_rgeoda_p_gda_mad, 1},
     {"_rgeoda_p_naturalbreaks", (DL_FUNC) &_rgeoda_p_naturalbreaks, 2},
     {"_rgeoda_p_quantilebreaks", (DL_FUNC) &_rgeoda_p_quantilebreaks, 2},
     {"_rgeoda_p_hinge15breaks", (DL_FUNC) &_rgeoda_p_hinge15breaks, 1},

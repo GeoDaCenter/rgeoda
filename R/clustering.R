@@ -4,8 +4,8 @@
 #' @param k The number of clusters
 #' @param w An instance of Weight class
 #' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
-#' @param bound_vals (optional) A data frame with selected boundary variable
-#' @param min_bound (optional) A minimum value that the sum value of bounding variable int each cluster should be greater than
+#' @param bound_variable (optional) A data frame with selected bound variable
+#' @param min_bound (optional) A minimum bound value that applies to all clusters
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (int,optional) The seed for random number generator. Defaults to 123456789.
 #' @param cpu_threads (optional) The number of cpu threads used for parallel computation
@@ -20,7 +20,7 @@
 #' guerry_clusters <- skater(4, queen_w, data)
 #' guerry_clusters
 #' @export
-skater <- function(k, w, df, bound_vals=vector('numeric'), min_bound=0, distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
+skater <- function(k, w, df, bound_variable=data.frame(), min_bound=0, distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
@@ -45,7 +45,11 @@ skater <- function(k, w, df, bound_vals=vector('numeric'), min_bound=0, distance
     stop("The distance method needs to be either 'euclidean' or 'manhattan'.")
   }
 
-  return(p_skater(k, w$GetPointer(), df, n_vars, distance_method, bound_vals, min_bound, random_seed, cpu_threads))
+  bound_values <- vector('numeric')
+  if (length(bound_variable) > 0)  {
+    bound_values <- bound_variable[[1]]
+  }
+  return(p_skater(k, w$GetPointer(), df, n_vars, distance_method, bound_values, min_bound, random_seed, cpu_threads))
 }
 
 
@@ -59,8 +63,8 @@ skater <- function(k, w, df, bound_vals=vector('numeric'), min_bound=0, distance
 #' @param w An instance of Weight class
 #' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
 #' @param method {"single", "complete", "average","ward"}
-#' @param bound_vals (optional) A numeric vector of selected bounding variable
-#' @param min_bound (optional) A minimum value that the sum value of bounding variable int each cluster should be greater than
+#' @param bound_variable (optional) A data frame with selected bound variabl
+#' @param min_bound (optional) A minimum bound value that applies to all clusters
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @return A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 #' @examples
@@ -72,7 +76,7 @@ skater <- function(k, w, df, bound_vals=vector('numeric'), min_bound=0, distance
 #' guerry_clusters <- schc(4, queen_w, data, "complete")
 #' guerry_clusters
 #' @export
-schc <- function(k, w, data, method="average", bound_vals=vector('numeric'), min_bound=0, distance_method="euclidean") {
+schc <- function(k, w, df, method="average", bound_variable=data.frame(), min_bound=0, distance_method="euclidean") {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
@@ -99,7 +103,13 @@ schc <- function(k, w, data, method="average", bound_vals=vector('numeric'), min
   if (distance_method != "euclidean" && distance_method != "manhattan") {
     stop("The distance method needs to be either 'euclidean' or 'manhattan'.")
   }
-  return(p_schc(k, w$GetPointer(), df, n_vars, method, distance_method, bound_vals, min_bound))
+
+  bound_values <- vector('numeric')
+  if (length(bound_variable) > 0)  {
+    bound_values <- bound_variable[[1]]
+  }
+
+  return(p_schc(k, w$GetPointer(), df, n_vars, method, distance_method, bound_values, min_bound))
 }
 
 
@@ -121,8 +131,8 @@ schc <- function(k, w, data, method="average", bound_vals=vector('numeric'), min
 #' @param w An instance of Weight class
 #' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
 #' @param method {"firstorder-singlelinkage", "fullorder-completelinkage", "fullorder-averagelinkage","fullorder-singlelinkage", "fullorder-wardlinkage"}
-#' @param bound_vals (optional) A numeric vector of selected bounding variable
-#' @param min_bound (optional) A minimum value that the sum value of bounding variable int each cluster should be greater than
+#' @param bound_variable (optional) A data frame with selected bound variabl
+#' @param min_bound (optional) A minimum bound value that applies to all clusters
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (int,optional) The seed for random number generator. Defaults to 123456789.
 #' @param cpu_threads (optional) The number of cpu threads used for parallel computation
@@ -138,7 +148,7 @@ schc <- function(k, w, data, method="average", bound_vals=vector('numeric'), min
 #' guerry_clusters
 #' }
 #' @export
-redcap <- function(k, w, df, method="fullorder-averagelinkage", bound_vals=vector('numeric'), min_bound=0, distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
+redcap <- function(k, w, df, method="fullorder-averagelinkage", bound_variable=data.frame(), min_bound=0, distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
@@ -165,7 +175,13 @@ redcap <- function(k, w, df, method="fullorder-averagelinkage", bound_vals=vecto
   if (distance_method != "euclidean" && distance_method != "manhattan") {
     stop("The distance method needs to be either 'euclidean' or 'manhattan'.")
   }
-  return(p_redcap(k, w$GetPointer(), df, n_vars, method, distance_method, bound_vals, min_bound, random_seed, cpu_threads))
+
+  bound_values <- vector('numeric')
+  if (length(bound_variable) > 0)  {
+    bound_values <- bound_variable[[1]]
+  }
+
+  return(p_redcap(k, w$GetPointer(), df, n_vars, method, distance_method, bound_values, min_bound, random_seed, cpu_threads))
 }
 
 ############################################################
@@ -176,7 +192,7 @@ redcap <- function(k, w, df, method="fullorder-averagelinkage", bound_vals=vecto
 #' geographically connected and the clusters could maximize internal homogeneity.
 #' @param w An instance of Weight class
 #' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
-#' @param bound_vals A numeric vector of selected bounding variable
+#' @param bound_variable A numeric vector of selected bounding variable
 #' @param min_bound A minimum value that the sum value of bounding variable int each cluster should be greater than
 #' @param iterations (optional): The number of iterations of greedy algorithm. Defaults to 99.
 #' @param initial_regions (optional): The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters
@@ -191,13 +207,13 @@ redcap <- function(k, w, df, method="fullorder-averagelinkage", bound_vals=vecto
 #' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
-#' bound_vals <- guerry_df['Pop1831'][,1]
+#' bound_variable <- guerry['Pop1831']
 #' min_bound <- 3236.67 # 10% of Pop1831
-#' maxp_clusters <- maxp_greedy(queen_w, data, bound_vals, min_bound, iterations=99)
+#' maxp_clusters <- maxp_greedy(queen_w, data, bound_variable, min_bound, iterations=99)
 #' maxp_clusters
 #' }
 #' @export
-maxp_greedy <- function(w, df, bound_vals, min_bound, iterations=99, initial_regions=vector('numeric'), distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
+maxp_greedy <- function(w, df, bound_variable, min_bound, iterations=99, initial_regions=vector('numeric'), distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
@@ -214,9 +230,7 @@ maxp_greedy <- function(w, df, bound_vals, min_bound, iterations=99, initial_reg
   if (n_vars < 1) {
     stop("The data.frame is empty.")
   }
-  if (length(bound_vals) != w$num_obs) {
-    stop("The bound_vals has to be a list of numeric values, e.g. a column of input table.")
-  }
+
   if (min_bound <= 0) {
     stop("The min_bound has to be a positive numeric value.")
   }
@@ -224,7 +238,16 @@ maxp_greedy <- function(w, df, bound_vals, min_bound, iterations=99, initial_reg
     stop("The distance method needs to be either 'euclidean' or 'manhattan'.")
   }
 
-  return(p_maxp_greedy(w$GetPointer(), df, n_vars, bound_vals, min_bound, iterations, initial_regions, distance_method, random_seed, cpu_threads))
+  if (inherits(bound_variable, "data.frame") == FALSE) {
+    stop("The bound_variable needs to be a data.frame.")
+  }
+
+  bound_values <- vector('numeric')
+  if (length(bound_variable) > 0)  {
+    bound_values <- bound_variable[[1]]
+  }
+
+  return(p_maxp_greedy(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, initial_regions, distance_method, random_seed, cpu_threads))
 }
 
 ############################################################
@@ -235,7 +258,7 @@ maxp_greedy <- function(w, df, bound_vals, min_bound, iterations=99, initial_reg
 #' geographically connected and the clusters could maximize internal homogeneity.
 #' @param w An instance of Weight class
 #' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
-#' @param bound_vals A numeric vector of selected bounding variable
+#' @param bound_variable A numeric vector of selected bounding variable
 #' @param min_bound A minimum value that the sum value of bounding variable int each cluster should be greater than
 #' @param cooling_rate The cooling rate of a simulated annealing algorithm. Defaults to 0.85
 #' @param iterations (optional): The number of iterations of SA algorithm. Defaults to 99.
@@ -252,13 +275,13 @@ maxp_greedy <- function(w, df, bound_vals, min_bound, iterations=99, initial_reg
 #' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
-#' bound_vals <- guerry_df['Pop1831'][,1]
+#' bound_variable <- guerry['Pop1831']
 #' min_bound <- 3236.67 # 10% of Pop1831
-#' maxp_clusters <- maxp_sa(queen_w, data, bound_vals, min_bound, cooling_rate=0.85, sa_maxit=1)
+#' maxp_clusters <- maxp_sa(queen_w, data, bound_variable, min_bound, cooling_rate=0.85, sa_maxit=1)
 #' maxp_clusters
 #' }
 #' @export
-maxp_sa <- function(w, df, bound_vals, min_bound, cooling_rate, sa_maxit=1, iterations=99, initial_regions=vector('numeric'), distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
+maxp_sa <- function(w, df, bound_variable, min_bound, cooling_rate, sa_maxit=1, iterations=99, initial_regions=vector('numeric'), distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
@@ -275,9 +298,7 @@ maxp_sa <- function(w, df, bound_vals, min_bound, cooling_rate, sa_maxit=1, iter
   if (n_vars < 1) {
     stop("The data.frame is empty.")
   }
-  if (length(bound_vals) != w$num_obs) {
-    stop("The bound_vals has to be a list of numeric values, e.g. a column of input table.")
-  }
+
   if (min_bound <= 0) {
     stop("The min_bound has to be a positive numeric value.")
   }
@@ -285,7 +306,16 @@ maxp_sa <- function(w, df, bound_vals, min_bound, cooling_rate, sa_maxit=1, iter
     stop("The distance method needs to be either 'euclidean' or 'manhattan'.")
   }
 
-  return(p_maxp_sa(w$GetPointer(), df, n_vars, bound_vals, min_bound, iterations, cooling_rate, sa_maxit, initial_regions, distance_method, random_seed, cpu_threads))
+  if (inherits(bound_variable, "data.frame") == FALSE) {
+    stop("The bound_variable needs to be a data.frame.")
+  }
+
+  bound_values <- vector('numeric')
+  if (length(bound_variable) > 0)  {
+    bound_values <- bound_variable[[1]]
+  }
+
+  return(p_maxp_sa(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, cooling_rate, sa_maxit, initial_regions, distance_method, random_seed, cpu_threads))
 }
 
 ############################################################
@@ -296,7 +326,7 @@ maxp_sa <- function(w, df, bound_vals, min_bound, cooling_rate, sa_maxit=1, iter
 #' geographically connected and the clusters could maximize internal homogeneity.
 #' @param w An instance of Weight class
 #' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
-#' @param bound_vals A numeric vector of selected bounding variable
+#' @param bound_variable A numeric vector of selected bounding variable
 #' @param min_bound A minimum value that the sum value of bounding variable int each cluster should be greater than
 #' @param tabu_length (optional): The length of a tabu search heuristic of tabu algorithm. Defaults to 10.
 #' @param conv_tabu (optional): The number of non-improving moves. Defaults to 10.
@@ -313,13 +343,13 @@ maxp_sa <- function(w, df, bound_vals, min_bound, cooling_rate, sa_maxit=1, iter
 #' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
-#' bound_vals <- guerry_df['Pop1831'][,1]
+#' bound_variable <- guerry['Pop1831']
 #' min_bound <- 3236.67 # 10% of Pop1831
-#' maxp_clusters <- maxp_tabu(queen_w, data, bound_vals, min_bound, tabu_length=10, conv_tabu=10)
+#' maxp_clusters <- maxp_tabu(queen_w, data, bound_variable, min_bound, tabu_length=10, conv_tabu=10)
 #' maxp_clusters
 #' }
 #' @export
-maxp_tabu <- function(w, df, bound_vals, min_bound, tabu_length=10, conv_tabu=10, iterations=99, initial_regions=vector('numeric'), distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
+maxp_tabu <- function(w, df, bound_variable, min_bound, tabu_length=10, conv_tabu=10, iterations=99, initial_regions=vector('numeric'), distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
@@ -336,9 +366,7 @@ maxp_tabu <- function(w, df, bound_vals, min_bound, tabu_length=10, conv_tabu=10
   if (n_vars < 1) {
     stop("The data.frame is empty.")
   }
-  if (length(bound_vals) != w$num_obs) {
-    stop("The bound_vals has to be a list of numeric values, e.g. a column of input table.")
-  }
+
   if (min_bound <= 0) {
     stop("The min_bound has to be a positive numeric value.")
   }
@@ -346,7 +374,16 @@ maxp_tabu <- function(w, df, bound_vals, min_bound, tabu_length=10, conv_tabu=10
     stop("The distance method needs to be either 'euclidean' or 'manhattan'.")
   }
 
-  return(p_maxp_tabu(w$GetPointer(), df, n_vars, bound_vals, min_bound, iterations, tabu_length, conv_tabu, initial_regions, distance_method, random_seed, cpu_threads))
+  if (inherits(bound_variable, "data.frame") == FALSE) {
+    stop("The bound_variable needs to be a data.frame.")
+  }
+
+  bound_values <- vector('numeric')
+  if (length(bound_variable) > 0)  {
+    bound_values <- bound_variable[[1]]
+  }
+
+  return(p_maxp_tabu(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, tabu_length, conv_tabu, initial_regions, distance_method, random_seed, cpu_threads))
 }
 
 ############################################################
@@ -355,8 +392,8 @@ maxp_tabu <- function(w, df, bound_vals, min_bound, tabu_length=10, conv_tabu=10
 #' @param p The number of spatially constrained clusters
 #' @param w An instance of Weight class
 #' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
-#' @param bound_vals (optional) A numeric vector of selected bounding variable
-#' @param min_bound (optional) A minimum value that the sum value of bounding variable int each cluster should be greater than
+#' @param bound_variable (optional) A data frame with selected bound variabl
+#' @param min_bound (optional) A minimum bound value that applies to all clusters
 #' @param inits (optional) The number of construction re-runs, which is for ARiSeL "automatic regionalization with initial seed location"
 #' @param initial_regions (optional) The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
@@ -373,7 +410,7 @@ maxp_tabu <- function(w, df, bound_vals, min_bound, tabu_length=10, conv_tabu=10
 #' azp_clusters
 #' }
 #' @export
-azp_greedy <- function(p, w, df, bound_vals=vector('numeric'), min_bound=0, inits=0, initial_regions=vector('numeric'), distance_method="euclidean", random_seed=123456789) {
+azp_greedy <- function(p, w, df, bound_variable=data.frame(), min_bound=0, inits=0, initial_regions=vector('numeric'), distance_method="euclidean", random_seed=123456789) {
   if (p < 0) {
     stop("The p should be a positive integer number.")
   }
@@ -397,7 +434,12 @@ azp_greedy <- function(p, w, df, bound_vals=vector('numeric'), min_bound=0, init
     stop("The distance method needs to be either 'euclidean' or 'manhattan'.")
   }
 
-  return(p_azp_greedy(p, w$GetPointer(), df, n_vars, bound_vals, min_bound, inits, initial_regions, distance_method, random_seed))
+  bound_values <- vector('numeric')
+  if (length(bound_variable) > 0)  {
+    bound_values <- bound_variable[[1]]
+  }
+
+  return(p_azp_greedy(p, w$GetPointer(), df, n_vars, bound_values, min_bound, inits, initial_regions, distance_method, random_seed))
 }
 
 ############################################################
@@ -408,8 +450,8 @@ azp_greedy <- function(p, w, df, bound_vals=vector('numeric'), min_bound=0, init
 #' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
 #' @param cooling_rate The cooling rate of a simulated annealing algorithm. Defaults to 0.85
 #' @param sa_maxit (optional): The number of iterations of simulated annealing. Defaults to 1
-#' @param bound_vals (optional) A numeric vector of selected bounding variable
-#' @param min_bound (optional) A minimum value that the sum value of bounding variable int each cluster should be greater than
+#' @param bound_variable (optional) A data frame with selected bound variabl
+#' @param min_bound (optional) A minimum bound value that applies to all clusters
 #' @param inits (optional) The number of construction re-runs, which is for ARiSeL "automatic regionalization with initial seed location"
 #' @param initial_regions (optional) The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
@@ -426,7 +468,7 @@ azp_greedy <- function(p, w, df, bound_vals=vector('numeric'), min_bound=0, init
 #' azp_clusters
 #' }
 #' @export
-azp_sa<- function(p, w, df, cooling_rate, sa_maxit=1, bound_vals=vector('numeric'), min_bound=0, inits=0, initial_regions=vector('numeric'), distance_method="euclidean", random_seed=123456789) {
+azp_sa<- function(p, w, df, cooling_rate, sa_maxit=1, bound_variable=data.frame(), min_bound=0, inits=0, initial_regions=vector('numeric'), distance_method="euclidean", random_seed=123456789) {
   if (p < 0) {
     stop("The p should be a positive integer number.")
   }
@@ -450,7 +492,12 @@ azp_sa<- function(p, w, df, cooling_rate, sa_maxit=1, bound_vals=vector('numeric
     stop("The distance method needs to be either 'euclidean' or 'manhattan'.")
   }
 
-  return(p_azp_sa(p, w$GetPointer(), df, n_vars, cooling_rate, sa_maxit, bound_vals, min_bound, inits, initial_regions, distance_method, random_seed))
+  bound_values <- vector('numeric')
+  if (length(bound_variable) > 0)  {
+    bound_values <- bound_variable[[1]]
+  }
+
+  return(p_azp_sa(p, w$GetPointer(), df, n_vars, cooling_rate, sa_maxit, bound_values, min_bound, inits, initial_regions, distance_method, random_seed))
 }
 
 ############################################################
@@ -461,8 +508,8 @@ azp_sa<- function(p, w, df, cooling_rate, sa_maxit=1, bound_vals=vector('numeric
 #' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
 #' @param tabu_length The length of a tabu search heuristic of tabu algorithm. e.g. 10.
 #' @param conv_tabu (optional): The number of non-improving moves. Defaults to 10.
-#' @param bound_vals (optional) A numeric vector of selected bounding variable
-#' @param min_bound (optional) A minimum value that the sum value of bounding variable int each cluster should be greater than
+#' @param bound_variable (optional) A data frame with selected bound variabl
+#' @param min_bound (optional) A minimum bound value that applies to all clusters
 #' @param inits (optional) The number of construction re-runs, which is for ARiSeL "automatic regionalization with initial seed location"
 #' @param initial_regions (optional) The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
@@ -479,7 +526,7 @@ azp_sa<- function(p, w, df, cooling_rate, sa_maxit=1, bound_vals=vector('numeric
 #' azp_clusters
 #' }
 #' @export
-azp_tabu<- function(p, w, df, tabu_length=10, conv_tabu=10, bound_vals=vector('numeric'), min_bound=0, inits=0, initial_regions=vector('numeric'), distance_method="euclidean", random_seed=123456789) {
+azp_tabu<- function(p, w, df, tabu_length=10, conv_tabu=10, bound_variable=data.frame(), min_bound=0, inits=0, initial_regions=vector('numeric'), distance_method="euclidean", random_seed=123456789) {
   if (p < 0) {
     stop("The p should be a positive integer number.")
   }
@@ -503,5 +550,10 @@ azp_tabu<- function(p, w, df, tabu_length=10, conv_tabu=10, bound_vals=vector('n
     stop("The distance method needs to be either 'euclidean' or 'manhattan'.")
   }
 
-  return(p_azp_tabu(p, w$GetPointer(), df, n_vars, tabu_length, conv_tabu, bound_vals, min_bound, inits, initial_regions, distance_method, random_seed))
+  bound_values <- vector('numeric')
+  if (length(bound_variable) > 0)  {
+    bound_values <- bound_variable[[1]]
+  }
+
+  return(p_azp_tabu(p, w$GetPointer(), df, n_vars, tabu_length, conv_tabu, bound_values, min_bound, inits, initial_regions, distance_method, random_seed))
 }

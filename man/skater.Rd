@@ -8,7 +8,7 @@ skater(
   k,
   w,
   df,
-  bound_vals = vector("numeric"),
+  bound_variable = data.frame(),
   min_bound = 0,
   distance_method = "euclidean",
   random_seed = 123456789,
@@ -22,9 +22,9 @@ skater(
 
 \item{df}{A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 
-\item{bound_vals}{(optional) A numeric vector of selected bounding variable}
+\item{bound_variable}{(optional) A data frame with selected bound variable}
 
-\item{min_bound}{(optional) A minimum value that the sum value of bounding variable int each cluster should be greater than}
+\item{min_bound}{(optional) A minimum bound value that applies to all clusters}
 
 \item{distance_method}{(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"}
 

@@ -7,8 +7,8 @@
 azp_greedy(
   p,
   w,
-  data,
-  bound_vals = vector("numeric"),
+  df,
+  bound_variable = data.frame(),
   min_bound = 0,
   inits = 0,
   initial_regions = vector("numeric"),
@@ -21,9 +21,11 @@ azp_greedy(
 
 \item{w}{An instance of Weight class}
 
-\item{bound_vals}{(optional) A numeric vector of selected bounding variable}
+\item{df}{A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 
-\item{min_bound}{(optional) A minimum value that the sum value of bounding variable int each cluster should be greater than}
+\item{bound_variable}{(optional) A data frame with selected bound variabl}
+
+\item{min_bound}{(optional) A minimum bound value that applies to all clusters}
 
 \item{inits}{(optional) The number of construction re-runs, which is for ARiSeL "automatic regionalization with initial seed location"}
 
@@ -32,8 +34,6 @@ azp_greedy(
 \item{distance_method}{(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"}
 
 \item{random_seed}{(optional) The seed for random number generator. Defaults to 123456789.}
-
-\item{df}{A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 }
 \value{
 A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
