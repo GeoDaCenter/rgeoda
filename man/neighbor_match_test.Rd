@@ -6,8 +6,8 @@
 \usage{
 neighbor_match_test(
   sf_obj,
-  k,
   df,
+  k,
   scale_method = "standardize",
   distance_type = "euclidean",
   power = 1,
@@ -19,9 +19,9 @@ neighbor_match_test(
 \arguments{
 \item{sf_obj}{An sf (simple feature) object}
 
-\item{k}{a positive integer number for k-nearest neighbors searching.}
-
 \item{df}{A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
+
+\item{k}{a positive integer number for k-nearest neighbors searching.}
 
 \item{scale_method}{One of the scaling methods {'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).}
 

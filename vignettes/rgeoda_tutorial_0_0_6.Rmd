@@ -469,7 +469,7 @@ Multivariate Quantile LISA
 One can construct binary data from different variables with different configurations of number of quantiles and which quantile to use (set value to 1), and check the local spatial autocorrelation:
 
 ```{r}
-qsa <- local_multiquantilelisa(queen_w, guerry_df[c('Crm_prp', 'Litercy')], ks=c(4,4), qs=c(1,1))
+qsa <- local_multiquantilelisa(queen_w, guerry_df[c('Crm_prs', 'Crm_prp')], k=c(4,4), q=c(1,1))
 ```
 
 To get the p-values and cluster indicators of the quantile LISA computation:

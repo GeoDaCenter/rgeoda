@@ -139,7 +139,7 @@ void MultiJoinCount::CalcPseudoP_range(int obs_start, int obs_end, uint64_t seed
             continue;
         }
         if (lisa_vec[cnt] == 0 ) {
-            sig_local_vec[cnt] = 0.0;
+            sig_local_vec[cnt] = -1.0;
             continue;
         }
 

@@ -23,7 +23,7 @@ LISA <- setRefClass("LISA",
     initialize = function(lisa_obj) {
       "Constructor with a LISA object (internally used)"
       .self$gda_lisa = lisa_obj
-      .self$p_vals = lisa_obj$GetLocalSignificanceValues()
+      .self$p_vals = .self$GetLocalSignificanceValues()
       .self$c_vals = lisa_obj$GetClusterIndicators()
       .self$lisa_vals = lisa_obj$GetLISAValues()
       .self$nn_vals = lisa_obj$GetNumNeighbors()
@@ -33,6 +33,11 @@ LISA <- setRefClass("LISA",
     Run = function() {
       "Call to run LISA computation"
       gda_lisa$Run()
+      # update values
+      .self$p_vals = .self$GetLocalSignificanceValues()
+      .self$c_vals = gda_lisa$GetClusterIndicators()
+      .self$lisa_vals = gda_lisa$GetLISAValues()
+      .self$nn_vals = gda_lisa$GetNumNeighbors()
     },
     SetPermutations = function(num_perm) {
       "Set the number of permutations for the LISA computation"
@@ -54,7 +59,14 @@ LISA <- setRefClass("LISA",
     },
     GetLocalSignificanceValues = function() {
       "Get the local pseudo-p values of significance returned from LISA computation."
-      return (gda_lisa$GetLocalSignificanceValues())
+      pvals <- gda_lisa$GetLocalSignificanceValues()
+      num_obs <- length(pvals)
+      for (row_idx in 1:num_obs) {
+        if (pvals[row_idx] == -1) {
+          pvals[row_idx] <- NA
+        }
+      }
+      return (pvals)
     },
     GetClusterIndicators = function() {
       "Get the local cluster indicators returned from LISA computation."
@@ -662,6 +674,7 @@ local_quantilelisa <- function(w, df, k, q, permutations=999, significance_cutof
   }
 
   lisa_obj <- p_quantilelisa(w$GetPointer(), k, q, df[[1]], permutations, significance_cutoff, cpu_threads, seed)
+
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
@@ -670,8 +683,8 @@ local_quantilelisa <- function(w, df, k, q, permutations=999, significance_cutof
 #' @description The function to apply multivariate quantile LISA statistics
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variables only. E.g. guerry[c("TopCrm", "TopWealth", "TopLit")]
-#' @param ks A vector of "k" values indicate the number of quantiles for each variable. Value range e.g. [1, 10]
-#' @param qs A vector of "q" values indicate which quantile or interval for each variable used in local join count statistics. Value stars from 1.
+#' @param k A vector of "k" values indicate the number of quantiles for each variable. Value range e.g. [1, 10]
+#' @param q A vector of "q" values indicate which quantile or interval for each variable used in local join count statistics. Value stars from 1.
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
@@ -682,11 +695,11 @@ local_quantilelisa <- function(w, df, k, q, permutations=999, significance_cutof
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' lisa <- local_multiquantilelisa(queen_w, guerry[c("Crm_prp", "Litercy")], ks=c(4,4), qs=c(1,1))
+#' lisa <- local_multiquantilelisa(queen_w, guerry[c("Crm_prp", "Litercy")], k=c(4,4), q=c(1,1))
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_multiquantilelisa <- function(w, df, ks, qs, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_multiquantilelisa <- function(w, df, k, q, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -705,20 +718,20 @@ local_multiquantilelisa <- function(w, df, ks, qs, permutations=999, significanc
     stop("Please specify more than one variable for multi-quantile lisa.")
   }
 
-  if (length(ks) != length(qs) || length(ks) != n_vars) {
+  if (length(k) != length(q) || length(k) != n_vars) {
     stop("Please specify 'k' and 'q' values for each variable.")
   }
 
   for (i in 1:n_vars) {
-    k <- ks[i]
-    q <- qs[i]
+    ki <- k[i]
+    qi <- q[i]
 
-    if (q < 1 || q > k) {
+    if (qi < 1 || qi > ki) {
       stop("The value of which quantile been selected should be in the range of [1, k]")
     }
   }
 
-  lisa_obj <- p_multiquantilelisa(w$GetPointer(), ks, qs, df, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_multiquantilelisa(w$GetPointer(), k, q, df, permutations, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
