@@ -43,11 +43,11 @@ void azp_wrapper::Run() {
             }
 
             for (int i=0; i<n_cols; ++i) {
-                std::vector<double>& vals = data[i];
                 // the data will be standardized in the caller
+                //std::vector<double>& vals = data[i];
                 //GenUtils::StandardizeData(vals);
                 for (int r=0; r<num_obs; ++r) {
-                    input_data[r][i] = vals[r];
+                    input_data[r][i] = data[i][r];
                 }
             }
 

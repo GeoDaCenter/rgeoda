@@ -4,12 +4,12 @@
 \alias{quantile_breaks}
 \title{Quantile Breaks}
 \usage{
-quantile_breaks(k, data)
+quantile_breaks(k, df)
 }
 \arguments{
 \item{k}{A numeric value indicates how many breaks}
 
-\item{data}{A vector of numeric values}
+\item{df}{A data frame with selected variable. E.g. guerry["Crm_prs"]}
 }
 \value{
 A vector of numeric values of computed breaks
@@ -18,9 +18,8 @@ A vector of numeric values of computed breaks
 Quantile breaks data into groups that each have the same number of observations
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-quantile_breaks(k=5, data=crm_prs)
+guerry <- st_read(guerry_path)
+quantile_breaks(k=5, guerry['Crm_prs'])
 }

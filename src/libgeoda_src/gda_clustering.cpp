@@ -246,7 +246,7 @@ const std::vector<std::vector<int> > gda_skater(unsigned int k,
                                                 int rand_seed,
                                                 int cpu_threads)
 {
-    return gda_redcap(k, w, data, "firstorder-singlelinkage", distance_method, bound_vals, min_bound, rand_seed, cpu_threads);
+    return gda_redcap(k, w, _data, scale_method, "firstorder-singlelinkage", distance_method, bound_vals, min_bound, rand_seed, cpu_threads);
 }
 
 const std::vector<std::vector<int> > gda_schc(unsigned int k,

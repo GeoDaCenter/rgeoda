@@ -10,6 +10,7 @@ skater(
   df,
   bound_variable = data.frame(),
   min_bound = 0,
+  scale_method = "standardize",
   distance_method = "euclidean",
   random_seed = 123456789,
   cpu_threads = 6
@@ -25,6 +26,8 @@ skater(
 \item{bound_variable}{(optional) A data frame with selected bound variable}
 
 \item{min_bound}{(optional) A minimum bound value that applies to all clusters}
+
+\item{scale_method}{One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).}
 
 \item{distance_method}{(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"}
 

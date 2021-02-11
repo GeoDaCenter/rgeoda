@@ -339,7 +339,7 @@ std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, 
                                                           const std::string& dist_type)
 {
     int rows = geoda->GetNumObs();
-    int columns = data.size();
+    int columns = _data.size();
 
     // knn weights
     std::string kernel = "";

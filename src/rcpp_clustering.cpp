@@ -59,7 +59,7 @@ Rcpp::List p_skater(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string 
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_redcap(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, std::string redcap_method, std::string distance_method,
+Rcpp::List p_redcap(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string redcap_method, std::string scale_method, std::string distance_method,
                     NumericVector& bound_vals, double min_bound, int seed, int cpu_threads)
 {
   // grab the object as a XPtr (smart pointer) to LISA
@@ -80,7 +80,7 @@ Rcpp::List p_redcap(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string 
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_schc(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, std::string linkage_method, std::string distance_method,
+Rcpp::List p_schc(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string linkage_method, std::string scale_method, std::string distance_method,
                     NumericVector& bound_vals, double min_bound)
 {
   // grab the object as a XPtr (smart pointer) to LISA
@@ -101,8 +101,8 @@ Rcpp::List p_schc(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string sc
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_maxp_greedy(SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, NumericVector& bound_vals, double min_bound,
-                  int iterations, NumericVector& init_regions, std::string distance_method, int seed, int cpu_threads)
+Rcpp::List p_maxp_greedy(SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector& bound_vals, double min_bound,
+                  int iterations, NumericVector& init_regions, std::string scale_method, std::string distance_method, int seed, int cpu_threads)
 {
   // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -129,8 +129,8 @@ Rcpp::List p_maxp_greedy(SEXP xp_w, Rcpp::List& data, int n_vars, std::string sc
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_maxp_sa(SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, NumericVector& bound_vals, double min_bound,
-                     int iterations, double cooling_rate, int sa_maxit, NumericVector& init_regions, std::string distance_method, int seed, int cpu_threads)
+Rcpp::List p_maxp_sa(SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector& bound_vals, double min_bound,
+                     int iterations, double cooling_rate, int sa_maxit, NumericVector& init_regions, std::string scale_method, std::string distance_method, int seed, int cpu_threads)
 {
   // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -157,8 +157,8 @@ Rcpp::List p_maxp_sa(SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_maxp_tabu(SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, NumericVector& bound_vals, double min_bound,
-                       int iterations, int tabu_length, int conv_tabu, NumericVector& init_regions, std::string distance_method, int seed, int cpu_threads)
+Rcpp::List p_maxp_tabu(SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector& bound_vals, double min_bound,
+                       int iterations, int tabu_length, int conv_tabu, NumericVector& init_regions, std::string scale_method, std::string distance_method, int seed, int cpu_threads)
 {
   // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -185,8 +185,8 @@ Rcpp::List p_maxp_tabu(SEXP xp_w, Rcpp::List& data, int n_vars, std::string scal
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_azp_greedy(int p, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, NumericVector& bound_vals, double min_bound, int inits,
-                        NumericVector& init_regions, std::string distance_method, int seed)
+Rcpp::List p_azp_greedy(int p, SEXP xp_w, Rcpp::List& data, int n_vars,  NumericVector& bound_vals, double min_bound, int inits,
+                        NumericVector& init_regions, std::string scale_method, std::string distance_method, int seed)
 {
   // grab the object as a XPtr (smart pointer) to Weight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -213,9 +213,9 @@ Rcpp::List p_azp_greedy(int p, SEXP xp_w, Rcpp::List& data, int n_vars, std::str
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_azp_sa(int p, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, double cooling_rate, int sa_maxit,
+Rcpp::List p_azp_sa(int p, SEXP xp_w, Rcpp::List& data, int n_vars, double cooling_rate, int sa_maxit,
                     NumericVector& bound_vals, double min_bound, int inits,
-                    NumericVector& init_regions, std::string distance_method, int seed)
+                    NumericVector& init_regions, std::string scale_method, std::string distance_method, int seed)
 {
   // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -242,9 +242,9 @@ Rcpp::List p_azp_sa(int p, SEXP xp_w, Rcpp::List& data, int n_vars, std::string 
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_azp_tabu(int p, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, int tabu_length, int conv_tabu,
+Rcpp::List p_azp_tabu(int p, SEXP xp_w, Rcpp::List& data, int n_vars, int tabu_length, int conv_tabu,
                     NumericVector& bound_vals, double min_bound, int inits,
-                    NumericVector& init_regions, std::string distance_method, int seed)
+                    NumericVector& init_regions, std::string scale_method, std::string distance_method, int seed)
 {
   // grab the object as a XPtr (smart pointer) to LISA
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);

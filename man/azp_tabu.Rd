@@ -14,6 +14,7 @@ azp_tabu(
   min_bound = 0,
   inits = 0,
   initial_regions = vector("numeric"),
+  scale_method = "standardize",
   distance_method = "euclidean",
   random_seed = 123456789
 )
@@ -36,6 +37,8 @@ azp_tabu(
 \item{inits}{(optional) The number of construction re-runs, which is for ARiSeL "automatic regionalization with initial seed location"}
 
 \item{initial_regions}{(optional) The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters}
+
+\item{scale_method}{(optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).}
 
 \item{distance_method}{(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"}
 

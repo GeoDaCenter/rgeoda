@@ -738,7 +738,6 @@ local_multiquantilelisa <- function(w, df, k, q, permutations=999, significance_
 #################################################################
 #' @title Local Neighbor Match Test
 #' @description The local neighbor match test is to assess the extent of overlap between k-nearest neighbors in geographical space and k-nearest neighbors in multi-attribute space.
-#' @param sf_obj An sf (simple feature) object
 #' @param df A subset of sf object with selected variables. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
 #' @param k a positive integer number for k-nearest neighbors searching.
 #' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).

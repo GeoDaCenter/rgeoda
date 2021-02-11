@@ -4,10 +4,10 @@
 \alias{stddev_breaks}
 \title{Standard Deviation Breaks}
 \usage{
-stddev_breaks(data)
+stddev_breaks(df)
 }
 \arguments{
-\item{data}{A vector of numeric values}
+\item{df}{A data frame with selected variable. E.g. guerry["Crm_prs"]}
 }
 \value{
 A vector of numeric values of computed breaks
@@ -16,9 +16,8 @@ A vector of numeric values of computed breaks
 Standard deviation breaks first transforms data to standard deviation units (mean=0, stddev=1), and then divide the range of values into 6 groups.
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-stddev_breaks(data=crm_prs)
+guerry <- st_read(guerry_path)
+stddev_breaks(guerry['Crm_prs'])
 }

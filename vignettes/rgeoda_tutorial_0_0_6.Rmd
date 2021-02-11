@@ -129,11 +129,11 @@ The `id_vec` is the actual column data of `id_name`, it could be a tuple of inte
 
 For example, in Guerry dataset, the column "CODE_DE" can be used as a key to save a weights file:
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 save_weights(rook_w, out_path = '/Users/xun/Downloads/Guerry_r.gal', 
              layer_name = 'Guerry', 
              id_name = 'CODE_DE', 
-             id_values = as.integer(guerry_df['CODE_DE'][,1]))
+             id_values = as.integer(guerry['CODE_DE'][,1]))
 ```
 
 Then, we should find the file "Guerry_r.gal" in the output directory.
@@ -469,7 +469,7 @@ Multivariate Quantile LISA
 One can construct binary data from different variables with different configurations of number of quantiles and which quantile to use (set value to 1), and check the local spatial autocorrelation:
 
 ```{r}
-qsa <- local_multiquantilelisa(queen_w, guerry_df[c('Crm_prs', 'Crm_prp')], k=c(4,4), q=c(1,1))
+qsa <- local_multiquantilelisa(queen_w, guerry[c('Crm_prs', 'Crm_prp')], k=c(4,4), q=c(1,1))
 ```
 
 To get the p-values and cluster indicators of the quantile LISA computation:
@@ -601,7 +601,7 @@ For example, to use the `greedy` algorithm in maxp function with the same datase
 First, we need to specify, for example, every cluster must have population >= 3236.67 thousand people:
 
 ```{r}
-bound_variable <- guerry_df['Pop1831']
+bound_variable <- guerry['Pop1831']
 min_bound <- 3236.67 # 10% of Pop1831
 ```
 
@@ -621,21 +621,21 @@ If you want to replicate the identical results as in GeoDa software, please inst
 We can also specify using `tabu search` algorithm in maxp function with the parameter of tabu length:
 
 ```{r}
-maxp_tabu_clusters <- maxp_tabu(queen_w, data, bound_vals, min_bound, tabu_length=10, conv_tabu=10)
+maxp_tabu_clusters <- maxp_tabu(queen_w, data, bound_variable, min_bound, tabu_length=10, conv_tabu=10)
 str(maxp_tabu_clusters)
 ```
 
 To apply `simulated annealing` algorithm in maxp function with the parameter of cooling rate:
 
 ```{r}
-maxp_sa_clusters <- maxp_sa(queen_w, data, bound_vals, min_bound, cooling_rate=0.85, sa_maxit=1)
+maxp_sa_clusters <- maxp_sa(queen_w, data, bound_variable, min_bound, cooling_rate=0.85, sa_maxit=1)
 str(maxp_sa_clusters)
 ```
 
 We can also increase the number of iterations for local search process by specifying the parameter `iterations` (default value is 99):
 
 ```{r}
-maxp_clusters <- maxp_greedy(queen_w, data, bound_vals, min_bound, iterations=199)
+maxp_clusters <- maxp_greedy(queen_w, data, bound_variable, min_bound, iterations=199)
 str(maxp_clusters)
 ```
 

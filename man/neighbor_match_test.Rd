@@ -5,11 +5,10 @@
 \title{Local Neighbor Match Test}
 \usage{
 neighbor_match_test(
-  sf_obj,
   df,
   k,
   scale_method = "standardize",
-  distance_type = "euclidean",
+  distance_method = "euclidean",
   power = 1,
   is_inverse = FALSE,
   is_arc = FALSE,
@@ -17,15 +16,13 @@ neighbor_match_test(
 )
 }
 \arguments{
-\item{sf_obj}{An sf (simple feature) object}
-
-\item{df}{A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
+\item{df}{A subset of sf object with selected variables. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 
 \item{k}{a positive integer number for k-nearest neighbors searching.}
 
-\item{scale_method}{One of the scaling methods {'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).}
+\item{scale_method}{(optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).}
 
-\item{distance_type}{The type of distance metrics used to measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.}
+\item{distance_method}{(optional) The type of distance metrics used to measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.}
 
 \item{power}{(optional) The power (or exponent) of a number says how many times to use the number in a multiplication.}
 

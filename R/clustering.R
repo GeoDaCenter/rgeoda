@@ -55,7 +55,7 @@ skater <- function(k, w, df, bound_variable=data.frame(), min_bound=0, scale_met
   if (length(bound_variable) > 0)  {
     bound_values <- bound_variable[[1]]
   }
-  return(p_skater(k, w$GetPointer(), df, n_vars, distance_method, bound_values, min_bound, random_seed, cpu_threads))
+  return(p_skater(k, w$GetPointer(), df, n_vars, scale_method, distance_method, bound_values, min_bound, random_seed, cpu_threads))
 }
 
 
@@ -123,7 +123,7 @@ schc <- function(k, w, df, method="average", bound_variable=data.frame(), min_bo
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_schc(k, w$GetPointer(), df, n_vars, method, distance_method, bound_values, min_bound))
+  return(p_schc(k, w$GetPointer(), df, n_vars, method, scale_method, distance_method, bound_values, min_bound))
 }
 
 
@@ -203,7 +203,7 @@ redcap <- function(k, w, df, method="fullorder-averagelinkage", bound_variable=d
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_redcap(k, w$GetPointer(), df, n_vars, method, distance_method, bound_values, min_bound, random_seed, cpu_threads))
+  return(p_redcap(k, w$GetPointer(), df, n_vars, method, scale_method, distance_method, bound_values, min_bound, random_seed, cpu_threads))
 }
 
 ############################################################
@@ -276,7 +276,7 @@ maxp_greedy <- function(w, df, bound_variable, min_bound, iterations=99, initial
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_maxp_greedy(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, initial_regions, distance_method, random_seed, cpu_threads))
+  return(p_maxp_greedy(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, initial_regions, scale_method, distance_method, random_seed, cpu_threads))
 }
 
 ############################################################
@@ -351,7 +351,7 @@ maxp_sa <- function(w, df, bound_variable, min_bound, cooling_rate, sa_maxit=1, 
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_maxp_sa(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, cooling_rate, sa_maxit, initial_regions, distance_method, random_seed, cpu_threads))
+  return(p_maxp_sa(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, cooling_rate, sa_maxit, initial_regions, scale_method, distance_method, random_seed, cpu_threads))
 }
 
 ############################################################
@@ -426,7 +426,7 @@ maxp_tabu <- function(w, df, bound_variable, min_bound, tabu_length=10, conv_tab
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_maxp_tabu(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, tabu_length, conv_tabu, initial_regions, distance_method, random_seed, cpu_threads))
+  return(p_maxp_tabu(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, tabu_length, conv_tabu, initial_regions, scale_method, distance_method, random_seed, cpu_threads))
 }
 
 ############################################################
@@ -489,7 +489,7 @@ azp_greedy <- function(p, w, df, bound_variable=data.frame(), min_bound=0, inits
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_azp_greedy(p, w$GetPointer(), df, n_vars, bound_values, min_bound, inits, initial_regions, distance_method, random_seed))
+  return(p_azp_greedy(p, w$GetPointer(), df, n_vars, bound_values, min_bound, inits, initial_regions, scale_method, distance_method, random_seed))
 }
 
 ############################################################
@@ -554,7 +554,7 @@ azp_sa<- function(p, w, df, cooling_rate, sa_maxit=1, bound_variable=data.frame(
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_azp_sa(p, w$GetPointer(), df, n_vars, cooling_rate, sa_maxit, bound_values, min_bound, inits, initial_regions, distance_method, random_seed))
+  return(p_azp_sa(p, w$GetPointer(), df, n_vars, cooling_rate, sa_maxit, bound_values, min_bound, inits, initial_regions, scale_method, distance_method, random_seed))
 }
 
 ############################################################
@@ -619,5 +619,5 @@ azp_tabu<- function(p, w, df, tabu_length=10, conv_tabu=10, bound_variable=data.
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_azp_tabu(p, w$GetPointer(), df, n_vars, tabu_length, conv_tabu, bound_values, min_bound, inits, initial_regions, distance_method, random_seed))
+  return(p_azp_tabu(p, w$GetPointer(), df, n_vars, tabu_length, conv_tabu, bound_values, min_bound, inits, initial_regions, scale_method, distance_method, random_seed))
 }
