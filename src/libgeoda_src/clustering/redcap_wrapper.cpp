@@ -43,8 +43,9 @@ redcap_wrapper::redcap_wrapper(unsigned int k,
                 for (int j=0; j<n_cols; ++j) mask[i][j] = 1.0;
             }
             for (int i=0; i<n_cols; ++i) {
-                std::vector<double> vals = data[i];
-                GenUtils::StandardizeData(vals);
+                std::vector<double>& vals = data[i];
+                // the data will be standardized in the caller
+                //GenUtils::StandardizeData(vals);
                 for (int r=0; r<num_obs; ++r) {
                     matrix[r][i] = vals[r];
                 }

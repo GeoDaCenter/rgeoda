@@ -334,7 +334,7 @@ std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, 
                                                           bool is_inverse,
                                                           bool is_arc,
                                                           bool is_mile,
-                                                          std::vector<std::vector<double> >& data,
+                                                          const std::vector<std::vector<double> >& _data,
                                                           const std::string& scale_method,
                                                           const std::string& dist_type)
 {
@@ -352,8 +352,11 @@ std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, 
                                       use_kernel_diagonal, polyid);
 
     // transform data
-    for (int i=0; i<columns; i++) {
-        gda_transform_inplace(data[i], scale_method);
+    std::vector<std::vector<double> > data = _data;
+    if (!boost::iequals(scale_method, "raw")) {
+        for (int i=0; i<columns; i++) {
+            gda_transform_inplace(data[i], scale_method);
+        }
     }
 
     double **input_data = new double*[rows];

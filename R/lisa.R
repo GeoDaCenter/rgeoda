@@ -739,10 +739,10 @@ local_multiquantilelisa <- function(w, df, k, q, permutations=999, significance_
 #' @title Local Neighbor Match Test
 #' @description The local neighbor match test is to assess the extent of overlap between k-nearest neighbors in geographical space and k-nearest neighbors in multi-attribute space.
 #' @param sf_obj An sf (simple feature) object
-#' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
+#' @param df A subset of sf object with selected variables. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
 #' @param k a positive integer number for k-nearest neighbors searching.
-#' @param scale_method One of the scaling methods {'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
-#' @param distance_type The type of distance metrics used to measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.
+#' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
+#' @param distance_method (optional) The type of distance metrics used to measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.
 #' @param power (optional) The power (or exponent) of a number says how many times to use the number in a multiplication.
 #' @param is_inverse (optional) FALSE (default) or TRUE, apply inverse on distance value.
 #' @param is_arc (optional) FALSE (default) or TRUE, compute arc distance between two observations.
@@ -756,21 +756,24 @@ local_multiquantilelisa <- function(w, df, k, q, permutations=999, significance_
 #' nbr_test <- neighbor_match_test(guerry, 6, data)
 #' nbr_test
 #' @export
-neighbor_match_test <- function(sf_obj, df, k, scale_method = "standardize", distance_type = "euclidean", power = 1.0, is_inverse = FALSE,
+neighbor_match_test <- function(df, k, scale_method = "standardize", distance_method = "euclidean", power = 1.0, is_inverse = FALSE,
                                 is_arc = FALSE, is_mile = TRUE) {
-  geoda_obj <- getGeoDaObj(sf_obj) # get from cache or create instantly
+  if (inherits(df, "sf") == FALSE) {
+    stop("The input data needs to be a sf object.")
+  }
+  geoda_obj <- getGeoDaObj(df) # get geoda_obj from cache or create instantly
+  n_vars <- length(df) - 1 # minus geometry column
 
-  if (inherits(df, "data.frame") == FALSE) {
-    stop("The input data needs to be a data.frame.")
+  scale_methods <- c('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust')
+  if (!(scale_method %in% scale_methods)) {
+    stop("The scale_method has to be one of {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'}")
   }
 
-  n_vars <- length(df)
-
-  if (inherits(df, "sf")) {
-    n_vars <- n_vars - 1
+  if (distance_method != "euclidean" && distance_method != "manhattan") {
+    stop("The distance method needs to be either 'euclidean' or 'manhattan'.")
   }
 
-  result <- p_neighbor_match_test(geoda_obj$GetPointer(), k, power, is_inverse, is_arc, is_mile, df, n_vars, scale_method, distance_type)
+  result <- p_neighbor_match_test(geoda_obj$GetPointer(), k, power, is_inverse, is_arc, is_mile, df, n_vars, scale_method, distance_method)
 
   # update the probability results: change those with -1 to NA
   for (row_idx in 1:geoda_obj$n_obs) {

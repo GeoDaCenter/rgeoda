@@ -21,7 +21,7 @@ cacheEnv <- new.env()
 # The geoda object will be created internally and will not be visible.
 getGeoDaObj <- function(sf_obj) {
   # check if there is a geoda object being created in the cacheEnv
-  gda_uid <- digest::digest(sf_obj)
+  gda_uid <- digest::digest(st_geometry(sf_obj)) # use geometry to create uid
 
   geoda_obj <- NULL
 

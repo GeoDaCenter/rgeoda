@@ -4,6 +4,7 @@
 // Author: lixun910@gmail.com
 // Changes:
 // 1/4/2021 init rcpp_clustering.cpp
+// 2/11/2021 add scale_method
 
 #include <Rcpp.h>
 using namespace Rcpp;
@@ -11,7 +12,7 @@ using namespace Rcpp;
 #include "libgeoda_src/gda_clustering.h"
 #include "libgeoda_src/GenUtils.h"
 
-Rcpp::List _create_clustering_result(int num_obs, const std::vector<std::vector<int> >& cluster_ids, 
+Rcpp::List _create_clustering_result(int num_obs, const std::vector<std::vector<int> >& cluster_ids,
                                      const std::vector<std::vector<double> >& raw_data)
 {
   std::vector<int> clusters = GenUtils::flat_2dclusters(num_obs, cluster_ids);
@@ -36,7 +37,7 @@ Rcpp::List _create_clustering_result(int num_obs, const std::vector<std::vector<
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_skater(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string distance_method,
+Rcpp::List p_skater(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, std::string distance_method,
                     NumericVector& bound_vals, double min_bound, int seed, int cpu_threads)
 {
   // grab the object as a XPtr (smart pointer) to LISA
@@ -52,13 +53,13 @@ Rcpp::List p_skater(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string 
 
   std::vector<double> raw_bound = as<std::vector<double> >(bound_vals);
 
-  std::vector<std::vector<int> > cluster_ids = gda_skater(k, w, raw_data, distance_method, raw_bound, min_bound, seed, cpu_threads);
+  std::vector<std::vector<int> > cluster_ids = gda_skater(k, w, raw_data, scale_method, distance_method, raw_bound, min_bound, seed, cpu_threads);
 
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_redcap(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string redcap_method, std::string distance_method,
+Rcpp::List p_redcap(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, std::string redcap_method, std::string distance_method,
                     NumericVector& bound_vals, double min_bound, int seed, int cpu_threads)
 {
   // grab the object as a XPtr (smart pointer) to LISA
@@ -73,13 +74,13 @@ Rcpp::List p_redcap(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string 
   }
 
   std::vector<double> raw_bound = as<std::vector<double> >(bound_vals);
-  std::vector<std::vector<int> > cluster_ids = gda_redcap(k, w, raw_data, redcap_method, distance_method, raw_bound, min_bound, seed, cpu_threads);
+  std::vector<std::vector<int> > cluster_ids = gda_redcap(k, w, raw_data, scale_method, redcap_method, distance_method, raw_bound, min_bound, seed, cpu_threads);
 
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_schc(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string linkage_method, std::string distance_method,
+Rcpp::List p_schc(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, std::string linkage_method, std::string distance_method,
                     NumericVector& bound_vals, double min_bound)
 {
   // grab the object as a XPtr (smart pointer) to LISA
@@ -94,13 +95,13 @@ Rcpp::List p_schc(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string li
   }
 
   std::vector<double> raw_bound = as<std::vector<double> >(bound_vals);
-  std::vector<std::vector<int> > cluster_ids = gda_schc(k, w, raw_data, linkage_method, distance_method, raw_bound, min_bound);
+  std::vector<std::vector<int> > cluster_ids = gda_schc(k, w, raw_data, scale_method, linkage_method, distance_method, raw_bound, min_bound);
 
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_maxp_greedy(SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector& bound_vals, double min_bound,
+Rcpp::List p_maxp_greedy(SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, NumericVector& bound_vals, double min_bound,
                   int iterations, NumericVector& init_regions, std::string distance_method, int seed, int cpu_threads)
 {
   // grab the object as a XPtr (smart pointer) to LISA
@@ -122,13 +123,13 @@ Rcpp::List p_maxp_greedy(SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector&
     min_bounds.push_back(std::make_pair(min_bound, raw_bound));
   }
 
-  std::vector<std::vector<int> > cluster_ids = gda_maxp_greedy(w, raw_data, iterations, min_bounds, max_bounds, raw_init_regions, distance_method, seed, cpu_threads);
+  std::vector<std::vector<int> > cluster_ids = gda_maxp_greedy(w, raw_data, scale_method, iterations, min_bounds, max_bounds, raw_init_regions, distance_method, seed, cpu_threads);
 
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_maxp_sa(SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector& bound_vals, double min_bound,
+Rcpp::List p_maxp_sa(SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, NumericVector& bound_vals, double min_bound,
                      int iterations, double cooling_rate, int sa_maxit, NumericVector& init_regions, std::string distance_method, int seed, int cpu_threads)
 {
   // grab the object as a XPtr (smart pointer) to LISA
@@ -150,13 +151,13 @@ Rcpp::List p_maxp_sa(SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector& bou
     min_bounds.push_back(std::make_pair(min_bound, raw_bound));
   }
 
-  std::vector<std::vector<int> > cluster_ids = gda_maxp_sa(w, raw_data, iterations, cooling_rate, sa_maxit, min_bounds, max_bounds, raw_init_regions, distance_method, seed, cpu_threads);
+  std::vector<std::vector<int> > cluster_ids = gda_maxp_sa(w, raw_data, scale_method, iterations, cooling_rate, sa_maxit, min_bounds, max_bounds, raw_init_regions, distance_method, seed, cpu_threads);
 
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_maxp_tabu(SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector& bound_vals, double min_bound,
+Rcpp::List p_maxp_tabu(SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, NumericVector& bound_vals, double min_bound,
                        int iterations, int tabu_length, int conv_tabu, NumericVector& init_regions, std::string distance_method, int seed, int cpu_threads)
 {
   // grab the object as a XPtr (smart pointer) to LISA
@@ -178,13 +179,13 @@ Rcpp::List p_maxp_tabu(SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector& b
     min_bounds.push_back(std::make_pair(min_bound, raw_bound));
   }
 
-  std::vector<std::vector<int> > cluster_ids = gda_maxp_tabu(w, raw_data, iterations, tabu_length, conv_tabu, min_bounds, max_bounds, raw_init_regions, distance_method, seed, cpu_threads);
+  std::vector<std::vector<int> > cluster_ids = gda_maxp_tabu(w, raw_data, scale_method, iterations, tabu_length, conv_tabu, min_bounds, max_bounds, raw_init_regions, distance_method, seed, cpu_threads);
 
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_azp_greedy(int p, SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector& bound_vals, double min_bound, int inits,
+Rcpp::List p_azp_greedy(int p, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, NumericVector& bound_vals, double min_bound, int inits,
                         NumericVector& init_regions, std::string distance_method, int seed)
 {
   // grab the object as a XPtr (smart pointer) to Weight
@@ -206,13 +207,13 @@ Rcpp::List p_azp_greedy(int p, SEXP xp_w, Rcpp::List& data, int n_vars, NumericV
     min_bounds.push_back(std::make_pair(min_bound, raw_bound));
   }
 
-  std::vector<std::vector<int> > cluster_ids = gda_azp_greedy(p, w, raw_data, inits, min_bounds, max_bounds, raw_init_regions, distance_method, seed);
+  std::vector<std::vector<int> > cluster_ids = gda_azp_greedy(p, w, raw_data, scale_method, inits, min_bounds, max_bounds, raw_init_regions, distance_method, seed);
 
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_azp_sa(int p, SEXP xp_w, Rcpp::List& data, int n_vars, double cooling_rate, int sa_maxit,
+Rcpp::List p_azp_sa(int p, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, double cooling_rate, int sa_maxit,
                     NumericVector& bound_vals, double min_bound, int inits,
                     NumericVector& init_regions, std::string distance_method, int seed)
 {
@@ -235,13 +236,13 @@ Rcpp::List p_azp_sa(int p, SEXP xp_w, Rcpp::List& data, int n_vars, double cooli
     min_bounds.push_back(std::make_pair(min_bound, raw_bound));
   }
 
-  std::vector<std::vector<int> > cluster_ids = gda_azp_sa(p, w, raw_data, inits, cooling_rate, sa_maxit, min_bounds, max_bounds, raw_init_regions, distance_method, seed);
+  std::vector<std::vector<int> > cluster_ids = gda_azp_sa(p, w, raw_data, scale_method, inits, cooling_rate, sa_maxit, min_bounds, max_bounds, raw_init_regions, distance_method, seed);
 
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
 //  [[Rcpp::export]]
-Rcpp::List p_azp_tabu(int p, SEXP xp_w, Rcpp::List& data, int n_vars, int tabu_length, int conv_tabu,
+Rcpp::List p_azp_tabu(int p, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, int tabu_length, int conv_tabu,
                     NumericVector& bound_vals, double min_bound, int inits,
                     NumericVector& init_regions, std::string distance_method, int seed)
 {
@@ -264,7 +265,7 @@ Rcpp::List p_azp_tabu(int p, SEXP xp_w, Rcpp::List& data, int n_vars, int tabu_l
     min_bounds.push_back(std::make_pair(min_bound, raw_bound));
   }
 
-  std::vector<std::vector<int> > cluster_ids = gda_azp_tabu(p, w, raw_data, inits, tabu_length, conv_tabu, min_bounds, max_bounds, raw_init_regions, distance_method, seed);
+  std::vector<std::vector<int> > cluster_ids = gda_azp_tabu(p, w, raw_data, scale_method, inits, tabu_length, conv_tabu, min_bounds, max_bounds, raw_init_regions, distance_method, seed);
 
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
