@@ -165,7 +165,7 @@ std::vector<std::vector<double> > gda_neighbor_match_test(AbstractGeoDa* geoda, 
                                                            bool is_inverse,
                                                            bool is_arc,
                                                            bool is_mile,
-                                                           std::vector<std::vector<double> >& data,
+                                                           const std::vector<std::vector<double> >& data,
                                                            const std::string& scale_method,
                                                            const std::string& dist_type);
 

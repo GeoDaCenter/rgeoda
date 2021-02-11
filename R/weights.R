@@ -59,9 +59,9 @@ Weight <- setRefClass("Weight",
       "Get weights values of neighbors for idx-th observation, idx starts from 0"
       return (gda_w$GetNeighborWeights(idx))
     },
-    SpatialLag = function(idx, values) {
-      "Compute spatial lag values of idx-th observation, idx starts from 0"
-      return (gda_w$SpatialLag(idx,values))
+    SpatialLag = function(values) {
+      "Compute spatial lag values for values of selected variable"
+      return (gda_w$SpatialLag(values))
     },
     SaveToFile = function(out_path, layer_name, id_name, id_values) {
       "Save current spatial weights to a file.\\cr \\cr
@@ -198,21 +198,25 @@ get_neighbors <- function(gda_w, idx) {
 #' @title Spatial Lag
 #' @description Compute the spatial lag for idx-th observation using selected variable and current weights matrix
 #' @param gda_w A Weight object
-#' @param idx A value indicates idx-th observation, idx start from 1
-#' @param values A vector of values
-#' @return A numeric value of the spatial lag for idx-th observation
+#' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
+#' @return A data.frame with one column "Spatial Lag"
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' lag0 <- spatial_lag(queen_w, idx = 1, values = crm_prs)
-#' cat("\nSpatial lag of the 1-st observation of variable crm_prs is:", lag0)
+#' crm_lag <- spatial_lag(queen_w, guerry["Crm_prs"])
+#' crm_lag
 #' }
 #' @export
-spatial_lag <- function(gda_w, idx, values) {
-  idx <- idx - 1
-  return(gda_w$SpatialLag(idx, values))
+spatial_lag <- function(gda_w, df) {
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
+  }
+
+  data <- df[[1]]
+  return(gda_w$SpatialLag(data))
 }
 
 #################################################################
@@ -285,28 +289,43 @@ median_neighbors <- function(gda_w) {
 
 #################################################################
 #' @title Save Spatial Weights
-#' @description Save current spatial weights to a file
+#' @description Save spatial weights to a file
 #' @param gda_w A Weight object
 #' @param out_path The path of an output weights file
-#' @param layer_name The name of the layer of input dataset
-#' @param id_name The id name (or field name), which is an associated column contains unique values, that makes sure that the weights are connected to the correct observations in the data table.
-#' @param id_values The tuple of values of selected id_name (column or field)
+#' @param id_variable The id variable (a data.frame) that defines the unique value of each observation when saving a weights file
+#' @param layer_name (optional) The name of the layer of input dataset
 #' @return A boolean value indicates if save successfully or failed
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' save_weights(rook_w, out_path = '/Users/xun/Downloads/Guerry_r.gal',
-#'             layer_name = 'Guerry',
-#'             id_name = 'CODE_DE',
-#'             id_values = as.integer(guerry_df['CODE_DE'][,1]))
+#' save_weights(quen_w, guerry_df['CODE_DE'], out_path = '/Users/xun/Downloads/Guerry_r.gal')
 #' }
 #' @export
-save_weights <- function(gda_w, out_path, layer_name, id_name, id_values) {
+save_weights <- function(gda_w, id_variable, out_path, layer_name="") {
+  if (inherits(id_variable, "data.frame") == FALSE) {
+    stop("The id_variable needs to be a data.frame.")
+  }
+  id_values <- id_variable[[1]]
+  id_name <- names(id_variable)[[1]]
+
+  if (id_name == "") {
+    stop("The id_variable doesn't have a column name.")
+  }
+
   return(gda_w$SaveToFile(out_path, layer_name, id_name, id_values))
 }
 
+#load_weights <- function(weights_path) {
+#  if (weights_path == "") {
+#    stop("The weights_path can not be empty.")
+#  }
+#
+#  w <- p_gda_load_weights(weights_path)
+#
+#  return(Weight$new(p_GeoDaWeight(w)))
+#}
 
 #################################################################
 #' @title Queen Contiguity Spatial Weights

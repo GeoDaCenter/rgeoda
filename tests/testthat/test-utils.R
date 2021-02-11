@@ -1,18 +1,10 @@
 context("utils.R")
 
 
-testthat::test_that('utils', {
-    vec1 <- c(1,2,3,4,5,6,7)
-    vec2 <- c(1.1,2.2,3.3,4.4,5.5)
-    data <- list(vec1, vec2)
-
-    testthat::expect_equal(
-        demean(data),
-        list(c(-3,-2, -1,  0,  1,  2, 3), c(-2.2, -1.1,  0.0,  1.1,  2.2))
-    )
-    testthat::expect_equal(
-        natural_breaks(2, vec1),
-        c(5)
-    )
+testthat::test_that('natural_breaks', {
+    guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+    guerry <- st_read(guerry_path)
+    brks <- natural_breaks(5, guerry['Crm_prs'])
+    testthat::expect_equal( brks, c(9474, 16722, 23316, 29872))
 })
 

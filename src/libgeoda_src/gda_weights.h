@@ -48,4 +48,7 @@ GeoDaWeight* gda_distance_weights(AbstractGeoDa* geoda, double dist_thres,
                                   bool is_mile,
                                   const std::string& kernel,
                                   bool use_kernel_diagonals);
+
+GeoDaWeight* gda_load_weights(const char* weights_path);
+
 #endif

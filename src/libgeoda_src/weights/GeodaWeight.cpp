@@ -1,3 +1,7 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
 #include "GeodaWeight.h"
 
 GeoDaWeight::GeoDaWeight(const GeoDaWeight& gw)
@@ -21,7 +25,7 @@ const GeoDaWeight& GeoDaWeight::operator=(const GeoDaWeight& gw)
 	median_nbrs = gw.median_nbrs;
 	is_internal_use = gw.is_internal_use;
 	uid = gw.uid;
-	
+
 	return *this;
 }
 
@@ -60,3 +64,26 @@ double GeoDaWeight::GetMedianNbrs() const
     return median_nbrs;
 }
 
+const char* WeightUtils::ReadIdField(const char* w_fname)
+{
+  /*
+  std::ifstream file(w_fname);
+  if (!(file.is_open() && file.good())) return "";
+
+  // Header line is identical for GWT and GAL
+  // First determine if header line is correct
+  // Can be either: int int string string  (type n_obs filename field)
+  // or : int (n_obs)
+  std::string str;
+  std::getline(file, str);
+  std::stringstream ss(str, std::stringstream::in | std::stringstream::out);
+
+  std::string line;
+  std::getline(ss, line);
+  std::string header(line);
+
+  // detect if header contains string with empty space, which should be quoted
+  if (header.find("\""))
+   */
+  return 0;
+}

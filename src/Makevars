@@ -133,7 +133,7 @@ OBJECTS = \
 	rcpp_clustering.o \
 	RcppExports.o
 
-.PHONY: all clean
+.PHONY: all
 
 all: $(SHLIB)
 

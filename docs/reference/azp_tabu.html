@@ -135,13 +135,14 @@
     <pre class="usage"><span class='fu'>azp_tabu</span><span class='op'>(</span>
   <span class='va'>p</span>,
   <span class='va'>w</span>,
-  <span class='va'>data</span>,
+  <span class='va'>df</span>,
   tabu_length <span class='op'>=</span> <span class='fl'>10</span>,
   conv_tabu <span class='op'>=</span> <span class='fl'>10</span>,
-  bound_vals <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span><span class='st'>"numeric"</span><span class='op'>)</span>,
+  bound_variable <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='op'>)</span>,
   min_bound <span class='op'>=</span> <span class='fl'>0</span>,
   inits <span class='op'>=</span> <span class='fl'>0</span>,
   initial_regions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span><span class='st'>"numeric"</span><span class='op'>)</span>,
+  scale_method <span class='op'>=</span> <span class='st'>"standardize"</span>,
   distance_method <span class='op'>=</span> <span class='st'>"euclidean"</span>,
   random_seed <span class='op'>=</span> <span class='fl'>123456789</span>
 <span class='op'>)</span></pre>
@@ -158,8 +159,8 @@
       <td><p>An instance of Weight class</p></td>
     </tr>
     <tr>
-      <th>data</th>
-      <td><p>A list of numeric vectors of selected variable</p></td>
+      <th>df</th>
+      <td><p>A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]</p></td>
     </tr>
     <tr>
       <th>tabu_length</th>
@@ -170,12 +171,12 @@
       <td><p>(optional): The number of non-improving moves. Defaults to 10.</p></td>
     </tr>
     <tr>
-      <th>bound_vals</th>
-      <td><p>(optional) A numeric vector of selected bounding variable</p></td>
+      <th>bound_variable</th>
+      <td><p>(optional) A data frame with selected bound variabl</p></td>
     </tr>
     <tr>
       <th>min_bound</th>
-      <td><p>(optional) A minimum value that the sum value of bounding variable int each cluster should be greater than</p></td>
+      <td><p>(optional) A minimum bound value that applies to all clusters</p></td>
     </tr>
     <tr>
       <th>inits</th>
@@ -184,6 +185,10 @@
     <tr>
       <th>initial_regions</th>
       <td><p>(optional) The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters</p></td>
+    </tr>
+    <tr>
+      <th>scale_method</th>
+      <td><p>(optional) One of the scaling methods 'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust' to apply on input data. Default is 'standardize' (Z-score normalization).</p></td>
     </tr>
     <tr>
       <th>distance_method</th>
@@ -197,15 +202,15 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of numeric vectors represents a group of clusters</p>
+    <p>A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/sf/'>sf</a></span><span class='op'>)</span>
 <span class='va'>guerry_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Guerry.shp"</span>, package <span class='op'>=</span> <span class='st'>"rgeoda"</span><span class='op'>)</span>
-<span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='geoda_open.html'>geoda_open</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
+<span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>st_read</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
 <span class='va'>queen_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='queen_weights.html'>queen_weights</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span>
-<span class='va'>guerry_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span> <span class='co'># use as data.frame</span>
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>guerry_df</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Crm_prs'</span>,<span class='st'>'Crm_prp'</span>,<span class='st'>'Litercy'</span>,<span class='st'>'Donatns'</span>,<span class='st'>'Infants'</span>,<span class='st'>'Suicids'</span><span class='op'>)</span><span class='op'>]</span>
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>guerry</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Crm_prs'</span>,<span class='st'>'Crm_prp'</span>,<span class='st'>'Litercy'</span>,<span class='st'>'Donatns'</span>,<span class='st'>'Infants'</span>,<span class='st'>'Suicids'</span><span class='op'>)</span><span class='op'>]</span>
 <span class='va'>azp_clusters</span> <span class='op'>&lt;-</span> <span class='fu'>azp_tabu</span><span class='op'>(</span><span class='fl'>5</span>, <span class='va'>queen_w</span>, <span class='va'>data</span>, tabu_length<span class='op'>=</span><span class='fl'>10</span>, conv_tabu<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span>
 <span class='va'>azp_clusters</span>
 <span class='op'>}</span>

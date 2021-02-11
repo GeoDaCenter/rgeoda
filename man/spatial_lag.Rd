@@ -4,27 +4,26 @@
 \alias{spatial_lag}
 \title{Spatial Lag}
 \usage{
-spatial_lag(gda_w, idx, values)
+spatial_lag(gda_w, df)
 }
 \arguments{
 \item{gda_w}{A Weight object}
 
-\item{idx}{A value indicates idx-th observation, idx start from 1}
-
-\item{values}{A vector of values}
+\item{df}{A data frame with selected variable only. E.g. guerry["Crm_prs"]}
 }
 \value{
-A numeric value of the spatial lag for idx-th observation
+A data.frame with one column "Spatial Lag"
 }
 \description{
 Compute the spatial lag for idx-th observation using selected variable and current weights matrix
 }
 \examples{
 \dontrun{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-lag0 <- spatial_lag(queen_w, idx = 1, values = crm_prs)
-cat("\nSpatial lag of the 1-st observation of variable crm_prs is:", lag0)
+crm_lag <- spatial_lag(queen_w, guerry["Crm_prs"])
+crm_lag
 }
 }

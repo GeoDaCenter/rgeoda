@@ -6,11 +6,13 @@
 #include "clustering/azp_wrapper.h"
 #include "clustering/schc_wrapper.h"
 #include "GenUtils.h"
+#include "gda_data.h"
 #include "gda_clustering.h"
 
 
 const std::vector<std::vector<int> > gda_azp_greedy(int p, GeoDaWeight *w,
-                                                     const std::vector<std::vector<double> > &data,
+                                                     const std::vector<std::vector<double> > &_data,
+                                                     const std::string& scale_method,
                                                      int inits,
                                                      const std::vector<std::pair<double, std::vector<double> > >& min_bounds,
                                                      const std::vector<std::pair<double, std::vector<double> > >& max_bounds,
@@ -22,6 +24,15 @@ const std::vector<std::vector<int> > gda_azp_greedy(int p, GeoDaWeight *w,
 
     if (w == 0) return result;
 
+    // transform data
+    int columns = (int)_data.size();
+    std::vector<std::vector<double> > data = _data;
+    if (!boost::iequals(scale_method, "raw")) {
+        for (int i=0; i<columns; i++) {
+            gda_transform_inplace(data[i], scale_method);
+        }
+    }
+
     azp_greedy_wrapper azp(p, w, data, inits, min_bounds, max_bounds, init_regions, distance_method,
             rnd_seed);
 
@@ -29,7 +40,8 @@ const std::vector<std::vector<int> > gda_azp_greedy(int p, GeoDaWeight *w,
 }
 
 const std::vector<std::vector<int> > gda_azp_sa(int p, GeoDaWeight *w,
-                                                const std::vector<std::vector<double> > &data,
+                                                const std::vector<std::vector<double> > &_data,
+                                                const std::string& scale_method,
                                                 int inits,
                                                 double cooling_rate,
                                                 int sa_maxit,
@@ -43,6 +55,15 @@ const std::vector<std::vector<int> > gda_azp_sa(int p, GeoDaWeight *w,
 
     if (w == 0) return result;
 
+    // transform data
+    int columns = (int)_data.size();
+    std::vector<std::vector<double> > data = _data;
+    if (!boost::iequals(scale_method, "raw")) {
+        for (int i=0; i<columns; i++) {
+            gda_transform_inplace(data[i], scale_method);
+        }
+    }
+
     azp_sa_wrapper azp(p, w, data, inits, cooling_rate, sa_maxit, min_bounds, max_bounds, init_regions, distance_method,
                            rnd_seed);
 
@@ -50,7 +71,8 @@ const std::vector<std::vector<int> > gda_azp_sa(int p, GeoDaWeight *w,
 }
 
 const std::vector<std::vector<int> > gda_azp_tabu(int p, GeoDaWeight *w,
-                                                  const std::vector<std::vector<double> > &data,
+                                                  const std::vector<std::vector<double> > &_data,
+                                                  const std::string& scale_method,
                                                   int inits,
                                                   int tabu_length,
                                                   int conv_tabu,
@@ -64,6 +86,15 @@ const std::vector<std::vector<int> > gda_azp_tabu(int p, GeoDaWeight *w,
 
     if (w == 0) return result;
 
+    // transform data
+    int columns = (int)_data.size();
+    std::vector<std::vector<double> > data = _data;
+    if (!boost::iequals(scale_method, "raw")) {
+        for (int i=0; i<columns; i++) {
+            gda_transform_inplace(data[i], scale_method);
+        }
+    }
+
     azp_tabu_wrapper azp(p, w, data, inits, tabu_length, conv_tabu, min_bounds, max_bounds, init_regions,
             distance_method, rnd_seed);
 
@@ -71,7 +102,8 @@ const std::vector<std::vector<int> > gda_azp_tabu(int p, GeoDaWeight *w,
 }
 
 const std::vector<std::vector<int> > gda_maxp_greedy(GeoDaWeight *w,
-                                                     const std::vector<std::vector<double> > &data,
+                                                     const std::vector<std::vector<double> > &_data,
+                                                     const std::string& scale_method,
                                                      int iterations,
                                                      const std::vector<std::pair<double, std::vector<double> > >& min_bounds,
                                                      const std::vector<std::pair<double, std::vector<double> > >& max_bounds,
@@ -84,13 +116,23 @@ const std::vector<std::vector<int> > gda_maxp_greedy(GeoDaWeight *w,
 
     if (w == 0) return result;
 
+    // transform data
+    int columns = (int)_data.size();
+    std::vector<std::vector<double> > data = _data;
+    if (!boost::iequals(scale_method, "raw")) {
+        for (int i=0; i<columns; i++) {
+            gda_transform_inplace(data[i], scale_method);
+        }
+    }
+
     maxp_greedy_wrapper maxp(w, data, iterations, min_bounds, max_bounds, init_regions, distance_method, rnd_seed, cpu_threads);
 
     return maxp.GetClusters();
 }
 
 const std::vector<std::vector<int> > gda_maxp_sa(GeoDaWeight *w,
-                                              const std::vector<std::vector<double> > &data,
+                                                 const std::vector<std::vector<double> > &_data,
+                                                 const std::string& scale_method,
                                               int iterations,
                                               double cooling_rate,
                                               int sa_maxit,
@@ -105,6 +147,15 @@ const std::vector<std::vector<int> > gda_maxp_sa(GeoDaWeight *w,
 
     if (w == 0) return result;
 
+    // transform data
+    int columns = (int)_data.size();
+    std::vector<std::vector<double> > data = _data;
+    if (!boost::iequals(scale_method, "raw")) {
+        for (int i=0; i<columns; i++) {
+            gda_transform_inplace(data[i], scale_method);
+        }
+    }
+
     maxp_sa_wrapper maxp(w, data, iterations, cooling_rate, sa_maxit, min_bounds, max_bounds, init_regions,
             distance_method, rnd_seed, cpu_threads);
 
@@ -112,7 +163,8 @@ const std::vector<std::vector<int> > gda_maxp_sa(GeoDaWeight *w,
 }
 
 const std::vector<std::vector<int> > gda_maxp_tabu(GeoDaWeight *w,
-                                                   const std::vector<std::vector<double> > &data,
+                                                   const std::vector<std::vector<double> > &_data,
+                                                   const std::string& scale_method,
                                                    int iterations,
                                                    int tabu_length,
                                                    int conv_tabu,
@@ -127,6 +179,15 @@ const std::vector<std::vector<int> > gda_maxp_tabu(GeoDaWeight *w,
 
     if (w == 0) return result;
 
+    // transform data
+    int columns = (int)_data.size();
+    std::vector<std::vector<double> > data = _data;
+    if (!boost::iequals(scale_method, "raw")) {
+        for (int i=0; i<columns; i++) {
+            gda_transform_inplace(data[i], scale_method);
+        }
+    }
+
     maxp_tabu_wrapper maxp(w, data, iterations, tabu_length, conv_tabu, min_bounds, max_bounds, init_regions,
             distance_method, rnd_seed, cpu_threads);
 
@@ -135,7 +196,8 @@ const std::vector<std::vector<int> > gda_maxp_tabu(GeoDaWeight *w,
 
 const std::vector<std::vector<int> > gda_redcap(unsigned int k,
                                                 GeoDaWeight *w,
-                                                const std::vector<std::vector<double> > &data,
+                                                const std::vector<std::vector<double> > &_data,
+                                                const std::string& scale_method,
                                                 const std::string &redcap_method,
                                                 const std::string &distance_method,
                                                 const std::vector<double>& bound_vals,
@@ -161,25 +223,36 @@ const std::vector<std::vector<int> > gda_redcap(unsigned int k,
 
     if ((int)k > w->num_obs) return result;
 
+    // transform data
+    int columns = (int)_data.size();
+    std::vector<std::vector<double> > data = _data;
+    if (!boost::iequals(scale_method, "raw")) {
+        for (int i=0; i<columns; i++) {
+            gda_transform_inplace(data[i], scale_method);
+        }
+    }
+
     redcap_wrapper redcap(k, w, data, method, distance_method, bound_vals, min_bound, rand_seed, cpu_threads);
     return redcap.GetClusters();
 }
 
 const std::vector<std::vector<int> > gda_skater(unsigned int k,
                                                 GeoDaWeight *w,
-                                                const std::vector<std::vector<double> > &data,
+                                                const std::vector<std::vector<double> > &_data,
+                                                const std::string& scale_method,
                                                 const std::string &distance_method,
                                                 const std::vector<double>& bound_vals,
                                                 double min_bound,
                                                 int rand_seed,
                                                 int cpu_threads)
 {
-    return gda_redcap(k, w, data, "firstorder-singlelinkage", distance_method, bound_vals, min_bound, rand_seed, cpu_threads);
+    return gda_redcap(k, w, _data, scale_method, "firstorder-singlelinkage", distance_method, bound_vals, min_bound, rand_seed, cpu_threads);
 }
 
 const std::vector<std::vector<int> > gda_schc(unsigned int k,
                                                 GeoDaWeight *w,
-                                                const std::vector<std::vector<double> > &data,
+                                                const std::vector<std::vector<double> > &_data,
+                                                const std::string& scale_method,
                                                 const std::string &linkage_method,
                                                 const std::string &distance_method,
                                                 const std::vector<double>& bound_vals,
@@ -200,6 +273,15 @@ const std::vector<std::vector<int> > gda_schc(unsigned int k,
     if (w == 0 ||  method > 4) return result;
 
     if ((int)k > w->num_obs) return result;
+
+    // transform data
+    int columns = (int)_data.size();
+    std::vector<std::vector<double> > data = _data;
+    if (!boost::iequals(scale_method, "raw")) {
+        for (int i=0; i<columns; i++) {
+            gda_transform_inplace(data[i], scale_method);
+        }
+    }
 
     schc_wrapper schc(k, w, data, method, distance_method, bound_vals, min_bound);
     return schc.GetClusters();
@@ -223,7 +305,36 @@ double gda_totalsumofsquare(const std::vector<std::vector<double> >& vals)
     return ssq;
 }
 
-double gda_withinsumofsquare(const std::vector<std::vector<int> >& solution,
+std::vector<double> gda_withinsumofsquare(const std::vector<std::vector<int> >& solution,
+                             const std::vector<std::vector<double> >& _data)
+{
+    size_t cols = _data.size();
+
+    // standardize data
+    std::vector<std::vector<double> > data(cols);
+    for (size_t c=0; c<cols; ++c) {
+        data[c] = _data[c];
+        GenUtils::StandardizeData(data[c]);
+    }
+
+    std::vector<double> within_ss;
+    for (size_t c=0; c<cols; ++c) {
+        double ss = 0;
+        for (size_t i=0; i<solution.size(); ++i) {
+            std::vector<double> vals;
+            for (size_t j = 0; j < solution[i].size(); ++j) {
+                size_t r = solution[i][j];
+                vals.push_back(data[c][r]);
+            }
+            ss += gda_sumofsquares(vals);
+        }
+        within_ss.push_back(ss);
+    }
+
+    return within_ss;
+}
+
+double gda_totalwithinsumofsquare(const std::vector<std::vector<int> >& solution,
                              const std::vector<std::vector<double> >& _data)
 {
     double ssq = 0;
@@ -250,11 +361,12 @@ double gda_withinsumofsquare(const std::vector<std::vector<int> >& solution,
     return ssq;
 }
 
+
 double gda_betweensumofsquare(const std::vector<std::vector<int> >& solution,
                               const std::vector<std::vector<double> >& data)
 {
     double totss = gda_totalsumofsquare(data);
-    double totwithiness = gda_withinsumofsquare(solution, data);
+    double totwithiness = gda_totalwithinsumofsquare(solution, data);
     double betweenss = totss - totwithiness;
     return betweenss;
 }

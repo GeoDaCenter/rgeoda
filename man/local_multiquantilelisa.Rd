@@ -7,8 +7,8 @@
 local_multiquantilelisa(
   w,
   df,
-  ks,
-  qs,
+  k,
+  q,
   permutations = 999,
   significance_cutoff = 0.05,
   cpu_threads = 6,
@@ -20,9 +20,9 @@ local_multiquantilelisa(
 
 \item{df}{A data frame with selected variables only. E.g. guerry[c("TopCrm", "TopWealth", "TopLit")]}
 
-\item{ks}{A vector of "k" values indicate the number of quantiles for each variable. Value range e.g. [1, 10]}
+\item{k}{A vector of "k" values indicate the number of quantiles for each variable. Value range e.g. [1, 10]}
 
-\item{qs}{A vector of "q" values indicate which quantile or interval for each variable used in local join count statistics. Value stars from 1.}
+\item{q}{A vector of "q" values indicate which quantile or interval for each variable used in local join count statistics. Value stars from 1.}
 
 \item{permutations}{The number of permutations for the LISA computation}
 
@@ -43,7 +43,7 @@ library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-lisa <- local_multiquantilelisa(queen_w, guerry[c("Crm_prp", "Litercy")], ks=c(4,4), qs=c(1,1))
+lisa <- local_multiquantilelisa(queen_w, guerry[c("Crm_prp", "Litercy")], k=c(4,4), q=c(1,1))
 clsts <- lisa_clusters(lisa)
 clsts
 }

@@ -23,7 +23,7 @@ LISA <- setRefClass("LISA",
     initialize = function(lisa_obj) {
       "Constructor with a LISA object (internally used)"
       .self$gda_lisa = lisa_obj
-      .self$p_vals = lisa_obj$GetLocalSignificanceValues()
+      .self$p_vals = .self$GetLocalSignificanceValues()
       .self$c_vals = lisa_obj$GetClusterIndicators()
       .self$lisa_vals = lisa_obj$GetLISAValues()
       .self$nn_vals = lisa_obj$GetNumNeighbors()
@@ -33,6 +33,11 @@ LISA <- setRefClass("LISA",
     Run = function() {
       "Call to run LISA computation"
       gda_lisa$Run()
+      # update values
+      .self$p_vals = .self$GetLocalSignificanceValues()
+      .self$c_vals = gda_lisa$GetClusterIndicators()
+      .self$lisa_vals = gda_lisa$GetLISAValues()
+      .self$nn_vals = gda_lisa$GetNumNeighbors()
     },
     SetPermutations = function(num_perm) {
       "Set the number of permutations for the LISA computation"
@@ -54,7 +59,14 @@ LISA <- setRefClass("LISA",
     },
     GetLocalSignificanceValues = function() {
       "Get the local pseudo-p values of significance returned from LISA computation."
-      return (gda_lisa$GetLocalSignificanceValues())
+      pvals <- gda_lisa$GetLocalSignificanceValues()
+      num_obs <- length(pvals)
+      for (row_idx in 1:num_obs) {
+        if (pvals[row_idx] == -1) {
+          pvals[row_idx] <- NA
+        }
+      }
+      return (pvals)
     },
     GetClusterIndicators = function() {
       "Get the local cluster indicators returned from LISA computation."
@@ -662,6 +674,7 @@ local_quantilelisa <- function(w, df, k, q, permutations=999, significance_cutof
   }
 
   lisa_obj <- p_quantilelisa(w$GetPointer(), k, q, df[[1]], permutations, significance_cutoff, cpu_threads, seed)
+
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
@@ -670,8 +683,8 @@ local_quantilelisa <- function(w, df, k, q, permutations=999, significance_cutof
 #' @description The function to apply multivariate quantile LISA statistics
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variables only. E.g. guerry[c("TopCrm", "TopWealth", "TopLit")]
-#' @param ks A vector of "k" values indicate the number of quantiles for each variable. Value range e.g. [1, 10]
-#' @param qs A vector of "q" values indicate which quantile or interval for each variable used in local join count statistics. Value stars from 1.
+#' @param k A vector of "k" values indicate the number of quantiles for each variable. Value range e.g. [1, 10]
+#' @param q A vector of "q" values indicate which quantile or interval for each variable used in local join count statistics. Value stars from 1.
 #' @param permutations The number of permutations for the LISA computation
 #' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads The number of cpu threads used for parallel LISA computation
@@ -682,11 +695,11 @@ local_quantilelisa <- function(w, df, k, q, permutations=999, significance_cutof
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' lisa <- local_multiquantilelisa(queen_w, guerry[c("Crm_prp", "Litercy")], ks=c(4,4), qs=c(1,1))
+#' lisa <- local_multiquantilelisa(queen_w, guerry[c("Crm_prp", "Litercy")], k=c(4,4), q=c(1,1))
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_multiquantilelisa <- function(w, df, ks, qs, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_multiquantilelisa <- function(w, df, k, q, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -705,31 +718,30 @@ local_multiquantilelisa <- function(w, df, ks, qs, permutations=999, significanc
     stop("Please specify more than one variable for multi-quantile lisa.")
   }
 
-  if (length(ks) != length(qs) || length(ks) != n_vars) {
+  if (length(k) != length(q) || length(k) != n_vars) {
     stop("Please specify 'k' and 'q' values for each variable.")
   }
 
   for (i in 1:n_vars) {
-    k <- ks[i]
-    q <- qs[i]
+    ki <- k[i]
+    qi <- q[i]
 
-    if (q < 1 || q > k) {
+    if (qi < 1 || qi > ki) {
       stop("The value of which quantile been selected should be in the range of [1, k]")
     }
   }
 
-  lisa_obj <- p_multiquantilelisa(w$GetPointer(), ks, qs, df, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_multiquantilelisa(w$GetPointer(), k, q, df, permutations, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
 #################################################################
 #' @title Local Neighbor Match Test
 #' @description The local neighbor match test is to assess the extent of overlap between k-nearest neighbors in geographical space and k-nearest neighbors in multi-attribute space.
-#' @param sf_obj An sf (simple feature) object
+#' @param df A subset of sf object with selected variables. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
 #' @param k a positive integer number for k-nearest neighbors searching.
-#' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
-#' @param scale_method One of the scaling methods {'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
-#' @param distance_type The type of distance metrics used to measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.
+#' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
+#' @param distance_method (optional) The type of distance metrics used to measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.
 #' @param power (optional) The power (or exponent) of a number says how many times to use the number in a multiplication.
 #' @param is_inverse (optional) FALSE (default) or TRUE, apply inverse on distance value.
 #' @param is_arc (optional) FALSE (default) or TRUE, compute arc distance between two observations.
@@ -740,24 +752,27 @@ local_multiquantilelisa <- function(w, df, ks, qs, permutations=999, significanc
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- st_read(guerry_path)
 #' data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
-#' nbr_test <- neighbor_match_test(guerry, 6, data)
+#' nbr_test <- neighbor_match_test(data, 6)
 #' nbr_test
 #' @export
-neighbor_match_test <- function(sf_obj, k, df, scale_method = "standardize", distance_type = "euclidean", power = 1.0, is_inverse = FALSE,
+neighbor_match_test <- function(df, k, scale_method = "standardize", distance_method = "euclidean", power = 1.0, is_inverse = FALSE,
                                 is_arc = FALSE, is_mile = TRUE) {
-  geoda_obj <- getGeoDaObj(sf_obj) # get from cache or create instantly
+  if (inherits(df, "sf") == FALSE) {
+    stop("The input data needs to be a sf object.")
+  }
+  geoda_obj <- getGeoDaObj(df) # get geoda_obj from cache or create instantly
+  n_vars <- length(df) - 1 # minus geometry column
 
-  if (inherits(df, "data.frame") == FALSE) {
-    stop("The input data needs to be a data.frame.")
+  scale_methods <- c('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust')
+  if (!(scale_method %in% scale_methods)) {
+    stop("The scale_method has to be one of {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'}")
   }
 
-  n_vars <- length(df)
-
-  if (inherits(df, "sf")) {
-    n_vars <- n_vars - 1
+  if (distance_method != "euclidean" && distance_method != "manhattan") {
+    stop("The distance method needs to be either 'euclidean' or 'manhattan'.")
   }
 
-  result <- p_neighbor_match_test(geoda_obj$GetPointer(), k, power, is_inverse, is_arc, is_mile, df, n_vars, scale_method, distance_type)
+  result <- p_neighbor_match_test(geoda_obj$GetPointer(), k, power, is_inverse, is_arc, is_mile, df, n_vars, scale_method, distance_method)
 
   # update the probability results: change those with -1 to NA
   for (row_idx in 1:geoda_obj$n_obs) {

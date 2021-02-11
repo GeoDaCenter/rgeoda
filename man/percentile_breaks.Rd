@@ -4,10 +4,10 @@
 \alias{percentile_breaks}
 \title{Percentile Breaks}
 \usage{
-percentile_breaks(data)
+percentile_breaks(df)
 }
 \arguments{
-\item{data}{A vector of numeric values}
+\item{df}{A data frame with selected variable. E.g. guerry["Crm_prs"]}
 }
 \value{
 A vector of numeric values of computed breaks
@@ -16,9 +16,8 @@ A vector of numeric values of computed breaks
 Percentile breaks data into 6 groups: the lowest 1%, 1-10%, 10-50%, 50-90%, 90-99% and the top 1%.
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-percentile_breaks(data=crm_prs)
+guerry <- st_read(guerry_path)
+percentile_breaks(guerry['Crm_prs'])
 }

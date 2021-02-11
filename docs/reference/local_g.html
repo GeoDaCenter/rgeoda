@@ -134,7 +134,7 @@
 
     <pre class="usage"><span class='fu'>local_g</span><span class='op'>(</span>
   <span class='va'>w</span>,
-  <span class='va'>data</span>,
+  <span class='va'>df</span>,
   permutations <span class='op'>=</span> <span class='fl'>999</span>,
   significance_cutoff <span class='op'>=</span> <span class='fl'>0.05</span>,
   cpu_threads <span class='op'>=</span> <span class='fl'>6</span>,
@@ -147,6 +147,10 @@
     <tr>
       <th>w</th>
       <td><p>An instance of Weight object</p></td>
+    </tr>
+    <tr>
+      <th>df</th>
+      <td><p>A data frame with selected variable only. E.g. guerry["Crm_prs"]</p></td>
     </tr>
     <tr>
       <th>permutations</th>
@@ -164,10 +168,6 @@
       <th>seed</th>
       <td><p>The seed for random number generator</p></td>
     </tr>
-    <tr>
-      <th>df</th>
-      <td><p>A data frame with selected variable only. E.g. guerry["Crm_prs"]</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -177,14 +177,31 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/sf/'>sf</a></span><span class='op'>)</span>
 <span class='va'>guerry_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Guerry.shp"</span>, package <span class='op'>=</span> <span class='st'>"rgeoda"</span><span class='op'>)</span>
-<span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='geoda_open.html'>geoda_open</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
-<span class='va'>queen_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='queen_weights.html'>queen_weights</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in as.geoda(sf_obj, with_table = FALSE): as.geoda() takes either an 'sf' or 'sp' object.</span></div><div class='input'><span class='va'>guerry_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span> <span class='co'># use as data.frame</span>
-<span class='va'>crm_prs</span> <span class='op'>&lt;-</span> <span class='va'>guerry_df</span><span class='op'>[</span><span class='st'>'Crm_prs'</span><span class='op'>]</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span> <span class='co'># get values of variable "crm_prs"</span>
-<span class='va'>lisa</span> <span class='op'>&lt;-</span> <span class='fu'>local_g</span><span class='op'>(</span><span class='va'>queen_w</span>, <span class='va'>crm_prs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in local_g(queen_w, crm_prs): object 'queen_w' not found</span></div><div class='input'><span class='va'>lms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='lisa_values.html'>lisa_values</a></span><span class='op'>(</span><span class='va'>lisa</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in lisa_values(lisa): object 'lisa' not found</span></div><div class='input'><span class='va'>lms</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'lms' not found</span></div></pre>
+<span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>st_read</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Reading layer `Guerry' from data source `/private/var/folders/z1/5l2c5r6d41bfkrlq6s66s2gh0000gn/T/Rtmp353PXE/temp_libpath1424866a56373/rgeoda/extdata/Guerry.shp' using driver `ESRI Shapefile'
+#&gt; Simple feature collection with 85 features and 29 fields
+#&gt; geometry type:  MULTIPOLYGON
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 47680 ymin: 1703258 xmax: 1031401 ymax: 2677441
+#&gt; projected CRS:  NTF (Paris) / Lambert zone II</div><div class='input'><span class='va'>queen_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='queen_weights.html'>queen_weights</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span>
+<span class='va'>lisa</span> <span class='op'>&lt;-</span> <span class='fu'>local_g</span><span class='op'>(</span><span class='va'>queen_w</span>, <span class='va'>guerry</span><span class='op'>[</span><span class='st'>"Crm_prs"</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>lms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='lisa_values.html'>lisa_values</a></span><span class='op'>(</span><span class='va'>lisa</span><span class='op'>)</span>
+<span class='va'>lms</span>
+</div><div class='output co'>#&gt;  [1] 0.013819020 0.016115180 0.015686557 0.008553106 0.008955895 0.009334367
+#&gt;  [7] 0.013308440 0.008087712 0.013630374 0.006826279 0.007225672 0.007888609
+#&gt; [13] 0.014730484 0.007001527 0.010762953 0.013095840 0.015949284 0.011504575
+#&gt; [19] 0.014237186 0.015052499 0.013040676 0.010928335 0.014408469 0.008585361
+#&gt; [25] 0.012514332 0.012786474 0.015575579 0.006456438 0.007994853 0.010233479
+#&gt; [31] 0.012099990 0.007425918 0.015958393 0.013082465 0.015774323 0.011473900
+#&gt; [37] 0.014776298 0.012273577 0.014570953 0.011606663 0.009521038 0.014304123
+#&gt; [43] 0.012113381 0.009947183 0.010225083 0.007704696 0.013277240 0.014465491
+#&gt; [49] 0.015265007 0.013283953 0.017400436 0.010150263 0.014656976 0.014929657
+#&gt; [55] 0.011570904 0.014462851 0.016551293 0.012750574 0.014691353 0.018024844
+#&gt; [61] 0.013968480 0.009633574 0.010687124 0.006455805 0.009648260 0.009217817
+#&gt; [67] 0.015426694 0.013749051 0.015881541 0.014849044 0.010304059 0.015207027
+#&gt; [73] 0.011328897 0.011698016 0.013013919 0.014743898 0.008330537 0.008660000
+#&gt; [79] 0.007904004 0.007473691 0.012846891 0.013959041 0.014504177 0.011860750
+#&gt; [85] 0.013923847</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

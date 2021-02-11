@@ -44,10 +44,11 @@ void maxp_wrapper::Run() {
                 for (int j=0; j<n_cols; ++j) mask[i][j] = 1.0;
             }
             for (int i=0; i<n_cols; ++i) {
-                std::vector<double> vals = data[i];
-                GenUtils::StandardizeData(vals);
+                // the data will be standardized in the caller
+                //std::vector<double>& vals = data[i];
+                //GenUtils::StandardizeData(vals);
                 for (int r=0; r<num_obs; ++r) {
-                    input_data[r][i] = vals[r];
+                    input_data[r][i] = data[i][r];
                 }
             }
 

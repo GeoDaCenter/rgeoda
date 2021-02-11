@@ -4,33 +4,28 @@
 \alias{save_weights}
 \title{Save Spatial Weights}
 \usage{
-save_weights(gda_w, out_path, layer_name, id_name, id_values)
+save_weights(gda_w, id_variable, out_path, layer_name = "")
 }
 \arguments{
 \item{gda_w}{A Weight object}
 
+\item{id_variable}{The id variable (a data.frame) that defines the unique value of each observation when saving a weights file}
+
 \item{out_path}{The path of an output weights file}
 
-\item{layer_name}{The name of the layer of input dataset}
-
-\item{id_name}{The id name (or field name), which is an associated column contains unique values, that makes sure that the weights are connected to the correct observations in the data table.}
-
-\item{id_values}{The tuple of values of selected id_name (column or field)}
+\item{layer_name}{(optional) The name of the layer of input dataset}
 }
 \value{
 A boolean value indicates if save successfully or failed
 }
 \description{
-Save current spatial weights to a file
+Save spatial weights to a file
 }
 \examples{
 \dontrun{
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-save_weights(rook_w, out_path = '/Users/xun/Downloads/Guerry_r.gal',
-            layer_name = 'Guerry',
-            id_name = 'CODE_DE',
-            id_values = as.integer(guerry_df['CODE_DE'][,1]))
+save_weights(quen_w, guerry_df['CODE_DE'], out_path = '/Users/xun/Downloads/Guerry_r.gal')
 }
 }

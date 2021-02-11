@@ -21,7 +21,8 @@
  * @return
  */
 const std::vector<std::vector<int> > gda_azp_greedy(int p, GeoDaWeight *w,
-                                                    const std::vector<std::vector<double> > &data,
+                                                    const std::vector<std::vector<double> > &_data,
+                                                    const std::string& scale_method,
                                                     int inits,
                                                     const std::vector<std::pair<double, std::vector<double> > >& min_bounds,
                                                     const std::vector<std::pair<double, std::vector<double> > >& max_bounds,
@@ -45,7 +46,8 @@ const std::vector<std::vector<int> > gda_azp_greedy(int p, GeoDaWeight *w,
  * @return
  */
 const std::vector<std::vector<int> > gda_azp_sa(int p, GeoDaWeight *w,
-                                                const std::vector<std::vector<double> > &data,
+                                                const std::vector<std::vector<double> > &_data,
+                                                const std::string& scale_method,
                                                 int inits,
                                                 double cooling_rate,
                                                 int sa_maxit,
@@ -71,7 +73,8 @@ const std::vector<std::vector<int> > gda_azp_sa(int p, GeoDaWeight *w,
  * @return
  */
 const std::vector<std::vector<int> > gda_azp_tabu(int p, GeoDaWeight *w,
-                                                  const std::vector<std::vector<double> > &data,
+                                                  const std::vector<std::vector<double> > &_data,
+                                                  const std::string& scale_method,
                                                   int inits,
                                                   int tabu_length,
                                                   int conv_tabu,
@@ -95,7 +98,8 @@ const std::vector<std::vector<int> > gda_azp_tabu(int p, GeoDaWeight *w,
  * @return
  */
 const std::vector<std::vector<int> > gda_maxp_greedy(GeoDaWeight *w,
-                                                     const std::vector<std::vector<double> > &data,
+                                                     const std::vector<std::vector<double> > &_data,
+                                                     const std::string& scale_method,
                                                      int iterations,
                                                      const std::vector<std::pair<double, std::vector<double> > >& min_bounds,
                                                      const std::vector<std::pair<double, std::vector<double> > >& max_bounds,
@@ -121,7 +125,8 @@ const std::vector<std::vector<int> > gda_maxp_greedy(GeoDaWeight *w,
  * @return
  */
 const std::vector<std::vector<int> > gda_maxp_sa(GeoDaWeight *w,
-                                                 const std::vector<std::vector<double> > &data,
+                                                 const std::vector<std::vector<double> > &_data,
+                                                 const std::string& scale_method,
                                                  int iterations,
                                                  double cooling_rate,
                                                  int sa_maxit,
@@ -148,7 +153,8 @@ const std::vector<std::vector<int> > gda_maxp_sa(GeoDaWeight *w,
  * @return
  */
 const std::vector<std::vector<int> > gda_maxp_tabu(GeoDaWeight *w,
-                                                   const std::vector<std::vector<double> > &data,
+                                                   const std::vector<std::vector<double> > &_data,
+                                                   const std::string& scale_method,
                                                    int iterations,
                                                    int tabu_length,
                                                    int conv_tabu,
@@ -174,7 +180,8 @@ const std::vector<std::vector<int> > gda_maxp_tabu(GeoDaWeight *w,
  */
 const std::vector<std::vector<int> > gda_redcap(unsigned int k,
                                                 GeoDaWeight *w,
-                                                const std::vector<std::vector<double> > &data,
+                                                const std::vector<std::vector<double> > &_data,
+                                                const std::string& scale_method,
                                                 const std::string &redcap_method,
                                                 const std::string &distance_method,
                                                 const std::vector<double>& bound_vals,
@@ -196,7 +203,8 @@ const std::vector<std::vector<int> > gda_redcap(unsigned int k,
  */
 const std::vector<std::vector<int> > gda_skater(unsigned int k,
                                                 GeoDaWeight *w,
-                                                const std::vector<std::vector<double> > &data,
+                                                const std::vector<std::vector<double> > &_data,
+                                                const std::string& scale_method,
                                                 const std::string &distance_method,
                                                 const std::vector<double>& bound_vals,
                                                 double min_bound,
@@ -219,7 +227,8 @@ const std::vector<std::vector<int> > gda_skater(unsigned int k,
  */
 const std::vector<std::vector<int> > gda_schc(unsigned int k,
                                                 GeoDaWeight *w,
-                                                const std::vector<std::vector<double> > &data,
+                                                const std::vector<std::vector<double> > &_data,
+                                                const std::string& scale_method,
                                                 const std::string &linkage_method,
                                                 const std::string &distance_method,
                                                 const std::vector<double>& bound_vals,
@@ -245,7 +254,7 @@ double gda_totalsumofsquare(const std::vector<std::vector<double> >& vals);
  * @param vals
  * @return
  */
-double gda_withinsumofsquare(const std::vector<std::vector<int> >& solution,
+std::vector<double> gda_withinsumofsquare(const std::vector<std::vector<int> >& solution,
                              const std::vector<std::vector<double> >& vals);
 
 /**

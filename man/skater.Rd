@@ -7,9 +7,10 @@
 skater(
   k,
   w,
-  data,
-  bound_vals = vector("numeric"),
+  df,
+  bound_variable = data.frame(),
   min_bound = 0,
+  scale_method = "standardize",
   distance_method = "euclidean",
   random_seed = 123456789,
   cpu_threads = 6
@@ -20,11 +21,13 @@ skater(
 
 \item{w}{An instance of Weight class}
 
-\item{data}{A list of numeric vectors of selected variable}
+\item{df}{A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 
-\item{bound_vals}{(optional) A numeric vector of selected bounding variable}
+\item{bound_variable}{(optional) A data frame with selected bound variable}
 
-\item{min_bound}{(optional) A minimum value that the sum value of bounding variable int each cluster should be greater than}
+\item{min_bound}{(optional) A minimum bound value that applies to all clusters}
+
+\item{scale_method}{One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).}
 
 \item{distance_method}{(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"}
 
@@ -34,16 +37,18 @@ skater(
 }
 \value{
 A list of numeric vectors represents a group of clusters
+
+A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 }
 \description{
 SKATER forms clusters by spatially partitioning data that has similar values for features of interest.
 }
 \examples{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
-queen_w <- gda_queen_weights(guerry)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-data <- guerry_df[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+guerry <- st_read(guerry_path)
+queen_w <- queen_weights(guerry)
+data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
 guerry_clusters <- skater(4, queen_w, data)
 guerry_clusters
 }

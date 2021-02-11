@@ -53,6 +53,6 @@ layer_name : The name of the layer of input dataset \cr
 id_name : The id name (or field name), which is an associated column contains unique values, that makes sure that the weights are connected to the correct observations in the data table.\cr
 id_values : The tuple of values of selected id_name (column/field)}
 
-\item{\code{SpatialLag(idx, values)}}{Compute spatial lag values of idx-th observation, idx starts from 0}
+\item{\code{SpatialLag(values)}}{Compute spatial lag values for values of selected variable}
 }}
 

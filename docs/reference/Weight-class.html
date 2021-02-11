@@ -163,15 +163,17 @@
     
 
 <dl>
-<dt><code>GetNeighborWeights(idx)</code></dt><dd><p>Get weights values of neighbors for idx-th observation, idx starts from 0</p></dd>
-
 <dt><code>GetNeighbors(idx)</code></dt><dd><p>Get neighbors for idx-th observation, idx starts from 0</p></dd>
+
+<dt><code>GetNeighborWeights(idx)</code></dt><dd><p>Get weights values of neighbors for idx-th observation, idx starts from 0</p></dd>
 
 <dt><code>GetPointer()</code></dt><dd><p>Get the C++ object pointer (internally used)</p></dd>
 
 <dt><code>GetSparsity()</code></dt><dd><p>Get sparsity computed from weights matrix</p></dd>
 
 <dt><code>HasIsolates()</code></dt><dd><p>Check if weights matrix has isolates, or if any observation has no neighbors</p></dd>
+
+<dt><code>initialize(o_gda_w)</code></dt><dd><p>Constructor with a GeoDaWeight object (internally used)</p></dd>
 
 <dt><code>IsSymmetric()</code></dt><dd><p>Check if weights matrix is symmetric</p></dd>
 
@@ -181,9 +183,7 @@ layer_name : The name of the layer of input dataset <br />
 id_name : The id name (or field name), which is an associated column contains unique values, that makes sure that the weights are connected to the correct observations in the data table.<br />
 id_values : The tuple of values of selected id_name (column/field)</p></dd>
 
-<dt><code>SpatialLag(idx, values)</code></dt><dd><p>Compute spatial lag values of idx-th observation, idx starts from 0</p></dd>
-
-<dt><code>initialize(o_gda_w)</code></dt><dd><p>Constructor with a GeoDaWeight object (internally used)</p></dd>
+<dt><code>SpatialLag(values)</code></dt><dd><p>Compute spatial lag values for values of selected variable</p></dd>
 
 </dl>
 
