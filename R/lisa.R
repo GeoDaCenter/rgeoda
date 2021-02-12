@@ -234,7 +234,7 @@ lisa_num_nbrs <- function(gda_lisa) {
 #' @title  Get cluster labels
 #' @description Get cluster labels of LISA computation.
 #' @param gda_lisa An instance of LISA object
-#' @return A numeric vector of cluster labels
+#' @return A string vector of cluster labels
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
@@ -255,7 +255,7 @@ lisa_labels <- function(gda_lisa) {
 #' @title  Get cluster colors
 #' @description Get the cluster colors of LISA computation.
 #' @param gda_lisa An instance of LISA object
-#' @return A numeric vector of cluster colors
+#' @return A string vector of cluster colors
 #' @export
 #' @examples
 #' \dontrun{
