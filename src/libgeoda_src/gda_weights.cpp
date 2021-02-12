@@ -141,8 +141,9 @@ GeoDaWeight* gda_distance_weights(AbstractGeoDa* geoda, double dist_thres,
                                                   kernel, use_kernel_diagonal);
 
     poW->GetNbrStats();
-    poW->is_symmetric = true;
+    poW->is_symmetric = kernel.empty() ? true : false;
     poW->symmetry_checked = true;
+
     return (GeoDaWeight*)poW;
 }
 

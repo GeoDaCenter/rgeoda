@@ -123,7 +123,7 @@ schc <- function(k, w, df, method="average", bound_variable=data.frame(), min_bo
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_schc(k, w$GetPointer(), df, n_vars, method, scale_method, distance_method, bound_values, min_bound))
+  return(p_schc(k, w$GetPointer(), df, n_vars, scale_method, method, distance_method, bound_values, min_bound))
 }
 
 
