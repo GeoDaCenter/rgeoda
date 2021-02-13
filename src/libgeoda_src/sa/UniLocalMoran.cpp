@@ -16,8 +16,9 @@ UniLocalMoran::UniLocalMoran(int num_obs,
                  const std::vector<double> &_data,
                  const std::vector<bool> &_undefs,
                  double significance_cutoff,
-                 int _nCPUs, int _perm, uint64_t _last_seed)
-: LISA(num_obs, w, _undefs, significance_cutoff, _nCPUs, _perm, _last_seed),
+                 int _nCPUs, int _perm,
+                 const std::string& _permutation_method, uint64_t _last_seed)
+: LISA(num_obs, w, _undefs, significance_cutoff, _nCPUs, _perm, _permutation_method, _last_seed),
   CLUSTER_NOT_SIG(0),
   CLUSTER_HIGHHIGH(1),
   CLUSTER_LOWLOW(2),
@@ -90,6 +91,29 @@ void UniLocalMoran::PermLocalSA(int cnt, int perm, const std::vector<int> &permN
     // compute the lag for binary weights
     for (int cp=0; cp<numNeighbors; cp++) {
         int nb = permNeighbors[cp];
+        if (!undefs[nb]) {
+            permutedLag += data[nb];
+            validNeighbors ++;
+        }
+    }
+    //NOTE: we shouldn't have to row-standardize or
+    // multiply by data1[cnt]
+    if (validNeighbors > 0 && row_standardize) {
+        permutedLag /= validNeighbors;
+    }
+    const double localMoranPermuted = permutedLag * data[cnt];
+    permutedSA[perm] = localMoranPermuted;
+}
+
+void UniLocalMoran::PermLocalSA(int cnt, int perm, int numNeighbors, const int* permNeighbors,
+                                std::vector<double>& permutedSA) {
+    int validNeighbors = 0;
+    double permutedLag = 0;
+    // use permutation to compute the lag
+    // compute the lag for binary weights
+    for (int cp=0; cp<numNeighbors; cp++) {
+        int nb = permNeighbors[cp];
+        if (nb >= cnt) nb = nb + 1;
         if (!undefs[nb]) {
             permutedLag += data[nb];
             validNeighbors ++;

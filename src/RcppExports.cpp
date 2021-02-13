@@ -333,18 +333,19 @@ BEGIN_RCPP
 END_RCPP
 }
 // p_localmoran
-SEXP p_localmoran(SEXP xp_w, NumericVector data, int permutations, double significance_cutoff, int cpu_threads, int seed);
-RcppExport SEXP _rgeoda_p_localmoran(SEXP xp_wSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+SEXP p_localmoran(SEXP xp_w, NumericVector data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_localmoran(SEXP xp_wSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP permutation_methodSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type xp_w(xp_wSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type data(dataSEXP);
     Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type permutation_method(permutation_methodSEXP);
     Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
     Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_localmoran(xp_w, data, permutations, significance_cutoff, cpu_threads, seed));
+    rcpp_result_gen = Rcpp::wrap(p_localmoran(xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -361,8 +362,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // p_localmoran_eb
-SEXP p_localmoran_eb(SEXP xp_w, NumericVector& event_data, NumericVector& base_data, int permutations, double significance_cutoff, int cpu_threads, int seed);
-RcppExport SEXP _rgeoda_p_localmoran_eb(SEXP xp_wSEXP, SEXP event_dataSEXP, SEXP base_dataSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+SEXP p_localmoran_eb(SEXP xp_w, NumericVector& event_data, NumericVector& base_data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_localmoran_eb(SEXP xp_wSEXP, SEXP event_dataSEXP, SEXP base_dataSEXP, SEXP permutationsSEXP, SEXP permutation_methodSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -370,32 +371,34 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector& >::type event_data(event_dataSEXP);
     Rcpp::traits::input_parameter< NumericVector& >::type base_data(base_dataSEXP);
     Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type permutation_method(permutation_methodSEXP);
     Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
     Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_localmoran_eb(xp_w, event_data, base_data, permutations, significance_cutoff, cpu_threads, seed));
+    rcpp_result_gen = Rcpp::wrap(p_localmoran_eb(xp_w, event_data, base_data, permutations, permutation_method, significance_cutoff, cpu_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
 // p_localgeary
-SEXP p_localgeary(SEXP xp_w, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed);
-RcppExport SEXP _rgeoda_p_localgeary(SEXP xp_wSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+SEXP p_localgeary(SEXP xp_w, NumericVector& data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_localgeary(SEXP xp_wSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP permutation_methodSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type xp_w(xp_wSEXP);
     Rcpp::traits::input_parameter< NumericVector& >::type data(dataSEXP);
     Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type permutation_method(permutation_methodSEXP);
     Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
     Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_localgeary(xp_w, data, permutations, significance_cutoff, cpu_threads, seed));
+    rcpp_result_gen = Rcpp::wrap(p_localgeary(xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
 // p_localmultigeary
-SEXP p_localmultigeary(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations, double significance_cutoff, int cpu_threads, int seed);
-RcppExport SEXP _rgeoda_p_localmultigeary(SEXP xp_wSEXP, SEXP dataSEXP, SEXP n_varsSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+SEXP p_localmultigeary(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_localmultigeary(SEXP xp_wSEXP, SEXP dataSEXP, SEXP n_varsSEXP, SEXP permutationsSEXP, SEXP permutation_methodSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -403,64 +406,68 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::List& >::type data(dataSEXP);
     Rcpp::traits::input_parameter< int >::type n_vars(n_varsSEXP);
     Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type permutation_method(permutation_methodSEXP);
     Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
     Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_localmultigeary(xp_w, data, n_vars, permutations, significance_cutoff, cpu_threads, seed));
+    rcpp_result_gen = Rcpp::wrap(p_localmultigeary(xp_w, data, n_vars, permutations, permutation_method, significance_cutoff, cpu_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
 // p_localg
-SEXP p_localg(SEXP xp_w, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed);
-RcppExport SEXP _rgeoda_p_localg(SEXP xp_wSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+SEXP p_localg(SEXP xp_w, NumericVector& data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_localg(SEXP xp_wSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP permutation_methodSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type xp_w(xp_wSEXP);
     Rcpp::traits::input_parameter< NumericVector& >::type data(dataSEXP);
     Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type permutation_method(permutation_methodSEXP);
     Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
     Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_localg(xp_w, data, permutations, significance_cutoff, cpu_threads, seed));
+    rcpp_result_gen = Rcpp::wrap(p_localg(xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
 // p_localgstar
-SEXP p_localgstar(SEXP xp_w, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed);
-RcppExport SEXP _rgeoda_p_localgstar(SEXP xp_wSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+SEXP p_localgstar(SEXP xp_w, NumericVector& data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_localgstar(SEXP xp_wSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP permutation_methodSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type xp_w(xp_wSEXP);
     Rcpp::traits::input_parameter< NumericVector& >::type data(dataSEXP);
     Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type permutation_method(permutation_methodSEXP);
     Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
     Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_localgstar(xp_w, data, permutations, significance_cutoff, cpu_threads, seed));
+    rcpp_result_gen = Rcpp::wrap(p_localgstar(xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
 // p_localjoincount
-SEXP p_localjoincount(SEXP xp_w, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed);
-RcppExport SEXP _rgeoda_p_localjoincount(SEXP xp_wSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+SEXP p_localjoincount(SEXP xp_w, NumericVector& data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_localjoincount(SEXP xp_wSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP permutation_methodSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type xp_w(xp_wSEXP);
     Rcpp::traits::input_parameter< NumericVector& >::type data(dataSEXP);
     Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type permutation_method(permutation_methodSEXP);
     Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
     Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_localjoincount(xp_w, data, permutations, significance_cutoff, cpu_threads, seed));
+    rcpp_result_gen = Rcpp::wrap(p_localjoincount(xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
 // p_localmultijoincount
-SEXP p_localmultijoincount(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations, double significance_cutoff, int cpu_threads, int seed);
-RcppExport SEXP _rgeoda_p_localmultijoincount(SEXP xp_wSEXP, SEXP dataSEXP, SEXP n_varsSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+SEXP p_localmultijoincount(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_localmultijoincount(SEXP xp_wSEXP, SEXP dataSEXP, SEXP n_varsSEXP, SEXP permutationsSEXP, SEXP permutation_methodSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -468,16 +475,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::List& >::type data(dataSEXP);
     Rcpp::traits::input_parameter< int >::type n_vars(n_varsSEXP);
     Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type permutation_method(permutation_methodSEXP);
     Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
     Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_localmultijoincount(xp_w, data, n_vars, permutations, significance_cutoff, cpu_threads, seed));
+    rcpp_result_gen = Rcpp::wrap(p_localmultijoincount(xp_w, data, n_vars, permutations, permutation_method, significance_cutoff, cpu_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
 // p_quantilelisa
-SEXP p_quantilelisa(SEXP xp_w, int k, int quantile, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed);
-RcppExport SEXP _rgeoda_p_quantilelisa(SEXP xp_wSEXP, SEXP kSEXP, SEXP quantileSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+SEXP p_quantilelisa(SEXP xp_w, int k, int quantile, NumericVector& data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_quantilelisa(SEXP xp_wSEXP, SEXP kSEXP, SEXP quantileSEXP, SEXP dataSEXP, SEXP permutationsSEXP, SEXP permutation_methodSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -486,16 +494,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type quantile(quantileSEXP);
     Rcpp::traits::input_parameter< NumericVector& >::type data(dataSEXP);
     Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type permutation_method(permutation_methodSEXP);
     Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
     Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_quantilelisa(xp_w, k, quantile, data, permutations, significance_cutoff, cpu_threads, seed));
+    rcpp_result_gen = Rcpp::wrap(p_quantilelisa(xp_w, k, quantile, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
 // p_multiquantilelisa
-SEXP p_multiquantilelisa(SEXP xp_w, NumericVector& k_s, NumericVector& q_s, Rcpp::List& data_s, int permutations, double significance_cutoff, int cpu_threads, int seed);
-RcppExport SEXP _rgeoda_p_multiquantilelisa(SEXP xp_wSEXP, SEXP k_sSEXP, SEXP q_sSEXP, SEXP data_sSEXP, SEXP permutationsSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+SEXP p_multiquantilelisa(SEXP xp_w, NumericVector& k_s, NumericVector& q_s, Rcpp::List& data_s, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_multiquantilelisa(SEXP xp_wSEXP, SEXP k_sSEXP, SEXP q_sSEXP, SEXP data_sSEXP, SEXP permutationsSEXP, SEXP permutation_methodSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -504,10 +513,11 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector& >::type q_s(q_sSEXP);
     Rcpp::traits::input_parameter< Rcpp::List& >::type data_s(data_sSEXP);
     Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type permutation_method(permutation_methodSEXP);
     Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
     Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_multiquantilelisa(xp_w, k_s, q_s, data_s, permutations, significance_cutoff, cpu_threads, seed));
+    rcpp_result_gen = Rcpp::wrap(p_multiquantilelisa(xp_w, k_s, q_s, data_s, permutations, permutation_method, significance_cutoff, cpu_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1104,17 +1114,17 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_LISA__GetColors", (DL_FUNC) &_rgeoda_p_LISA__GetColors, 1},
     {"_rgeoda_p_LISA__GetBO", (DL_FUNC) &_rgeoda_p_LISA__GetBO, 2},
     {"_rgeoda_p_LISA__GetFDR", (DL_FUNC) &_rgeoda_p_LISA__GetFDR, 2},
-    {"_rgeoda_p_localmoran", (DL_FUNC) &_rgeoda_p_localmoran, 6},
+    {"_rgeoda_p_localmoran", (DL_FUNC) &_rgeoda_p_localmoran, 7},
     {"_rgeoda_p_eb_rate", (DL_FUNC) &_rgeoda_p_eb_rate, 2},
-    {"_rgeoda_p_localmoran_eb", (DL_FUNC) &_rgeoda_p_localmoran_eb, 7},
-    {"_rgeoda_p_localgeary", (DL_FUNC) &_rgeoda_p_localgeary, 6},
-    {"_rgeoda_p_localmultigeary", (DL_FUNC) &_rgeoda_p_localmultigeary, 7},
-    {"_rgeoda_p_localg", (DL_FUNC) &_rgeoda_p_localg, 6},
-    {"_rgeoda_p_localgstar", (DL_FUNC) &_rgeoda_p_localgstar, 6},
-    {"_rgeoda_p_localjoincount", (DL_FUNC) &_rgeoda_p_localjoincount, 6},
-    {"_rgeoda_p_localmultijoincount", (DL_FUNC) &_rgeoda_p_localmultijoincount, 7},
-    {"_rgeoda_p_quantilelisa", (DL_FUNC) &_rgeoda_p_quantilelisa, 8},
-    {"_rgeoda_p_multiquantilelisa", (DL_FUNC) &_rgeoda_p_multiquantilelisa, 8},
+    {"_rgeoda_p_localmoran_eb", (DL_FUNC) &_rgeoda_p_localmoran_eb, 8},
+    {"_rgeoda_p_localgeary", (DL_FUNC) &_rgeoda_p_localgeary, 7},
+    {"_rgeoda_p_localmultigeary", (DL_FUNC) &_rgeoda_p_localmultigeary, 8},
+    {"_rgeoda_p_localg", (DL_FUNC) &_rgeoda_p_localg, 7},
+    {"_rgeoda_p_localgstar", (DL_FUNC) &_rgeoda_p_localgstar, 7},
+    {"_rgeoda_p_localjoincount", (DL_FUNC) &_rgeoda_p_localjoincount, 7},
+    {"_rgeoda_p_localmultijoincount", (DL_FUNC) &_rgeoda_p_localmultijoincount, 8},
+    {"_rgeoda_p_quantilelisa", (DL_FUNC) &_rgeoda_p_quantilelisa, 9},
+    {"_rgeoda_p_multiquantilelisa", (DL_FUNC) &_rgeoda_p_multiquantilelisa, 9},
     {"_rgeoda_p_neighbor_match_test", (DL_FUNC) &_rgeoda_p_neighbor_match_test, 10},
     {"_rgeoda_p_GeoDa__new", (DL_FUNC) &_rgeoda_p_GeoDa__new, 1},
     {"_rgeoda_p_GeoDa__new1", (DL_FUNC) &_rgeoda_p_GeoDa__new1, 6},

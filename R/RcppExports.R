@@ -85,48 +85,48 @@ p_LISA__GetFDR <- function(xp, pval) {
     .Call('_rgeoda_p_LISA__GetFDR', PACKAGE = 'rgeoda', xp, pval)
 }
 
-p_localmoran <- function(xp_w, data, permutations, significance_cutoff, cpu_threads, seed) {
-    .Call('_rgeoda_p_localmoran', PACKAGE = 'rgeoda', xp_w, data, permutations, significance_cutoff, cpu_threads, seed)
+p_localmoran <- function(xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_localmoran', PACKAGE = 'rgeoda', xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
 
 p_eb_rate <- function(event_data, base_data) {
     .Call('_rgeoda_p_eb_rate', PACKAGE = 'rgeoda', event_data, base_data)
 }
 
-p_localmoran_eb <- function(xp_w, event_data, base_data, permutations, significance_cutoff, cpu_threads, seed) {
-    .Call('_rgeoda_p_localmoran_eb', PACKAGE = 'rgeoda', xp_w, event_data, base_data, permutations, significance_cutoff, cpu_threads, seed)
+p_localmoran_eb <- function(xp_w, event_data, base_data, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_localmoran_eb', PACKAGE = 'rgeoda', xp_w, event_data, base_data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
 
-p_localgeary <- function(xp_w, data, permutations, significance_cutoff, cpu_threads, seed) {
-    .Call('_rgeoda_p_localgeary', PACKAGE = 'rgeoda', xp_w, data, permutations, significance_cutoff, cpu_threads, seed)
+p_localgeary <- function(xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_localgeary', PACKAGE = 'rgeoda', xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
 
-p_localmultigeary <- function(xp_w, data, n_vars, permutations, significance_cutoff, cpu_threads, seed) {
-    .Call('_rgeoda_p_localmultigeary', PACKAGE = 'rgeoda', xp_w, data, n_vars, permutations, significance_cutoff, cpu_threads, seed)
+p_localmultigeary <- function(xp_w, data, n_vars, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_localmultigeary', PACKAGE = 'rgeoda', xp_w, data, n_vars, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
 
-p_localg <- function(xp_w, data, permutations, significance_cutoff, cpu_threads, seed) {
-    .Call('_rgeoda_p_localg', PACKAGE = 'rgeoda', xp_w, data, permutations, significance_cutoff, cpu_threads, seed)
+p_localg <- function(xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_localg', PACKAGE = 'rgeoda', xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
 
-p_localgstar <- function(xp_w, data, permutations, significance_cutoff, cpu_threads, seed) {
-    .Call('_rgeoda_p_localgstar', PACKAGE = 'rgeoda', xp_w, data, permutations, significance_cutoff, cpu_threads, seed)
+p_localgstar <- function(xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_localgstar', PACKAGE = 'rgeoda', xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
 
-p_localjoincount <- function(xp_w, data, permutations, significance_cutoff, cpu_threads, seed) {
-    .Call('_rgeoda_p_localjoincount', PACKAGE = 'rgeoda', xp_w, data, permutations, significance_cutoff, cpu_threads, seed)
+p_localjoincount <- function(xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_localjoincount', PACKAGE = 'rgeoda', xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
 
-p_localmultijoincount <- function(xp_w, data, n_vars, permutations, significance_cutoff, cpu_threads, seed) {
-    .Call('_rgeoda_p_localmultijoincount', PACKAGE = 'rgeoda', xp_w, data, n_vars, permutations, significance_cutoff, cpu_threads, seed)
+p_localmultijoincount <- function(xp_w, data, n_vars, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_localmultijoincount', PACKAGE = 'rgeoda', xp_w, data, n_vars, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
 
-p_quantilelisa <- function(xp_w, k, quantile, data, permutations, significance_cutoff, cpu_threads, seed) {
-    .Call('_rgeoda_p_quantilelisa', PACKAGE = 'rgeoda', xp_w, k, quantile, data, permutations, significance_cutoff, cpu_threads, seed)
+p_quantilelisa <- function(xp_w, k, quantile, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_quantilelisa', PACKAGE = 'rgeoda', xp_w, k, quantile, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
 
-p_multiquantilelisa <- function(xp_w, k_s, q_s, data_s, permutations, significance_cutoff, cpu_threads, seed) {
-    .Call('_rgeoda_p_multiquantilelisa', PACKAGE = 'rgeoda', xp_w, k_s, q_s, data_s, permutations, significance_cutoff, cpu_threads, seed)
+p_multiquantilelisa <- function(xp_w, k_s, q_s, data_s, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_multiquantilelisa', PACKAGE = 'rgeoda', xp_w, k_s, q_s, data_s, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
 
 p_neighbor_match_test <- function(xp_geoda, k, power, is_inverse, is_arc, is_mile, data_s, n_vars, scale_method, dist_type) {

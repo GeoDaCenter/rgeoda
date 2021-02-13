@@ -126,7 +126,7 @@ double p_LISA__GetFDR(SEXP xp, double pval)
 }
 
 //  [[Rcpp::export]]
-SEXP p_localmoran(SEXP xp_w, NumericVector data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localmoran(SEXP xp_w, NumericVector data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -141,7 +141,7 @@ SEXP p_localmoran(SEXP xp_w, NumericVector data, int permutations, double signif
     undefs[i] = data.is_na(i);
   }
 
-  LISA* lisa = gda_localmoran(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, seed);
+  LISA* lisa = gda_localmoran(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, permutation_method, seed);
 
   Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
   return lisa_ptr;
@@ -169,7 +169,7 @@ DataFrame p_eb_rate(NumericVector& event_data, NumericVector& base_data)
 }
 
 //  [[Rcpp::export]]
-SEXP p_localmoran_eb(SEXP xp_w, NumericVector& event_data, NumericVector& base_data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localmoran_eb(SEXP xp_w, NumericVector& event_data, NumericVector& base_data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -178,14 +178,14 @@ SEXP p_localmoran_eb(SEXP xp_w, NumericVector& event_data, NumericVector& base_d
   std::vector<double> raw_event_data =  as<std::vector<double> >(event_data);
   std::vector<double> raw_base_data =  as<std::vector<double> >(base_data);
 
-  LISA* lisa = gda_localmoran_eb(w, raw_event_data, raw_base_data, significance_cutoff, cpu_threads, permutations, seed);
+  LISA* lisa = gda_localmoran_eb(w, raw_event_data, raw_base_data, significance_cutoff, cpu_threads, permutations, permutation_method, seed);
 
   Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
   return lisa_ptr;
 }
 
 //  [[Rcpp::export]]
-SEXP p_localgeary(SEXP xp_w, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localgeary(SEXP xp_w, NumericVector& data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -199,14 +199,14 @@ SEXP p_localgeary(SEXP xp_w, NumericVector& data, int permutations, double signi
     undefs[i] = data.is_na(i);
   }
 
-  LISA* lisa = gda_localgeary(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, seed);
+  LISA* lisa = gda_localgeary(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, permutation_method, seed);
 
   Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
   return lisa_ptr;
 }
 
 //  [[Rcpp::export]]
-SEXP p_localmultigeary(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localmultigeary(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -227,7 +227,7 @@ SEXP p_localmultigeary(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations
     }
   }
 
-  LISA* lisa = gda_localmultigeary(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, seed);
+  LISA* lisa = gda_localmultigeary(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, permutation_method, seed);
 
   Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
   return lisa_ptr;
@@ -235,7 +235,7 @@ SEXP p_localmultigeary(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations
 
 
 //  [[Rcpp::export]]
-SEXP p_localg(SEXP xp_w, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localg(SEXP xp_w, NumericVector& data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -250,14 +250,14 @@ SEXP p_localg(SEXP xp_w, NumericVector& data, int permutations, double significa
     undefs[i] = data.is_na(i);
   }
 
-  LISA* lisa = gda_localg(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, seed);
+  LISA* lisa = gda_localg(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, permutation_method, seed);
 
   Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
   return lisa_ptr;
 }
 
 //  [[Rcpp::export]]
-SEXP p_localgstar(SEXP xp_w, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localgstar(SEXP xp_w, NumericVector& data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -272,14 +272,14 @@ SEXP p_localgstar(SEXP xp_w, NumericVector& data, int permutations, double signi
     undefs[i] = data.is_na(i);
   }
 
-  LISA* lisa = gda_localgstar(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, seed);
+  LISA* lisa = gda_localgstar(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, permutation_method, seed);
 
   Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
   return lisa_ptr;
 }
 
 //  [[Rcpp::export]]
-SEXP p_localjoincount(SEXP xp_w, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localjoincount(SEXP xp_w, NumericVector& data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -294,14 +294,14 @@ SEXP p_localjoincount(SEXP xp_w, NumericVector& data, int permutations, double s
     undefs[i] = data.is_na(i);
   }
 
-  LISA* lisa = gda_localjoincount(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, seed);
+  LISA* lisa = gda_localjoincount(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, permutation_method, seed);
 
   Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
   return lisa_ptr;
 }
 
 //  [[Rcpp::export]]
-SEXP p_localmultijoincount(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_localmultijoincount(SEXP xp_w, Rcpp::List& data, int n_vars, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -322,14 +322,14 @@ SEXP p_localmultijoincount(SEXP xp_w, Rcpp::List& data, int n_vars, int permutat
     }
   }
 
-  LISA* lisa = gda_localmultijoincount(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, seed);
+  LISA* lisa = gda_localmultijoincount(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, permutation_method, seed);
 
   Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
   return lisa_ptr;
 }
 
 //  [[Rcpp::export]]
-SEXP p_quantilelisa(SEXP xp_w, int k, int quantile, NumericVector& data, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_quantilelisa(SEXP xp_w, int k, int quantile, NumericVector& data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -344,14 +344,14 @@ SEXP p_quantilelisa(SEXP xp_w, int k, int quantile, NumericVector& data, int per
     undefs[i] = data.is_na(i);
   }
 
-  LISA* lisa = gda_quantilelisa(w, k, quantile, raw_data, undefs, significance_cutoff, cpu_threads, permutations, seed);
+  LISA* lisa = gda_quantilelisa(w, k, quantile, raw_data, undefs, significance_cutoff, cpu_threads, permutations, permutation_method, seed);
 
   Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
   return lisa_ptr;
 }
 
 //  [[Rcpp::export]]
-SEXP p_multiquantilelisa(SEXP xp_w, NumericVector& k_s, NumericVector& q_s, Rcpp::List& data_s, int permutations, double significance_cutoff, int cpu_threads, int seed)
+SEXP p_multiquantilelisa(SEXP xp_w, NumericVector& k_s, NumericVector& q_s, Rcpp::List& data_s, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
@@ -375,7 +375,7 @@ SEXP p_multiquantilelisa(SEXP xp_w, NumericVector& k_s, NumericVector& q_s, Rcpp
     }
   }
 
-  LISA* lisa = gda_multiquantilelisa(w, ks, qs, raw_data_s, undefs_s, significance_cutoff, cpu_threads, permutations, seed);
+  LISA* lisa = gda_multiquantilelisa(w, ks, qs, raw_data_s, undefs_s, significance_cutoff, cpu_threads, permutations, permutation_method, seed);
 
   Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
   return lisa_ptr;

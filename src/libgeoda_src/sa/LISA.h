@@ -23,12 +23,13 @@ public:
             double significance_cutoff,
             int nCPUs,
             int permutations,
+            const std::string& _permutation_method,
             uint64_t last_seed_used);
 
     LISA(int num_obs, GeoDaWeight* w, const std::vector<std::vector<bool> >& undefs,
          double significance_cutoff,
          int nCPUs,
-         int permutations,
+         int permutations, const std::string& _permutation_method,
          uint64_t last_seed_used);
 
     virtual ~LISA();
@@ -40,6 +41,13 @@ public:
     virtual void CalcPseudoP_threaded();
 
     virtual void CalcPseudoP_range(int obs_start, int obs_end, uint64_t seed_start);
+
+    // used for perm_method=="LookupTable"
+    virtual void PermCreateTable_threaded();
+    virtual void PermCreateRange(int perm_start, int perm_end, int max_neighbor, uint64_t seed_start);
+    virtual void PermCalcPseudoP_threaded();
+    virtual void PermCalcPseudoP_range(int obs_start, int obs_end, uint64_t seed_start);
+    virtual void PermLocalSA(int cnt, int perm, int numNeighbors, const int* permNeighbors, std::vector<double>& permutedSA) = 0;
 
     // compare local SA value of current obs to local SA values of random picked nbrs
     virtual void PermLocalSA(int cnt, int perm,
@@ -132,6 +140,9 @@ protected:
     std::vector<int> nn_vec;
     std::vector<std::string> labels;
     std::vector<std::string> colors;
+
+    int** perm_table;
+    std::string permutation_method;
 
 #ifdef __JSGEODA__
     // for caching in wasgeoda
