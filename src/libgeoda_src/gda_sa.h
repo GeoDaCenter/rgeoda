@@ -20,7 +20,7 @@ class AbstractGeoDa;
 LISA *gda_localmoran(GeoDaWeight *w,
                      const std::vector<double> &data,
                      const std::vector<bool> &undefs, double significance_cutoff,
-                     int nCPUs, int permutations, int last_seed_used);
+                     int nCPUs, int permutations, const std::string& permutation_method, int last_seed_used);
 
 /**
  *
@@ -37,7 +37,7 @@ LISA *gda_localmoran_eb(GeoDaWeight *w,
                         const std::vector<double> &event_data,
                         const std::vector<double> &base_data,
                         double significance_cutoff,
-                        int nCPUs, int permutations, int last_seed_used);
+                        int nCPUs, int permutations, const std::string& permutation_method, int last_seed_used);
 /**
  *
  * @param w
@@ -47,7 +47,7 @@ LISA *gda_localmoran_eb(GeoDaWeight *w,
  */
 BatchLISA *gda_batchlocalmoran(GeoDaWeight *w, const std::vector<std::vector<double> > &data,
                                const std::vector<std::vector<bool> > &undefs, double significance_cutoff,
-                               int nCPUs, int permutations, int last_seed_used);
+                               int nCPUs, int permutations, const std::string& permutation_method, int last_seed_used);
 
 /**
  *
@@ -58,7 +58,7 @@ BatchLISA *gda_batchlocalmoran(GeoDaWeight *w, const std::vector<std::vector<dou
  */
 LISA *gda_localgeary(GeoDaWeight *w, const std::vector<double> &data,
                      const std::vector<bool> &undefs, double significance_cutoff,
-                     int nCPUs, int permutations, int last_seed_used);
+                     int nCPUs, int permutations, const std::string& permutation_method, int last_seed_used);
 
 /**
  *
@@ -69,7 +69,7 @@ LISA *gda_localgeary(GeoDaWeight *w, const std::vector<double> &data,
  */
 LISA *gda_localmultigeary(GeoDaWeight *w, const std::vector<std::vector<double> > &data,
                      const std::vector<std::vector<bool> > &undefs, double significance_cutoff,
-                     int nCPUs, int permutations, int last_seed_used);
+                     int nCPUs, int permutations, const std::string& permutation_method, int last_seed_used);
 
 /**
  *
@@ -80,11 +80,11 @@ LISA *gda_localmultigeary(GeoDaWeight *w, const std::vector<std::vector<double> 
  */
 LISA *gda_localjoincount(GeoDaWeight *w, const std::vector<double> &data,
                     const std::vector<bool> &undefs, double significance_cutoff,
-                    int nCPUs, int permutations, int last_seed_used);
+                    int nCPUs, int permutations, const std::string& permutation_method, int last_seed_used);
 
 LISA *gda_localmultijoincount(GeoDaWeight *w, const std::vector<std::vector<double> > &data,
                          const std::vector<std::vector<bool> > &undefs, double significance_cutoff,
-                         int nCPUs, int permutations, int last_seed_used);
+                         int nCPUs, int permutations, const std::string& permutation_method, int last_seed_used);
 /**
  *
  * @param w
@@ -94,7 +94,7 @@ LISA *gda_localmultijoincount(GeoDaWeight *w, const std::vector<std::vector<doub
  */
 LISA *gda_localg(GeoDaWeight *w, const std::vector<double> &data,
                  const std::vector<bool> &undefs, double significance_cutoff,
-                 int nCPUs, int permutations, int last_seed_used);
+                 int nCPUs, int permutations, const std::string& permutation_method, int last_seed_used);
 
 /**
  *
@@ -105,7 +105,7 @@ LISA *gda_localg(GeoDaWeight *w, const std::vector<double> &data,
  */
 LISA *gda_localgstar(GeoDaWeight *w, const std::vector<double> &data,
                      const std::vector<bool> &undefs, double significance_cutoff,
-                     int nCPUs, int permutations, int last_seed_used);
+                     int nCPUs, int permutations, const std::string& permutation_method, int last_seed_used);
 
 /**
  *
@@ -117,7 +117,7 @@ LISA *gda_localgstar(GeoDaWeight *w, const std::vector<double> &data,
  */
 LISA *gda_quantilelisa(GeoDaWeight *w, unsigned int k, unsigned int quantile, const std::vector<double> &data,
                        const std::vector<bool> &undefs, double significance_cutoff,
-                       int nCPUs, int permutations, int last_seed_used);
+                       int nCPUs, int permutations, const std::string& permutation_method, int last_seed_used);
 
 /**
  *
@@ -130,7 +130,7 @@ LISA *gda_quantilelisa(GeoDaWeight *w, unsigned int k, unsigned int quantile, co
  */
 LISA *gda_multiquantilelisa(GeoDaWeight *w, const std::vector<int>& k_s, const std::vector<int>& quantile_s, const std::vector<std::vector<double> > &data_s,
                        const std::vector<std::vector<bool> > &undefs_s, double significance_cutoff,
-                       int nCPUs, int permutations, int last_seed_used);
+                       int nCPUs, int permutations, const std::string& permutation_method, int last_seed_used);
 /**
  *
  * @param lisa

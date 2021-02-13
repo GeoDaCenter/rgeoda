@@ -25,7 +25,9 @@ public:
          const std::vector<double>& data,
          const std::vector<bool>& undefs,
          double significance_cutoff,
-         int nCPUs, int permutations, uint64_t last_seed_used);
+         int nCPUs, int permutations,
+         const std::string& _permutation_method,
+         uint64_t last_seed_used);
 
 
     virtual ~UniG();
@@ -33,6 +35,8 @@ public:
     virtual void ComputeLoalSA() ;
 
     virtual void PermLocalSA(int cnt, int perm, const std::vector<int> &permNeighbors, std::vector<double>& permutedSA);
+
+    virtual void PermLocalSA(int cnt, int perm, int numNeighbors, const int* permNeighbors, std::vector<double>& permutedSA){}
 
     virtual uint64_t CountLargerSA(int cnt, const std::vector<double>& permutedSA);
 

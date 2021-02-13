@@ -5,6 +5,7 @@
 #include <math.h>
 #include <time.h>
 #include <iostream>
+#include <boost/algorithm/string.hpp>
 #include "../GeoDaSet.h"
 #include "../GenUtils.h"
 #include "../weights/GeodaWeight.h"
@@ -32,6 +33,35 @@
             args->lisa->CalcPseudoP_range(args->start, args->end, args->seed_start);
             return 0;
         }
+
+        struct perm_thread_args {
+            LISA *lisa;
+            int start;
+            int end;
+            int max_neighbors;
+            uint64_t seed_start;
+        };
+
+        void* perm_thread_helper(void* voidArgs)
+        {
+            perm_thread_args *args = (perm_thread_args*)voidArgs;
+            args->lisa->PermCreateRange(args->start, args->end, args->max_neighbors, args->seed_start);
+            return 0;
+        }
+
+        struct perm_lisa_thread_args {
+            LISA *lisa;
+            int start;
+            int end;
+            uint64_t seed_start;
+        };
+
+        void* perm_lisa_thread_helper(void* voidArgs)
+        {
+            perm_lisa_thread_args *args = (perm_lisa_thread_args*)voidArgs;
+            args->lisa->PermCalcPseudoP_range(args->start, args->end, args->seed_start);
+            return 0;
+        }
     #endif
 #endif
 
@@ -42,7 +72,8 @@ std::map<std::string, std::vector<std::vector<int> > >  LISA::cached_perm_nbrs;
 #endif
 
 LISA::LISA(int num_obs, GeoDaWeight* w, const std::vector<bool>& _undefs,
-           double _significance_cutoff, int _nCPUs, int _perm, uint64_t _last_seed)
+           double _significance_cutoff, int _nCPUs, int _perm,
+           const std::string& _permutation_method, uint64_t _last_seed)
 : nCPUs(_nCPUs),
 num_obs(num_obs),
 row_standardize(true),
@@ -55,7 +86,9 @@ calc_significances(true),
 last_seed_used(_last_seed),
 reuse_last_seed(true),
 weights(w),
-undefs(_undefs)
+undefs(_undefs),
+perm_table(0),
+permutation_method(_permutation_method)
 {
 #ifdef __JSGEODA__
     if (has_cached_perm.find(w->GetUID()) == has_cached_perm.end()) {
@@ -67,7 +100,8 @@ undefs(_undefs)
 }
 
 LISA::LISA(int num_obs, GeoDaWeight* w, const std::vector<std::vector<bool> >& _undefs,
-           double _significance_cutoff, int _nCPUs, int _perm, uint64_t _last_seed)
+           double _significance_cutoff, int _nCPUs, int _perm,
+           const std::string& _permutation_method, uint64_t _last_seed)
 : nCPUs(_nCPUs),
 num_obs(num_obs),
 row_standardize(true),
@@ -79,7 +113,9 @@ has_isolates(w->HasIsolates()),
 calc_significances(true),
 last_seed_used(_last_seed),
 reuse_last_seed(true),
-weights(w)
+weights(w),
+perm_table(0),
+permutation_method(_permutation_method)
 {
     undefs.resize(num_obs, false);
     for (size_t i=0; i < _undefs.size(); ++i) {
@@ -94,6 +130,12 @@ weights(w)
 
 LISA::~LISA()
 {
+    if (perm_table != 0){
+        for (int i=0; i<permutations; ++i) {
+            delete[] perm_table[i];
+        }
+        delete[] perm_table;
+    }
 }
 
 void LISA::Run()
@@ -238,8 +280,161 @@ void LISA::CalcPseudoP()
     }
 #endif
 #else
-    CalcPseudoP_threaded();
+    if (boost::iequals(permutation_method, "brutal-force")) {
+        CalcPseudoP_threaded();
+    } else {
+        PermCreateTable_threaded();
+        PermCalcPseudoP_threaded();
+        // clean up memory
+        if (perm_table != 0){
+            for (int i=0; i<permutations; ++i) {
+                delete[] perm_table[i];
+            }
+            delete[] perm_table;
+        }
+        perm_table = 0;
+    }
 #endif
+}
+
+void LISA::PermCreateTable_threaded()
+{
+    //  create a permutation table: permutations x max_neighbors
+    int max_neighbors = weights->GetMaxNbrs();
+
+    perm_table = new int*[permutations];
+    for (int i=0; i<permutations; ++i) {
+        perm_table[i] = new int[max_neighbors];
+    }
+
+    pthread_t *threadPool = new pthread_t[nCPUs];
+    struct perm_thread_args *args = new perm_thread_args[nCPUs];
+
+    int work_chunk = permutations / nCPUs;
+    if (work_chunk == 0) work_chunk = 1;
+    int quotient = permutations / nCPUs;
+    int remainder = permutations % nCPUs;
+    int tot_threads = (quotient > 0) ? nCPUs : remainder;
+
+    for (int i=0; i<tot_threads; i++) {
+        int a = 0;
+        int b = 0;
+        if (i < remainder) {
+            a = i * (quotient + 1);
+            b = a + quotient;
+        } else {
+            a = remainder * (quotient + 1) + (i - remainder) * quotient;
+            b = a + quotient - 1;
+        }
+        uint64_t seed_start = last_seed_used + a * max_neighbors;
+
+        args[i].lisa = this;
+        args[i].start = a;
+        args[i].end = b;
+        args[i].max_neighbors = max_neighbors;
+        args[i].seed_start = seed_start;
+        if (pthread_create(&threadPool[i], NULL, &perm_thread_helper, &args[i])) {
+            perror("Thread create failed.");
+        }
+    }
+    for (int j = 0; j < nCPUs; j++) {
+        pthread_join(threadPool[j], NULL);
+    }
+    delete[] args;
+    delete[] threadPool;
+}
+
+void LISA::PermCreateRange(int perm_start, int perm_end, int max_neighbors, uint64_t seed_start)
+{
+    GeoDaSet workPermutation(max_neighbors);
+    int max_rand = num_obs-2; // when one observation is always removed
+    double rng_val;
+    for (int cnt=perm_start; cnt<=perm_end; cnt++) {
+        int rand = 0, newRandom;
+        while (rand < max_neighbors) {
+            // computing 'perfect' permutation of given size
+            rng_val = Gda::ThomasWangHashDouble(seed_start++) * max_rand;
+            // round is needed to fix issue
+            // https://github.com/GeoDaCenter/geoda/issues/488
+            newRandom = (int)(rng_val<0.0?ceil(rng_val - 0.5):floor(rng_val + 0.5));
+
+            if (!workPermutation.Belongs(newRandom) ) {
+                workPermutation.Push(newRandom);
+                rand++;
+            }
+        }
+        for (int cp = 0; cp < max_neighbors; cp++) {
+            perm_table[cnt][cp] = workPermutation.Pop();
+        }
+    }
+}
+
+void LISA::PermCalcPseudoP_threaded()
+{
+    pthread_t *threadPool = new pthread_t[nCPUs];
+    struct perm_lisa_thread_args *args = new perm_lisa_thread_args[nCPUs];
+    int work_chunk = num_obs / nCPUs;
+    if (work_chunk == 0) work_chunk = 1;
+    int quotient = num_obs / nCPUs;
+    int remainder = num_obs % nCPUs;
+    int tot_threads = (quotient > 0) ? nCPUs : remainder;
+
+    for (int i=0; i<tot_threads; i++) {
+        int a = 0;
+        int b = 0;
+        if (i < remainder) {
+            a = i * (quotient + 1);
+            b = a + quotient;
+        } else {
+            a = remainder * (quotient + 1) + (i - remainder) * quotient;
+            b = a + quotient - 1;
+        }
+        uint64_t seed_start = last_seed_used + a;
+        args[i].lisa = this;
+        args[i].start = a;
+        args[i].end = b;
+        args[i].seed_start = seed_start;
+        if (pthread_create(&threadPool[i], NULL, &perm_lisa_thread_helper, &args[i])) {
+            perror("Thread create failed.");
+        }
+    }
+    for (int j = 0; j < nCPUs; j++) {
+        pthread_join(threadPool[j], NULL);
+    }
+    delete[] args;
+    delete[] threadPool;
+}
+
+void LISA::PermCalcPseudoP_range(int obs_start, int obs_end, uint64_t seed_start)
+{
+    for (int cnt=obs_start; cnt<=obs_end; cnt++) {
+        if (undefs[cnt]) {
+            sig_cat_vec[cnt] = 6; // undefined
+            continue;
+        }
+        // get full neighbors even if has undefined value
+        int numNeighbors = weights->GetNbrSize(cnt);
+        if (numNeighbors == 0) {
+            sig_cat_vec[cnt] = 5; // neighborless cat
+            // isolate: don't do permutation
+            continue;
+        }
+        std::vector<double> permutedSA(permutations, 0);
+        for (size_t perm = 0; perm < permutations; perm++) {
+            PermLocalSA(cnt, perm, numNeighbors, perm_table[perm], permutedSA);
+        }
+        uint64_t countLarger = CountLargerSA(cnt, permutedSA);
+        double _sigLocal = (countLarger+1.0)/(permutations+1);
+
+        // 'significance' of local sa
+        if (_sigLocal <= 0.0001) sig_cat_vec[cnt] = 4;
+        else if (_sigLocal <= 0.001) sig_cat_vec[cnt] = 3;
+        else if (_sigLocal <= 0.01) sig_cat_vec[cnt] = 2;
+        else if (_sigLocal <= 0.05) sig_cat_vec[cnt] = 1;
+        else sig_cat_vec[cnt] = 0;
+
+        sig_local_vec[cnt] = _sigLocal;
+    }
 }
 
 void LISA::CalcPseudoP_threaded()

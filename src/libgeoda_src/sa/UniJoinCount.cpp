@@ -15,8 +15,8 @@ UniJoinCount::UniJoinCount(int num_obs, GeoDaWeight *w,
         const std::vector<double> &_data,
         const std::vector<bool> &_undefs,
         double significance_cutoff,
-        int _nCPUs, int _perm, uint64_t _last_seed)
-: LISA(num_obs, w, _undefs, significance_cutoff, _nCPUs, _perm, _last_seed),
+        int _nCPUs, int _perm, const std::string& _permutation_method, uint64_t _last_seed)
+: LISA(num_obs, w, _undefs, significance_cutoff, _nCPUs, _perm, _permutation_method, _last_seed),
   CLUSTER_NOT_SIG(0),
   CLUSTER_SIG(1),
   CLUSTER_UNDEFINED(2),

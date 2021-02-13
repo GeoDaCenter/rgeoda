@@ -291,7 +291,7 @@ lisa_colors <- function(gda_lisa) {
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
-local_moran <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_moran <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -301,7 +301,7 @@ local_moran <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_t
   }
 
   data <- df[[1]]
-  lisa_obj <- p_localmoran(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_localmoran(w$GetPointer(), data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
@@ -325,7 +325,7 @@ local_moran <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_t
 #' lms
 #' }
 #' @export
-local_moran_eb <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_moran_eb <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (class(w)[[1]] != "Weight") {
     stop("The parameter 'w' needs to be an instance of Weight object.")
   }
@@ -340,7 +340,7 @@ local_moran_eb <- function(w, df, permutations=999, significance_cutoff=0.05, cp
   event_data <- df[[1]]
   base_data <- df[[2]]
 
-  lisa_obj <- p_localmoran_eb(w$GetPointer(), event_data, base_data, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_localmoran_eb(w$GetPointer(), event_data, base_data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
@@ -363,7 +363,7 @@ local_moran_eb <- function(w, df, permutations=999, significance_cutoff=0.05, cp
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
-local_geary <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_geary <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -373,7 +373,7 @@ local_geary <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_t
   }
 
   data <- df[[1]]
-  lisa_obj <- p_localgeary(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_localgeary(w$GetPointer(), data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 
   return (LISA$new(p_LISA(lisa_obj)))
 }
@@ -398,7 +398,7 @@ local_geary <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_t
 #' lms <- lisa_clusters(lisa)
 #' lms
 #' @export
-local_multigeary <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_multigeary <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -413,7 +413,7 @@ local_multigeary <- function(w, df, permutations=999, significance_cutoff=0.05, 
     num_vars <- num_vars - 1
   }
 
-  lisa_obj <- p_localmultigeary(w$GetPointer(), df, num_vars, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_localmultigeary(w$GetPointer(), df, num_vars, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
@@ -436,7 +436,7 @@ local_multigeary <- function(w, df, permutations=999, significance_cutoff=0.05, 
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
-local_g <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_g <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -446,7 +446,7 @@ local_g <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threa
 
   data <- df[[1]]
 
-  lisa_obj <- p_localg(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_localg(w$GetPointer(), data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
@@ -469,7 +469,7 @@ local_g <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threa
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
-local_gstar <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_gstar <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -479,7 +479,7 @@ local_gstar <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_t
 
   data <- df[[1]]
 
-  lisa_obj <- p_localgstar(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_localgstar(w$GetPointer(), data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
 
@@ -502,7 +502,7 @@ local_gstar <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_t
 #' clsts<- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_joincount <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_joincount <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -512,7 +512,7 @@ local_joincount <- function(w, df, permutations=999, significance_cutoff=0.05, c
 
   data <- df[[1]]
 
-  lisa_obj <- p_localjoincount(w$GetPointer(), data, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_localjoincount(w$GetPointer(), data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 
   jc <- LISA$new(p_LISA(lisa_obj))
 
@@ -546,7 +546,7 @@ local_joincount <- function(w, df, permutations=999, significance_cutoff=0.05, c
 #' clsts<- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_bijoincount <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_bijoincount <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -565,7 +565,7 @@ local_bijoincount <- function(w, df, permutations=999, significance_cutoff=0.05,
     stop("The bivariate local join count only applies on two variables with no-colocation.")
   }
 
-  lisa_obj <- p_localmultijoincount(w$GetPointer(), df, 2, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_localmultijoincount(w$GetPointer(), df, 2, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
   jc <- LISA$new(p_LISA(lisa_obj))
 
   # update the probability results: change these with jc=0 to NA
@@ -597,7 +597,7 @@ local_bijoincount <- function(w, df, permutations=999, significance_cutoff=0.05,
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_multijoincount <- function(w, df, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_multijoincount <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -624,7 +624,7 @@ local_multijoincount <- function(w, df, permutations=999, significance_cutoff=0.
     }
   }
 
-  lisa_obj <- p_localmultijoincount(w$GetPointer(), df, num_vars, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_localmultijoincount(w$GetPointer(), df, num_vars, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
   jc <- LISA$new(p_LISA(lisa_obj))
 
   # update the probability results: change these with jc=0 to NA
@@ -658,7 +658,7 @@ local_multijoincount <- function(w, df, permutations=999, significance_cutoff=0.
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_quantilelisa <- function(w, df, k, q, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_quantilelisa <- function(w, df, k, q, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -673,7 +673,7 @@ local_quantilelisa <- function(w, df, k, q, permutations=999, significance_cutof
     stop("The value of which quantile been selected should be in the range of [1, k]")
   }
 
-  lisa_obj <- p_quantilelisa(w$GetPointer(), k, q, df[[1]], permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_quantilelisa(w$GetPointer(), k, q, df[[1]], permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 
   return (LISA$new(p_LISA(lisa_obj)))
 }
@@ -699,7 +699,7 @@ local_quantilelisa <- function(w, df, k, q, permutations=999, significance_cutof
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_multiquantilelisa <- function(w, df, k, q, permutations=999, significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_multiquantilelisa <- function(w, df, k, q, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -731,7 +731,7 @@ local_multiquantilelisa <- function(w, df, k, q, permutations=999, significance_
     }
   }
 
-  lisa_obj <- p_multiquantilelisa(w$GetPointer(), k, q, df, permutations, significance_cutoff, cpu_threads, seed)
+  lisa_obj <- p_multiquantilelisa(w$GetPointer(), k, q, df, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
   return (LISA$new(p_LISA(lisa_obj)))
 }
 

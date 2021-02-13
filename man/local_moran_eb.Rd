@@ -8,6 +8,7 @@ local_moran_eb(
   w,
   df,
   permutations = 999,
+  permutation_method = "brutal-force",
   significance_cutoff = 0.05,
   cpu_threads = 6,
   seed = 123456789
