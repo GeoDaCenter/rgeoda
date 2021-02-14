@@ -277,10 +277,11 @@ lisa_colors <- function(gda_lisa) {
 #' @description The function to apply local Moran statistics
 #' @param w An instance of Weight object
 #' @param df A data frame with only selected variable. E.g. guerry["Crm_prs"]
-#' @param permutations The number of permutations for the LISA computation
-#' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
-#' @param cpu_threads The number of cpu threads used for parallel LISA computation
-#' @param seed The seed for random number generator
+#' @param permutations (optional) The number of permutations for the LISA computation
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
+#' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
+#' @param seed (optional) The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
 #' library(sf)
@@ -310,10 +311,11 @@ local_moran <- function(w, df, permutations=999, permutation_method="brutal-forc
 #' @description The function to apply local Moran with EB Rate statistics. The EB rate is first computed from "event" and "base" variables, and then used in local moran statistics.
 #' @param w An instance of Weight object
 #' @param df A data frame with two selected variable: one is "event", anothor is "base" variable. E.g. guerry[c("hr60", "po60")]
-#' @param permutations The number of permutations for the LISA computation
-#' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
-#' @param cpu_threads The number of cpu threads used for parallel LISA computation
-#' @param seed The seed for random number generator
+#' @param permutations (optional) The number of permutations for the LISA computation
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
+#' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
+#' @param seed (optional) The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
 #' \dontrun{
@@ -349,10 +351,11 @@ local_moran_eb <- function(w, df, permutations=999, permutation_method="brutal-f
 #' @description The function to apply local Geary statistics
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
-#' @param permutations The number of permutations for the LISA computation
-#' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
-#' @param cpu_threads The number of cpu threads used for parallel LISA computation
-#' @param seed The seed for random number generator
+#' @param permutations (optional) The number of permutations for the LISA computation
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
+#' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
+#' @param seed (optional) The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
 #' library(sf)
@@ -383,10 +386,11 @@ local_geary <- function(w, df, permutations=999, permutation_method="brutal-forc
 #' @description The function to apply local Multivariate Geary statistics
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variables only. E.g. guerry["Crm_prs"]
-#' @param permutations The number of permutations for the LISA computation
-#' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
-#' @param cpu_threads The number of cpu threads used for parallel LISA computation
-#' @param seed The seed for random number generator
+#' @param permutations (optional) The number of permutations for the LISA computation
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
+#' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
+#' @param seed (optional) The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
 #' library(sf)
@@ -422,10 +426,11 @@ local_multigeary <- function(w, df, permutations=999, permutation_method="brutal
 #' @description The function to apply Getis-Ord's local G statistics
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
-#' @param permutations The number of permutations for the LISA computation
-#' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
-#' @param cpu_threads The number of cpu threads used for parallel LISA computation
-#' @param seed The seed for random number generator
+#' @param permutations (optional) The number of permutations for the LISA computation
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
+#' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
+#' @param seed (optional) The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
 #' library(sf)
@@ -455,10 +460,11 @@ local_g <- function(w, df, permutations=999, permutation_method="brutal-force", 
 #' @description The function to apply Getis-Ord's local G* statistics
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
-#' @param permutations The number of permutations for the LISA computation
-#' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
-#' @param cpu_threads The number of cpu threads used for parallel LISA computation
-#' @param seed The seed for random number generator
+#' @param permutations (optional) The number of permutations for the LISA computation
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
+#' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
+#' @param seed (optional) The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
 #' library(sf)
@@ -488,10 +494,11 @@ local_gstar <- function(w, df, permutations=999, permutation_method="brutal-forc
 #' @description The function to apply local Join Count statistics
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
-#' @param permutations The number of permutations for the LISA computation
-#' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
-#' @param cpu_threads The number of cpu threads used for parallel LISA computation
-#' @param seed The seed for random number generator
+#' @param permutations (optional) The number of permutations for the LISA computation
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
+#' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
+#' @param seed (optional) The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
 #' library(sf)
@@ -531,10 +538,11 @@ local_joincount <- function(w, df, permutations=999, permutation_method="brutal-
 #' @description The function to apply local Bivariate Join Count statistics
 #' @param w An instance of Weight object
 #' @param df A data frame with two selected variable. E.g. guerry[c("TopCrm", "InvCrm")]
-#' @param permutations The number of permutations for the LISA computation
-#' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
-#' @param cpu_threads The number of cpu threads used for parallel LISA computation
-#' @param seed The seed for random number generator
+#' @param permutations (optional) The number of permutations for the LISA computation
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
+#' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
+#' @param seed (optional) The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
 #' library(sf)
@@ -583,10 +591,11 @@ local_bijoincount <- function(w, df, permutations=999, permutation_method="bruta
 #' @description The function to apply (multivariate) colocation local Join Count statistics
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variables only. E.g. guerry[c("TopCrm", "TopWealth", "TopLit")]
-#' @param permutations The number of permutations for the LISA computation
-#' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
-#' @param cpu_threads The number of cpu threads used for parallel LISA computation
-#' @param seed The seed for random number generator
+#' @param permutations (optional) The number of permutations for the LISA computation
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
+#' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
+#' @param seed (optional) The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
 #' library(sf)
@@ -644,10 +653,11 @@ local_multijoincount <- function(w, df, permutations=999, permutation_method="br
 #' @param k A value indicates the number of quantiles. Value range e.g. [1, 10]
 #' @param q A value indicates which quantile or interval used in local join count statistics. Value stars from 1.
 #' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
-#' @param permutations The number of permutations for the LISA computation
-#' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
-#' @param cpu_threads The number of cpu threads used for parallel LISA computation
-#' @param seed The seed for random number generator
+#' @param permutations (optional) The number of permutations for the LISA computation
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
+#' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
+#' @param seed (optional) The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
 #' library(sf)
@@ -685,10 +695,11 @@ local_quantilelisa <- function(w, df, k, q, permutations=999, permutation_method
 #' @param df A data frame with selected variables only. E.g. guerry[c("TopCrm", "TopWealth", "TopLit")]
 #' @param k A vector of "k" values indicate the number of quantiles for each variable. Value range e.g. [1, 10]
 #' @param q A vector of "q" values indicate which quantile or interval for each variable used in local join count statistics. Value stars from 1.
-#' @param permutations The number of permutations for the LISA computation
-#' @param significance_cutoff  A cutoff value for significance p-values to filter not-significant clusters
-#' @param cpu_threads The number of cpu threads used for parallel LISA computation
-#' @param seed The seed for random number generator
+#' @param permutations (optional) The number of permutations for the LISA computation
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
+#' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
+#' @param seed (optional) The seed for random number generator
 #' @return An instance of LISA-class
 #' @examples
 #' library(sf)

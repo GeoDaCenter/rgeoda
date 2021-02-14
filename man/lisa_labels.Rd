@@ -10,7 +10,7 @@ lisa_labels(gda_lisa)
 \item{gda_lisa}{An instance of LISA object}
 }
 \value{
-A numeric vector of cluster labels
+A string vector of cluster labels
 }
 \description{
 Get cluster labels of LISA computation.

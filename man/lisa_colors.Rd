@@ -10,7 +10,7 @@ lisa_colors(gda_lisa)
 \item{gda_lisa}{An instance of LISA object}
 }
 \value{
-A numeric vector of cluster colors
+A string vector of cluster colors
 }
 \description{
 Get the cluster colors of LISA computation.
