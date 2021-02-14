@@ -113,7 +113,7 @@ void UniLocalMoran::PermLocalSA(int cnt, int perm, int numNeighbors, const int* 
     // compute the lag for binary weights
     for (int cp=0; cp<numNeighbors; cp++) {
         int nb = permNeighbors[cp];
-        if (nb >= cnt) nb = nb + 1;
+        if (nb >= cnt) nb = nb + 1; // self "cnt" should be excluded, index should be adjusted
         if (!undefs[nb]) {
             permutedLag += data[nb];
             validNeighbors ++;

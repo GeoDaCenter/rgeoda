@@ -283,16 +283,22 @@ void LISA::CalcPseudoP()
     if (boost::iequals(permutation_method, "brutal-force")) {
         CalcPseudoP_threaded();
     } else {
-        PermCreateTable_threaded();
-        PermCalcPseudoP_threaded();
-        // clean up memory
+        // Init permutation table
         if (perm_table != 0){
             for (int i=0; i<permutations; ++i) {
                 delete[] perm_table[i];
             }
             delete[] perm_table;
         }
-        perm_table = 0;
+        int max_neighbors = weights->GetMaxNbrs();
+        perm_table = new int*[permutations];
+        for (int i=0; i<permutations; ++i) {
+            perm_table[i] = new int[max_neighbors];
+        }
+        PermCreateTable_threaded();
+        //PermCreateRange(0, permutations-1, max_neighbors, last_seed_used);
+        PermCalcPseudoP_threaded();
+        //PermCalcPseudoP_range(0, num_obs-1, last_seed_used);
     }
 #endif
 }
@@ -301,11 +307,6 @@ void LISA::PermCreateTable_threaded()
 {
     //  create a permutation table: permutations x max_neighbors
     int max_neighbors = weights->GetMaxNbrs();
-
-    perm_table = new int*[permutations];
-    for (int i=0; i<permutations; ++i) {
-        perm_table[i] = new int[max_neighbors];
-    }
 
     pthread_t *threadPool = new pthread_t[nCPUs];
     struct perm_thread_args *args = new perm_thread_args[nCPUs];
@@ -326,7 +327,8 @@ void LISA::PermCreateTable_threaded()
             a = remainder * (quotient + 1) + (i - remainder) * quotient;
             b = a + quotient - 1;
         }
-        uint64_t seed_start = last_seed_used + a * max_neighbors;
+        uint64_t seed_start = last_seed_used + a * (permutations /*larger enougth to avoid reoccurence*/ *
+                max_neighbors);
 
         args[i].lisa = this;
         args[i].start = a;
@@ -346,7 +348,7 @@ void LISA::PermCreateTable_threaded()
 
 void LISA::PermCreateRange(int perm_start, int perm_end, int max_neighbors, uint64_t seed_start)
 {
-    GeoDaSet workPermutation(max_neighbors);
+    GeoDaSet *workPermutation = new GeoDaSet(num_obs);
     int max_rand = num_obs-2; // when one observation is always removed
     double rng_val;
     for (int cnt=perm_start; cnt<=perm_end; cnt++) {
@@ -358,15 +360,16 @@ void LISA::PermCreateRange(int perm_start, int perm_end, int max_neighbors, uint
             // https://github.com/GeoDaCenter/geoda/issues/488
             newRandom = (int)(rng_val<0.0?ceil(rng_val - 0.5):floor(rng_val + 0.5));
 
-            if (!workPermutation.Belongs(newRandom) ) {
-                workPermutation.Push(newRandom);
+            if (!workPermutation->Belongs(newRandom) && newRandom < num_obs ) {
+                workPermutation->Push(newRandom);
                 rand++;
             }
         }
         for (int cp = 0; cp < max_neighbors; cp++) {
-            perm_table[cnt][cp] = workPermutation.Pop();
+            perm_table[cnt][cp] = workPermutation->Pop();
         }
     }
+    delete workPermutation;
 }
 
 void LISA::PermCalcPseudoP_threaded()

@@ -103,6 +103,43 @@ void MultiGeary::ComputeLoalSA() {
     }
 }
 
+void MultiGeary::PermLocalSA(int cnt, int perm, int numNeighbors, const int* permNeighbors,
+                                std::vector<double>& permutedSA) {
+    int validNeighbors = 0;
+
+    // use permutation to compute the lag
+    // compute the lag for binary weights
+    std::vector<double> permutedLag(num_vars, 0);
+    std::vector<double> permutedLagSquare(num_vars, 0);
+
+    for (int cp=0; cp<numNeighbors; cp++) {
+        int nb = permNeighbors[cp];
+        if (nb >= cnt) nb = nb + 1; // self "cnt" should be excluded, index should be adjusted
+        if (!undefs[nb]) {
+            validNeighbors ++;
+            for (int v=0; v<num_vars; v++) {
+                permutedLag[v] += data[v][nb];
+                permutedLagSquare[v] += data_square[v][nb];
+            }
+        }
+    }
+    //NOTE: we shouldn't have to row-standardize or
+    // multiply by data1[cnt]
+    if (validNeighbors > 0 && row_standardize) {
+        for (int v=0; v<num_vars; v++) {
+            permutedLag[v] /= validNeighbors;
+            permutedLagSquare[v] /= validNeighbors;
+        }
+    }
+    double localGearyPermuted = 0;
+    for (int v=0; v<num_vars; v++) {
+        localGearyPermuted += data_square[v][cnt] - 2.0 * data[v][cnt] * permutedLag[v] + permutedLagSquare[v];
+    }
+    localGearyPermuted /= num_vars;
+    permutedSA[perm] = localGearyPermuted;
+}
+
+
 void MultiGeary::PermLocalSA(int cnt, int perm, const std::vector<int> &permNeighbors, std::vector<double>& permutedSA)
 {
     int validNeighbors = 0;

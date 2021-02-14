@@ -138,6 +138,8 @@ void MultiJoinCount::CalcPseudoP_range(int obs_start, int obs_end, uint64_t seed
             sig_cat_vec[cnt] = 6; // undefined cat
             continue;
         }
+
+        // skip local join count == 0
         if (lisa_vec[cnt] == 0 ) {
             sig_local_vec[cnt] = -1.0;
             continue;
@@ -191,8 +193,63 @@ void MultiJoinCount::CalcPseudoP_range(int obs_start, int obs_end, uint64_t seed
     }
 }
 
-void
-MultiJoinCount::PermLocalSA(int cnt, int perm, const std::vector<int> &permNeighbors, std::vector<double> &permutedSA) {
+void MultiJoinCount::PermCalcPseudoP_range(int obs_start, int obs_end, uint64_t seed_start)
+{
+    for (int cnt=obs_start; cnt<=obs_end; cnt++) {
+        if (undefs[cnt]) {
+            sig_cat_vec[cnt] = 6; // undefined
+            continue;
+        }
+        // ignore local join count == 0
+        if (lisa_vec[cnt] == 0) {
+            sig_local_vec[cnt] = -1.0;
+            continue;
+        }
+        // get full neighbors even if has undefined value
+        int numNeighbors = weights->GetNbrSize(cnt);
+        if (numNeighbors == 0) {
+            sig_cat_vec[cnt] = 5; // neighborless cat
+            // isolate: don't do permutation
+            continue;
+        }
+        std::vector<double> permutedSA(permutations, 0);
+        for (size_t perm = 0; perm < permutations; perm++) {
+            PermLocalSA(cnt, perm, numNeighbors, perm_table[perm], permutedSA);
+        }
+        uint64_t countLarger = CountLargerSA(cnt, permutedSA);
+        double _sigLocal = (countLarger+1.0)/(permutations+1);
+
+        // 'significance' of local sa
+        if (_sigLocal <= 0.0001) sig_cat_vec[cnt] = 4;
+        else if (_sigLocal <= 0.001) sig_cat_vec[cnt] = 3;
+        else if (_sigLocal <= 0.01) sig_cat_vec[cnt] = 2;
+        else if (_sigLocal <= 0.05) sig_cat_vec[cnt] = 1;
+        else sig_cat_vec[cnt] = 0;
+
+        sig_local_vec[cnt] = _sigLocal;
+    }
+}
+
+
+void MultiJoinCount::PermLocalSA(int cnt, int perm, int numNeighbors, const int* permNeighbors,
+                                std::vector<double>& permutedSA) {
+    int validNeighbors = 0;
+    double permutedLag = 0;
+    // use permutation to compute the lag
+    // compute the lag for binary weights
+    for (int cp=0; cp<numNeighbors; cp++) {
+        int nb = permNeighbors[cp];
+        if (nb >= cnt) nb = nb + 1;
+        if (!undefs[nb]) {
+            permutedLag += zz[nb];
+            validNeighbors ++;
+        }
+    }
+    permutedSA[perm] = permutedLag;
+}
+
+void MultiJoinCount::PermLocalSA(int cnt, int perm, const std::vector<int> &permNeighbors, std::vector<double>
+        &permutedSA) {
 
     int validNeighbors = 0;
     double permutedLag = 0;

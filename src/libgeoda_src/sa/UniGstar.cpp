@@ -104,6 +104,32 @@ void UniGstar::ComputeLoalSA() {
     }
 }
 
+void UniGstar::PermLocalSA(int cnt, int perm, int numNeighbors, const int* permNeighbors,
+                                std::vector<double>& permutedSA) {
+    int validNeighbors = 0;
+    double permutedLag = 0;
+    // use permutation to compute the lag
+    // compute the lag for binary weights
+    for (int cp=0; cp<numNeighbors; cp++) {
+        int nb = permNeighbors[cp];
+        if (nb >= cnt) nb = nb + 1;
+        if (!undefs[nb]) {
+            permutedLag += data[nb];
+            validNeighbors ++;
+        }
+    }
+    // including self
+    permutedLag += data[cnt];
+    validNeighbors += 1;
+
+    double permutedG = 0;
+    if (validNeighbors > 0 && row_standardize) {
+        permutedLag /= validNeighbors;
+        permutedG = permutedLag / sum_x;
+    }
+    permutedSA[perm] = permutedG;
+}
+
 void UniGstar::PermLocalSA(int cnt, int perm, const std::vector<int> &permNeighbors,
                        std::vector<double>& permutedSA) {
     int validNeighbors = 0;

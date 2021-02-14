@@ -27,11 +27,14 @@ public:
 
     virtual void CalcPseudoP_range(int obs_start, int obs_end, uint64_t seed_start);
 
+    virtual void PermCalcPseudoP_range(int obs_start, int obs_end, uint64_t seed_start);
+
     virtual void ComputeLoalSA() ;
 
     virtual void PermLocalSA(int cnt, int perm, const std::vector<int> &permNeighbors, std::vector<double>& permutedSA);
 
-    virtual void PermLocalSA(int cnt, int perm, int numNeighbors, const int* permNeighbors, std::vector<double>& permutedSA){}
+    virtual void PermLocalSA(int cnt, int perm, int numNeighbors, const int* permNeighbors,
+            std::vector<double>& permutedSA);
 
     virtual uint64_t CountLargerSA(int cnt, const std::vector<double>& permutedSA);
 

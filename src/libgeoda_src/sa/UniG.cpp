@@ -108,6 +108,33 @@ void UniG::ComputeLoalSA() {
     }
 }
 
+// Used by permutation_method=="lookup-table"
+void UniG::PermLocalSA(int cnt, int perm, int numNeighbors, const int* permNeighbors,
+                                std::vector<double>& permutedSA) {
+    int validNeighbors = 0;
+    double permutedLag = 0;
+    // use permutation to compute the lag
+    // compute the lag for binary weights
+    for (int cp=0; cp<numNeighbors; cp++) {
+        int nb = permNeighbors[cp];
+        if (nb >= cnt) nb = nb + 1;
+        if (!undefs[nb]) {
+            permutedLag += data[nb];
+            validNeighbors ++;
+        }
+    }
+    double permutedG = permutedLag;
+
+    if (validNeighbors > 0 && row_standardize) {
+        permutedLag /= validNeighbors; // row_standardize
+        if ((sum_x - data[cnt]) == 0)
+            permutedG = 0;
+        else
+            permutedG = permutedLag / (sum_x - data[cnt]);
+    }
+    permutedSA[perm] = permutedG;
+}
+
 void UniG::PermLocalSA(int cnt, int perm, const std::vector<int> &permNeighbors,
                           std::vector<double>& permutedSA) {
     int validNeighbors = 0;
