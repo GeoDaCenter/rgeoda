@@ -278,7 +278,7 @@ lisa_colors <- function(gda_lisa) {
 #' @param w An instance of Weight object
 #' @param df A data frame with only selected variable. E.g. guerry["Crm_prs"]
 #' @param permutations (optional) The number of permutations for the LISA computation
-#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
 #' @param seed (optional) The seed for random number generator
@@ -292,7 +292,7 @@ lisa_colors <- function(gda_lisa) {
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
-local_moran <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_moran <- function(w, df, permutations=999, permutation_method="complete", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -312,7 +312,7 @@ local_moran <- function(w, df, permutations=999, permutation_method="brutal-forc
 #' @param w An instance of Weight object
 #' @param df A data frame with two selected variable: one is "event", anothor is "base" variable. E.g. guerry[c("hr60", "po60")]
 #' @param permutations (optional) The number of permutations for the LISA computation
-#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
 #' @param seed (optional) The seed for random number generator
@@ -327,7 +327,7 @@ local_moran <- function(w, df, permutations=999, permutation_method="brutal-forc
 #' lms
 #' }
 #' @export
-local_moran_eb <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_moran_eb <- function(w, df, permutations=999, permutation_method="complete", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (class(w)[[1]] != "Weight") {
     stop("The parameter 'w' needs to be an instance of Weight object.")
   }
@@ -352,7 +352,7 @@ local_moran_eb <- function(w, df, permutations=999, permutation_method="brutal-f
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
 #' @param permutations (optional) The number of permutations for the LISA computation
-#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
 #' @param seed (optional) The seed for random number generator
@@ -366,7 +366,7 @@ local_moran_eb <- function(w, df, permutations=999, permutation_method="brutal-f
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
-local_geary <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_geary <- function(w, df, permutations=999, permutation_method="complete", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -387,7 +387,7 @@ local_geary <- function(w, df, permutations=999, permutation_method="brutal-forc
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variables only. E.g. guerry["Crm_prs"]
 #' @param permutations (optional) The number of permutations for the LISA computation
-#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
 #' @param seed (optional) The seed for random number generator
@@ -402,7 +402,7 @@ local_geary <- function(w, df, permutations=999, permutation_method="brutal-forc
 #' lms <- lisa_clusters(lisa)
 #' lms
 #' @export
-local_multigeary <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_multigeary <- function(w, df, permutations=999, permutation_method="complete", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -427,7 +427,7 @@ local_multigeary <- function(w, df, permutations=999, permutation_method="brutal
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
 #' @param permutations (optional) The number of permutations for the LISA computation
-#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
 #' @param seed (optional) The seed for random number generator
@@ -441,7 +441,7 @@ local_multigeary <- function(w, df, permutations=999, permutation_method="brutal
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
-local_g <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_g <- function(w, df, permutations=999, permutation_method="complete", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -461,7 +461,7 @@ local_g <- function(w, df, permutations=999, permutation_method="brutal-force", 
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
 #' @param permutations (optional) The number of permutations for the LISA computation
-#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
 #' @param seed (optional) The seed for random number generator
@@ -475,7 +475,7 @@ local_g <- function(w, df, permutations=999, permutation_method="brutal-force", 
 #' lms <- lisa_values(lisa)
 #' lms
 #' @export
-local_gstar <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_gstar <- function(w, df, permutations=999, permutation_method="complete", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -495,7 +495,7 @@ local_gstar <- function(w, df, permutations=999, permutation_method="brutal-forc
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
 #' @param permutations (optional) The number of permutations for the LISA computation
-#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
 #' @param seed (optional) The seed for random number generator
@@ -509,7 +509,7 @@ local_gstar <- function(w, df, permutations=999, permutation_method="brutal-forc
 #' clsts<- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_joincount <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_joincount <- function(w, df, permutations=999, permutation_method="complete", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -539,7 +539,7 @@ local_joincount <- function(w, df, permutations=999, permutation_method="brutal-
 #' @param w An instance of Weight object
 #' @param df A data frame with two selected variable. E.g. guerry[c("TopCrm", "InvCrm")]
 #' @param permutations (optional) The number of permutations for the LISA computation
-#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
 #' @param seed (optional) The seed for random number generator
@@ -554,7 +554,7 @@ local_joincount <- function(w, df, permutations=999, permutation_method="brutal-
 #' clsts<- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_bijoincount <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_bijoincount <- function(w, df, permutations=999, permutation_method="complete", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -592,7 +592,7 @@ local_bijoincount <- function(w, df, permutations=999, permutation_method="bruta
 #' @param w An instance of Weight object
 #' @param df A data frame with selected variables only. E.g. guerry[c("TopCrm", "TopWealth", "TopLit")]
 #' @param permutations (optional) The number of permutations for the LISA computation
-#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
 #' @param seed (optional) The seed for random number generator
@@ -606,7 +606,7 @@ local_bijoincount <- function(w, df, permutations=999, permutation_method="bruta
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_multijoincount <- function(w, df, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_multijoincount <- function(w, df, permutations=999, permutation_method="complete", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -654,7 +654,7 @@ local_multijoincount <- function(w, df, permutations=999, permutation_method="br
 #' @param q A value indicates which quantile or interval used in local join count statistics. Value stars from 1.
 #' @param df A data frame with selected variable only. E.g. guerry["Crm_prs"]
 #' @param permutations (optional) The number of permutations for the LISA computation
-#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
 #' @param seed (optional) The seed for random number generator
@@ -668,7 +668,7 @@ local_multijoincount <- function(w, df, permutations=999, permutation_method="br
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_quantilelisa <- function(w, df, k, q, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_quantilelisa <- function(w, df, k, q, permutations=999, permutation_method="complete", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
@@ -696,7 +696,7 @@ local_quantilelisa <- function(w, df, k, q, permutations=999, permutation_method
 #' @param k A vector of "k" values indicate the number of quantiles for each variable. Value range e.g. [1, 10]
 #' @param q A vector of "q" values indicate which quantile or interval for each variable used in local join count statistics. Value stars from 1.
 #' @param permutations (optional) The number of permutations for the LISA computation
-#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.
+#' @param permutation_method (optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel LISA computation
 #' @param seed (optional) The seed for random number generator
@@ -710,7 +710,7 @@ local_quantilelisa <- function(w, df, k, q, permutations=999, permutation_method
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' @export
-local_multiquantilelisa <- function(w, df, k, q, permutations=999, permutation_method="brutal-force", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
+local_multiquantilelisa <- function(w, df, k, q, permutations=999, permutation_method="complete", significance_cutoff=0.05, cpu_threads=6, seed=123456789) {
   if (w$num_obs <= 0) {
     stop("Weights object is not valid.")
   }
