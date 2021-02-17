@@ -8,7 +8,7 @@ local_g(
   w,
   df,
   permutations = 999,
-  permutation_method = "brutal-force",
+  permutation_method = "complete",
   significance_cutoff = 0.05,
   cpu_threads = 6,
   seed = 123456789
@@ -21,7 +21,7 @@ local_g(
 
 \item{permutations}{(optional) The number of permutations for the LISA computation}
 
-\item{permutation_method}{(optional) The permutation method used for the LISA computation. Options are {'brutal-force', 'lookup-table'}. Default is 'brutal-force'.}
+\item{permutation_method}{(optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.}
 
 \item{significance_cutoff}{(optional) A cutoff value for significance p-values to filter not-significant clusters}
 
