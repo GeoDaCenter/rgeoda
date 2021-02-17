@@ -305,12 +305,16 @@ void LISA::CalcPseudoP()
 
 void LISA::PermCreateTable_threaded()
 {
-    //  create a permutation table: permutations x max_neighbors
-    int max_neighbors = weights->GetMaxNbrs();
-
+#ifndef __NO_THREAD__
+#ifndef __USE_PTHREAD__
+    if (nCPUs <= 0) nCPUs = boost::thread::hardware_concurrency();
+    boost::thread_group threadPool;
+#else
     pthread_t *threadPool = new pthread_t[nCPUs];
     struct perm_thread_args *args = new perm_thread_args[nCPUs];
-
+#endif
+    //  create a permutation table: permutations x max_neighbors
+    int max_neighbors = weights->GetMaxNbrs();
     int work_chunk = permutations / nCPUs;
     if (work_chunk == 0) work_chunk = 1;
     int quotient = permutations / nCPUs;
@@ -329,7 +333,10 @@ void LISA::PermCreateTable_threaded()
         }
         uint64_t seed_start = last_seed_used + a * (permutations /*larger enougth to avoid reoccurence*/ *
                 max_neighbors);
-
+#ifndef __USE_PTHREAD__
+        boost::thread* worker = new boost::thread(boost::bind(&LISA::PermCreateRange,this, a, b, max_neighbors, seed_start));
+        threadPool.add_thread(worker);
+#else
         args[i].lisa = this;
         args[i].start = a;
         args[i].end = b;
@@ -338,12 +345,19 @@ void LISA::PermCreateTable_threaded()
         if (pthread_create(&threadPool[i], NULL, &perm_thread_helper, &args[i])) {
             perror("Thread create failed.");
         }
+#endif
     }
+
+#ifndef __USE_PTHREAD__
+    threadPool.join_all();
+#else
     for (int j = 0; j < nCPUs; j++) {
         pthread_join(threadPool[j], NULL);
     }
     delete[] args;
     delete[] threadPool;
+#endif
+#endif
 }
 
 void LISA::PermCreateRange(int perm_start, int perm_end, int max_neighbors, uint64_t seed_start)
@@ -374,8 +388,15 @@ void LISA::PermCreateRange(int perm_start, int perm_end, int max_neighbors, uint
 
 void LISA::PermCalcPseudoP_threaded()
 {
+#ifndef __NO_THREAD__
+#ifndef __USE_PTHREAD__
+    if (nCPUs <= 0) nCPUs = boost::thread::hardware_concurrency();
+    boost::thread_group threadPool;
+#else
     pthread_t *threadPool = new pthread_t[nCPUs];
     struct perm_lisa_thread_args *args = new perm_lisa_thread_args[nCPUs];
+#endif
+
     int work_chunk = num_obs / nCPUs;
     if (work_chunk == 0) work_chunk = 1;
     int quotient = num_obs / nCPUs;
@@ -393,6 +414,10 @@ void LISA::PermCalcPseudoP_threaded()
             b = a + quotient - 1;
         }
         uint64_t seed_start = last_seed_used + a;
+#ifndef __USE_PTHREAD__
+        boost::thread* worker = new boost::thread(boost::bind(&LISA::PermCalcPseudoP_range,this, a, b, seed_start));
+        threadPool.add_thread(worker);
+#else
         args[i].lisa = this;
         args[i].start = a;
         args[i].end = b;
@@ -400,12 +425,19 @@ void LISA::PermCalcPseudoP_threaded()
         if (pthread_create(&threadPool[i], NULL, &perm_lisa_thread_helper, &args[i])) {
             perror("Thread create failed.");
         }
+#endif
     }
+
+#ifndef __USE_PTHREAD__
+    threadPool.join_all();
+#else
     for (int j = 0; j < nCPUs; j++) {
         pthread_join(threadPool[j], NULL);
     }
     delete[] args;
     delete[] threadPool;
+#endif
+#endif
 }
 
 void LISA::PermCalcPseudoP_range(int obs_start, int obs_end, uint64_t seed_start)
