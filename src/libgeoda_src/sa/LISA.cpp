@@ -280,7 +280,7 @@ void LISA::CalcPseudoP()
     }
 #endif
 #else
-    if (boost::iequals(permutation_method, "brutal-force")) {
+    if (boost::iequals(permutation_method, "complete")) {
         CalcPseudoP_threaded();
     } else {
         // Init permutation table
