@@ -1,4 +1,4 @@
-RGEODALIB = ./libgeoda_src
+RGEODALIB = ./libgeoda
 
 PKG_CPPFLAGS=\
 	-I$(RGEODALIB) \

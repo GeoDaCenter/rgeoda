@@ -5,7 +5,7 @@
 // 10/29/2020 init file
 
 #include <Rcpp.h>
-#include "libgeoda_src/libgeoda.h"
+#include "libgeoda/libgeoda.h"
 
 using namespace Rcpp;
 

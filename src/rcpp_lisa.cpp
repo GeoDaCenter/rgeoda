@@ -6,11 +6,11 @@
 // 12/23/2020 init rcpp_lisa.cpp
 
 #include <Rcpp.h>
-#include "libgeoda_src/weights/GeodaWeight.h"
-#include "libgeoda_src/sa/LISA.h"
-#include "libgeoda_src/gda_data.h"
-#include "libgeoda_src/gda_sa.h"
-#include "libgeoda_src/libgeoda.h"
+#include "libgeoda/weights/GeodaWeight.h"
+#include "libgeoda/sa/LISA.h"
+#include "libgeoda/gda_data.h"
+#include "libgeoda/gda_sa.h"
+#include "libgeoda/libgeoda.h"
 
 using namespace Rcpp;
 
