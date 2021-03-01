@@ -88,7 +88,7 @@ as.geoda <- function(obj, with_table=TRUE) {
     return (sp_to_geoda(obj, with_table))
   } else if (length(class(obj)) == 2 && class(obj)[[1]] == "sf") {
     # fall back to try sf object
-    return (sf_to_geoda(obj, with_table=TRUE))
+    return (sf_to_geoda(obj, with_table))
   } else {
     stop("as.geoda() takes either an 'sf' or 'sp' object.")
   }
