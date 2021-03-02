@@ -27,7 +27,6 @@ geoda <- setRefClass("geoda",
       .self$field_names = gda$GetFieldNames()
       .self$field_types = gda$GetFieldTypes()
       .self$table <- data.frame()[1:.self$n_obs, ]
-
       if (length(.self$field_names) > 0) {
         for (i in 1:.self$n_cols) {
           f_nm <- .self$field_names[[i]]
@@ -37,7 +36,7 @@ geoda <- setRefClass("geoda",
           } else if (f_tp == "integer") {
             .self$table[[f_nm]] <- gda$GetIntegerCol(f_nm)
           } else {
-            .self$table[[f_nm]] <- gda$GetStringCol(f_nm)
+            #.self$table[[f_nm]] <- gda$GetStringCol(f_nm)
           }
         }
       }

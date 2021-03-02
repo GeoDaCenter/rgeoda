@@ -553,7 +553,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // p_GeoDa__new1
-SEXP p_GeoDa__new1(SEXP xp, std::string layer_name, std::string map_type, int num_features, RawVector wkbs, NumericVector wkb_bytes_len);
+SEXP p_GeoDa__new1(SEXP xp, std::string layer_name, std::string map_type, int num_features, RawVector& wkbs, NumericVector& wkb_bytes_len);
 RcppExport SEXP _rgeoda_p_GeoDa__new1(SEXP xpSEXP, SEXP layer_nameSEXP, SEXP map_typeSEXP, SEXP num_featuresSEXP, SEXP wkbsSEXP, SEXP wkb_bytes_lenSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -562,8 +562,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::string >::type layer_name(layer_nameSEXP);
     Rcpp::traits::input_parameter< std::string >::type map_type(map_typeSEXP);
     Rcpp::traits::input_parameter< int >::type num_features(num_featuresSEXP);
-    Rcpp::traits::input_parameter< RawVector >::type wkbs(wkbsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type wkb_bytes_len(wkb_bytes_lenSEXP);
+    Rcpp::traits::input_parameter< RawVector& >::type wkbs(wkbsSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type wkb_bytes_len(wkb_bytes_lenSEXP);
     rcpp_result_gen = Rcpp::wrap(p_GeoDa__new1(xp, layer_name, map_type, num_features, wkbs, wkb_bytes_len));
     return rcpp_result_gen;
 END_RCPP
