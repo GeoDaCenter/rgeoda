@@ -16,9 +16,6 @@ sf_to_geoda <- function(sf_obj, with_table=TRUE) {
   if (!requireNamespace("sf", quietly = TRUE)) {
     stop("package sf not available: install first?")
   }
-  if (!requireNamespace("wkb", quietly = TRUE)) {
-    stop("package wkb not available: install first?")
-  }
 
   # geometries
   sf_geom <- sf::st_geometry(sf_obj)
