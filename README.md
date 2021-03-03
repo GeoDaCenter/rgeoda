@@ -6,7 +6,7 @@ The rgeoda site is built using pkgdown: https://geodacenter.github.io/rgeoda
 
 ## Tutorials
 
-* rgeoda 0.0.6 tutorial: https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial_0_0_6.html
+* Quick Start: https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial_0_0_6.html
 * ESDA using sf and rgeoda: https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial_0_0_6.html
 
     
@@ -60,7 +60,7 @@ sudo apt-get update
 sudo apt-get install build-essential
 ```
 
-## Current version 0.0.6
+## Current version 0.0.8
 
 * Map Classification
    * NaturalBreaks
@@ -111,8 +111,3 @@ sudo apt-get install build-essential
       * greedy
       * Tabu Search
       * Simulated Annealing
-      
-* Data
-  * Demean standardize
-  * Standardize data (Z)
-  * Median absolute deviation
