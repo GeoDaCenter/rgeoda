@@ -6,10 +6,10 @@
 // 10/29/2020 init rcpp_weights.cpp
 
 #include <Rcpp.h>
-#include "libgeoda_src/weights/GeodaWeight.h"
-#include "libgeoda_src/gda_weights.h"
-#include "libgeoda_src/gda_interface.h"
-#include "libgeoda_src/libgeoda.h"
+#include "libgeoda/weights/GeodaWeight.h"
+#include "libgeoda/gda_weights.h"
+#include "libgeoda/gda_interface.h"
+#include "libgeoda/libgeoda.h"
 
 using namespace Rcpp;
 

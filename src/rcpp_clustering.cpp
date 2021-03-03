@@ -9,8 +9,8 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-#include "libgeoda_src/gda_clustering.h"
-#include "libgeoda_src/GenUtils.h"
+#include "libgeoda/gda_clustering.h"
+#include "libgeoda/GenUtils.h"
 
 Rcpp::List _create_clustering_result(int num_obs, const std::vector<std::vector<int> >& cluster_ids,
                                      const std::vector<std::vector<double> >& raw_data)

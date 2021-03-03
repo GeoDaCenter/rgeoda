@@ -1,7 +1,6 @@
-COMPILED_BY ?= gcc-4.6.3
 TARGET = lib$(subst gcc,,$(COMPILED_BY))$(R_ARCH)
 
-RGEODALIB = ./libgeoda_src
+RGEODALIB = ./libgeoda
 
 PKG_CPPFLAGS=\
 	-I$(RGEODALIB) \

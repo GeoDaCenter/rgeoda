@@ -1,0 +1,3 @@
+[submodule "src/libgeoda"]
+	path = src/libgeoda
+	url = https://github.com/geodacenter/libgeoda

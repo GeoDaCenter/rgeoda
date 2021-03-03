@@ -1,8 +1,8 @@
 Package: rgeoda
 Type: Package
 Title: R Library for Spatial Data Analysis
-Version: 0.0.8
-Date: 2021-02-16
+Version: 0.0.8-1
+Date: 2021-03-02
 Authors@R: 
     c(person(given = "Xun", family = "Li", email="lixun910@gmail.com", role=c("aut","cre")),
       person(given = "Luc", family = "Anselin", email="anselin@uchicago.edu", role="aut"))
@@ -14,7 +14,7 @@ Description: Provides spatial data analysis functionalities including Explorator
 URL: https://github.com/geodacenter/rgeoda/, https://geodacenter.github.io/rgeoda/
 BugReports: https://github.com/geodacenter/rgeoda/issues/
 Depends: 
-    R (>= 3.6.0),
+    R (>= 4.0.0),
     methods,
     digest
 License: GPL (>= 2) 
@@ -29,7 +29,6 @@ Collate:
     lisa.R
     clustering.R
 Imports:
-    wkb,
     sf,
     Rcpp (>= 1.0.1)
 LinkingTo:
@@ -38,5 +37,6 @@ LinkingTo:
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 Suggests: 
+    wkb,
     sp
 SystemRequirements: C++14

@@ -21,7 +21,7 @@ local_multijoincount(
 
 \item{permutations}{(optional) The number of permutations for the LISA computation}
 
-\item{permutation_method}{(optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup-table'}. Default is 'complete'.}
+\item{permutation_method}{(optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.}
 
 \item{significance_cutoff}{(optional) A cutoff value for significance p-values to filter not-significant clusters}
 

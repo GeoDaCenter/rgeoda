@@ -10,3 +10,6 @@
 ^tests
 ^README.md
 ^vignettes
+^src/libgeoda/LICENSE
+^src/libgeoda/README.md
+^src/libgeoda/.git

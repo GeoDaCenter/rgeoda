@@ -8,7 +8,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-#include "libgeoda_src/gda_data.h"
+#include "libgeoda/gda_data.h"
 
 //  [[Rcpp::export]]
 bool p_gda_isbinary(Rcpp::NumericVector& values)
