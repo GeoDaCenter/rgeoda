@@ -26,8 +26,8 @@ guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- st_read(guerry_path)
 
 w <- queen_weights(guerry)
-lisa <- local_moran(queen_w, guerry['Crm_prs'])
-clusters <- skater(4, queen_w, guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
+lisa <- local_moran(w, guerry['Crm_prs'])
+clusters <- skater(4, w, guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
 ```
 ## Tutorials and APIs
 
