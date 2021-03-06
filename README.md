@@ -4,12 +4,7 @@ rgeoda is a R package for spatial data analysis based on libgeoda and GeoDa. It 
   
 The rgeoda site is built using pkgdown: https://geodacenter.github.io/rgeoda
 
-## Tutorials
 
-* Quick Start: https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial_0_0_6.html
-* ESDA using sf and rgeoda: https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial_0_0_6.html
-
-    
 ## Installation
 
 
@@ -21,7 +16,27 @@ install.packages("rgeoda")
 ![cran release](https://www.r-pkg.org/badges/last-release/rgeoda)
 ![cran downloads](https://cranlogs.r-pkg.org/badges/grand-total/rgeoda)
 
-#### Build and install from source code
+## Quick Start
+
+```R
+library(sf)
+library(rgeoda)
+
+guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+guerry <- st_read(guerry_path)
+
+w <- queen_weights(guerry)
+lisa <- local_moran(queen_w, guerry['Crm_prs'])
+clusters <- skater(4, queen_w, guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
+```
+## Tutorials and APIs
+
+* https://geodacenter.github.io/rgeoda/articles/
+* https://geodacenter.github.io/rgeoda/reference/
+
+  
+  
+## Build and install from source code
 
 In R console, one can use devtools to install rgeoda from its **source package**:
 
@@ -60,6 +75,9 @@ sudo apt-get update
 sudo apt-get install build-essential
 ```
 
+
+
+  
 ## Current version 0.0.8
 
 * Map Classification
