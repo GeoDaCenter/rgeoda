@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8-1</span>
       </span>
     </div>
 
@@ -95,10 +95,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/rgeoda_esda_sf_0_0_6.html">ESDA_using_rgeoda_sf</a>
-    </li>
-    <li>
-      <a href="../articles/rgeoda_tutorial_0_0_6.html">Tutorial of rgeoda v0.0.6</a>
+      <a href="../articles/rgeoda_tutorial.html">Tutorial of rgeoda</a>
     </li>
   </ul>
 </li>
@@ -152,34 +149,27 @@
 <span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'>geoda_open</span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
 <span class='va'>guerry_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span> <span class='co'># access as a data.frame</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>guerry_df</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;      CODE_DE COUNT AVE_ID_ dept Region      Dprtmnt Crm_prs Crm_prp Litercy
-#&gt; NA        01     1      49    1      E          Ain   28870   15890      37
-#&gt; NA.1      02     1     812    2      N        Aisne   26226    5521      51
-#&gt; NA.2      03     1    1418    3      C       Allier   26747    7925      13
-#&gt; NA.3      04     1    1603    4      E Basses-Alpes   12935    7289      46
-#&gt; NA.4      05     1    1802    5      E Hautes-Alpes   17488    8174      69
-#&gt; NA.5      07     1    2249    7      S      Ardeche    9474   10263      27
-#&gt;      Donatns Infants Suicids MainCty Wealth Commerc Clergy Crm_prn Infntcd
-#&gt; NA      5098   33120   35039       2     73      58     11      71      60
-#&gt; NA.1    8901   14572   12831       2     22      10     82       4      82
-#&gt; NA.2   10973   17044  114121       2     61      66     68      46      42
-#&gt; NA.3    2733   23018   14238       1     76      49      5      70      12
-#&gt; NA.4    6962   23076   16171       1     83      65     10      22      23
-#&gt; NA.5    3188   42117   52547       1     84       1     28      76      47
-#&gt;      Dntn_cl Lottery Desertn Instrct Prsttts Distanc Area Pop1831 TopCrm TopLit
-#&gt; NA        69      41      55      46      13 218.372 5762  346.03      1      0
-#&gt; NA.1      36      38      82      24     327  65.945 7369  513.00      1      1
-#&gt; NA.2      76      66      16      85      34 161.927 7340  298.26      1      0
-#&gt; NA.3      37      80      32      29       2 351.399 6925  155.90      0      1
-#&gt; NA.4      64      79      35       7       1 320.280 5549  129.10      0      1
-#&gt; NA.5      67      70      19      62       1 279.413 5529  340.73      0      0
-#&gt;      TopWealth
-#&gt; NA           1
-#&gt; NA.1         0
-#&gt; NA.2         1
-#&gt; NA.3         1
-#&gt; NA.4         1
-#&gt; NA.5         1</div></pre>
+</div><div class='output co'>#&gt;      COUNT AVE_ID_ dept Crm_prs Crm_prp Litercy Donatns Infants Suicids MainCty
+#&gt; NA       1      49    1   28870   15890      37    5098   33120   35039       2
+#&gt; NA.1     1     812    2   26226    5521      51    8901   14572   12831       2
+#&gt; NA.2     1    1418    3   26747    7925      13   10973   17044  114121       2
+#&gt; NA.3     1    1603    4   12935    7289      46    2733   23018   14238       1
+#&gt; NA.4     1    1802    5   17488    8174      69    6962   23076   16171       1
+#&gt; NA.5     1    2249    7    9474   10263      27    3188   42117   52547       1
+#&gt;      Wealth Commerc Clergy Crm_prn Infntcd Dntn_cl Lottery Desertn Instrct
+#&gt; NA       73      58     11      71      60      69      41      55      46
+#&gt; NA.1     22      10     82       4      82      36      38      82      24
+#&gt; NA.2     61      66     68      46      42      76      66      16      85
+#&gt; NA.3     76      49      5      70      12      37      80      32      29
+#&gt; NA.4     83      65     10      22      23      64      79      35       7
+#&gt; NA.5     84       1     28      76      47      67      70      19      62
+#&gt;      Prsttts Distanc Area Pop1831 TopCrm TopLit TopWealth
+#&gt; NA        13 218.372 5762  346.03      1      0         1
+#&gt; NA.1     327  65.945 7369  513.00      1      1         0
+#&gt; NA.2      34 161.927 7340  298.26      1      0         1
+#&gt; NA.3       2 351.399 6925  155.90      0      1         1
+#&gt; NA.4       1 320.280 5549  129.10      0      1         1
+#&gt; NA.5       1 279.413 5529  340.73      0      0         1</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

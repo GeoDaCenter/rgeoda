@@ -29,54 +29,13 @@ w <- queen_weights(guerry)
 lisa <- local_moran(w, guerry['Crm_prs'])
 clusters <- skater(4, w, guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
 ```
-## Tutorials and APIs
+### Tutorials
 
-* https://geodacenter.github.io/rgeoda/articles/
-* https://geodacenter.github.io/rgeoda/reference/
+https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial.html
 
-  
-  
-## Build and install from source code
+### APIs
 
-In R console, one can use devtools to install rgeoda from its **source package**:
-
-```R
-devtools::install_github("geodacenter/rgeoda")
-```
-
-#### Mac
-
-For Mac users, the “Xcode Command Line Tools” need to be installed for installing rgeoda. It is a free software provided by Apple, which can be installed by using the following command in a terminal:
-```
-xcode-select --install 
-```
-
-Note that the Xcode tools are not automatically updated when a new version of Xcode is installed. In order to make
-sure you have the latest version, use:
-
-```
-sudo rm -rf /Library/Developer/CommandLineTools
-xcode-select --install
-```
-
-In order to make sure to have the correct C++ compiler for R 4.0 and later, follow the instructions
-on https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/.
-
-
-#### Windows
-
-On Windows, the `Rtools` needs to be installed first. https://cran.r-project.org/bin/windows/Rtools/
-
-#### Linux
-
-For Linux users, the “Build Essential Tools” needs to be installed first.
-```
-sudo apt-get update
-sudo apt-get install build-essential
-```
-
-
-
+https://geodacenter.github.io/rgeoda/reference/
   
 ## Current version 0.0.8
 
@@ -129,3 +88,42 @@ sudo apt-get install build-essential
       * greedy
       * Tabu Search
       * Simulated Annealing
+
+## Build and install from source code
+
+In R console, one can use devtools to install rgeoda from its **source package**:
+
+```R
+devtools::install_github("geodacenter/rgeoda")
+```
+
+#### Mac
+
+For Mac users, the “Xcode Command Line Tools” need to be installed for installing rgeoda. It is a free software provided by Apple, which can be installed by using the following command in a terminal:
+```
+xcode-select --install 
+```
+
+Note that the Xcode tools are not automatically updated when a new version of Xcode is installed. In order to make
+sure you have the latest version, use:
+
+```
+sudo rm -rf /Library/Developer/CommandLineTools
+xcode-select --install
+```
+
+In order to make sure to have the correct C++ compiler for R 4.0 and later, follow the instructions
+on https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/.
+
+
+#### Windows
+
+On Windows, the `Rtools` needs to be installed first. https://cran.r-project.org/bin/windows/Rtools/
+
+#### Linux
+
+For Linux users, the “Build Essential Tools” needs to be installed first.
+```
+sudo apt-get update
+sudo apt-get install build-essential
+```

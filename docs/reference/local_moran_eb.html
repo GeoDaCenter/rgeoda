@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8-1</span>
       </span>
     </div>
 
@@ -95,10 +95,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/rgeoda_esda_sf_0_0_6.html">ESDA_using_rgeoda_sf</a>
-    </li>
-    <li>
-      <a href="../articles/rgeoda_tutorial_0_0_6.html">Tutorial of rgeoda v0.0.6</a>
+      <a href="../articles/rgeoda_tutorial.html">Tutorial of rgeoda</a>
     </li>
   </ul>
 </li>
@@ -136,6 +133,7 @@
   <span class='va'>w</span>,
   <span class='va'>df</span>,
   permutations <span class='op'>=</span> <span class='fl'>999</span>,
+  permutation_method <span class='op'>=</span> <span class='st'>"complete"</span>,
   significance_cutoff <span class='op'>=</span> <span class='fl'>0.05</span>,
   cpu_threads <span class='op'>=</span> <span class='fl'>6</span>,
   seed <span class='op'>=</span> <span class='fl'>123456789</span>
@@ -154,19 +152,23 @@
     </tr>
     <tr>
       <th>permutations</th>
-      <td><p>The number of permutations for the LISA computation</p></td>
+      <td><p>(optional) The number of permutations for the LISA computation</p></td>
+    </tr>
+    <tr>
+      <th>permutation_method</th>
+      <td><p>(optional) The permutation method used for the LISA computation. Options are 'complete', 'lookup'. Default is 'complete'.</p></td>
     </tr>
     <tr>
       <th>significance_cutoff</th>
-      <td><p>A cutoff value for significance p-values to filter not-significant clusters</p></td>
+      <td><p>(optional) A cutoff value for significance p-values to filter not-significant clusters</p></td>
     </tr>
     <tr>
       <th>cpu_threads</th>
-      <td><p>The number of cpu threads used for parallel LISA computation</p></td>
+      <td><p>(optional) The number of cpu threads used for parallel LISA computation</p></td>
     </tr>
     <tr>
       <th>seed</th>
-      <td><p>The seed for random number generator</p></td>
+      <td><p>(optional) The seed for random number generator</p></td>
     </tr>
     </table>
 

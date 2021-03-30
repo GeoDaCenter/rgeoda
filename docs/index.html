@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8-1</span>
       </span>
     </div>
 
@@ -57,10 +57,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/rgeoda_esda_sf_0_0_6.html">ESDA_using_rgeoda_sf</a>
-    </li>
-    <li>
-      <a href="articles/rgeoda_tutorial_0_0_6.html">Tutorial of rgeoda v0.0.6</a>
+      <a href="articles/rgeoda_tutorial.html">Tutorial of rgeoda</a>
     </li>
   </ul>
 </li>
@@ -89,55 +86,40 @@
 <a href="#rgeoda" class="anchor"></a>rgeoda</h1></div>
 <p>rgeoda is a R package for spatial data analysis based on libgeoda and GeoDa. It provides spatial data analysis functionalities including Exploratory Spatial Data Analysis, Spatial Cluster Detection and Clustering Analysis, Regionalization, etc. based on the C++ source code of GeoDa, which is an open-source software tool that serves as an introduction to spatial data analysis. The GeoDa software and its documentation are available at <a href="https://geodacenter.github.io" class="uri">https://geodacenter.github.io</a>.</p>
 <p>The rgeoda site is built using pkgdown: <a href="https://geodacenter.github.io/rgeoda" class="uri">https://geodacenter.github.io/rgeoda</a></p>
-<div id="tutorials" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tutorials" class="anchor"></a>Tutorials</h2>
-<ul>
-<li>rgeoda 0.0.6 tutorial: <a href="https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial_0_0_6.html" class="uri">https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial_0_0_6.html</a>
-</li>
-<li>ESDA using sf and rgeoda: <a href="https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial_0_0_6.html" class="uri">https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial_0_0_6.html</a>
-</li>
-</ul>
-</div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rgeoda"</span><span class="op">)</span></code></pre></div>
 <p><img src="https://www.r-pkg.org/badges/version/rgeoda" alt="cran status"><img src="https://www.r-pkg.org/badges/last-release/rgeoda" alt="cran release"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rgeoda" alt="cran downloads"></p>
-<div id="build-and-install-from-source-code" class="section level4">
-<h4 class="hasAnchor">
-<a href="#build-and-install-from-source-code" class="anchor"></a>Build and install from source code</h4>
-<p>In R console, one can use devtools to install rgeoda from its <strong>source package</strong>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"geodacenter/rgeoda"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="mac" class="section level4">
-<h4 class="hasAnchor">
-<a href="#mac" class="anchor"></a>Mac</h4>
-<p>For Mac users, the “Xcode Command Line Tools” need to be installed for installing rgeoda. It is a free software provided by Apple, which can be installed by using the following command in a terminal:</p>
-<pre><code>xcode-select --install </code></pre>
-<p>Note that the Xcode tools are not automatically updated when a new version of Xcode is installed. In order to make sure you have the latest version, use:</p>
-<pre><code>sudo rm -rf /Library/Developer/CommandLineTools
-xcode-select --install</code></pre>
-<p>In order to make sure to have the correct C++ compiler for R 4.0 and later, follow the instructions on <a href="https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/" class="uri">https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/</a>.</p>
-</div>
-<div id="windows" class="section level4">
-<h4 class="hasAnchor">
-<a href="#windows" class="anchor"></a>Windows</h4>
-<p>On Windows, the <code>Rtools</code> needs to be installed first. <a href="https://cran.r-project.org/bin/windows/Rtools/" class="uri">https://cran.r-project.org/bin/windows/Rtools/</a></p>
-</div>
-<div id="linux" class="section level4">
-<h4 class="hasAnchor">
-<a href="#linux" class="anchor"></a>Linux</h4>
-<p>For Linux users, the “Build Essential Tools” needs to be installed first.</p>
-<pre><code>sudo apt-get update
-sudo apt-get install build-essential</code></pre>
-</div>
-</div>
-<div id="current-version-006" class="section level2">
+<div id="quick-start" class="section level2">
 <h2 class="hasAnchor">
-<a href="#current-version-006" class="anchor"></a>Current version 0.0.6</h2>
+<a href="#quick-start" class="anchor"></a>Quick Start</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geodacenter/rgeoda/">rgeoda</a></span><span class="op">)</span>
+
+<span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span>
+<span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span>
+
+<span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/queen_weights.html">queen_weights</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span>
+<span class="va">lisa</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/local_moran.html">local_moran</a></span><span class="op">(</span><span class="va">w</span>, <span class="va">guerry</span><span class="op">[</span><span class="st">'Crm_prs'</span><span class="op">]</span><span class="op">)</span>
+<span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/skater.html">skater</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">w</span>, <span class="va">guerry</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Crm_prs'</span>,<span class="st">'Crm_prp'</span>,<span class="st">'Litercy'</span>,<span class="st">'Donatns'</span>,<span class="st">'Infants'</span>,<span class="st">'Suicids'</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<div id="tutorials" class="section level3">
+<h3 class="hasAnchor">
+<a href="#tutorials" class="anchor"></a>Tutorials</h3>
+<p><a href="https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial.html" class="uri">https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial.html</a></p>
+</div>
+<div id="apis" class="section level3">
+<h3 class="hasAnchor">
+<a href="#apis" class="anchor"></a>APIs</h3>
+<p><a href="https://geodacenter.github.io/rgeoda/reference/" class="uri">https://geodacenter.github.io/rgeoda/reference/</a></p>
+</div>
+</div>
+<div id="current-version-008" class="section level2">
+<h2 class="hasAnchor">
+<a href="#current-version-008" class="anchor"></a>Current version 0.0.8</h2>
 <ul>
 <li>Map Classification
 <ul>
@@ -209,14 +191,36 @@ sudo apt-get install build-essential</code></pre>
 </li>
 </ul>
 </li>
-<li>Data
-<ul>
-<li>Demean standardize</li>
-<li>Standardize data (Z)</li>
-<li>Median absolute deviation</li>
 </ul>
-</li>
-</ul>
+</div>
+<div id="build-and-install-from-source-code" class="section level2">
+<h2 class="hasAnchor">
+<a href="#build-and-install-from-source-code" class="anchor"></a>Build and install from source code</h2>
+<p>In R console, one can use devtools to install rgeoda from its <strong>source package</strong>:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"geodacenter/rgeoda"</span><span class="op">)</span></code></pre></div>
+<div id="mac" class="section level4">
+<h4 class="hasAnchor">
+<a href="#mac" class="anchor"></a>Mac</h4>
+<p>For Mac users, the “Xcode Command Line Tools” need to be installed for installing rgeoda. It is a free software provided by Apple, which can be installed by using the following command in a terminal:</p>
+<pre><code>xcode-select --install </code></pre>
+<p>Note that the Xcode tools are not automatically updated when a new version of Xcode is installed. In order to make sure you have the latest version, use:</p>
+<pre><code>sudo rm -rf /Library/Developer/CommandLineTools
+xcode-select --install</code></pre>
+<p>In order to make sure to have the correct C++ compiler for R 4.0 and later, follow the instructions on <a href="https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/" class="uri">https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/</a>.</p>
+</div>
+<div id="windows" class="section level4">
+<h4 class="hasAnchor">
+<a href="#windows" class="anchor"></a>Windows</h4>
+<p>On Windows, the <code>Rtools</code> needs to be installed first. <a href="https://cran.r-project.org/bin/windows/Rtools/" class="uri">https://cran.r-project.org/bin/windows/Rtools/</a></p>
+</div>
+<div id="linux" class="section level4">
+<h4 class="hasAnchor">
+<a href="#linux" class="anchor"></a>Linux</h4>
+<p>For Linux users, the “Build Essential Tools” needs to be installed first.</p>
+<pre><code>sudo apt-get update
+sudo apt-get install build-essential</code></pre>
+</div>
 </div>
 </div>
   </div>
