@@ -27,6 +27,13 @@ Weight <- setRefClass("Weight",
     initialize = function(o_gda_w) {
       "Constructor with a GeoDaWeight object (internally used)"
       .self$gda_w = o_gda_w
+      .self$Update(FALSE)
+    },
+    Update = function(updateStats = TRUE) {
+      "Update the weights meta data"
+      if (updateStats == TRUE) {
+        gda_w$GetNbrStats()
+      }
       .self$is_symmetric = gda_w$IsSymmetric()
       .self$sparsity = gda_w$GetSparsity()
       .self$min_neighbors = gda_w$GetMinNeighbors()
@@ -35,6 +42,14 @@ Weight <- setRefClass("Weight",
       .self$median_neighbors = gda_w$GetMedianNeighbors()
       .self$num_obs = gda_w$GetNumObs()
       .self$has_isolates = gda_w$HasIsolates()
+    },
+    SetNeighbors = function(idx, nbrs) {
+      "Set neighbors for one observation"
+      gda_w$SetNeighbors(idx, nbrs)
+    },
+    SetNeighborsAndWeights = function(idx, nbrs, nbr_w) {
+      "Set neighbors with weights values for one observation"
+      gda_w$SetNeighborsAndWeights(idx, nbrs, nbr_w)
     },
     IsSymmetric = function() {
       "Check if weights matrix is symmetric"
@@ -118,6 +133,69 @@ summary.Weight <- function(object, ...) {
 }
 
 #################################################################
+#' @title Create an empty weights
+#' @description Create an empty weights
+#' @param num_obs The number of observations for this empty weights
+#' @return An instance of Weight-class
+#' @export
+create_weights <- function(num_obs) {
+  return (Weight$new(p_GeoDaWeight(num_obs)))
+}
+
+#################################################################
+#' @title Set neighbors of an observation
+#' @description Set neighbors for idx-th observation, idx starts from 1
+#' @param gda_w A Weight object
+#' @param idx A value indicates idx-th observation, idx start from 1
+#' @param nbrs A list indicates the neighbors of idx-th observation (id start from 1)
+#' @return
+#' @examples
+#' \dontrun{
+#' new_w <- create_weights(10)
+#' set_neighbors(new_w, 1, c(2,3))
+#' update_weights(new_w)
+#' }
+#' @export
+set_neighbors <- function(gda_w, idx, nbrs) {
+  gda_w$SetNeighbors(idx, nbrs)
+}
+
+#################################################################
+#' @title Set neighbors and weights values of an observation
+#' @description Set neighbors and the associated weights values for idx-th observation, idx starts from 1
+#' @param gda_w A Weight object
+#' @param idx A value indicates idx-th observation, idx start from 1
+#' @param nbrs A list indicates the neighbors of idx-th observation (id start from 1)
+#' @param wvals A list indicates the associated weights values of the neighbors
+#' @return
+#' @examples
+#' \dontrun{
+#' new_w <- create_weights(10)
+#' set_neighbors(new_w, 1, c(2,3))
+#' update_weights(new_w)
+#' }
+#' @export
+set_neighbors_with_weights <- function(gda_w, idx, nbrs, wvals) {
+  gda_w$SetNeighborsAndWeights(idx, nbrs, wvals)
+}
+
+#################################################################
+#' @title Update meta data of a spatial weights
+#' @description Update meta data of a spatial weights. This function can be used after calling `set_neighbor()` function .
+#' @param gda_w A Weight object
+#' @return
+#' @examples
+#' \dontrun{
+#' new_w <- create_weights(10)
+#' set_neighbors(new_w, 1, c(2,3))
+#' update_weights(new_w)
+#' }
+#' @export
+update_weights <- function(gda_w) {
+  gda_w$Update()
+}
+
+#################################################################
 #' @title Symmetry of Weights Matrix
 #' @description Check if weights matrix is symmetric
 #' @param gda_w A Weight object
@@ -169,7 +247,7 @@ weights_sparsity <- function(gda_w) {
 }
 
 #################################################################
-#' @title Neighbor Information of Spatial Weights
+#' @title Neighbors of one observation
 #' @description Get neighbors for idx-th observation, idx starts from 1
 #' @param gda_w A Weight object
 #' @param idx A value indicates idx-th observation, idx start from 1
@@ -190,6 +268,32 @@ get_neighbors <- function(gda_w, idx) {
   rtn_nbrs <- vector()
   for (i in 1:nn) {
     rtn_nbrs[i]  <- nbrs[i] + 1
+  }
+  return(rtn_nbrs)
+}
+
+#################################################################
+#' @title Weights values of the neighbors of one observation
+#' @description Get the associated weights values of neighbors for idx-th observation
+#' @param gda_w A Weight object
+#' @param idx A value indicates idx-th observation, idx start from 1
+#' @return A numeric vector of the neighbor indices, which start from 1
+#' @examples
+#' \dontrun{
+#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+#' guerry <- geoda_open(guerry_path)
+#' queen_w <- queen_weights(guerry)
+#' nbrs <- get_neighbors_weights(queen_w, idx = 1)
+#' cat("\nNeighbors of the 1-st observation are:", nbrs)
+#' }
+#' @export
+get_neighbors_weights <- function(gda_w, idx) {
+  idx <- idx - 1
+  nn <- gda_w$GetNeighborSize(idx)
+  nbrs <- gda_w$GetNeighborWeights(idx)
+  rtn_nbrs <- vector()
+  for (i in 1:nn) {
+    rtn_nbrs[i]  <- nbrs[i]
   }
   return(rtn_nbrs)
 }
@@ -532,7 +636,6 @@ gda_queen_weights <- function(geoda_obj, order=1, include_lower_order = FALSE, p
 
   return(Weight$new(p_GeoDaWeight(w)))
 }
-
 
 #################################################################
 #' @title (For internally use and test only) Rook Contiguity Spatial Weights

@@ -7,6 +7,7 @@
 
 #include <Rcpp.h>
 #include "libgeoda/weights/GeodaWeight.h"
+#include "libgeoda/weights/GalWeight.h"
 #include "libgeoda/gda_weights.h"
 #include "libgeoda/gda_interface.h"
 #include "libgeoda/libgeoda.h"
@@ -14,10 +15,92 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
+SEXP p_GeoDaWeight__new(int num_obs) 
+{
+  // create a pointer to an GeoDa object and wrap it
+  // as an external pointer
+  Rcpp::XPtr<GeoDaWeight> ptr( new GalWeight(num_obs) );
+
+  // return the external pointer to the R side
+  return ptr;
+}
+
+// [[Rcpp::export]]
 SEXP p_GeoDaWeight__GetPointer(SEXP xp)
 {
   // return c++ object pointer
   return xp;
+}
+
+//  [[Rcpp::export]]
+void p_GeoDaWeight__SetNeighbors(SEXP xp, int idx, SEXP v_nbr_ids)
+{
+  // grab the object as a XPtr (smart pointer) to GeoDaWeight
+  Rcpp::XPtr<GeoDaWeight> ptr(xp);
+
+  std::vector<int> nbr_ids = as<std::vector<int> >(v_nbr_ids);
+
+  if (idx <= 0) {
+    Rcout << "The index of observations in SetNeighbor() function should start from 1." << std::endl;
+    return;
+  }
+
+  for (int i=0; i<nbr_ids.size(); ++i) {
+    if (nbr_ids[i] <= 0) {
+      Rcout << "The index of observations in SetNeighbor() function should start from 1." << std::endl;
+      return;
+    }
+  }
+
+  // re-org index
+  idx = idx - 1;
+  for (int i=0; i<nbr_ids.size(); ++i) {
+    nbr_ids[i] = nbr_ids[i] - 1;
+  }
+
+  // invoke the function
+  ptr->SetNeighbors(idx, nbr_ids);
+}
+
+//  [[Rcpp::export]]
+void p_GeoDaWeight__SetNeighborsAndWeights(SEXP xp, int idx, SEXP v_nbr_ids, SEXP v_nbr_w)
+{
+  // grab the object as a XPtr (smart pointer) to GeoDaWeight
+  Rcpp::XPtr<GeoDaWeight> ptr(xp);
+
+  std::vector<int> nbr_ids = as<std::vector<int> >(v_nbr_ids);
+  std::vector<double> nbr_w = as<std::vector<double> >(v_nbr_w);
+
+  if (idx <= 0) {
+    Rcout << "The index of observations in SetNeighbor() function should start from 1." << std::endl;
+    return;
+  }
+
+  for (int i=0; i<nbr_ids.size(); ++i) {
+    if (nbr_ids[i] <= 0) {
+      Rcout << "The index of observations in SetNeighbor() function should start from 1." << std::endl;
+      return;
+    }
+  }
+
+  // re-org index
+  idx = idx - 1;
+  for (int i=0; i<nbr_ids.size(); ++i) {
+    nbr_ids[i] = nbr_ids[i] - 1;
+  }
+
+  // invoke the function
+  ptr->SetNeighborsAndWeights(idx, nbr_ids, nbr_w);
+}
+
+//  [[Rcpp::export]]
+void p_GeoDaWeight__GetNbrStats(SEXP xp)
+{
+  // grab the object as a XPtr (smart pointer) to GeoDaWeight
+  Rcpp::XPtr<GeoDaWeight> ptr(xp);
+
+  // invoke the function
+  ptr->GetNbrStats();
 }
 
 //  [[Rcpp::export]]
@@ -156,11 +239,7 @@ bool p_GeoDaWeight__SaveToFile(SEXP xp, std::string out_path, std::string layer_
     return ptr->Save(out_path.c_str(), layer_name.c_str(), id_name.c_str(), _id_vec);
   } else {
     // using strings as id_vec
-    std::vector<std::string> tmp = as<std::vector<std::string> >(id_vec);
-    std::vector<const char*> _id_vec;
-    for( int i=0; i < tmp.size(); i++ ){
-      _id_vec.push_back(tmp[i].c_str());
-    }
+    std::vector<std::string> _id_vec = as<std::vector<std::string> >(id_vec);
 
     // invoke the function
     return ptr->Save(out_path.c_str(), layer_name.c_str(), id_name.c_str(), _id_vec);
@@ -187,7 +266,7 @@ NumericVector p_GeoDaWeight__GetNeighbors(SEXP xp, int obs_idx)
 }
 
 //  [[Rcpp::export]]
-NumericVector p_GeoDaWeight__GetNeighborWeights(SEXP xp, int obs_idx)
+DoubleVector p_GeoDaWeight__GetNeighborWeights(SEXP xp, int obs_idx)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
   Rcpp::XPtr<GeoDaWeight> ptr(xp);
@@ -196,7 +275,7 @@ NumericVector p_GeoDaWeight__GetNeighborWeights(SEXP xp, int obs_idx)
   std::vector<double> nnw = ptr->GetNeighborWeights(obs_idx);
 
   // convert to Rcpp::StringVector
-  NumericVector nv_nnw(nnw.size());
+  DoubleVector nv_nnw(nnw.size());
 
   for (int i=0; i<nnw.size(); ++i) {
     nv_nnw[i] = nnw[i];

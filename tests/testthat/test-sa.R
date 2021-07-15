@@ -1,5 +1,18 @@
 context("lisa.R")
 
+testthat::test_that('local_moran', {
+    guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+    guerry <- st_read(guerry_path)
+    queen_w <- queen_weights(guerry)
+
+    lm <- local_moran(queen_w, guerry['Crm_prs'])
+    pvals <- lisa_pvalues(lm)
+    lbls <- lisa_labels(lm)
+
+    testthat::expect_equal( pvals[[1]], 0.197)
+    testthat::expect_equal( lbls, c('Not significant', 'High-High', 'Low-Low', 'Low-High', 'High-Low', 'Undefined', 'Isolated') )
+})
+
 testthat::test_that('local_multiquantilelisa', {
     guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
     guerry <- st_read(guerry_path)

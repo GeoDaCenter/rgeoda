@@ -30,7 +30,6 @@ SEXP p_GeoDa__new1(SEXP xp, std::string layer_name, std::string map_type, int nu
   std::vector<unsigned char> _wkbs = as<std::vector<unsigned char> >(wkbs);
   std::vector<int> _wkb_bytes_len = as<std::vector<int> >(wkb_bytes_len);
 
-  Rcout << "here" <<std::endl;
   // create a pointer to an GeoDa object and wrap it
   // as an external pointer
   Rcpp::XPtr<GeoDa> ptr( new GeoDa(geoda_tbl, layer_name, map_type, num_features, _wkbs.data(), _wkb_bytes_len),

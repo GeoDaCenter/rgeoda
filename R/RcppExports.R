@@ -229,8 +229,24 @@ p_stddevbreaks <- function(data) {
     .Call('_rgeoda_p_stddevbreaks', PACKAGE = 'rgeoda', data)
 }
 
+p_GeoDaWeight__new <- function(num_obs) {
+    .Call('_rgeoda_p_GeoDaWeight__new', PACKAGE = 'rgeoda', num_obs)
+}
+
 p_GeoDaWeight__GetPointer <- function(xp) {
     .Call('_rgeoda_p_GeoDaWeight__GetPointer', PACKAGE = 'rgeoda', xp)
+}
+
+p_GeoDaWeight__SetNeighbors <- function(xp, idx, v_nbr_ids) {
+    invisible(.Call('_rgeoda_p_GeoDaWeight__SetNeighbors', PACKAGE = 'rgeoda', xp, idx, v_nbr_ids))
+}
+
+p_GeoDaWeight__SetNeighborsAndWeights <- function(xp, idx, v_nbr_ids, v_nbr_w) {
+    invisible(.Call('_rgeoda_p_GeoDaWeight__SetNeighborsAndWeights', PACKAGE = 'rgeoda', xp, idx, v_nbr_ids, v_nbr_w))
+}
+
+p_GeoDaWeight__GetNbrStats <- function(xp) {
+    invisible(.Call('_rgeoda_p_GeoDaWeight__GetNbrStats', PACKAGE = 'rgeoda', xp))
 }
 
 p_GeoDaWeight__GetNumObs <- function(xp) {

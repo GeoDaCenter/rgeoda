@@ -818,6 +818,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// p_GeoDaWeight__new
+SEXP p_GeoDaWeight__new(int num_obs);
+RcppExport SEXP _rgeoda_p_GeoDaWeight__new(SEXP num_obsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type num_obs(num_obsSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_GeoDaWeight__new(num_obs));
+    return rcpp_result_gen;
+END_RCPP
+}
 // p_GeoDaWeight__GetPointer
 SEXP p_GeoDaWeight__GetPointer(SEXP xp);
 RcppExport SEXP _rgeoda_p_GeoDaWeight__GetPointer(SEXP xpSEXP) {
@@ -827,6 +838,41 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
     rcpp_result_gen = Rcpp::wrap(p_GeoDaWeight__GetPointer(xp));
     return rcpp_result_gen;
+END_RCPP
+}
+// p_GeoDaWeight__SetNeighbors
+void p_GeoDaWeight__SetNeighbors(SEXP xp, int idx, SEXP v_nbr_ids);
+RcppExport SEXP _rgeoda_p_GeoDaWeight__SetNeighbors(SEXP xpSEXP, SEXP idxSEXP, SEXP v_nbr_idsSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
+    Rcpp::traits::input_parameter< int >::type idx(idxSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type v_nbr_ids(v_nbr_idsSEXP);
+    p_GeoDaWeight__SetNeighbors(xp, idx, v_nbr_ids);
+    return R_NilValue;
+END_RCPP
+}
+// p_GeoDaWeight__SetNeighborsAndWeights
+void p_GeoDaWeight__SetNeighborsAndWeights(SEXP xp, int idx, SEXP v_nbr_ids, SEXP v_nbr_w);
+RcppExport SEXP _rgeoda_p_GeoDaWeight__SetNeighborsAndWeights(SEXP xpSEXP, SEXP idxSEXP, SEXP v_nbr_idsSEXP, SEXP v_nbr_wSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
+    Rcpp::traits::input_parameter< int >::type idx(idxSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type v_nbr_ids(v_nbr_idsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type v_nbr_w(v_nbr_wSEXP);
+    p_GeoDaWeight__SetNeighborsAndWeights(xp, idx, v_nbr_ids, v_nbr_w);
+    return R_NilValue;
+END_RCPP
+}
+// p_GeoDaWeight__GetNbrStats
+void p_GeoDaWeight__GetNbrStats(SEXP xp);
+RcppExport SEXP _rgeoda_p_GeoDaWeight__GetNbrStats(SEXP xpSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type xp(xpSEXP);
+    p_GeoDaWeight__GetNbrStats(xp);
+    return R_NilValue;
 END_RCPP
 }
 // p_GeoDaWeight__GetNumObs
@@ -969,7 +1015,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // p_GeoDaWeight__GetNeighborWeights
-NumericVector p_GeoDaWeight__GetNeighborWeights(SEXP xp, int obs_idx);
+DoubleVector p_GeoDaWeight__GetNeighborWeights(SEXP xp, int obs_idx);
 RcppExport SEXP _rgeoda_p_GeoDaWeight__GetNeighborWeights(SEXP xpSEXP, SEXP obs_idxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -1150,7 +1196,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_hinge30breaks", (DL_FUNC) &_rgeoda_p_hinge30breaks, 1},
     {"_rgeoda_p_percentilebreaks", (DL_FUNC) &_rgeoda_p_percentilebreaks, 1},
     {"_rgeoda_p_stddevbreaks", (DL_FUNC) &_rgeoda_p_stddevbreaks, 1},
+    {"_rgeoda_p_GeoDaWeight__new", (DL_FUNC) &_rgeoda_p_GeoDaWeight__new, 1},
     {"_rgeoda_p_GeoDaWeight__GetPointer", (DL_FUNC) &_rgeoda_p_GeoDaWeight__GetPointer, 1},
+    {"_rgeoda_p_GeoDaWeight__SetNeighbors", (DL_FUNC) &_rgeoda_p_GeoDaWeight__SetNeighbors, 3},
+    {"_rgeoda_p_GeoDaWeight__SetNeighborsAndWeights", (DL_FUNC) &_rgeoda_p_GeoDaWeight__SetNeighborsAndWeights, 4},
+    {"_rgeoda_p_GeoDaWeight__GetNbrStats", (DL_FUNC) &_rgeoda_p_GeoDaWeight__GetNbrStats, 1},
     {"_rgeoda_p_GeoDaWeight__GetNumObs", (DL_FUNC) &_rgeoda_p_GeoDaWeight__GetNumObs, 1},
     {"_rgeoda_p_GeoDaWeight__IsSymmetric", (DL_FUNC) &_rgeoda_p_GeoDaWeight__IsSymmetric, 1},
     {"_rgeoda_p_GeoDaWeight__HasIsolates", (DL_FUNC) &_rgeoda_p_GeoDaWeight__HasIsolates, 1},

@@ -51,7 +51,13 @@ layer_name : The name of the layer of input dataset \cr
 id_name : The id name (or field name), which is an associated column contains unique values, that makes sure that the weights are connected to the correct observations in the data table.\cr
 id_values : The tuple of values of selected id_name (column/field)}
 
+\item{\code{SetNeighbors(idx, nbrs)}}{Set neighbors for one observation}
+
+\item{\code{SetNeighborsAndWeights(idx, nbrs, nbr_w)}}{Set neighbors with weights values for one observation}
+
 \item{\code{SpatialLag(values)}}{Compute spatial lag values for values of selected variable}
+
+\item{\code{Update(updateStats = TRUE)}}{Update the weights meta data}
 
 \item{\code{initialize(o_gda_w)}}{Constructor with a GeoDaWeight object (internally used)}
 }}
