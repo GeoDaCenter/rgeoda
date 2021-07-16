@@ -1137,6 +1137,42 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// p_gda_load_gal
+SEXP p_gda_load_gal(const char* weights_path, SEXP v_id_vec);
+RcppExport SEXP _rgeoda_p_gda_load_gal(SEXP weights_pathSEXP, SEXP v_id_vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const char* >::type weights_path(weights_pathSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type v_id_vec(v_id_vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_gda_load_gal(weights_path, v_id_vec));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_gda_load_gwt
+SEXP p_gda_load_gwt(const char* weights_path, SEXP v_id_vec);
+RcppExport SEXP _rgeoda_p_gda_load_gwt(SEXP weights_pathSEXP, SEXP v_id_vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const char* >::type weights_path(weights_pathSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type v_id_vec(v_id_vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_gda_load_gwt(weights_path, v_id_vec));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_gda_load_swm
+SEXP p_gda_load_swm(const char* weights_path, SEXP v_id_vec);
+RcppExport SEXP _rgeoda_p_gda_load_swm(SEXP weights_pathSEXP, SEXP v_id_vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const char* >::type weights_path(weights_pathSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type v_id_vec(v_id_vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_gda_load_swm(weights_path, v_id_vec));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_skater", (DL_FUNC) &_rgeoda_p_skater, 10},
@@ -1221,6 +1257,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_gda_kernel_weights", (DL_FUNC) &_rgeoda_p_gda_kernel_weights, 8},
     {"_rgeoda_p_gda_knn_weights", (DL_FUNC) &_rgeoda_p_gda_knn_weights, 6},
     {"_rgeoda_p_gda_kernel_knn_weights", (DL_FUNC) &_rgeoda_p_gda_kernel_knn_weights, 10},
+    {"_rgeoda_p_gda_load_gal", (DL_FUNC) &_rgeoda_p_gda_load_gal, 2},
+    {"_rgeoda_p_gda_load_gwt", (DL_FUNC) &_rgeoda_p_gda_load_gwt, 2},
+    {"_rgeoda_p_gda_load_swm", (DL_FUNC) &_rgeoda_p_gda_load_swm, 2},
     {NULL, NULL, 0}
 };
 

@@ -836,3 +836,83 @@ gda_kernel_knn_weights <- function(geoda_obj, k, kernel_method, adaptive_bandwid
 
   return(Weight$new(p_GeoDaWeight(w)))
 }
+
+#' @export
+weights2nb<- function(obj) {
+  if (length(class(obj)) == 1 && class(obj) == "nb") {
+  } else {
+    stop("weights2nb() takes a GeoDa Weight object.")
+  }
+}
+
+#################################################################
+#' @title Read a .GAL file 
+#' @description Create a spatial weights object from a .GAL file
+#' @param file_path The file paht of the .GAL file
+#' @param id_vec The id_vec is the id values used in the .GAL file. Default is empty.
+#' @return A weights object
+#' @export
+read_gal <- function(file_path, id_vec = c()) {
+
+  # read first line from file
+  con <- file(file_path,"r")
+  first_line <- readLines(con,n=1)
+  close(con)
+
+  items <- strsplit(first_line, " ")
+  num_obs <- as.numeric(items[[1]][[2]])
+
+  if (length(id_vec) == 0) {
+    id_vec <- 0 : num_obs - 1
+  }
+  
+  if (class(id_vec) == "numeric"){
+    id_vec <- as.character(id_vec)
+  }
+
+  w <- p_gda_load_gal(file_path, id_vec)
+
+  return(Weight$new(p_GeoDaWeight(w)))
+}
+
+#################################################################
+#' @title Read a .GWT file 
+#' @description Create a spatial weights object from a .GWT file
+#' @param file_path The file paht of the .GWT file
+#' @param id_vec The id_vec is the id values used in the .GWT file. Default is empty.
+#' @return A weights object
+#' @export
+read_gwt <- function(file_path, id_vec = c()) {
+  # read first line from file
+  con <- file(file_path,"r")
+  first_line <- readLines(con,n=1)
+  close(con)
+
+  items <- strsplit(first_line, " ")
+  num_obs <- as.numeric(items[[1]][[2]])
+
+  if (length(id_vec) == 0) {
+    id_vec <- 0 : num_obs - 1
+  }
+  
+  if (class(id_vec) == "numeric"){
+    id_vec <- as.character(id_vec)
+  }
+
+  w <- p_gda_load_gwt(file_path, id_vec)
+
+  return(Weight$new(p_GeoDaWeight(w)))
+}
+
+#################################################################
+#' @title Read a .SWM file 
+#' @description Create a spatial weights object from a .SWM file
+#' @param file_path The file paht of the .SWM file
+#' @param id_vec The id_vec is the id values used in the .SWM file. e.g. c(0,1,2,3,...)
+#' @return A weights object
+#' @export
+read_swm <- function(file_path, id_vec) {
+  w <- p_gda_load_swm(file_path, id_vec)
+
+  return(Weight$new(p_GeoDaWeight(w)))
+}

@@ -382,11 +382,44 @@ SEXP p_gda_kernel_knn_weights(SEXP xp_geoda, int k, double power, bool is_invers
   return w_ptr;
 }
 
-//SEXP p_gda_load_weights(const std::string& weights_path)
-//{
-  // invoke the function
-//  GeoDaWeight* w = gda_load_weights(weights_path);
+//  [[Rcpp::export]]
+SEXP p_gda_load_gal(const char* weights_path, SEXP v_id_vec)
+{
+  std::vector<std::string> id_vec;
+  
+  if (v_id_vec) id_vec = as<std::vector<std::string> >(v_id_vec);
 
-//  Rcpp::XPtr<GeoDaWeight> w_ptr(w, true);
-//  return w_ptr;
-//}
+  // invoke the function
+  GeoDaWeight* w = gda_load_gal(weights_path, id_vec);
+
+  Rcpp::XPtr<GeoDaWeight> w_ptr(w, true);
+  return w_ptr;
+}
+
+//  [[Rcpp::export]]
+SEXP p_gda_load_gwt(const char* weights_path, SEXP v_id_vec)
+{
+  std::vector<std::string> id_vec;
+  
+  if (v_id_vec) id_vec = as<std::vector<std::string> >(v_id_vec);
+
+  // invoke the function
+  GeoDaWeight* w = gda_load_gwt(weights_path, id_vec);
+
+  Rcpp::XPtr<GeoDaWeight> w_ptr(w, true);
+  return w_ptr;
+}
+
+//  [[Rcpp::export]]
+SEXP p_gda_load_swm(const char* weights_path, SEXP v_id_vec)
+{
+  std::vector<int> id_vec;
+  
+  if (v_id_vec) id_vec = as<std::vector<int> >(v_id_vec);
+
+  // invoke the function
+  GeoDaWeight* w = gda_load_swm(weights_path, id_vec);
+
+  Rcpp::XPtr<GeoDaWeight> w_ptr(w, true);
+  return w_ptr;
+}

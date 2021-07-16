@@ -329,3 +329,15 @@ p_gda_kernel_knn_weights <- function(xp_geoda, k, power, is_inverse, is_arc, is_
     .Call('_rgeoda_p_gda_kernel_knn_weights', PACKAGE = 'rgeoda', xp_geoda, k, power, is_inverse, is_arc, is_mile, kernel_method, bandwidth, adaptive_bandwidth, use_kernel_diagonals)
 }
 
+p_gda_load_gal <- function(weights_path, v_id_vec) {
+    .Call('_rgeoda_p_gda_load_gal', PACKAGE = 'rgeoda', weights_path, v_id_vec)
+}
+
+p_gda_load_gwt <- function(weights_path, v_id_vec) {
+    .Call('_rgeoda_p_gda_load_gwt', PACKAGE = 'rgeoda', weights_path, v_id_vec)
+}
+
+p_gda_load_swm <- function(weights_path, v_id_vec) {
+    .Call('_rgeoda_p_gda_load_swm', PACKAGE = 'rgeoda', weights_path, v_id_vec)
+}
+
