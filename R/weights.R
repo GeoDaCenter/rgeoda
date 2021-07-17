@@ -837,16 +837,35 @@ gda_kernel_knn_weights <- function(geoda_obj, k, kernel_method, adaptive_bandwid
   return(Weight$new(p_GeoDaWeight(w)))
 }
 
+#################################################################
+#' @title as.matrix
+#' @description Convert a spatial weights object to a Matrix object
+#' @param obj A weights object
+#' @return A matrix object
 #' @export
-weights2nb<- function(obj) {
-  if (length(class(obj)) == 1 && class(obj) == "nb") {
-  } else {
-    stop("weights2nb() takes a GeoDa Weight object.")
+as.matrix<- function(obj) {
+  if (length(class(obj)) == 1 && class(obj) == "Weight") {
+    n <- obj$num_obs
+    m <- matrix(0, nrow = n, ncol = n)
+
+    for (id in 1:n) {
+      nn <- obj$GetNeighborSize(id-1)
+      nbrs <- obj$GetNeighbors(id-1)
+      nbrWeights <- obj$GetNeighborWeights(id-1)
+
+      for (i in 1:nn) {
+        nid <- nbrs[i] + 1
+        wv <- nbrWeights[i]
+        m[id, nid] <- wv
+      }
+    }
+
+    return(m)
   }
 }
 
 #################################################################
-#' @title Read a .GAL file 
+#' @title Read a .GAL file
 #' @description Create a spatial weights object from a .GAL file
 #' @param file_path The file paht of the .GAL file
 #' @param id_vec The id_vec is the id values used in the .GAL file. Default is empty.
@@ -865,7 +884,7 @@ read_gal <- function(file_path, id_vec = c()) {
   if (length(id_vec) == 0) {
     id_vec <- 0 : num_obs - 1
   }
-  
+
   if (class(id_vec) == "numeric"){
     id_vec <- as.character(id_vec)
   }
@@ -876,7 +895,7 @@ read_gal <- function(file_path, id_vec = c()) {
 }
 
 #################################################################
-#' @title Read a .GWT file 
+#' @title Read a .GWT file
 #' @description Create a spatial weights object from a .GWT file
 #' @param file_path The file paht of the .GWT file
 #' @param id_vec The id_vec is the id values used in the .GWT file. Default is empty.
@@ -894,7 +913,7 @@ read_gwt <- function(file_path, id_vec = c()) {
   if (length(id_vec) == 0) {
     id_vec <- 0 : num_obs - 1
   }
-  
+
   if (class(id_vec) == "numeric"){
     id_vec <- as.character(id_vec)
   }
@@ -905,13 +924,13 @@ read_gwt <- function(file_path, id_vec = c()) {
 }
 
 #################################################################
-#' @title Read a .SWM file 
+#' @title Read a .SWM file
 #' @description Create a spatial weights object from a .SWM file
 #' @param file_path The file paht of the .SWM file
 #' @param id_vec The id_vec is the id values used in the .SWM file. e.g. c(0,1,2,3,...)
 #' @return A weights object
 #' @export
-read_swm <- function(file_path, id_vec) {
+read_swm <- function(file_path, id_vec = numeric()) {
   w <- p_gda_load_swm(file_path, id_vec)
 
   return(Weight$new(p_GeoDaWeight(w)))

@@ -4,7 +4,7 @@
 \alias{read_swm}
 \title{Read a .SWM file}
 \usage{
-read_swm(file_path, id_vec)
+read_swm(file_path, id_vec = numeric())
 }
 \arguments{
 \item{file_path}{The file paht of the .SWM file}

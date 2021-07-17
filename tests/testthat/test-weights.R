@@ -21,3 +21,26 @@ testthat::test_that('read_gwt', {
 
   testthat::expect_equal(knn_w$sparsity, w$sparsity)
 })
+
+testthat::test_that('read_swm', {
+  w <- read_swm('/tmp/virginia_queen.swm')
+  testthat::expect_equal(w$sparsity, 0.03168253)
+})
+
+testthat::test_that('as.matrix', {
+  guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+  guerry <- st_read(guerry_path)
+
+  library(spdep)
+
+  w <- queen_weights(guerry)
+  mw <- as.matrix(w)
+  lw <- mat2listw(mw)
+
+  knn_w <- knn_weights(guerry, k=4)
+  knn_mw <- as.matrix(knn_w)
+  knn_lw <- mat2listw(knn_mw)
+
+  coords <- coordinates(guerry)
+  plot(col2, coords, add=TRUE)
+})
