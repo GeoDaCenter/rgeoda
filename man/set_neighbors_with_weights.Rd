@@ -15,9 +15,6 @@ set_neighbors_with_weights(gda_w, idx, nbrs, wvals)
 
 \item{wvals}{A list indicates the associated weights values of the neighbors}
 }
-\value{
-
-}
 \description{
 Set neighbors and the associated weights values for idx-th observation, idx starts from 1
 }

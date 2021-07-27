@@ -123,7 +123,7 @@ stddev_breaks <- function(df) {
 #' \dontrun{
 #' library(sf)
 #' nat <- st_read("natregimes.shp")
-#' ebr <- eb_rates(nat[c("HR60", "PO60")]
+#' ebr <- eb_rates(nat[c("HR60", "PO60")])
 #' ebr
 #' }
 #' @export

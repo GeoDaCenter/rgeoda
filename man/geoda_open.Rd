@@ -16,8 +16,10 @@ An instance of geoda-class
 Create an instance of geoda-class by reading from an ESRI Shapefile dataset.
 }
 \examples{
+\dontrun{
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- geoda_open(guerry_path)
 guerry_df <- as.data.frame(guerry) # access as a data.frame
 head(guerry_df)
+}
 }

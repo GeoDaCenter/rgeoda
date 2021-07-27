@@ -20,7 +20,7 @@ Get neighbors for idx-th observation, idx starts from 1
 \examples{
 \dontrun{
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
 nbrs <- get_neighbors(queen_w, idx = 1)
 cat("\nNeighbors of the 1-st observation are:", nbrs)

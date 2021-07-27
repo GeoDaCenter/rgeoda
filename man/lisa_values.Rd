@@ -17,11 +17,11 @@ Get the local spatial autocorrelation values returned from LISA computation
 }
 \examples{
 \dontrun{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-lisa <- local_moran(queen_w, crm_prs)
+guerry <- st_read(guerry_path)
+queen_w <- queen_weights(guerry)
+lisa <- local_moran(queen_w, guerry["Crm_prs"])
 lms <- lisa_values(lisa)
 lms
 }

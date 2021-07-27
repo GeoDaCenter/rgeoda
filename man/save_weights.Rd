@@ -23,6 +23,7 @@ Save spatial weights to a file
 }
 \examples{
 \dontrun{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)

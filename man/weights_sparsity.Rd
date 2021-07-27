@@ -18,7 +18,7 @@ Get sparsity (% Non-zero) computed from weights matrix
 \examples{
 \dontrun{
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
 weights_sparsity(queen_w)
 }

@@ -53,6 +53,7 @@ https://geodacenter.github.io/rgeoda/reference/
     * Distance based
     * K-Nearest Neighbor
     * Kernel
+    * Read GAL/GWT/SWM weights
     
 * Spatial Autocorrelation
     * Local Moran

@@ -18,7 +18,7 @@ Check if weights matrix is symmetric
 \examples{
 \dontrun{
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
 is_symmetric(queen_w)
 }

@@ -107,12 +107,11 @@ LISA <- setRefClass("LISA",
 #' @return A numeric value of Bonferroni bound
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-#' lisa <- local_moran(queen_w, crm_prs)
+#' lisa <- local_moran(queen_w, guerry["Crm_prs"])
 #' bo <- lisa_bo(lisa, 0.05)
 #' bo
 #' }
@@ -129,12 +128,11 @@ lisa_bo <- function(gda_lisa, current_p) {
 #' @return A numeric vector of False Discovery Rate
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-#' lisa <- local_moran(queen_w, crm_prs)
+#' lisa <- local_moran(queen_w, guerry["Crm_prs"])
 #' fdr <- lisa_fdr(lisa, 0.05)
 #' fdr
 #' }
@@ -150,11 +148,11 @@ lisa_fdr <- function(gda_lisa, current_p) {
 #' @return A numeric vector of local spatial autocorrelation
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-#' lisa <- local_moran(queen_w, crm_prs)
+#' guerry <- st_read(guerry_path)
+#' queen_w <- queen_weights(guerry)
+#' lisa <- local_moran(queen_w, guerry["Crm_prs"])
 #' lms <- lisa_values(lisa)
 #' lms
 #' }
@@ -170,12 +168,11 @@ lisa_values <- function(gda_lisa) {
 #' @return A numeric vector of pseudo-p values of local spatial autocorrelation
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-#' lisa <- local_moran(queen_w, crm_prs)
+#' lisa <- local_moran(queen_w, guerry["Crm_prs"])
 #' pvals <- lisa_pvalues(lisa)
 #' pvals
 #' }
@@ -192,12 +189,11 @@ lisa_pvalues <- function(gda_lisa) {
 #' @return A numeric vector of LISA cluster indicator
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-#' lisa <- local_moran(queen_w, crm_prs)
+#' lisa <- local_moran(queen_w, guerry["Crm_prs"])
 #' clsts <- lisa_clusters(lisa)
 #' clsts
 #' }
@@ -216,12 +212,11 @@ lisa_clusters <- function(gda_lisa, cutoff=0.0) {
 #' @return A numeric vector of the number of neighbors
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-#' lisa <- local_moran(queen_w, crm_prs)
+#' lisa <- local_moran(queen_w, guerry["Crm_prs"])
 #' nn <- lisa_num_nbrs(lisa)
 #' nn
 #' }
@@ -237,12 +232,11 @@ lisa_num_nbrs <- function(gda_lisa) {
 #' @return A string vector of cluster labels
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-#' lisa <- local_moran(queen_w, crm_prs)
+#' lisa <- local_moran(queen_w, guerry["Crm_prs"])
 #' lbls <- lisa_labels(lisa)
 #' lbls
 #' }
@@ -259,12 +253,11 @@ lisa_labels <- function(gda_lisa) {
 #' @export
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
-#' guerry_df <- as.data.frame(guerry) # use as data.frame
-#' crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-#' lisa <- local_moran(queen_w, crm_prs)
+#' lisa <- local_moran(queen_w, guerry["Crm_prs"])
 #' clrs <- lisa_colors(lisa)
 #' clrs
 #' }

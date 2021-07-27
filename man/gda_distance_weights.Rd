@@ -33,11 +33,13 @@ An instance of Weight-class
 Create a distance-based weights
 }
 \examples{
+\dontrun{
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- geoda_open(guerry_path)
 dist_thres <- gda_min_distthreshold(guerry)
 dist_w <- gda_distance_weights(guerry, dist_thres)
 summary(dist_w)
+}
 }
 \keyword{distance}
 \keyword{weights}

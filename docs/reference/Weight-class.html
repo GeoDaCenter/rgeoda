@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8-3</span>
       </span>
     </div>
 
@@ -178,7 +178,13 @@ layer_name : The name of the layer of input dataset <br />
 id_name : The id name (or field name), which is an associated column contains unique values, that makes sure that the weights are connected to the correct observations in the data table.<br />
 id_values : The tuple of values of selected id_name (column/field)</p></dd>
 
+<dt><code>SetNeighbors(idx, nbrs)</code></dt><dd><p>Set neighbors for one observation</p></dd>
+
+<dt><code>SetNeighborsAndWeights(idx, nbrs, nbr_w)</code></dt><dd><p>Set neighbors with weights values for one observation</p></dd>
+
 <dt><code>SpatialLag(values)</code></dt><dd><p>Compute spatial lag values for values of selected variable</p></dd>
+
+<dt><code>Update(updateStats = TRUE)</code></dt><dd><p>Update the weights meta data</p></dd>
 
 <dt><code>initialize(o_gda_w)</code></dt><dd><p>Constructor with a GeoDaWeight object (internally used)</p></dd>
 

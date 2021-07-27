@@ -41,6 +41,4 @@ testthat::test_that('as.matrix', {
   knn_mw <- as.matrix(knn_w)
   knn_lw <- mat2listw(knn_mw)
 
-  coords <- coordinates(guerry)
-  plot(col2, coords, add=TRUE)
 })

@@ -9,9 +9,6 @@ update_weights(gda_w)
 \arguments{
 \item{gda_w}{A Weight object}
 }
-\value{
-
-}
 \description{
 Update meta data of a spatial weights. This function can be used after calling `set_neighbor()` function .
 }

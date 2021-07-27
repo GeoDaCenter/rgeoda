@@ -17,12 +17,11 @@ Get cluster labels of LISA computation.
 }
 \examples{
 \dontrun{
+library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-guerry <- geoda_open(guerry_path)
+guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-guerry_df <- as.data.frame(guerry) # use as data.frame
-crm_prs <- guerry_df['Crm_prs'][,1] # get values of variable "crm_prs"
-lisa <- local_moran(queen_w, crm_prs)
+lisa <- local_moran(queen_w, guerry["Crm_prs"])
 lbls <- lisa_labels(lisa)
 lbls
 }

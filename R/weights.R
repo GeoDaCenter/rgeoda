@@ -102,8 +102,9 @@ Weight <- setRefClass("Weight",
 #' @return A summary description of an instance of Weight-class
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' summary(queen_w)
 #' }
@@ -148,7 +149,6 @@ create_weights <- function(num_obs) {
 #' @param gda_w A Weight object
 #' @param idx A value indicates idx-th observation, idx start from 1
 #' @param nbrs A list indicates the neighbors of idx-th observation (id start from 1)
-#' @return
 #' @examples
 #' \dontrun{
 #' new_w <- create_weights(10)
@@ -167,7 +167,6 @@ set_neighbors <- function(gda_w, idx, nbrs) {
 #' @param idx A value indicates idx-th observation, idx start from 1
 #' @param nbrs A list indicates the neighbors of idx-th observation (id start from 1)
 #' @param wvals A list indicates the associated weights values of the neighbors
-#' @return
 #' @examples
 #' \dontrun{
 #' new_w <- create_weights(10)
@@ -183,7 +182,6 @@ set_neighbors_with_weights <- function(gda_w, idx, nbrs, wvals) {
 #' @title Update meta data of a spatial weights
 #' @description Update meta data of a spatial weights. This function can be used after calling `set_neighbor()` function .
 #' @param gda_w A Weight object
-#' @return
 #' @examples
 #' \dontrun{
 #' new_w <- create_weights(10)
@@ -203,7 +201,7 @@ update_weights <- function(gda_w) {
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' is_symmetric(queen_w)
 #' }
@@ -220,7 +218,7 @@ is_symmetric <- function(gda_w) {
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' has_isolates(queen_w)
 #' }
@@ -237,7 +235,7 @@ has_isolates <- function(gda_w) {
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' weights_sparsity(queen_w)
 #' }
@@ -255,7 +253,7 @@ weights_sparsity <- function(gda_w) {
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' nbrs <- get_neighbors(queen_w, idx = 1)
 #' cat("\nNeighbors of the 1-st observation are:", nbrs)
@@ -281,7 +279,7 @@ get_neighbors <- function(gda_w, idx) {
 #' @examples
 #' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' nbrs <- get_neighbors_weights(queen_w, idx = 1)
 #' cat("\nNeighbors of the 1-st observation are:", nbrs)
@@ -330,8 +328,9 @@ spatial_lag <- function(gda_w, df) {
 #' @return The number of maximum neighbors of spatial weights
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' max_neighbors(queen_w)
 #' }
@@ -347,8 +346,9 @@ max_neighbors <- function(gda_w) {
 #' @return The number of minimum neighbors of spatial weights
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' min_neighbors(queen_w)
 #' }
@@ -364,8 +364,9 @@ min_neighbors <- function(gda_w) {
 #' @return The number of mean neighbors of spatial weights
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' mean_neighbors(queen_w)
 #' }
@@ -381,8 +382,9 @@ mean_neighbors <- function(gda_w) {
 #' @return The number of median neighbors of spatial weights
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
-#' guerry <- geoda_open(guerry_path)
+#' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
 #' median_neighbors(queen_w)
 #' }
@@ -401,6 +403,7 @@ median_neighbors <- function(gda_w) {
 #' @return A boolean value indicates if save successfully or failed
 #' @examples
 #' \dontrun{
+#' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- st_read(guerry_path)
 #' queen_w <- queen_weights(guerry)
@@ -420,16 +423,6 @@ save_weights <- function(gda_w, id_variable, out_path, layer_name="") {
 
   return(gda_w$SaveToFile(out_path, layer_name, id_name, id_values))
 }
-
-#load_weights <- function(weights_path) {
-#  if (weights_path == "") {
-#    stop("The weights_path can not be empty.")
-#  }
-#
-#  w <- p_gda_load_weights(weights_path)
-#
-#  return(Weight$new(p_GeoDaWeight(w)))
-#}
 
 #################################################################
 #' @title Queen Contiguity Spatial Weights
@@ -611,10 +604,12 @@ kernel_knn_weights <- function(sf_obj, k, kernel_method, adaptive_bandwidth = TR
 #' @param precision_threshold  (Optional) The precision of the underlying shape file is insufficient to allow for an exact match of coordinates to determine which polygons are neighbors
 #' @return An instance of Weight-class
 #' @examples
+#' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
 #' queen_w <- gda_queen_weights(guerry)
 #' summary(queen_w)
+#' }
 #' @export
 gda_queen_weights <- function(geoda_obj, order=1, include_lower_order = FALSE, precision_threshold = 0) {
 
@@ -646,10 +641,12 @@ gda_queen_weights <- function(geoda_obj, order=1, include_lower_order = FALSE, p
 #' @param precision_threshold  (Optional) The precision of the underlying shape file is insufficient to allow for an exact match of coordinates to determine which polygons are neighbors
 #' @return An instance of Weight-class
 #' @examples
+#' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
 #' rook_w <- gda_rook_weights(guerry)
 #' summary(rook_w)
+#' }
 #' @export
 gda_rook_weights <- function(geoda_obj, order = 1, include_lower_order = FALSE, precision_threshold = 0) {
 
@@ -696,11 +693,13 @@ gda_min_distthreshold <- function(geoda_obj, is_arc = FALSE, is_mile = TRUE) {
 #' @param is_mile (optional) TRUE (default) or FALSE, convert distance unit from mile to km.
 #' @return An instance of Weight-class
 #' @examples
+#' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
 #' dist_thres <- gda_min_distthreshold(guerry)
 #' dist_w <- gda_distance_weights(guerry, dist_thres)
 #' summary(dist_w)
+#' }
 #' @export
 gda_distance_weights <- function(geoda_obj, dist_thres, power = 1.0, is_inverse = FALSE, is_arc = FALSE, is_mile=TRUE){
 
@@ -732,11 +731,13 @@ gda_distance_weights <- function(geoda_obj, dist_thres, power = 1.0, is_inverse 
 #' @param is_mile (optional) TRUE (default) or FALSE, convert distance unit from mile to km.
 #' @return An instance of Weight-class
 #' @examples
+#' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
 #' bandwidth <- gda_min_distthreshold(guerry)
 #' kernel_w <- gda_kernel_weights(guerry, bandwidth, kernel_method = "uniform")
 #' summary(kernel_w)
+#' }
 #' @export
 gda_kernel_weights <- function(geoda_obj, bandwidth, kernel_method,
                            use_kernel_diagonals = FALSE, power = 1.0, is_inverse = FALSE,
@@ -772,10 +773,12 @@ gda_kernel_weights <- function(geoda_obj, bandwidth, kernel_method,
 #' @param is_mile (optional) TRUE (default) or FALSE, convert distance unit from mile to km.
 #' @return An instance of Weight-class
 #' @examples
+#' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
 #' knn6_w <- gda_knn_weights(guerry, 6)
 #' summary(knn6_w)
+#' }
 #' @export
 gda_knn_weights <- function(geoda_obj, k, power = 1.0, is_inverse = FALSE,
                         is_arc = FALSE, is_mile = TRUE) {
@@ -810,10 +813,12 @@ gda_knn_weights <- function(geoda_obj, k, power = 1.0, is_inverse = FALSE,
 #' @param is_mile (optional) TRUE (default) or FALSE, convert distance unit from mile to km.
 #' @return An instance of Weight-class
 #' @examples
+#' \dontrun{
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 #' guerry <- geoda_open(guerry_path)
 #' adptkernel_w = gda_kernel_knn_weights(guerry, 6, "uniform")
 #' summary(adptkernel_w)
+#' }
 #' @export
 gda_kernel_knn_weights <- function(geoda_obj, k, kernel_method, adaptive_bandwidth = TRUE,
                                use_kernel_diagonals = FALSE, power = 1.0, is_inverse = FALSE,
@@ -837,21 +842,25 @@ gda_kernel_knn_weights <- function(geoda_obj, k, kernel_method, adaptive_bandwid
   return(Weight$new(p_GeoDaWeight(w)))
 }
 
+
 #################################################################
-#' @title as.matrix
-#' @description Convert a spatial weights object to a Matrix object
-#' @param obj A weights object
+#' @title spatial weights to matrix
+#' @description Convert a GeoDa spatial weights object to a Matrix object
+#' @param x A weights object
+#' @param rownames optional, a single column name or column number to use as the rownames in the returned matrix. If TRUE the key of the data.table will be used if it is a single column, otherwise the first column in the data.table will be used.
+#' @param rownames.value optional, a vector of values to be used as the rownames in the returned matrix. It must be the same length as nrow(x).
+#' @param ... Required to be present because the generic `as.matrix` generic has it. Arguments here are not currently used or passed on by this method.
 #' @return A matrix object
 #' @export
-as.matrix<- function(obj) {
-  if (length(class(obj)) == 1 && class(obj) == "Weight") {
-    n <- obj$num_obs
+as.matrix.Weight <- function(x, rownames=NULL, rownames.value=NULL, ...) {
+  if (length(class(x)) == 1 && class(x) == "Weight") {
+    n <- x$num_obs
     m <- matrix(0, nrow = n, ncol = n)
 
     for (id in 1:n) {
-      nn <- obj$GetNeighborSize(id-1)
-      nbrs <- obj$GetNeighbors(id-1)
-      nbrWeights <- obj$GetNeighborWeights(id-1)
+      nn <- x$GetNeighborSize(id-1)
+      nbrs <- x$GetNeighbors(id-1)
+      nbrWeights <- x$GetNeighborWeights(id-1)
 
       for (i in 1:nn) {
         nid <- nbrs[i] + 1
