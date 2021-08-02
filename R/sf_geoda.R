@@ -81,9 +81,9 @@ sf_to_geoda <- function(sf_obj, with_table=TRUE) {
 #' @return An instance of geoda-class
 #' @export
 as.geoda <- function(obj, with_table=TRUE) {
-  if (length(class(obj)) == 1 && class(obj) == "SpatialPolygonsDataFrame") {
+  if (inherits(obj, "SpatialPolygonsDataFrame")) {
     return (sp_to_geoda(obj, with_table))
-  } else if (length(class(obj)) == 2 && class(obj)[[1]] == "sf") {
+  } else if (inherits(obj, "sf")) {
     # fall back to try sf object
     return (sf_to_geoda(obj, with_table))
   } else {
