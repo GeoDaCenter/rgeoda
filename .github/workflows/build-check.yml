@@ -79,6 +79,8 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          remotes::install_cran("testthat")
+          remotes::install_cran("devtools")
         shell: Rscript {0}
 
       - name: Session info
