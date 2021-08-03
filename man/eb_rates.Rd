@@ -19,7 +19,7 @@ The function to compute EB Rate from an event variable and a base variable.
 \dontrun{
 library(sf)
 nat <- st_read("natregimes.shp")
-ebr <- eb_rates(nat[c("HR60", "PO60")]
+ebr <- eb_rates(nat[c("HR60", "PO60")])
 ebr
 }
 }
