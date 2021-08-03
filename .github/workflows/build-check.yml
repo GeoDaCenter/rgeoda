@@ -81,6 +81,8 @@ jobs:
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("testthat")
           remotes::install_cran("devtools")
+          remotes::install_cran("spdep")
+          remotes::install_cran("sf")
         shell: Rscript {0}
 
       - name: Session info
