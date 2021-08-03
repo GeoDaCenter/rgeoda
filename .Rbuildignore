@@ -13,3 +13,4 @@
 ^src/libgeoda/LICENSE
 ^src/libgeoda/README.md
 ^src/libgeoda/.git
+^\.github$
