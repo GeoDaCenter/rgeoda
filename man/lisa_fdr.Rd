@@ -15,7 +15,8 @@ lisa_fdr(gda_lisa, current_p)
 A numeric vector of False Discovery Rate
 }
 \description{
-Get False Discovery Rate value based on current LISA computation and current significant p-value
+Get False Discovery Rate value based on current LISA
+computation and current significant p-value
 }
 \examples{
 \dontrun{

@@ -11,12 +11,14 @@ set_neighbors_with_weights(gda_w, idx, nbrs, wvals)
 
 \item{idx}{A value indicates idx-th observation, idx start from 1}
 
-\item{nbrs}{A list indicates the neighbors of idx-th observation (id start from 1)}
+\item{nbrs}{A list indicates the neighbors of idx-th observation
+(id start from 1)}
 
 \item{wvals}{A list indicates the associated weights values of the neighbors}
 }
 \description{
-Set neighbors and the associated weights values for idx-th observation, idx starts from 1
+Set neighbors and the associated weights values for idx-th
+observation, idx starts from 1
 }
 \examples{
 \dontrun{

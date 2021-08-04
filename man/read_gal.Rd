@@ -9,7 +9,8 @@ read_gal(file_path, id_vec = c())
 \arguments{
 \item{file_path}{The file paht of the .GAL file}
 
-\item{id_vec}{The id_vec is the id values used in the .GAL file. Default is empty.}
+\item{id_vec}{The id_vec is the id values used in the .GAL file.
+Default is empty.}
 }
 \value{
 A weights object

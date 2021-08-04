@@ -11,7 +11,8 @@ set_neighbors(gda_w, idx, nbrs)
 
 \item{idx}{A value indicates idx-th observation, idx start from 1}
 
-\item{nbrs}{A list indicates the neighbors of idx-th observation (id start from 1)}
+\item{nbrs}{A list indicates the neighbors of idx-th observation
+(id start from 1)}
 }
 \description{
 Set neighbors for idx-th observation, idx starts from 1

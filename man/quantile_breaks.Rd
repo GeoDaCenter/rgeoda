@@ -15,7 +15,8 @@ quantile_breaks(k, df)
 A vector of numeric values of computed breaks
 }
 \description{
-Quantile breaks data into groups that each have the same number of observations
+Quantile breaks data into groups that each have the same number
+of observations
 }
 \examples{
 library(sf)

@@ -15,7 +15,8 @@ get_neighbors_weights(gda_w, idx)
 A numeric vector of the neighbor indices, which start from 1
 }
 \description{
-Get the associated weights values of neighbors for idx-th observation
+Get the associated weights values of neighbors for idx-th
+observation
 }
 \examples{
 \dontrun{

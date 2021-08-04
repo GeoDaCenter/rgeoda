@@ -9,7 +9,8 @@ save_weights(gda_w, id_variable, out_path, layer_name = "")
 \arguments{
 \item{gda_w}{A Weight object}
 
-\item{id_variable}{The id variable (a data.frame) that defines the unique value of each observation when saving a weights file}
+\item{id_variable}{The id variable (a data.frame) that defines the unique
+value of each observation when saving a weights file}
 
 \item{out_path}{The path of an output weights file}
 
@@ -27,6 +28,6 @@ library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-save_weights(quen_w, guerry_df['CODE_DE'], out_path = '/Users/xun/Downloads/Guerry_r.gal')
+save_weights(quen_w, guerry_df['CODE_DE'], out_path = '/path/Guerry_r.gal')
 }
 }

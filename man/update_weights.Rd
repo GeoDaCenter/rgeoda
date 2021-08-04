@@ -10,7 +10,8 @@ update_weights(gda_w)
 \item{gda_w}{A Weight object}
 }
 \description{
-Update meta data of a spatial weights. This function can be used after calling `set_neighbor()` function .
+Update meta data of a spatial weights. This function can be used
+after calling `set_neighbor()` function .
 }
 \examples{
 \dontrun{

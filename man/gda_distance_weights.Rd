@@ -18,13 +18,17 @@ gda_distance_weights(
 
 \item{dist_thres}{A positive numeric value of distance threshold}
 
-\item{power}{(optional) The power (or exponent) of a number indicates how many times to use the number in a multiplication.}
+\item{power}{(optional) The power (or exponent) of a number indicates how
+many times to use the number in a multiplication.}
 
-\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on distance value}
+\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on
+distance value}
 
-\item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance between two observations}
+\item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance
+between two observations}
 
-\item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from mile to km.}
+\item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from
+mile to km.}
 }
 \value{
 An instance of Weight-class

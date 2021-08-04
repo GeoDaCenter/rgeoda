@@ -20,23 +20,30 @@ kernel_weights(
 
 \item{bandwidth}{A positive numeric value of bandwidth}
 
-\item{kernel_method}{a string value, which has to be one of 'triangular', 'uniform', 'epanechnikov', 'quartic', 'gaussian'}
+\item{kernel_method}{a string value, which has to be one of 'triangular',
+'uniform', 'epanechnikov', 'quartic', 'gaussian'}
 
-\item{use_kernel_diagonals}{(optional) FALSE (default) or TRUE, apply kernel on the diagonal of weights matrix}
+\item{use_kernel_diagonals}{(optional) FALSE (default) or TRUE, apply kernel
+on the diagonal of weights matrix}
 
-\item{power}{(optional) The power (or exponent) of a number says how many times to use the number in a multiplication.}
+\item{power}{(optional) The power (or exponent) of a number says how many
+times to use the number in a multiplication.}
 
-\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on distance value}
+\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on
+distance value}
 
-\item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance between two observations}
+\item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance
+between two observations}
 
-\item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from mile to km.}
+\item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from
+mile to km.}
 }
 \value{
 An instance of Weight-class
 }
 \description{
-Create a kernel weights by specifying a bandwidth and a kernel method
+Create a kernel weights by specifying a bandwidth and a kernel
+method
 }
 \examples{
 library(sf)

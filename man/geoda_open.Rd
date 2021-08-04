@@ -2,7 +2,8 @@
 % Please edit documentation in R/read_geoda.R
 \name{geoda_open}
 \alias{geoda_open}
-\title{Create an instance of geoda-class by reading from an ESRI Shapefile dataset}
+\title{Create an instance of geoda-class by reading from an ESRI Shapefile
+dataset}
 \usage{
 geoda_open(ds_path)
 }
@@ -13,7 +14,8 @@ geoda_open(ds_path)
 An instance of geoda-class
 }
 \description{
-Create an instance of geoda-class by reading from an ESRI Shapefile dataset.
+Create an instance of geoda-class by reading from an ESRI
+Shapefile dataset.
 }
 \examples{
 \dontrun{

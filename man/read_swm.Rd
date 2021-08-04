@@ -9,7 +9,8 @@ read_swm(file_path, id_vec = numeric())
 \arguments{
 \item{file_path}{The file paht of the .SWM file}
 
-\item{id_vec}{The id_vec is the id values used in the .SWM file. e.g. c(0,1,2,3,...)}
+\item{id_vec}{The id_vec is the id values used in the .SWM file.
+e.g. c(0,1,2,3,...)}
 }
 \value{
 A weights object

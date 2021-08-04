@@ -15,7 +15,8 @@ spatial_lag(gda_w, df)
 A data.frame with one column "Spatial Lag"
 }
 \description{
-Compute the spatial lag for idx-th observation using selected variable and current weights matrix
+Compute the spatial lag for idx-th observation using selected
+variable and current weights matrix
 }
 \examples{
 \dontrun{

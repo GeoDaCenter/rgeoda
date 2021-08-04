@@ -9,11 +9,16 @@
 \arguments{
 \item{x}{A weights object}
 
-\item{rownames}{optional, a single column name or column number to use as the rownames in the returned matrix. If TRUE the key of the data.table will be used if it is a single column, otherwise the first column in the data.table will be used.}
+\item{rownames}{optional, a single column name or column number to use as the
+rownames in the returned matrix. If TRUE the key of the data.table will be
+used if it is a single column, otherwise the first column in the data.table
+will be used.}
 
-\item{rownames.value}{optional, a vector of values to be used as the rownames in the returned matrix. It must be the same length as nrow(x).}
+\item{rownames.value}{optional, a vector of values to be used as the rownames
+in the returned matrix. It must be the same length as nrow(x).}
 
-\item{...}{Required to be present because the generic `as.matrix` generic has it. Arguments here are not currently used or passed on by this method.}
+\item{...}{Required to be present because the generic `as.matrix` generic
+has it. Arguments here are not currently used or passed on by this method.}
 }
 \value{
 A matrix object

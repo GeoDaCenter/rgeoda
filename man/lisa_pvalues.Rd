@@ -13,7 +13,8 @@ lisa_pvalues(gda_lisa)
 A numeric vector of pseudo-p values of local spatial autocorrelation
 }
 \description{
-Get the local pseudo-p values of significance returned from LISA computation.
+Get the local pseudo-p values of significance returned from
+LISA computation.
 }
 \examples{
 \dontrun{

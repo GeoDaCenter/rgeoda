@@ -19,13 +19,17 @@ local_multigeary(
 
 \item{df}{A data frame with selected variables only. E.g. guerry["Crm_prs"]}
 
-\item{permutations}{(optional) The number of permutations for the LISA computation}
+\item{permutations}{(optional) The number of permutations for the LISA
+computation}
 
-\item{permutation_method}{(optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.}
+\item{permutation_method}{(optional) The permutation method used for the
+LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.}
 
-\item{significance_cutoff}{(optional) A cutoff value for significance p-values to filter not-significant clusters}
+\item{significance_cutoff}{(optional) A cutoff value for significance
+p-values to filter not-significant clusters}
 
-\item{cpu_threads}{(optional) The number of cpu threads used for parallel LISA computation}
+\item{cpu_threads}{(optional) The number of cpu threads used for parallel
+LISA computation}
 
 \item{seed}{(optional) The seed for random number generator}
 }
@@ -40,7 +44,8 @@ library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants',
+'Suicids')]
 lisa <- local_multigeary(queen_w, data)
 lms <- lisa_clusters(lisa)
 lms

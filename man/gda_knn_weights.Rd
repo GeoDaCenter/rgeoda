@@ -2,7 +2,8 @@
 % Please edit documentation in R/weights.R
 \name{gda_knn_weights}
 \alias{gda_knn_weights}
-\title{(For internally use and test only) K-Nearest Neighbors-based Spatial Weights}
+\title{(For internally use and test only) K-Nearest Neighbors-based Spatial
+Weights}
 \usage{
 gda_knn_weights(
   geoda_obj,
@@ -18,13 +19,17 @@ gda_knn_weights(
 
 \item{k}{a positive integer number for k-nearest neighbors}
 
-\item{power}{(optional) The power (or exponent) of a number says how many times to use the number in a multiplication.}
+\item{power}{(optional) The power (or exponent) of a number says how many
+times to use the number in a multiplication.}
 
-\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on distance value}
+\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on
+distance value}
 
-\item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance between two observations}
+\item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance
+between two observations}
 
-\item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from mile to km.}
+\item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit
+from mile to km.}
 }
 \value{
 An instance of Weight-class

@@ -13,7 +13,8 @@ lisa_values(gda_lisa)
 A numeric vector of local spatial autocorrelation
 }
 \description{
-Get the local spatial autocorrelation values returned from LISA computation
+Get the local spatial autocorrelation values returned from
+LISA computation
 }
 \examples{
 \dontrun{

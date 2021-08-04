@@ -13,7 +13,8 @@ has_isolates(gda_w)
 A boolean value indicates if weights matrix is symmetric
 }
 \description{
-Check if weights matrix has isolates, or if any observation has no neighbors
+Check if weights matrix has isolates, or if any observation has
+no neighbors
 }
 \examples{
 \dontrun{

@@ -17,15 +17,20 @@ local_moran_eb(
 \arguments{
 \item{w}{An instance of Weight object}
 
-\item{df}{A data frame with two selected variable: one is "event", anothor is "base" variable. E.g. guerry[c("hr60", "po60")]}
+\item{df}{A data frame with two selected variable: one is "event", anothor
+is "base" variable. E.g. guerry[c("hr60", "po60")]}
 
-\item{permutations}{(optional) The number of permutations for the LISA computation}
+\item{permutations}{(optional) The number of permutations for the LISA
+computation}
 
-\item{permutation_method}{(optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.}
+\item{permutation_method}{(optional) The permutation method used for the LISA
+computation. Options are {'complete', 'lookup'}. Default is 'complete'.}
 
-\item{significance_cutoff}{(optional) A cutoff value for significance p-values to filter not-significant clusters}
+\item{significance_cutoff}{(optional) A cutoff value for significance
+p-values to filter not-significant clusters}
 
-\item{cpu_threads}{(optional) The number of cpu threads used for parallel LISA computation}
+\item{cpu_threads}{(optional) The number of cpu threads used for parallel
+LISA computation}
 
 \item{seed}{(optional) The seed for random number generator}
 }
@@ -33,7 +38,9 @@ local_moran_eb(
 An instance of LISA-class
 }
 \description{
-The function to apply local Moran with EB Rate statistics. The EB rate is first computed from "event" and "base" variables, and then used in local moran statistics.
+The function to apply local Moran with EB Rate statistics. The
+EB rate is first computed from "event" and "base" variables, and then used
+in local moran statistics.
 }
 \examples{
 \dontrun{

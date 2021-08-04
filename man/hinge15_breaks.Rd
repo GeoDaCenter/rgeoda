@@ -13,7 +13,8 @@ hinge15_breaks(df)
 A vector of numeric values of computed breaks
 }
 \description{
-Hinge15 breaks data into 6 groups like box plot groups (Lower outlier, < 25%, 25-50%, 50-75%, >75%, Upper outlier) with hinge=1.5
+Hinge15 breaks data into 6 groups like box plot groups
+(Lower outlier, < 25%, 25-50%, 50-75%, >75%, Upper outlier) with hinge=1.5
 }
 \examples{
 library(sf)
