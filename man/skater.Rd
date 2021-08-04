@@ -41,7 +41,8 @@ A list of numeric vectors represents a group of clusters
 A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 }
 \description{
-SKATER forms clusters by spatially partitioning data that has similar values for features of interest.
+SKATER forms clusters by spatially partitioning data that has
+similar values for features of interest.
 }
 \examples{
 library(sf)

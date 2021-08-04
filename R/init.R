@@ -4,7 +4,7 @@
 #' @useDynLib rgeoda
 NULL
 
-.onUnload = function(libname, pkgname) {
+.onUnload <- function(libname, pkgname) {
 }
 
 # When creating weights from sf/sp object, the geoda object will be created and
@@ -26,19 +26,19 @@ getGeoDaObj <- function(sf_obj) {
 
   geoda_obj <- NULL
 
-  if (exists(gda_uid, envir=cacheEnv)) {
+  if (exists(gda_uid, envir = cacheEnv)) {
     # use it directly for weights creation
-    geoda_obj <- get(gda_uid, envir=cacheEnv)
+    geoda_obj <- get(gda_uid, envir = cacheEnv)
   } else {
     # create a geoda object from sf_obj, NOT copy table
     geoda_obj <- as.geoda(sf_obj, with_table = FALSE)
     # cache it
-    assign(gda_uid, geoda_obj, envir=cacheEnv)
+    assign(gda_uid, geoda_obj, envir = cacheEnv)
   }
 
-  if (is.null(geoda_obj) || geoda_obj$GetNumObs() <=0) {
+  if (is.null(geoda_obj) || geoda_obj$GetNumObs() <= 0) {
     stop("Failed to read sf object. Please submit a bug report to https://github.com/geodacenter/rgeoda")
   }
 
-  return (geoda_obj)
+  return(geoda_obj)
 }

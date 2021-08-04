@@ -35,13 +35,15 @@ A wrapper class for p_GeoDaWeight class
 \describe{
 \item{\code{GetNeighbors(idx)}}{Get neighbors for idx-th observation, idx starts from 0}
 
-\item{\code{GetNeighborWeights(idx)}}{Get weights values of neighbors for idx-th observation, idx starts from 0}
+\item{\code{GetNeighborWeights(idx)}}{Get weights values of neighbors for idx-th observation,
+idx starts from 0}
 
 \item{\code{GetPointer()}}{Get the C++ object pointer (internally used)}
 
 \item{\code{GetSparsity()}}{Get sparsity computed from weights matrix}
 
-\item{\code{HasIsolates()}}{Check if weights matrix has isolates, or if any observation has no neighbors}
+\item{\code{HasIsolates()}}{Check if weights matrix has isolates, or if any observation has no
+neighbors}
 
 \item{\code{initialize(o_gda_w)}}{Constructor with a GeoDaWeight object (internally used)}
 
@@ -50,7 +52,9 @@ A wrapper class for p_GeoDaWeight class
 \item{\code{SaveToFile(out_path, layer_name, id_name, id_values)}}{Save current spatial weights to a file.\cr \cr
 out_path: The path of an output weights file \cr
 layer_name : The name of the layer of input dataset \cr
-id_name : The id name (or field name), which is an associated column contains unique values, that makes sure that the weights are connected to the correct observations in the data table.\cr
+id_name : The id name (or field name), which is an associated column
+contains unique values, that makes sure that the weights are connected
+to the correct observations in the data table.\cr
 id_values : The tuple of values of selected id_name (column/field)}
 
 \item{\code{SetNeighbors(idx, nbrs)}}{Set neighbors for one observation}

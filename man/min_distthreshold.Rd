@@ -9,15 +9,18 @@ min_distthreshold(sf_obj, is_arc = FALSE, is_mile = TRUE)
 \arguments{
 \item{sf_obj}{An sf (simple feature) object}
 
-\item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance between two observations}
+\item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance
+between two observations}
 
-\item{is_mile}{(optional) TRUE (default) or FALSE, if 'is_arc' option is TRUE, then 'is_mile' will set distance unit to 'mile' or 'km'.}
+\item{is_mile}{(optional) TRUE (default) or FALSE, if 'is_arc' option is
+TRUE, then 'is_mile' will set distance unit to 'mile' or 'km'.}
 }
 \value{
 A numeric value of minimum threshold of distance
 }
 \description{
-Get minimum threshold of distance that makes sure each observation has at least one neighbor
+Get minimum threshold of distance that makes sure each
+observation has at least one neighbor
 }
 \examples{
 \dontrun{

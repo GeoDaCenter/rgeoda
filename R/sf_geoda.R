@@ -7,9 +7,12 @@ random_string <- function(n = 5000) {
 
 
 #' @title Create an instance of geoda-class from a 'sf' object
-#' @description Create an instance of geoda-class from a 'sf' object returned from 'st_read()' function. NOTE: The table content is NOT used to create an instance of geoda-class.
+#' @description Create an instance of geoda-class from a 'sf' object returned
+#' from 'st_read()' function. NOTE: The table content is NOT used to create an
+#' instance of geoda-class.
 #' @param sf_obj  An instance of 'sf' object
-#' @param with_table A boolean flag indicates if table is copied from sf object to create geoda object. Default is TRUE.
+#' @param with_table A boolean flag indicates if table is copied from sf object
+#'  to create geoda object. Default is TRUE.
 #' @return An instance of geoda-class
 #' @export
 sf_to_geoda <- function(sf_obj, with_table=TRUE) {
@@ -68,16 +71,19 @@ sf_to_geoda <- function(sf_obj, with_table=TRUE) {
     stop("rgeoda does not support line/polyline data.")
   }
 
-  gda <- p_GeoDa(tbl$GetPointer(), file_name, map_type, n_obs, wkb_vec, wkb_bytes_len)
+  gda <- p_GeoDa(tbl$GetPointer(), file_name, map_type, n_obs, wkb_vec,
+                 wkb_bytes_len)
   return(geoda$new(gda))
 }
 
 #' @title Create an instance of geoda-class from either an 'sf' or 'sp' object
-#' @description Create an instance of geoda-class from an 'sf' object returned from 'st_read()' function,
+#' @description Create an instance of geoda-class from an 'sf' object returned
+#' from 'st_read()' function,
 #' or a 'sp' object returned from 'readOGR()' function.
 #' NOTE: The table content is NOT used to create an instance of geoda-class.
 #' @param obj  An instance of 'sf' or 'sp' object
-#' @param with_table A boolean flag indicates if table is copied from sf object to create geoda object. Default is TRUE
+#' @param with_table A boolean flag indicates if table is copied from sf object
+#' to create geoda object. Default is TRUE
 #' @return An instance of geoda-class
 #' @export
 as.geoda <- function(obj, with_table=TRUE) {
@@ -92,9 +98,11 @@ as.geoda <- function(obj, with_table=TRUE) {
 }
 
 #' @title Create an instance of geoda-class from a 'sp' object
-#' @description Create an instance of geoda-class from a 'sp' object. NOTE: The table content is NOT used to create an instance of geoda-class.
+#' @description Create an instance of geoda-class from a 'sp' object. NOTE: The
+#' table content is NOT used to create an instance of geoda-class.
 #' @param sp_obj  An instance of 'sp' object
-#' @param with_table A boolean flag indicates if table is copied from sf object to create geoda object. Default is TRUE
+#' @param with_table A boolean flag indicates if table is copied from sf object
+#' to create geoda object. Default is TRUE
 #' @return An instance of geoda-class
 #' @export
 sp_to_geoda <- function(sp_obj, with_table=TRUE) {
@@ -108,7 +116,9 @@ sp_to_geoda <- function(sp_obj, with_table=TRUE) {
   # geometries
   geoms_wkb <- wkb::writeWKB(sp_obj)
   n_obs <- length(geoms_wkb)
-  wkb_bytes_len <- sapply(geoms_wkb, function(x) {return(length(x))})
+  wkb_bytes_len <- sapply(geoms_wkb, function(x) {
+    return(length(x))
+    })
   wkb_vec <- unlist(geoms_wkb)
 
   # in-memory name
@@ -145,13 +155,14 @@ sp_to_geoda <- function(sp_obj, with_table=TRUE) {
 
   # map_type
   map_type <- "map_polygons"
-  if (is(sp_obj, 'SpatialPointsDataFrame')) {
+  if (is(sp_obj, "SpatialPointsDataFrame")) {
     map_type <- "map_points"
   } else if (is(sp_obj, "SpatialLinesDataFrame-class")) {
     map_type <- "map_lines"
     stop("rgeoda does not support line/polyline data.")
   }
 
-  gda <- p_GeoDa(tbl$GetPointer(), file_name, map_type, n_obs, wkb_vec, wkb_bytes_len)
+  gda <- p_GeoDa(tbl$GetPointer(), file_name, map_type, n_obs, wkb_vec,
+                 wkb_bytes_len)
   return(geoda$new(gda))
 }

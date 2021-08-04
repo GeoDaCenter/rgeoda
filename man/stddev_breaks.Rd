@@ -13,7 +13,9 @@ stddev_breaks(df)
 A vector of numeric values of computed breaks
 }
 \description{
-Standard deviation breaks first transforms data to standard deviation units (mean=0, stddev=1), and then divide the range of values into 6 groups.
+Standard deviation breaks first transforms data to standard
+deviation units (mean=0, stddev=1), and then divide the range of values into
+6 groups.
 }
 \examples{
 library(sf)

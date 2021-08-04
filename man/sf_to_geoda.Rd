@@ -9,11 +9,14 @@ sf_to_geoda(sf_obj, with_table = TRUE)
 \arguments{
 \item{sf_obj}{An instance of 'sf' object}
 
-\item{with_table}{A boolean flag indicates if table is copied from sf object to create geoda object. Default is TRUE.}
+\item{with_table}{A boolean flag indicates if table is copied from sf object
+to create geoda object. Default is TRUE.}
 }
 \value{
 An instance of geoda-class
 }
 \description{
-Create an instance of geoda-class from a 'sf' object returned from 'st_read()' function. NOTE: The table content is NOT used to create an instance of geoda-class.
+Create an instance of geoda-class from a 'sf' object returned
+from 'st_read()' function. NOTE: The table content is NOT used to create an
+instance of geoda-class.
 }

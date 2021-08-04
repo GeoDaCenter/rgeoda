@@ -17,15 +17,20 @@ local_multijoincount(
 \arguments{
 \item{w}{An instance of Weight object}
 
-\item{df}{A data frame with selected variables only. E.g. guerry[c("TopCrm", "TopWealth", "TopLit")]}
+\item{df}{A data frame with selected variables only.
+E.g. guerry[c("TopCrm", "TopWealth", "TopLit")]}
 
-\item{permutations}{(optional) The number of permutations for the LISA computation}
+\item{permutations}{(optional) The number of permutations for the LISA
+computation}
 
-\item{permutation_method}{(optional) The permutation method used for the LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.}
+\item{permutation_method}{(optional) The permutation method used for the
+LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.}
 
-\item{significance_cutoff}{(optional) A cutoff value for significance p-values to filter not-significant clusters}
+\item{significance_cutoff}{(optional) A cutoff value for significance
+p-values to filter not-significant clusters}
 
-\item{cpu_threads}{(optional) The number of cpu threads used for parallel LISA computation}
+\item{cpu_threads}{(optional) The number of cpu threads used for parallel
+LISA computation}
 
 \item{seed}{(optional) The seed for random number generator}
 }
@@ -33,14 +38,16 @@ local_multijoincount(
 An instance of LISA-class
 }
 \description{
-The function to apply (multivariate) colocation local Join Count statistics
+The function to apply (multivariate) colocation local Join Count
+ statistics
 }
 \examples{
 library(sf)
 guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
 guerry <- st_read(guerry_path)
 queen_w <- queen_weights(guerry)
-lisa <- local_multijoincount(queen_w,  guerry[c('TopWealth','TopWealth', 'TopLit')])
+lisa <- local_multijoincount(queen_w,
+guerry[c('TopWealth','TopWealth', 'TopLit')])
 clsts <- lisa_clusters(lisa)
 clsts
 }

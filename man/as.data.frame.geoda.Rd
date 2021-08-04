@@ -9,7 +9,8 @@
 \arguments{
 \item{x}{A rgeoda object}
 
-\item{row.names}{NULL or a character vector giving the row names for the data frame. Missing values are not allowed.}
+\item{row.names}{NULL or a character vector giving the row names for the data
+frame. Missing values are not allowed.}
 
 \item{optional}{optional parameters}
 

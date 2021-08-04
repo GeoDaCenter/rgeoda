@@ -15,7 +15,8 @@ lisa_bo(gda_lisa, current_p)
 A numeric value of Bonferroni bound
 }
 \description{
-Get Bonferroni bound value based on current LISA computation and current significat p-value
+Get Bonferroni bound value based on current LISA computation
+and current significat p-value
 }
 \examples{
 \dontrun{

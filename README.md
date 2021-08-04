@@ -1,5 +1,9 @@
 # rgeoda
 
+[![R-CMD-check](https://github.com/lixun910/rgeoda-1/actions/workflows/build-check.yml/badge.svg)](https://github.com/lixun910/rgeoda-1/actions/workflows/build-check.yml)
+[![lint-project](https://github.com/lixun910/rgeoda-1/actions/workflows/lint-project.yaml/badge.svg)](https://github.com/lixun910/rgeoda-1/actions/workflows/lint-project.yaml)
+[![pkgdown](https://github.com/lixun910/rgeoda-1/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/lixun910/rgeoda-1/actions/workflows/pkgdown.yaml)
+
 rgeoda is a R package for spatial data analysis based on libgeoda and GeoDa. It provides spatial data analysis functionalities including Exploratory Spatial Data Analysis, Spatial Cluster Detection and Clustering Analysis, Regionalization, etc. based on the C++ source code of GeoDa, which is an open-source software tool that serves as an introduction to spatial data analysis. The GeoDa software and its documentation are available at https://geodacenter.github.io.
   
 The rgeoda site is built using pkgdown: https://geodacenter.github.io/rgeoda

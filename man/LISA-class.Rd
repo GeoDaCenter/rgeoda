@@ -19,7 +19,8 @@ A LISA-class that wrappers the statistics of LISA computation
 
 \item{\code{lisa_vals}}{The local spatial autocorrelation values of LISA computation}
 
-\item{\code{nn_vals}}{The number of neighbors of every observations in LISA computation}
+\item{\code{nn_vals}}{The number of neighbors of every observations in LISA
+computation}
 
 \item{\code{labels}}{The cluster labels of LISA}
 
@@ -39,9 +40,11 @@ A LISA-class that wrappers the statistics of LISA computation
 
 \item{\code{GetLabels()}}{Get the cluster labels of LISA computation.}
 
-\item{\code{GetLISAValues()}}{Get the local spatial autocorrelation values returned from LISA computation.}
+\item{\code{GetLISAValues()}}{Get the local spatial autocorrelation values returned from LISA
+computation.}
 
-\item{\code{GetLocalSignificanceValues()}}{Get the local pseudo-p values of significance returned from LISA computation.}
+\item{\code{GetLocalSignificanceValues()}}{Get the local pseudo-p values of significance returned from LISA
+computation.}
 
 \item{\code{GetNumNeighbors()}}{Get the number of neighbors of every observations in LISA computation.}
 

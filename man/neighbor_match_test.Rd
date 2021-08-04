@@ -16,27 +16,37 @@ neighbor_match_test(
 )
 }
 \arguments{
-\item{df}{A subset of sf object with selected variables. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
+\item{df}{A subset of sf object with selected variables.
+E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 
 \item{k}{a positive integer number for k-nearest neighbors searching.}
 
-\item{scale_method}{(optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).}
+\item{scale_method}{(optional) One of the scaling methods {'raw',
+'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply
+ on input data. Default is 'standardize' (Z-score normalization).}
 
-\item{distance_method}{(optional) The type of distance metrics used to measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.}
+\item{distance_method}{(optional) The type of distance metrics used to
+measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.}
 
-\item{power}{(optional) The power (or exponent) of a number says how many times to use the number in a multiplication.}
+\item{power}{(optional) The power (or exponent) of a number says how many
+times to use the number in a multiplication.}
 
-\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on distance value.}
+\item{is_inverse}{(optional) FALSE (default) or TRUE, apply inverse on
+distance value.}
 
-\item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance between two observations.}
+\item{is_arc}{(optional) FALSE (default) or TRUE, compute arc distance
+between two observations.}
 
-\item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from mile to km.}
+\item{is_mile}{(optional) TRUE (default) or FALSE, convert distance unit from
+mile to km.}
 }
 \value{
 A data.frame with two columns "Cardinality" and "Probability".
 }
 \description{
-The local neighbor match test is to assess the extent of overlap between k-nearest neighbors in geographical space and k-nearest neighbors in multi-attribute space.
+The local neighbor match test is to assess the extent of overlap
+ between k-nearest neighbors in geographical space and k-nearest neighbors in
+ multi-attribute space.
 }
 \examples{
 library(sf)

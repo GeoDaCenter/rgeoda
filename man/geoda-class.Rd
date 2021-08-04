@@ -6,7 +6,8 @@
 \alias{geoda}
 \title{'geoda' class}
 \description{
-'geoda' is a RefClass that wraps the C++ GeoDa class (via p_GeoDa defines in rgeoda.R)
+'geoda' is a RefClass that wraps the C++ GeoDa class
+(via p_GeoDa defines in rgeoda.R)
 }
 \section{Fields}{
 

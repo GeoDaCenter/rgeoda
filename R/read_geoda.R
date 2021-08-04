@@ -1,5 +1,6 @@
 #' @title 'geoda' class
-#' @description 'geoda' is a RefClass that wraps the C++ GeoDa class (via p_GeoDa defines in rgeoda.R)
+#' @description 'geoda' is a RefClass that wraps the C++ GeoDa class
+#' (via p_GeoDa defines in rgeoda.R)
 #' @field gda The pointer to the instance of p_GeoDa-class
 #' @field map_type The map type, could be either Point or Polygon
 #' @field n_cols The number of columns
@@ -20,12 +21,12 @@ geoda <- setRefClass("geoda",
   methods = list(
     initialize = function(o_gda) {
       "Constructor with a geoda object (internally used)"
-      .self$gda = o_gda
-      .self$map_type = gda$GetMapType()
-      .self$n_cols = gda$GetNumCols()
-      .self$n_obs = gda$GetNumObs()
-      .self$field_names = gda$GetFieldNames()
-      .self$field_types = gda$GetFieldTypes()
+      .self$gda <- o_gda
+      .self$map_type <- gda$GetMapType()
+      .self$n_cols <- gda$GetNumCols()
+      .self$n_obs <- gda$GetNumObs()
+      .self$field_names <- gda$GetFieldNames()
+      .self$field_types <- gda$GetFieldTypes()
       .self$table <- data.frame()[1:.self$n_obs, ]
       if (length(.self$field_names) > 0) {
         for (i in 1:.self$n_cols) {
@@ -36,7 +37,7 @@ geoda <- setRefClass("geoda",
           } else if (f_tp == "integer") {
             .self$table[[f_nm]] <- gda$GetIntegerCol(f_nm)
           } else {
-            #.self$table[[f_nm]] <- gda$GetStringCol(f_nm)
+            #ignored numerics!: .self$table[[f_nm]] <- gda$GetStringCol(f_nm)
           }
         }
       }
@@ -80,8 +81,10 @@ geoda <- setRefClass("geoda",
   )
 )
 
-#' @title Create an instance of geoda-class by reading from an ESRI Shapefile dataset
-#' @description Create an instance of geoda-class by reading from an ESRI Shapefile dataset.
+#' @title Create an instance of geoda-class by reading from an ESRI Shapefile
+#' dataset
+#' @description Create an instance of geoda-class by reading from an ESRI
+#' Shapefile dataset.
 #' @param ds_path (character) The path of the spatial dataset
 #' @return An instance of geoda-class
 #' @examples
@@ -94,7 +97,7 @@ geoda <- setRefClass("geoda",
 #' @export
 geoda_open <- function(ds_path) {
   if (typeof(ds_path) != "character") {
-    stop ("Only a string of input datasource is allowed")
+    stop("Only a string of input datasource is allowed")
   }
   o_gda <- p_GeoDa(ds_path)
   return(geoda$new(o_gda))
@@ -103,7 +106,8 @@ geoda_open <- function(ds_path) {
 #' @title convert rgeoda instance to data.frame
 #' @description Override the as.data.frame function for rgeoda instance
 #' @param x A rgeoda object
-#' @param row.names NULL or a character vector giving the row names for the data frame. Missing values are not allowed.
+#' @param row.names NULL or a character vector giving the row names for the data
+#' frame. Missing values are not allowed.
 #' @param optional optional parameters
 #' @param ... other arguments passed to methods
 #' @return A data.frame object

@@ -7,6 +7,7 @@
 \alias{$,p_GeoDaTable-method}
 \title{p_GeoDaTable}
 \description{
-p_GeoDaTable class is a RefClass that wraps the C++ 'GeoDaTable' class.
+p_GeoDaTable class is a RefClass that wraps the C++ 'GeoDaTable'
+class.
 See C++ functions in rcpp_rgeoda.cpp
 }

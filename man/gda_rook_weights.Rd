@@ -16,15 +16,19 @@ gda_rook_weights(
 
 \item{order}{(Optional) Order of contiguity}
 
-\item{include_lower_order}{(Optional)  Whether or not the lower order neighbors should be included in the weights structure}
+\item{include_lower_order}{(Optional)  Whether or not the lower order
+neighbors should be included in the weights structure}
 
-\item{precision_threshold}{(Optional) The precision of the underlying shape file is insufficient to allow for an exact match of coordinates to determine which polygons are neighbors}
+\item{precision_threshold}{(Optional) The precision of the underlying shape
+file is insufficient to allow for an exact match of coordinates to determine
+ which polygons are neighbors}
 }
 \value{
 An instance of Weight-class
 }
 \description{
-Create a Rook contiguity weights with options of "order", "include lower order" and "precision threshold"
+Create a Rook contiguity weights with options of "order",
+"include lower order" and "precision threshold"
 }
 \examples{
 \dontrun{

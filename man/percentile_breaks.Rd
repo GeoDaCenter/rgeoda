@@ -13,7 +13,8 @@ percentile_breaks(df)
 A vector of numeric values of computed breaks
 }
 \description{
-Percentile breaks data into 6 groups: the lowest 1%, 1-10%, 10-50%, 50-90%, 90-99% and the top 1%.
+Percentile breaks data into 6 groups: the lowest 1%, 1-10%,
+10-50%, 50-90%, 90-99% and the top 1%.
 }
 \examples{
 library(sf)

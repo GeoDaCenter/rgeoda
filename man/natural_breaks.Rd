@@ -15,7 +15,8 @@ natural_breaks(k, df)
 A vector of numeric values of computed breaks
 }
 \description{
-Natural Breaks group data whose boundaries are set where there are relatively big differences.
+Natural Breaks group data whose boundaries are set where there
+are relatively big differences.
 }
 \examples{
 library(sf)

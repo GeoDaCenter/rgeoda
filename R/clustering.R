@@ -1,6 +1,7 @@
 ############################################################
 #' @title Spatial C(K)luster Analysis by Tree Edge Removal
-#' @description SKATER forms clusters by spatially partitioning data that has similar values for features of interest.
+#' @description SKATER forms clusters by spatially partitioning data that has
+#' similar values for features of interest.
 #' @param k The number of clusters
 #' @param w An instance of Weight class
 #' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
