@@ -317,6 +317,60 @@ local_moran <- function(w, df, permutations=999, permutation_method="complete",
 }
 
 #################################################################
+#' @title  Bivariate Local Moran Statistics
+#' @description The function to apply bivariate local Moran statistics
+#' @param w An instance of Weight object
+#' @param df A data frame with two selected variable. E.g. guerry[c('Crm_prs','Litercy')]
+#' @param permutations (optional) The number of permutations for the LISA
+#' computation
+#' @param permutation_method (optional) The permutation method used for the
+#' LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#' @param significance_cutoff  (optional) A cutoff value for significance
+#' p-values to filter not-significant clusters
+#' @param cpu_threads (optional) The number of cpu threads used for parallel
+#' LISA computation
+#' @param seed (optional) The seed for random number generator
+#' @return An instance of LISA-class
+#' @examples
+#' library(sf)
+#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+#' guerry <- st_read(guerry_path)
+#' queen_w <- queen_weights(guerry)
+#' lisa <- local_bimoran(queen_w, guerry[c('Crm_prs','Litercy')])
+#' lms <- lisa_values(lisa)
+#' lms
+#' @export
+local_bimoran <- function(w, df, permutations=999, permutation_method="complete",
+                        significance_cutoff=0.05, cpu_threads=6,
+                        seed=123456789) {
+  if (w$num_obs <= 0) {
+    stop("Weights object is not valid.")
+  }
+
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
+  }
+
+  num_vars <- length(df)
+
+  if (inherits(df, "sf")) {
+    num_vars <- num_vars - 1
+  }
+
+  if (num_vars != 2) {
+    stop("Two variables are required for bivariate local moran.")
+  }
+
+  data1 <- df[[1]]
+  data2 <- df[[2]]
+
+  lisa_obj <- p_bi_localmoran(w$GetPointer(), data1, data2, permutations,
+                           permutation_method, significance_cutoff,
+                           cpu_threads, seed)
+  return(LISA$new(p_LISA(lisa_obj)))
+}
+
+#################################################################
 #' @title  Local Moran with Empirical Bayes(EB) Rate
 #' @description The function to apply local Moran with EB Rate statistics. The
 #' EB rate is first computed from "event" and "base" variables, and then used

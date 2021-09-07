@@ -44,6 +44,7 @@ CPP_SRC_FILES = \
 	$(RGEODALIB)/sa/UniGstar.cpp \
 	$(RGEODALIB)/sa/UniJoinCount.cpp \
 	$(RGEODALIB)/sa/UniLocalMoran.cpp \
+	$(RGEODALIB)/sa/BiLocalMoran.cpp \
 	$(RGEODALIB)/clustering/redcap.cpp \
 	$(RGEODALIB)/clustering/redcap_wrapper.cpp \
 	$(RGEODALIB)/clustering/azp.cpp \
@@ -110,6 +111,7 @@ OBJECTS = \
 	$(RGEODALIB)/sa/UniGstar.o \
 	$(RGEODALIB)/sa/UniJoinCount.o \
 	$(RGEODALIB)/sa/UniLocalMoran.o \
+	$(RGEODALIB)/sa/BiLocalMoran.o \
 	$(RGEODALIB)/clustering/redcap.o \
 	$(RGEODALIB)/clustering/redcap_wrapper.o \
 	$(RGEODALIB)/clustering/azp.o \

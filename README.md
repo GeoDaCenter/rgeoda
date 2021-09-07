@@ -61,6 +61,7 @@ https://geodacenter.github.io/rgeoda/reference/
     
 * Spatial Autocorrelation
     * Local Moran
+    * Bivariate Local Moran
     * Local Moran EB Rates
     * Local Geary
     * Local Getis-Ord 

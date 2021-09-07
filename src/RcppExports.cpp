@@ -391,6 +391,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// p_bi_localmoran
+SEXP p_bi_localmoran(SEXP xp_w, NumericVector& data1, NumericVector& data2, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed);
+RcppExport SEXP _rgeoda_p_bi_localmoran(SEXP xp_wSEXP, SEXP data1SEXP, SEXP data2SEXP, SEXP permutationsSEXP, SEXP permutation_methodSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type xp_w(xp_wSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type data1(data1SEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type data2(data2SEXP);
+    Rcpp::traits::input_parameter< int >::type permutations(permutationsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type permutation_method(permutation_methodSEXP);
+    Rcpp::traits::input_parameter< double >::type significance_cutoff(significance_cutoffSEXP);
+    Rcpp::traits::input_parameter< int >::type cpu_threads(cpu_threadsSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_bi_localmoran(xp_w, data1, data2, permutations, permutation_method, significance_cutoff, cpu_threads, seed));
+    return rcpp_result_gen;
+END_RCPP
+}
 // p_eb_rate
 DataFrame p_eb_rate(NumericVector& event_data, NumericVector& base_data);
 RcppExport SEXP _rgeoda_p_eb_rate(SEXP event_dataSEXP, SEXP base_dataSEXP) {
@@ -1242,6 +1260,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_LISA__GetBO", (DL_FUNC) &_rgeoda_p_LISA__GetBO, 2},
     {"_rgeoda_p_LISA__GetFDR", (DL_FUNC) &_rgeoda_p_LISA__GetFDR, 2},
     {"_rgeoda_p_localmoran", (DL_FUNC) &_rgeoda_p_localmoran, 7},
+    {"_rgeoda_p_bi_localmoran", (DL_FUNC) &_rgeoda_p_bi_localmoran, 8},
     {"_rgeoda_p_eb_rate", (DL_FUNC) &_rgeoda_p_eb_rate, 2},
     {"_rgeoda_p_localmoran_eb", (DL_FUNC) &_rgeoda_p_localmoran_eb, 8},
     {"_rgeoda_p_localgeary", (DL_FUNC) &_rgeoda_p_localgeary, 7},

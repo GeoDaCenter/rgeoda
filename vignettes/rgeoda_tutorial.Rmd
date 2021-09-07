@@ -502,6 +502,13 @@ lisa_pvalues(qsa)
 lisa_clusters(qsa)
 ```
 
+### 4.8 Bivariate Local Moran
+
+The bivariate Local Moran’s I captures the relationship between the value for one variable at location i, and the average of the neighboring values for another variable. Please note this statistic needs to be interpreted with caution, since it ignores in-situ correlation between the two variables. The most meaningful application of the bivariate Local Moran statistic is comparing the same variable at two time periods. See: https://geodacenter.github.io/workbook/6c_local_multi/lab6c.html#bivariate-local-moran
+
+```{r}
+qsa <- local_bimoran(queen_w, guerry[c('Crm_prs', 'Litercy')])
+```
 
 ## 5 Spatial Clustering
 
