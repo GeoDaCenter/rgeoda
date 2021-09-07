@@ -94,6 +94,13 @@ https://geodacenter.github.io/rgeoda/reference/
       * greedy
       * Tabu Search
       * Simulated Annealing
+    * Join Count Ratio
+    * Spatial Validation
+      * Fragmentation
+      * Join Count Ratio
+      * Compactness
+      * Diameter
+    * Make Spatial
 
 ## Build and install from source code
 
