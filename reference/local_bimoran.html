@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get local cluster indicators — lisa_clusters • rgeoda</title>
+<title>Bivariate Local Moran Statistics — local_bimoran • rgeoda</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get local cluster indicators — lisa_clusters" />
-<meta property="og:description" content="Get the local cluster indicators returned from LISA computation." />
+<meta property="og:title" content="Bivariate Local Moran Statistics — local_bimoran" />
+<meta property="og:description" content="The function to apply bivariate local Moran statistics" />
 
 
 
@@ -120,46 +120,98 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get local cluster indicators</h1>
+    <h1>Bivariate Local Moran Statistics</h1>
     <small class="dont-index">Source: <a href='https://github.com/geodacenter/rgeoda/blob/master/R/lisa.R'><code>R/lisa.R</code></a></small>
-    <div class="hidden name"><code>lisa_clusters.Rd</code></div>
+    <div class="hidden name"><code>local_bimoran.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the local cluster indicators returned from LISA computation.</p>
+    <p>The function to apply bivariate local Moran statistics</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lisa_clusters</span><span class='op'>(</span><span class='va'>gda_lisa</span>, cutoff <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>local_bimoran</span><span class='op'>(</span>
+  <span class='va'>w</span>,
+  <span class='va'>df</span>,
+  permutations <span class='op'>=</span> <span class='fl'>999</span>,
+  permutation_method <span class='op'>=</span> <span class='st'>"complete"</span>,
+  significance_cutoff <span class='op'>=</span> <span class='fl'>0.05</span>,
+  cpu_threads <span class='op'>=</span> <span class='fl'>6</span>,
+  seed <span class='op'>=</span> <span class='fl'>123456789</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>gda_lisa</th>
-      <td><p>An instance of LISA object</p></td>
+      <th>w</th>
+      <td><p>An instance of Weight object</p></td>
     </tr>
     <tr>
-      <th>cutoff</th>
-      <td><p>A value of cutoff for significance p-values to filter
-not-significant clusters, default=0.0, means not used</p></td>
+      <th>df</th>
+      <td><p>A data frame with two selected variable. E.g. guerry[c('Crm_prs','Litercy')]</p></td>
+    </tr>
+    <tr>
+      <th>permutations</th>
+      <td><p>(optional) The number of permutations for the LISA
+computation</p></td>
+    </tr>
+    <tr>
+      <th>permutation_method</th>
+      <td><p>(optional) The permutation method used for the
+LISA computation. Options are 'complete', 'lookup'. Default is 'complete'.</p></td>
+    </tr>
+    <tr>
+      <th>significance_cutoff</th>
+      <td><p>(optional) A cutoff value for significance
+p-values to filter not-significant clusters</p></td>
+    </tr>
+    <tr>
+      <th>cpu_threads</th>
+      <td><p>(optional) The number of cpu threads used for parallel
+LISA computation</p></td>
+    </tr>
+    <tr>
+      <th>seed</th>
+      <td><p>(optional) The seed for random number generator</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A numeric vector of LISA cluster indicator</p>
+    <p>An instance of LISA-class</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/sf/'>sf</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/sf/'>sf</a></span><span class='op'>)</span>
 <span class='va'>guerry_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Guerry.shp"</span>, package <span class='op'>=</span> <span class='st'>"rgeoda"</span><span class='op'>)</span>
 <span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>st_read</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
-<span class='va'>queen_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='queen_weights.html'>queen_weights</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span>
-<span class='va'>lisa</span> <span class='op'>&lt;-</span> <span class='fu'><a href='local_moran.html'>local_moran</a></span><span class='op'>(</span><span class='va'>queen_w</span>, <span class='va'>guerry</span><span class='op'>[</span><span class='st'>"Crm_prs"</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>clsts</span> <span class='op'>&lt;-</span> <span class='fu'>lisa_clusters</span><span class='op'>(</span><span class='va'>lisa</span><span class='op'>)</span>
-<span class='va'>clsts</span>
-<span class='op'>}</span>
-</div></pre>
+</div><div class='output co'>#&gt; Reading layer `Guerry' from data source 
+#&gt;   `/Users/runner/work/_temp/Library/rgeoda/extdata/Guerry.shp' 
+#&gt;   using driver `ESRI Shapefile'
+#&gt; Simple feature collection with 85 features and 29 fields
+#&gt; Geometry type: MULTIPOLYGON
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: 47680 ymin: 1703258 xmax: 1031401 ymax: 2677441
+#&gt; Projected CRS: NTF (Paris) / Lambert zone II</div><div class='input'><span class='va'>queen_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='queen_weights.html'>queen_weights</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span>
+<span class='va'>lisa</span> <span class='op'>&lt;-</span> <span class='fu'>local_bimoran</span><span class='op'>(</span><span class='va'>queen_w</span>, <span class='va'>guerry</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Crm_prs'</span>,<span class='st'>'Litercy'</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>lms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='lisa_values.html'>lisa_values</a></span><span class='op'>(</span><span class='va'>lisa</span><span class='op'>)</span>
+<span class='va'>lms</span>
+</div><div class='output co'>#&gt;  [1]  0.392663448  0.756136106 -0.878510576 -0.199244815  0.002743424
+#&gt;  [6]  0.576712627  2.817728780  0.773723986 -0.056577742  0.343779070
+#&gt; [11]  0.815903467  0.299021035 -0.134732249  0.249750794 -0.469461086
+#&gt; [16]  0.064196998 -0.239924063  0.657549123  1.214759133 -1.436363003
+#&gt; [21] -3.302026863 -0.144006800 -1.773094173 -0.126845502 -0.467870578
+#&gt; [26]  0.029766618 -1.880162375  0.267608761  0.080923262  0.034283662
+#&gt; [31] -0.329523889  0.443178656 -0.273284234 -1.741226823  0.096138276
+#&gt; [36] -0.021797060  0.642390841  0.002522658 -0.090383051 -0.743775399
+#&gt; [41]  0.373595983  0.084599090  0.007510629  1.601252733 -0.243652571
+#&gt; [46]  0.880011648 -0.899730263 -0.339928599 -0.811526079  1.167328497
+#&gt; [51] -0.390766959  1.298159864  0.973775923 -0.504644610 -1.586580704
+#&gt; [56] -0.186951322  0.471913418  0.690564555  0.155109018  0.132228208
+#&gt; [61]  0.374974938 -0.013374715  0.028852768  1.366493286 -1.524816551
+#&gt; [66] -2.266518385  0.067834623  0.539284687  0.028501681 -0.728115359
+#&gt; [71] -0.749706749 -0.132827757  0.285757157 -0.893442637  0.109672584
+#&gt; [76]  0.991750143  0.324093451  0.405301333 -0.063852236  0.157603591
+#&gt; [81] -0.050301141  0.504772397  0.503896266 -0.252386250 -0.120728027</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

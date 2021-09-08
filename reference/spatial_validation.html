@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get local cluster indicators — lisa_clusters • rgeoda</title>
+<title>Spatial Validation — spatial_validation • rgeoda</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Get local cluster indicators — lisa_clusters" />
-<meta property="og:description" content="Get the local cluster indicators returned from LISA computation." />
+<meta property="og:title" content="Spatial Validation — spatial_validation" />
+<meta property="og:description" content="Spatial validation provides a collection of validation measures including
+1. fragmentations (entropy, simpson), 2. join count ratio, 3. compactness (isoperimeter quotient) 
+and 4. diameter." />
 
 
 
@@ -120,34 +122,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get local cluster indicators</h1>
-    <small class="dont-index">Source: <a href='https://github.com/geodacenter/rgeoda/blob/master/R/lisa.R'><code>R/lisa.R</code></a></small>
-    <div class="hidden name"><code>lisa_clusters.Rd</code></div>
+    <h1>Spatial Validation</h1>
+    <small class="dont-index">Source: <a href='https://github.com/geodacenter/rgeoda/blob/master/R/clustering.R'><code>R/clustering.R</code></a></small>
+    <div class="hidden name"><code>spatial_validation.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the local cluster indicators returned from LISA computation.</p>
+    <p>Spatial validation provides a collection of validation measures including
+1. fragmentations (entropy, simpson), 2. join count ratio, 3. compactness (isoperimeter quotient) 
+and 4. diameter.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lisa_clusters</span><span class='op'>(</span><span class='va'>gda_lisa</span>, cutoff <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>spatial_validation</span><span class='op'>(</span><span class='va'>sf_obj</span>, <span class='va'>clusters</span>, <span class='va'>w</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>gda_lisa</th>
-      <td><p>An instance of LISA object</p></td>
+      <th>sf_obj</th>
+      <td><p>An sf (simple feature) object</p></td>
     </tr>
     <tr>
-      <th>cutoff</th>
-      <td><p>A value of cutoff for significance p-values to filter
-not-significant clusters, default=0.0, means not used</p></td>
+      <th>clusters</th>
+      <td><p>A cluster classification variable (categorical values from a dataframe or values returned from cluster functions)</p></td>
+    </tr>
+    <tr>
+      <th>w</th>
+      <td><p>An instance of Weight class</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A numeric vector of LISA cluster indicator</p>
+    <p>A list with names "Is Spatially Constrained", "Fragmentation", "Join Count Ratio",
+"Compactness", and "Diameter".</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
@@ -155,9 +163,10 @@ not-significant clusters, default=0.0, means not used</p></td>
 <span class='va'>guerry_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Guerry.shp"</span>, package <span class='op'>=</span> <span class='st'>"rgeoda"</span><span class='op'>)</span>
 <span class='va'>guerry</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>st_read</a></span><span class='op'>(</span><span class='va'>guerry_path</span><span class='op'>)</span>
 <span class='va'>queen_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='queen_weights.html'>queen_weights</a></span><span class='op'>(</span><span class='va'>guerry</span><span class='op'>)</span>
-<span class='va'>lisa</span> <span class='op'>&lt;-</span> <span class='fu'><a href='local_moran.html'>local_moran</a></span><span class='op'>(</span><span class='va'>queen_w</span>, <span class='va'>guerry</span><span class='op'>[</span><span class='st'>"Crm_prs"</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>clsts</span> <span class='op'>&lt;-</span> <span class='fu'>lisa_clusters</span><span class='op'>(</span><span class='va'>lisa</span><span class='op'>)</span>
-<span class='va'>clsts</span>
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>guerry</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Crm_prs'</span>,<span class='st'>'Crm_prp'</span>,<span class='st'>'Litercy'</span>,<span class='st'>'Donatns'</span>,<span class='st'>'Infants'</span>,<span class='st'>'Suicids'</span><span class='op'>)</span><span class='op'>]</span>
+<span class='va'>clusters</span> <span class='op'>&lt;-</span> <span class='fu'><a href='skater.html'>skater</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='va'>queen_w</span>, <span class='va'>data</span><span class='op'>)</span>
+<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'>spatial_validation</span><span class='op'>(</span><span class='va'>guerry</span>, <span class='va'>clusters</span>, <span class='va'>queen_w</span><span class='op'>)</span>
+<span class='va'>results</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

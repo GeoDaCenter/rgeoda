@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8-6</span>
       </span>
     </div>
 
@@ -160,10 +160,10 @@
     
 
 <dl>
-<dt><code>GetNeighbors(idx)</code></dt><dd><p>Get neighbors for idx-th observation, idx starts from 0</p></dd>
-
 <dt><code>GetNeighborWeights(idx)</code></dt><dd><p>Get weights values of neighbors for idx-th observation,
 idx starts from 0</p></dd>
+
+<dt><code>GetNeighbors(idx)</code></dt><dd><p>Get neighbors for idx-th observation, idx starts from 0</p></dd>
 
 <dt><code>GetPointer()</code></dt><dd><p>Get the C++ object pointer (internally used)</p></dd>
 
@@ -171,8 +171,6 @@ idx starts from 0</p></dd>
 
 <dt><code>HasIsolates()</code></dt><dd><p>Check if weights matrix has isolates, or if any observation has no
 neighbors</p></dd>
-
-<dt><code>initialize(o_gda_w)</code></dt><dd><p>Constructor with a GeoDaWeight object (internally used)</p></dd>
 
 <dt><code>IsSymmetric()</code></dt><dd><p>Check if weights matrix is symmetric</p></dd>
 
@@ -191,6 +189,8 @@ id_values : The tuple of values of selected id_name (column/field)</p></dd>
 <dt><code>SpatialLag(values)</code></dt><dd><p>Compute spatial lag values for values of selected variable</p></dd>
 
 <dt><code>Update(updateStats = TRUE)</code></dt><dd><p>Update the weights meta data</p></dd>
+
+<dt><code>initialize(o_gda_w)</code></dt><dd><p>Constructor with a GeoDaWeight object (internally used)</p></dd>
 
 </dl>
 
