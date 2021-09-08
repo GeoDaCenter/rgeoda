@@ -1,5 +1,38 @@
 context("clustering.R")
 
+testthat::test_that("spatial_validataion", {
+    library(sf)
+    guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+    guerry <- st_read(guerry_path)
+    queen_w <- queen_weights(guerry)
+    data <- guerry[c("Crm_prs", "Crm_prp", "Litercy", "Donatns", "Infants",
+                     "Suicids")]
+    clusters <- skater(6, queen_w, data)
+
+    validation <- spatial_validation(guerry, clusters[[1]], queen_w)
+
+    testthat::expect_equal(validation$IsSpatiallyConstrained, TRUE)
+    testthat::expect_equal(validation$Fragmentation$Entropy, 1.5302035777210896)
+    testthat::expect_equal(validation$Fragmentation$`Entropy*`, 0.85402287751287753)
+    testthat::expect_equal(validation$Fragmentation$Simpson, 0.25619377162629758)
+    testthat::expect_equal(validation$Fragmentation$`Simpson*`, 1.5371626297577856)
+    testthat::expect_equal(validation$JoinCountRatio$Ratio, c(0.8571429,0.8923077,0.5846154,0.5454545,0.3846154,0.6666667), tolerance=1e-6)
+    testthat::expect_equal(validation$Compactness$IPC, c(0.009772352, 0.009914427, 0.029675045, 0.034800225, 0.046733291, 0.035828472))
+    testthat::expect_equal(validation$Diameter$Ratio, c(0.2413793, 0.2500000, 0.36363636363, 0.3750000, 0.6000000, 0.5000000))
+})
+
+testthat::test_that("make_spatial", {
+    library(sf)
+    guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+    guerry <- st_read(guerry_path)
+    queen_w <- queen_weights(guerry)
+
+    km_clusters <- c(5,2,5,1,3,6,2,5,3,1,5,3,4,5,4,4,4,4,2,6,5,1,3,1,3,3,4,1,1,1,2,1,6,4,1,1,2,4,1,5,5,1,3,1,1,1,2,2,3,2,2,2,2,4,3,4,2,2,2,3,5,1,5,1,3,3,3,2,2,2,3,3,3,3,4,2,1,1,1,1,6,6,4,2,3)
+    clusters <- make_spatial(km_clusters, queen_w)
+
+    testthat::expect_equal(clusters, c(1, 2, 5, 1, 1, 1,2,1,3,1,5,1,3,5,4,4,4,4,2,6,5,1,2,1,3,3,4,1,1,1,1,1,6,4,4,1,2,1,4,5,5,4,3,1,1,1,4,4,3,2,4,2,2,4,2,4,2,2,4,2,5,1,1,1,2,2,1,2,2,4,3,3,3,3,4,2,1,1,1,1,4,4,4,2,3))
+})
+
 testthat::test_that("skater", {
     library(sf)
     guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")

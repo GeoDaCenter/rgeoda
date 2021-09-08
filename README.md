@@ -61,6 +61,7 @@ https://geodacenter.github.io/rgeoda/reference/
     
 * Spatial Autocorrelation
     * Local Moran
+    * Bivariate Local Moran
     * Local Moran EB Rates
     * Local Geary
     * Local Getis-Ord 
@@ -93,6 +94,13 @@ https://geodacenter.github.io/rgeoda/reference/
       * greedy
       * Tabu Search
       * Simulated Annealing
+    * Join Count Ratio
+    * Spatial Validation
+      * Fragmentation
+      * Join Count Ratio
+      * Compactness
+      * Diameter
+    * Make Spatial
 
 ## Build and install from source code
 

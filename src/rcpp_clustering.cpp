@@ -11,6 +11,8 @@ using namespace Rcpp;
 
 #include "libgeoda/gda_clustering.h"
 #include "libgeoda/GenUtils.h"
+#include "libgeoda/gda_interface.h"
+#include "libgeoda/libgeoda.h"
 
 Rcpp::List _create_clustering_result(int num_obs, const std::vector<std::vector<int> >& cluster_ids,
                                      const std::vector<std::vector<double> >& raw_data)
@@ -268,4 +270,211 @@ Rcpp::List p_azp_tabu(int p, SEXP xp_w, Rcpp::List& data, int n_vars, int tabu_l
   std::vector<std::vector<int> > cluster_ids = gda_azp_tabu(p, w, raw_data, scale_method, inits, tabu_length, conv_tabu, min_bounds, max_bounds, raw_init_regions, distance_method, seed);
 
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
+}
+
+//  [[Rcpp::export]]
+Rcpp::List p_spatialvalidation(SEXP xp_geoda, NumericVector& clusters, SEXP xp_w)
+{
+  // grab the object as a XPtr (smart pointer) to GeoDa
+  Rcpp::XPtr<GeoDa> ptr(xp_geoda);
+  GeoDa* geoda = static_cast<GeoDa*> (R_ExternalPtrAddr(ptr));
+
+  Rcpp::XPtr<GeoDaWeight> ptr_w(xp_w);
+  GeoDaWeight* w = static_cast<GeoDaWeight*> (R_ExternalPtrAddr(ptr_w));
+
+  int n = clusters.size();
+  std::vector<int> raw_clusters(n);
+
+  for (int i=0; i< n; ++i) {
+    raw_clusters[i] = clusters[i];
+  }
+
+  ValidationResult result = gda_spatialvalidation(geoda, raw_clusters, w);
+
+  Rcpp::NumericVector jc_v1, jc_v2, jc_v3, jc_v4, jc_v5;
+  int n_clusters = result.joincount_ratio.size();
+  for (int i = 0; i < n_clusters; ++i) {
+    jc_v1.push_back(i + 1);
+    jc_v2.push_back(result.joincount_ratio[i].n);
+    jc_v3.push_back(result.joincount_ratio[i].totalNeighbors);
+    jc_v4.push_back(result.joincount_ratio[i].totalJoinCount);
+    jc_v5.push_back(result.joincount_ratio[i].ratio);
+  }
+  Rcpp::DataFrame out_joincount = Rcpp::DataFrame::create(
+    Rcpp::Named("Cluster") = jc_v1,
+    Rcpp::Named("N") = jc_v2,
+    Rcpp::Named("Neighbors") = jc_v3,
+    Rcpp::Named("Join Count") = jc_v4,
+    Rcpp::Named("Ratio") = jc_v5
+  );
+
+  JoinCountRatio all_jcr = gda_all_joincount_ratio(result.joincount_ratio);
+  Rcpp::List out_all_joincount = Rcpp::List::create(
+    Rcpp::Named("N") = all_jcr.n, 
+    Rcpp::Named("Neighbors") = all_jcr.totalNeighbors,
+    Rcpp::Named("Join Count") = all_jcr.totalJoinCount,
+    Rcpp::Named("Ratio") = all_jcr.ratio 
+  ); 
+
+  Rcpp::List out_fragmentation = Rcpp::List::create(
+    Rcpp::Named("#Clusters") = result.fragmentation.n,
+    Rcpp::Named("Entropy") = result.fragmentation.entropy,
+    Rcpp::Named("Entropy*") = result.fragmentation.std_entropy,
+    Rcpp::Named("Simpson") = result.fragmentation.simpson,
+    Rcpp::Named("Simpson*") = result.fragmentation.std_simpson
+  );
+
+  if (result.spatially_constrained) {
+    Rcpp::NumericVector compact_v1, compact_v2, compact_v3, compact_v4;
+    n_clusters = result.cluster_compactness.size();
+    for (int i = 0; i < n_clusters; ++i) {
+      compact_v1.push_back(i + 1);
+      compact_v2.push_back(result.cluster_compactness[i].area);
+      compact_v3.push_back(result.cluster_compactness[i].perimeter);
+      compact_v4.push_back(result.cluster_compactness[i].isoperimeter_quotient);
+    }
+    Rcpp::DataFrame out_compact = Rcpp::DataFrame::create(
+      Rcpp::Named("Cluster") = compact_v1,
+      Rcpp::Named("Area") = compact_v2,
+      Rcpp::Named("Perimeter") = compact_v3,
+      Rcpp::Named("IPC") = compact_v4
+    );
+
+    Rcpp::NumericVector diameter_v1, diameter_v2, diameter_v3;
+    n_clusters = result.cluster_diameter.size();
+    for (int i = 0; i < n_clusters; ++i) {
+      diameter_v1.push_back(i + 1);
+      diameter_v2.push_back(result.cluster_diameter[i].steps);
+      diameter_v3.push_back(result.cluster_diameter[i].ratio);
+    }
+    Rcpp::DataFrame out_diameter = Rcpp::DataFrame::create(
+      Rcpp::Named("Cluster") = diameter_v1,
+      Rcpp::Named("Steps") = diameter_v2,
+      Rcpp::Named("Ratio") = diameter_v3
+    );
+    Rcpp::List out = Rcpp::List::create(
+      Rcpp::Named("IsSpatiallyConstrained") = result.spatially_constrained,
+      Rcpp::Named("Fragmentation") = out_fragmentation,
+      Rcpp::Named("SubclusterFragmentation") = "N/A: clusters are spatially constrained.",
+      Rcpp::Named("JoinCountRatio") = out_joincount,
+      Rcpp::Named("AllJoinCountRatio") = out_all_joincount,
+      Rcpp::Named("Compactness") = out_compact,
+      Rcpp::Named("Diameter") = out_diameter
+    );
+
+    return out;
+
+  } else {
+    Rcpp::NumericVector subfrag_v1, subfrag_v2, subfrag_v3, subfrag_v4, subfrag_v5;
+    Rcpp::NumericVector subfrag_v6, subfrag_v7, subfrag_v8, subfrag_v9, subfrag_v10, subfrag_v11;
+    n_clusters = result.cluster_fragmentation.size();
+    for (int i = 0; i < n_clusters; ++i) {
+      subfrag_v1.push_back(i + 1);
+      subfrag_v2.push_back(result.joincount_ratio[i].n);
+      subfrag_v3.push_back(result.cluster_fragmentation[i].fraction);
+      subfrag_v4.push_back(result.cluster_fragmentation[i].n);
+      subfrag_v5.push_back(result.cluster_fragmentation[i].entropy);
+      subfrag_v6.push_back(result.cluster_fragmentation[i].std_entropy);
+      subfrag_v7.push_back(result.cluster_fragmentation[i].simpson);
+      subfrag_v8.push_back(result.cluster_fragmentation[i].std_simpson);
+      subfrag_v9.push_back(result.cluster_fragmentation[i].min_cluster_size);
+      subfrag_v10.push_back(result.cluster_fragmentation[i].max_cluster_size);
+      subfrag_v11.push_back(result.cluster_fragmentation[i].mean_cluster_size);
+    }
+    Rcpp::DataFrame out_subfrag = Rcpp::DataFrame::create(
+      Rcpp::Named("Cluster") = subfrag_v1,
+      Rcpp::Named("N") = subfrag_v2,
+      Rcpp::Named("Fraction") = subfrag_v3,
+      Rcpp::Named("#Sub") = subfrag_v4,
+      Rcpp::Named("Entropy") = subfrag_v5,
+      Rcpp::Named("Entropy*") = subfrag_v6,
+      Rcpp::Named("Simpson") = subfrag_v7,
+      Rcpp::Named("Simpson*") = subfrag_v8,
+      Rcpp::Named("Min") = subfrag_v9,
+      Rcpp::Named("Max") = subfrag_v10,
+      Rcpp::Named("Mean") = subfrag_v11
+    );
+
+    Rcpp::List out = Rcpp::List::create(
+      Rcpp::Named("IsSpatiallyConstrained") = result.spatially_constrained,
+      Rcpp::Named("Fragmentation") = out_fragmentation,
+      Rcpp::Named("SubclusterFragmentation") = out_subfrag,
+      Rcpp::Named("JoinCountRatio") = out_joincount,
+      Rcpp::Named("AllJoinCountRatio") = out_all_joincount,
+      Rcpp::Named("Compactness") = "N/A: clusters are not spatially constrained.",
+      Rcpp::Named("Diameter") = "N/A: clusters are not spatially constrained." 
+    );
+
+    return out;
+  }
+
+}
+
+//  [[Rcpp::export]]
+Rcpp::List p_joincount_ratio(NumericVector& clusters, SEXP xp_w)
+{
+  // grab the object as a XPtr (smart pointer)
+  Rcpp::XPtr<GeoDaWeight> ptr_w(xp_w);
+  GeoDaWeight* w = static_cast<GeoDaWeight*> (R_ExternalPtrAddr(ptr_w));
+
+  int n = clusters.size();
+  std::vector<int> raw_clusters(n);
+
+  for (int i=0; i< n; ++i) {
+    raw_clusters[i] = clusters[i];
+  }
+
+  std::vector<JoinCountRatio> items = gda_joincount_ratio(raw_clusters, w);
+  JoinCountRatio all_jcr = gda_all_joincount_ratio(items);
+
+  Rcpp::NumericVector jc_v1, jc_v2, jc_v3, jc_v4, jc_v5;
+  int n_clusters = items.size();
+  for (int i = 0; i < n_clusters; ++i) {
+    jc_v1.push_back(i + 1);
+    jc_v2.push_back(items[i].n);
+    jc_v3.push_back(items[i].totalNeighbors);
+    jc_v4.push_back(items[i].totalJoinCount);
+    jc_v5.push_back(items[i].ratio);
+  }
+  Rcpp::DataFrame out_joincount = Rcpp::DataFrame::create(
+    Rcpp::Named("Cluster") = jc_v1,
+    Rcpp::Named("N") = jc_v2,
+    Rcpp::Named("Neighbors") = jc_v3,
+    Rcpp::Named("Join Count") = jc_v4,
+    Rcpp::Named("Ratio") = jc_v5
+  );
+
+  Rcpp::List out_all_joincount = Rcpp::List::create(
+    Rcpp::Named("N") = all_jcr.n, 
+    Rcpp::Named("Neighbors") = all_jcr.totalNeighbors,
+    Rcpp::Named("Join Count") = all_jcr.totalJoinCount,
+    Rcpp::Named("Ratio") = all_jcr.ratio 
+  );
+
+  Rcpp::List out = Rcpp::List::create(
+    Rcpp::Named("JoinCountRatio") = out_joincount,
+    Rcpp::Named("AllJoinCountRatio") = out_all_joincount
+  );
+
+  return out; 
+}
+
+//  [[Rcpp::export]]
+Rcpp::NumericVector p_make_spatial(NumericVector& clusters, SEXP xp_w)
+{
+  // grab the object as a XPtr (smart pointer)
+  Rcpp::XPtr<GeoDaWeight> ptr_w(xp_w);
+  GeoDaWeight* w = static_cast<GeoDaWeight*> (R_ExternalPtrAddr(ptr_w));
+
+  int n = clusters.size();
+  std::vector<int> raw_clusters(n);
+
+  for (int i=0; i< n; ++i) {
+    raw_clusters[i] = clusters[i];
+  }
+
+  std::vector<int> result = gda_makespatial(raw_clusters, w);
+  
+  Rcpp::NumericVector out(result.begin(), result.end());
+  return out;
 }

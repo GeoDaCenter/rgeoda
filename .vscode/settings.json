@@ -100,6 +100,8 @@
         "scoped_allocator": "cpp",
         "valarray": "cpp",
         "geodaweight.h": "c",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp"
     }
 }

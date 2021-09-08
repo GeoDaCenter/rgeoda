@@ -44,6 +44,7 @@ CPP_SRC_FILES = \
 	$(RGEODALIB)/sa/UniGstar.cpp \
 	$(RGEODALIB)/sa/UniJoinCount.cpp \
 	$(RGEODALIB)/sa/UniLocalMoran.cpp \
+	$(RGEODALIB)/sa/BiLocalMoran.cpp \
 	$(RGEODALIB)/clustering/redcap.cpp \
 	$(RGEODALIB)/clustering/redcap_wrapper.cpp \
 	$(RGEODALIB)/clustering/azp.cpp \
@@ -51,6 +52,9 @@ CPP_SRC_FILES = \
 	$(RGEODALIB)/clustering/azp_wrapper.cpp \
 	$(RGEODALIB)/clustering/schc_wrapper.cpp \
 	$(RGEODALIB)/clustering/cluster.cpp \
+	$(RGEODALIB)/clustering/joincount_ratio.cpp \
+	$(RGEODALIB)/clustering/make_spatial.cpp \
+	$(RGEODALIB)/clustering/spatial_validation.cpp \
 	$(RGEODALIB)/knn/ANN.cpp \
 	$(RGEODALIB)/knn/perf.cpp \
 	$(RGEODALIB)/knn/kd_util.cpp \
@@ -107,6 +111,7 @@ OBJECTS = \
 	$(RGEODALIB)/sa/UniGstar.o \
 	$(RGEODALIB)/sa/UniJoinCount.o \
 	$(RGEODALIB)/sa/UniLocalMoran.o \
+	$(RGEODALIB)/sa/BiLocalMoran.o \
 	$(RGEODALIB)/clustering/redcap.o \
 	$(RGEODALIB)/clustering/redcap_wrapper.o \
 	$(RGEODALIB)/clustering/azp.o \
@@ -114,6 +119,9 @@ OBJECTS = \
 	$(RGEODALIB)/clustering/azp_wrapper.o \
 	$(RGEODALIB)/clustering/schc_wrapper.o \
 	$(RGEODALIB)/clustering/cluster.o \
+	$(RGEODALIB)/clustering/joincount_ratio.o \
+	$(RGEODALIB)/clustering/make_spatial.o \
+	$(RGEODALIB)/clustering/spatial_validation.o \
 	$(RGEODALIB)/knn/ANN.o \
 	$(RGEODALIB)/knn/perf.o \
 	$(RGEODALIB)/knn/kd_util.o \

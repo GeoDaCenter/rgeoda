@@ -622,3 +622,98 @@ azp_tabu<- function(p, w, df, tabu_length=10, conv_tabu=10, bound_variable=data.
 
   return(p_azp_tabu(p, w$GetPointer(), df, n_vars, tabu_length, conv_tabu, bound_values, min_bound, inits, initial_regions, scale_method, distance_method, random_seed))
 }
+
+############################################################
+#' @title Spatial Validation
+#' @description Spatial validation provides a collection of validation measures including
+#' 1. fragmentations (entropy, simpson), 2. join count ratio, 3. compactness (isoperimeter quotient) 
+#' and 4. diameter.
+#' @param sf_obj An sf (simple feature) object 
+#' @param clusters A cluster classification variable (categorical values from a dataframe or values returned from cluster functions)
+#' @param w An instance of Weight class
+#' @return A list with names "Is Spatially Constrained", "Fragmentation", "Join Count Ratio",
+#' "Compactness", and "Diameter".
+#' @examples
+#' \dontrun{
+#' library(sf)
+#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+#' guerry <- st_read(guerry_path)
+#' queen_w <- queen_weights(guerry)
+#' data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+#' clusters <- skater(5, queen_w, data)
+#' results <- spatial_validation(guerry, clusters, queen_w)
+#' results
+#' }
+#' @export
+spatial_validation <- function(sf_obj, clusters, w) {
+  if (w$num_obs < 1) {
+    stop("The weights is not valid.")
+  }
+
+  geoda_obj <- getGeoDaObj(sf_obj)
+
+  if (geoda_obj$GetNumObs() <=0) {
+    stop("gda object is not valid.")
+  }
+
+  return (p_spatialvalidation(geoda_obj$GetPointer(), clusters, w$GetPointer()));
+}
+
+############################################################
+#' @title Join Count Ratio
+#' @description Join count ratio is the join counts, the number of times a category is surrounded 
+#' by neighbors of the same category, over the total number of neighbors after converting
+#' each category to a dummy variable.
+#' @param clusters A cluster classification variable (categorical values from a dataframe or values returned from cluster functions)
+#' @param w An instance of Weight class
+#' @return A data.frame with names "Cluster", "N", "Neighbors", "Join Count", "Ratio"
+#' @examples
+#' \dontrun{
+#' library(sf)
+#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+#' guerry <- st_read(guerry_path)
+#' queen_w <- queen_weights(guerry)
+#' data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+#' clusters <- skater(5, queen_w, data)
+#' results <- join_count_ratio(clusters, queen_w)
+#' results
+#' }
+#' @export
+join_count_ratio<- function(clusters, w) {
+  if (w$num_obs < 1) {
+    stop("The weights is not valid.")
+  }
+
+  return (p_joincount_ratio(clusters, w$GetPointer()));
+}
+
+############################################################
+#' @title Make Spatial
+#' @description Make spatially constrained clusters from spatially non-constrained clusters
+#' using the contiguity information from the input weights
+#' @param clusters A cluster classification variable (categorical values from a dataframe or values returned from cluster functions)
+#' @param w An instance of Weight class
+#' @return A vector of categorical values (cluster classification)
+#' @examples
+#' \dontrun{
+#' library(sf)
+#' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+#' guerry <- st_read(guerry_path)
+#' data <- guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')]
+#' clusters <- kmeans(5, data)
+#' queen_w <- queen_weights(guerry)
+#' results <- make_spatial(clusters, queen_w)
+#' results
+#' }
+#' @export
+make_spatial <- function(clusters, w) {
+  if (w$num_obs < 1) {
+    stop("The weights is not valid.")
+  }
+
+  if (w$num_obs != length(clusters)) {
+    stop("The weights doesn not match with the size of input clusters.") 
+  }
+
+  return (p_make_spatial(clusters, w$GetPointer()));
+}

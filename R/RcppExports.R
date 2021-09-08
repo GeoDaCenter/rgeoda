@@ -37,6 +37,18 @@ p_azp_tabu <- function(p, xp_w, data, n_vars, tabu_length, conv_tabu, bound_vals
     .Call('_rgeoda_p_azp_tabu', PACKAGE = 'rgeoda', p, xp_w, data, n_vars, tabu_length, conv_tabu, bound_vals, min_bound, inits, init_regions, scale_method, distance_method, seed)
 }
 
+p_spatialvalidation <- function(xp_geoda, clusters, xp_w) {
+    .Call('_rgeoda_p_spatialvalidation', PACKAGE = 'rgeoda', xp_geoda, clusters, xp_w)
+}
+
+p_joincount_ratio <- function(clusters, xp_w) {
+    .Call('_rgeoda_p_joincount_ratio', PACKAGE = 'rgeoda', clusters, xp_w)
+}
+
+p_make_spatial <- function(clusters, xp_w) {
+    .Call('_rgeoda_p_make_spatial', PACKAGE = 'rgeoda', clusters, xp_w)
+}
+
 p_LISA__Run <- function(xp) {
     invisible(.Call('_rgeoda_p_LISA__Run', PACKAGE = 'rgeoda', xp))
 }
@@ -87,6 +99,10 @@ p_LISA__GetFDR <- function(xp, pval) {
 
 p_localmoran <- function(xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
     .Call('_rgeoda_p_localmoran', PACKAGE = 'rgeoda', xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
+}
+
+p_bi_localmoran <- function(xp_w, data1, data2, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
+    .Call('_rgeoda_p_bi_localmoran', PACKAGE = 'rgeoda', xp_w, data1, data2, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
 
 p_eb_rate <- function(event_data, base_data) {

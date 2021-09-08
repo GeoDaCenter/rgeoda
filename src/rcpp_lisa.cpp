@@ -148,6 +148,29 @@ SEXP p_localmoran(SEXP xp_w, NumericVector data, int permutations, std::string p
 }
 
 //  [[Rcpp::export]]
+SEXP p_bi_localmoran(SEXP xp_w, NumericVector& data1, NumericVector& data2, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed)
+{
+  // grab the object as a XPtr (smart pointer) to GeoDaWeight
+  Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
+  GeoDaWeight* w = static_cast<GeoDaWeight*> (R_ExternalPtrAddr(ptr));
+
+  std::vector<double> raw_data1 =  as<std::vector<double> >(data1);
+  std::vector<double> raw_data2 =  as<std::vector<double> >(data2);
+
+  int n = (int)data1.size();
+  std::vector<bool> undefs(n, false);
+
+  for (int i=0; i< n; ++i) {
+    undefs[i] = data1.is_na(i) || data2.is_na(i);
+  }
+
+  LISA* lisa = gda_bi_localmoran(w, raw_data1, raw_data2, undefs, significance_cutoff, cpu_threads, permutations, permutation_method, seed);
+
+  Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
+  return lisa_ptr;
+}
+
+//  [[Rcpp::export]]
 DataFrame p_eb_rate(NumericVector& event_data, NumericVector& base_data)
 {
   std::vector<double> raw_event_data =  as<std::vector<double> >(event_data);
