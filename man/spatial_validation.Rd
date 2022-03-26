@@ -19,7 +19,7 @@ A list with names "Is Spatially Constrained", "Fragmentation", "Join Count Ratio
 }
 \description{
 Spatial validation provides a collection of validation measures including
-1. fragmentations (entropy, simpson), 2. join count ratio, 3. compactness (isoperimeter quotient) 
+1. fragmentations (entropy, simpson), 2. join count ratio, 3. compactness (isoperimeter quotient)
 and 4. diameter.
 }
 \examples{

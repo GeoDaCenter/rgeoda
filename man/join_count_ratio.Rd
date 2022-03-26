@@ -15,7 +15,7 @@ join_count_ratio(clusters, w)
 A data.frame with names "Cluster", "N", "Neighbors", "Join Count", "Ratio"
 }
 \description{
-Join count ratio is the join counts, the number of times a category is surrounded 
+Join count ratio is the join counts, the number of times a category is surrounded
 by neighbors of the same category, over the total number of neighbors after converting
 each category to a dummy variable.
 }
