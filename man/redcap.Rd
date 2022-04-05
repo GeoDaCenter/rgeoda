@@ -14,7 +14,8 @@ redcap(
   scale_method = "standardize",
   distance_method = "euclidean",
   random_seed = 123456789,
-  cpu_threads = 6
+  cpu_threads = 6,
+  rdist = numeric()
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ redcap(
 \item{random_seed}{(int,optional) The seed for random number generator. Defaults to 123456789.}
 
 \item{cpu_threads}{(optional) The number of cpu threads used for parallel computation}
+
+\item{rdist}{(optional) The distance matrix (lower triangular matrix, column wise storage)}
 }
 \value{
 A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".

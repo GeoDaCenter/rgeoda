@@ -14,7 +14,8 @@ azp_greedy(
   initial_regions = vector("numeric"),
   scale_method = "standardize",
   distance_method = "euclidean",
-  random_seed = 123456789
+  random_seed = 123456789,
+  rdist = numeric()
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ azp_greedy(
 \item{distance_method}{(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"}
 
 \item{random_seed}{(optional) The seed for random number generator. Defaults to 123456789.}
+
+\item{rdist}{(optional) The distance matrix (lower triangular matrix, column wise storage)}
 }
 \value{
 A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".

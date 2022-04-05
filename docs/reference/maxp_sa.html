@@ -75,7 +75,7 @@ geographically connected and the clusters could maximize internal homogeneity." 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8-6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -147,7 +147,8 @@ geographically connected and the clusters could maximize internal homogeneity.</
   scale_method <span class='op'>=</span> <span class='st'>"standardize"</span>,
   distance_method <span class='op'>=</span> <span class='st'>"euclidean"</span>,
   random_seed <span class='op'>=</span> <span class='fl'>123456789</span>,
-  cpu_threads <span class='op'>=</span> <span class='fl'>6</span>
+  cpu_threads <span class='op'>=</span> <span class='fl'>6</span>,
+  rdist <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -200,6 +201,10 @@ geographically connected and the clusters could maximize internal homogeneity.</
     <tr>
       <th>cpu_threads</th>
       <td><p>(optional) The number of cpu threads used for parallel computation</p></td>
+    </tr>
+    <tr>
+      <th>rdist</th>
+      <td><p>(optional) The distance matrix (lower triangular matrix, column wise storage)</p></td>
     </tr>
     </table>
 

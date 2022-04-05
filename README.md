@@ -41,7 +41,7 @@ https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial.html
 
 https://geodacenter.github.io/rgeoda/reference/
   
-## Current version 0.0.8
+## Current version 0.0.9
 
 * Map Classification
    * NaturalBreaks

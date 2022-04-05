@@ -40,7 +40,12 @@ testthat::test_that("skater", {
     queen_w <- queen_weights(guerry)
     data <- guerry[c("Crm_prs", "Crm_prp", "Litercy", "Donatns", "Infants",
                      "Suicids")]
-    clusters <- skater(5, queen_w, data)
+    data$geometry = NULL
+    df <- scale(data)
+    dv <- as.vector(dist(df))
+    data <- guerry[c("Crm_prs", "Crm_prp", "Litercy", "Donatns", "Infants",
+                     "Suicids")]
+    clusters <- skater(5, queen_w, data, rdist = dv)
 
     testthat::expect_equal(clusters[[5]], 0.3763086809)
 })

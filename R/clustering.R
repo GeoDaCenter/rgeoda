@@ -11,7 +11,7 @@
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (int,optional) The seed for random number generator. Defaults to 123456789.
 #' @param cpu_threads (optional) The number of cpu threads used for parallel computation
-#' @return A list of numeric vectors represents a group of clusters
+#' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
 #' @return A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 #' @examples
 #' library(sf)
@@ -22,7 +22,7 @@
 #' guerry_clusters <- skater(4, queen_w, data)
 #' guerry_clusters
 #' @export
-skater <- function(k, w, df, bound_variable=data.frame(), min_bound=0, scale_method="standardize", distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
+skater <- function(k, w, df, bound_variable=data.frame(), min_bound=0, scale_method="standardize", distance_method="euclidean", random_seed=123456789, cpu_threads=6, rdist=numeric()) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
@@ -56,7 +56,7 @@ skater <- function(k, w, df, bound_variable=data.frame(), min_bound=0, scale_met
   if (length(bound_variable) > 0)  {
     bound_values <- bound_variable[[1]]
   }
-  return(p_skater(k, w$GetPointer(), df, n_vars, scale_method, distance_method, bound_values, min_bound, random_seed, cpu_threads))
+  return(p_skater(k, w$GetPointer(), df, n_vars, scale_method, distance_method, bound_values, min_bound, random_seed, cpu_threads, rdist))
 }
 
 
@@ -74,6 +74,7 @@ skater <- function(k, w, df, bound_variable=data.frame(), min_bound=0, scale_met
 #' @param min_bound (optional) A minimum bound value that applies to all clusters
 #' @param scale_method One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
+#' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
 #' @return A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 #' @examples
 #' library(sf)
@@ -84,7 +85,7 @@ skater <- function(k, w, df, bound_variable=data.frame(), min_bound=0, scale_met
 #' guerry_clusters <- schc(4, queen_w, data, "complete")
 #' guerry_clusters
 #' @export
-schc <- function(k, w, df, method="average", bound_variable=data.frame(), min_bound=0, scale_method="standardize", distance_method="euclidean") {
+schc <- function(k, w, df, method="average", bound_variable=data.frame(), min_bound=0, scale_method="standardize", distance_method="euclidean", rdist=numeric()) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
@@ -124,7 +125,7 @@ schc <- function(k, w, df, method="average", bound_variable=data.frame(), min_bo
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_schc(k, w$GetPointer(), df, n_vars, scale_method, method, distance_method, bound_values, min_bound))
+  return(p_schc(k, w$GetPointer(), df, n_vars, scale_method, method, distance_method, bound_values, min_bound, rdist))
 }
 
 
@@ -152,6 +153,7 @@ schc <- function(k, w, df, method="average", bound_variable=data.frame(), min_bo
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (int,optional) The seed for random number generator. Defaults to 123456789.
 #' @param cpu_threads (optional) The number of cpu threads used for parallel computation
+#' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
 #' @return A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 #' @examples
 #' \dontrun{
@@ -164,7 +166,7 @@ schc <- function(k, w, df, method="average", bound_variable=data.frame(), min_bo
 #' guerry_clusters
 #' }
 #' @export
-redcap <- function(k, w, df, method="fullorder-averagelinkage", bound_variable=data.frame(), min_bound=0, scale_method="standardize", distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
+redcap <- function(k, w, df, method="fullorder-averagelinkage", bound_variable=data.frame(), min_bound=0, scale_method="standardize", distance_method="euclidean", random_seed=123456789, cpu_threads=6, rdist=numeric()) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
@@ -204,7 +206,7 @@ redcap <- function(k, w, df, method="fullorder-averagelinkage", bound_variable=d
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_redcap(k, w$GetPointer(), df, n_vars, method, scale_method, distance_method, bound_values, min_bound, random_seed, cpu_threads))
+  return(p_redcap(k, w$GetPointer(), df, n_vars, method, scale_method, distance_method, bound_values, min_bound, random_seed, cpu_threads, rdist))
 }
 
 ############################################################
@@ -223,6 +225,7 @@ redcap <- function(k, w, df, method="fullorder-averagelinkage", bound_variable=d
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (optional) The seed for random number generator. Defaults to 123456789.
 #' @param cpu_threads (optional) The number of cpu threads used for parallel computation
+#' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
 #' @return A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 #' @examples
 #' \dontrun{
@@ -237,7 +240,7 @@ redcap <- function(k, w, df, method="fullorder-averagelinkage", bound_variable=d
 #' maxp_clusters
 #' }
 #' @export
-maxp_greedy <- function(w, df, bound_variable, min_bound, iterations=99, initial_regions=vector('numeric'), scale_method="standardize", distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
+maxp_greedy <- function(w, df, bound_variable, min_bound, iterations=99, initial_regions=vector('numeric'), scale_method="standardize", distance_method="euclidean", random_seed=123456789, cpu_threads=6, rdist=numeric()) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
@@ -277,7 +280,7 @@ maxp_greedy <- function(w, df, bound_variable, min_bound, iterations=99, initial
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_maxp_greedy(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, initial_regions, scale_method, distance_method, random_seed, cpu_threads))
+  return(p_maxp_greedy(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, initial_regions, scale_method, distance_method, random_seed, cpu_threads, rdist))
 }
 
 ############################################################
@@ -298,6 +301,7 @@ maxp_greedy <- function(w, df, bound_variable, min_bound, iterations=99, initial
 #' @param random_seed (optional) The seed for random number generator. Defaults to 123456789.
 #' @param initial_regions (optional): The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel computation
+#' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
 #' @return A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 #' @examples
 #' \dontrun{
@@ -312,7 +316,7 @@ maxp_greedy <- function(w, df, bound_variable, min_bound, iterations=99, initial
 #' maxp_clusters
 #' }
 #' @export
-maxp_sa <- function(w, df, bound_variable, min_bound, cooling_rate, sa_maxit=1, iterations=99, initial_regions=vector('numeric'), scale_method="standardize", distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
+maxp_sa <- function(w, df, bound_variable, min_bound, cooling_rate, sa_maxit=1, iterations=99, initial_regions=vector('numeric'), scale_method="standardize", distance_method="euclidean", random_seed=123456789, cpu_threads=6, rdist=numeric()) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
@@ -352,7 +356,7 @@ maxp_sa <- function(w, df, bound_variable, min_bound, cooling_rate, sa_maxit=1, 
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_maxp_sa(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, cooling_rate, sa_maxit, initial_regions, scale_method, distance_method, random_seed, cpu_threads))
+  return(p_maxp_sa(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, cooling_rate, sa_maxit, initial_regions, scale_method, distance_method, random_seed, cpu_threads, rdist))
 }
 
 ############################################################
@@ -373,6 +377,7 @@ maxp_sa <- function(w, df, bound_variable, min_bound, cooling_rate, sa_maxit=1, 
 #' @param random_seed (optional) The seed for random number generator. Defaults to 123456789.
 #' @param initial_regions (optional): The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel computation
+#' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
 #' @return A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 #' @examples
 #' \dontrun{
@@ -387,7 +392,7 @@ maxp_sa <- function(w, df, bound_variable, min_bound, cooling_rate, sa_maxit=1, 
 #' maxp_clusters
 #' }
 #' @export
-maxp_tabu <- function(w, df, bound_variable, min_bound, tabu_length=10, conv_tabu=10, iterations=99, initial_regions=vector('numeric'), scale_method="standardize", distance_method="euclidean", random_seed=123456789, cpu_threads=6) {
+maxp_tabu <- function(w, df, bound_variable, min_bound, tabu_length=10, conv_tabu=10, iterations=99, initial_regions=vector('numeric'), scale_method="standardize", distance_method="euclidean", random_seed=123456789, cpu_threads=6, rdist=numeric()) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
@@ -427,7 +432,7 @@ maxp_tabu <- function(w, df, bound_variable, min_bound, tabu_length=10, conv_tab
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_maxp_tabu(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, tabu_length, conv_tabu, initial_regions, scale_method, distance_method, random_seed, cpu_threads))
+  return(p_maxp_tabu(w$GetPointer(), df, n_vars, bound_values, min_bound, iterations, tabu_length, conv_tabu, initial_regions, scale_method, distance_method, random_seed, cpu_threads, rdist))
 }
 
 ############################################################
@@ -443,6 +448,7 @@ maxp_tabu <- function(w, df, bound_variable, min_bound, tabu_length=10, conv_tab
 #' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (optional) The seed for random number generator. Defaults to 123456789.
+#' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
 #' @return A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 #' @examples
 #' \dontrun{
@@ -455,7 +461,7 @@ maxp_tabu <- function(w, df, bound_variable, min_bound, tabu_length=10, conv_tab
 #' azp_clusters
 #' }
 #' @export
-azp_greedy <- function(p, w, df, bound_variable=data.frame(), min_bound=0, inits=0, initial_regions=vector('numeric'), scale_method="standardize", distance_method="euclidean", random_seed=123456789) {
+azp_greedy <- function(p, w, df, bound_variable=data.frame(), min_bound=0, inits=0, initial_regions=vector('numeric'), scale_method="standardize", distance_method="euclidean", random_seed=123456789, rdist=numeric()) {
   if (p < 0) {
     stop("The p should be a positive integer number.")
   }
@@ -490,7 +496,7 @@ azp_greedy <- function(p, w, df, bound_variable=data.frame(), min_bound=0, inits
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_azp_greedy(p, w$GetPointer(), df, n_vars, bound_values, min_bound, inits, initial_regions, scale_method, distance_method, random_seed))
+  return(p_azp_greedy(p, w$GetPointer(), df, n_vars, bound_values, min_bound, inits, initial_regions, scale_method, distance_method, random_seed, rdist))
 }
 
 ############################################################
@@ -508,6 +514,7 @@ azp_greedy <- function(p, w, df, bound_variable=data.frame(), min_bound=0, inits
 #' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (optional) The seed for random number generator. Defaults to 123456789.
+#' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
 #' @return A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 #' @examples
 #' \dontrun{
@@ -520,7 +527,7 @@ azp_greedy <- function(p, w, df, bound_variable=data.frame(), min_bound=0, inits
 #' azp_clusters
 #' }
 #' @export
-azp_sa<- function(p, w, df, cooling_rate, sa_maxit=1, bound_variable=data.frame(), min_bound=0, inits=0, initial_regions=vector('numeric'), scale_method="standardize", distance_method="euclidean", random_seed=123456789) {
+azp_sa<- function(p, w, df, cooling_rate, sa_maxit=1, bound_variable=data.frame(), min_bound=0, inits=0, initial_regions=vector('numeric'), scale_method="standardize", distance_method="euclidean", random_seed=123456789, rdist=numeric()) {
   if (p < 0) {
     stop("The p should be a positive integer number.")
   }
@@ -555,7 +562,7 @@ azp_sa<- function(p, w, df, cooling_rate, sa_maxit=1, bound_variable=data.frame(
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_azp_sa(p, w$GetPointer(), df, n_vars, cooling_rate, sa_maxit, bound_values, min_bound, inits, initial_regions, scale_method, distance_method, random_seed))
+  return(p_azp_sa(p, w$GetPointer(), df, n_vars, cooling_rate, sa_maxit, bound_values, min_bound, inits, initial_regions, scale_method, distance_method, random_seed, rdist))
 }
 
 ############################################################
@@ -573,6 +580,7 @@ azp_sa<- function(p, w, df, cooling_rate, sa_maxit=1, bound_variable=data.frame(
 #' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (optional) The seed for random number generator. Defaults to 123456789.
+#' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
 #' @return A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
 #' @examples
 #' \dontrun{
@@ -585,7 +593,7 @@ azp_sa<- function(p, w, df, cooling_rate, sa_maxit=1, bound_variable=data.frame(
 #' azp_clusters
 #' }
 #' @export
-azp_tabu<- function(p, w, df, tabu_length=10, conv_tabu=10, bound_variable=data.frame(), min_bound=0, inits=0, initial_regions=vector('numeric'), scale_method="standardize", distance_method="euclidean", random_seed=123456789) {
+azp_tabu<- function(p, w, df, tabu_length=10, conv_tabu=10, bound_variable=data.frame(), min_bound=0, inits=0, initial_regions=vector('numeric'), scale_method="standardize", distance_method="euclidean", random_seed=123456789, rdist=numeric()) {
   if (p < 0) {
     stop("The p should be a positive integer number.")
   }
@@ -620,15 +628,15 @@ azp_tabu<- function(p, w, df, tabu_length=10, conv_tabu=10, bound_variable=data.
     bound_values <- bound_variable[[1]]
   }
 
-  return(p_azp_tabu(p, w$GetPointer(), df, n_vars, tabu_length, conv_tabu, bound_values, min_bound, inits, initial_regions, scale_method, distance_method, random_seed))
+  return(p_azp_tabu(p, w$GetPointer(), df, n_vars, tabu_length, conv_tabu, bound_values, min_bound, inits, initial_regions, scale_method, distance_method, random_seed, rdist))
 }
 
 ############################################################
 #' @title Spatial Validation
 #' @description Spatial validation provides a collection of validation measures including
-#' 1. fragmentations (entropy, simpson), 2. join count ratio, 3. compactness (isoperimeter quotient) 
+#' 1. fragmentations (entropy, simpson), 2. join count ratio, 3. compactness (isoperimeter quotient)
 #' and 4. diameter.
-#' @param sf_obj An sf (simple feature) object 
+#' @param sf_obj An sf (simple feature) object
 #' @param clusters A cluster classification variable (categorical values from a dataframe or values returned from cluster functions)
 #' @param w An instance of Weight class
 #' @return A list with names "Is Spatially Constrained", "Fragmentation", "Join Count Ratio",
@@ -661,7 +669,7 @@ spatial_validation <- function(sf_obj, clusters, w) {
 
 ############################################################
 #' @title Join Count Ratio
-#' @description Join count ratio is the join counts, the number of times a category is surrounded 
+#' @description Join count ratio is the join counts, the number of times a category is surrounded
 #' by neighbors of the same category, over the total number of neighbors after converting
 #' each category to a dummy variable.
 #' @param clusters A cluster classification variable (categorical values from a dataframe or values returned from cluster functions)
@@ -712,7 +720,7 @@ make_spatial <- function(clusters, w) {
   }
 
   if (w$num_obs != length(clusters)) {
-    stop("The weights doesn not match with the size of input clusters.") 
+    stop("The weights doesn not match with the size of input clusters.")
   }
 
   return (p_make_spatial(clusters, w$GetPointer()));
