@@ -14,3 +14,6 @@
 ^src/libgeoda/README.md
 ^src/libgeoda/.git
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

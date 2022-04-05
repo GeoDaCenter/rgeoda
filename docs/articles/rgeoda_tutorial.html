@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8-6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="rgeoda_tutorial_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tutorial of rgeoda</h1>
@@ -105,7 +105,7 @@
 <p>In addition, the package sf needs to be loaded, since it is a dependency:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span></code></pre></div>
-<pre><code>## Linking to GEOS 3.8.1, GDAL 3.2.1, PROJ 7.2.1</code></pre>
+<pre><code>## Linking to GEOS 3.9.1, GDAL 3.2.3, PROJ 7.2.1</code></pre>
 </div>
 <div id="load-spatial-data" class="section level2">
 <h2 class="hasAnchor">
@@ -114,9 +114,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span>
 <span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></code></pre></div>
-<pre><code>## Reading layer `Guerry' from data source 
-##   `/private/var/folders/v5/tcgvkld90l3921n755r7p25h0000gq/T/RtmpCbxwFw/temp_libpath229d5718c5a/rgeoda/extdata/Guerry.shp' 
-##   using driver `ESRI Shapefile'
+<pre><code>## Reading layer `Guerry' from data source `/private/var/folders/z1/5l2c5r6d41bfkrlq6s66s2gh0000gn/T/RtmpU8zpfn/temp_libpath12a3d5c4022d1/rgeoda/extdata/Guerry.shp' using driver `ESRI Shapefile'
 ## Simple feature collection with 85 features and 29 fields
 ## Geometry type: MULTIPOLYGON
 ## Dimension:     XY
@@ -296,14 +294,14 @@
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/save_weights.html">save_weights</a></span><span class="op">(</span><span class="va">rook_w</span>, <span class="va">guerry</span><span class="op">[</span><span class="st">'CODE_DE'</span><span class="op">]</span>, out_path <span class="op">=</span> <span class="st">'/Users/xun/Downloads/Guerry_r.gal'</span>, 
              layer_name <span class="op">=</span> <span class="st">'Guerry'</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] FALSE</code></pre>
+<pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="distance-based-weights" class="section level3">
 <h3 class="hasAnchor">
 <a href="#distance-based-weights" class="anchor"></a>3.3 Distance Based Weights</h3>
 <p>The most straightforward spatial weights matrix constructed from a distance measure is obtained when i and j are considered neighbors whenever j falls within a critical distance band from i. In order to start the distance based neighbors, we first need to compute a threshold value. <code>rgeoda</code> provides a function <code>min_distthreshold</code> to help you find a optimized distance threshold that guarantees that every observation has at least one neighbor:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">min_distthreshold</span>(GeoDa gda, bool <span class="dt">is_arc =</span> False, <span class="dt">is_mile =</span> True)</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">To create a Distance based weights, one can call the <span class="cf">function</span> <span class="st">`</span><span class="dt">distance_weights</span><span class="st">`</span><span class="op">:</span></a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min_distthreshold</span>(GeoDa gda, bool <span class="at">is_arc =</span> False, <span class="at">is_mile =</span> True)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>To create a Distance based weights, one can call the <span class="cf">function</span> <span class="st">`</span><span class="at">distance_weights</span><span class="st">`</span><span class="sc">:</span></span></code></pre></div>
 <p>Then, with this distance threshold, we can create a distance-band weights using the function:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/distance_weights.html">distance_weights</a></span><span class="op">(</span><span class="va">geoda_obj</span>, <span class="va">dist_thres</span>, power<span class="op">=</span><span class="fl">1.0</span>,  is_inverse<span class="op">=</span><span class="va">False</span>, is_arc<span class="op">=</span><span class="va">False</span>, is_mile<span class="op">=</span><span class="va">True</span><span class="op">)</span></code></pre></div>
@@ -746,13 +744,15 @@ seed (for random number generator): 123456789</code></pre>
 <div id="skater" class="section level3">
 <h3 class="hasAnchor">
 <a href="#skater" class="anchor"></a>5.1 SKATER</h3>
-<p>The Spatial C(K)luster Analysis by Tree Edge Removal(SKATER) algorithm introduced by Assuncao et al. (2006) is based on the optimal pruning of a minimum spanning tree that reflects the contiguity structure among the observations. It provides an optimized algorithm to prune to tree into several clusters that their values of selected variables are as similar as possible.</p>
+<p>The Spatial C(K)luster Analysis by Tree Edge Removal(SKATER) algorithm introduced by Assuncao et al. (2006) is based on the optimal pruning of a minimum spanning tree that reflects the contiguity structure among the observations. It provides an optimized algorithm to prune to tree into several clusters that their values of selected variables are as similar as possible.</p>
 <p>The <code>rgeoda</code>’s SKATER function is:</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw">skater</span>(k, w, data, <span class="dt">distance_method=</span><span class="st">'euclidean'</span>, <span class="dt">bound_vals =</span> [],  <span class="dt">min_bound =</span> <span class="dv">0</span>, <span class="dt">random_seed=</span><span class="dv">123456789</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skater</span>(k, w, data, <span class="at">distance_method=</span><span class="st">'euclidean'</span>, <span class="at">bound_vals =</span> [],  <span class="at">min_bound =</span> <span class="dv">0</span>, <span class="at">random_seed=</span><span class="dv">123456789</span>)</span></code></pre></div>
 <p>For example, to create 4 spatially contiguous clusters using Guerry dataset, the queen weights and the values of the 6 selected variables:</p>
 <div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">guerry_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/skater.html">skater</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">queen_w</span>, <span class="va">data</span><span class="op">)</span>
-<span class="va">guerry_clusters</span></code></pre></div>
+<code class="sourceCode R"><span class="va">guerry_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/skater.html">skater</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">queen_w</span>, <span class="va">data</span><span class="op">)</span></code></pre></div>
+<pre><code>## aaa0x0after gda_skater</code></pre>
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">guerry_clusters</span></code></pre></div>
 <pre><code>## $Clusters
 ##  [1] 3 2 3 1 1 1 2 1 2 1 1 1 2 1 1 3 3 3 2 4 3 1 2 1 2 2 4 1 1 1 1 1 4 3 4 1 2 1
 ## [39] 4 3 3 4 2 1 1 1 4 4 2 2 4 2 2 4 2 3 2 2 4 2 3 1 1 1 2 2 1 2 3 4 2 2 2 2 3 2
@@ -783,7 +783,7 @@ seed (for random number generator): 123456789</code></pre>
 <li>Full-order and Wards-linkage</li>
 </ul>
 <p>For example, to find 4 clusters using the same dataset and weights as above using REDCAP with Full-order and Complete-linkage method:</p>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">redcap_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/redcap.html">redcap</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">queen_w</span>, <span class="va">data</span>, <span class="st">"fullorder-completelinkage"</span><span class="op">)</span>
 <span class="va">redcap_clusters</span></code></pre></div>
 <pre><code>## $Clusters
@@ -808,7 +808,7 @@ seed (for random number generator): 123456789</code></pre>
 <a href="#spatially-constrained-hierarchical-clucstering" class="anchor"></a>5.3 Spatially Constrained Hierarchical Clucstering</h3>
 <p>Spatially constrained hierarchical clustering is a special form of constrained clustering, where the constraint is based on contiguity (common borders). The method builds up the clusters using agglomerative hierarchical clustering methods: single linkage, complete linkage, average linkage and Ward’s method (a special form of centroid linkage). Meanwhile, it also maintains the spatial contiguity when merging two clusters.</p>
 <p>For example, to find 4 spatially constrained clusters using the same dataset and weights as above using Complete-linkage method:</p>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">schc_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/schc.html">schc</a></span><span class="op">(</span><span class="fl">4</span>, <span class="va">queen_w</span>, <span class="va">data</span>, <span class="st">"complete"</span><span class="op">)</span>
 <span class="va">schc_clusters</span></code></pre></div>
 <pre><code>## $Clusters
@@ -842,7 +842,7 @@ seed (for random number generator): 123456789</code></pre>
 <h4 class="hasAnchor">
 <a href="#azp-greedy" class="anchor"></a>5.4.1 AZP greedy</h4>
 <p>The original AZP heuristic is a local optimization procedure that cycles through a series of possible swaps between spatial units at the boundary of a set of regions. The process starts with an initial feasible solution, i.e., a grouping of n spatial units into p contiguous regions. This initial solution can be constructed in several different ways. The initial solution must satisfy the contiguity constraints. For example, this can be accomplished by growing a set of contiguous regions from p randomly selected seed units by adding neighboring locations until the contiguity constraint can no longer be met.</p>
-<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">azp_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/azp_greedy.html">azp_greedy</a></span><span class="op">(</span><span class="fl">5</span>, <span class="va">queen_w</span>, <span class="va">data</span><span class="op">)</span>
 <span class="va">azp_clusters</span></code></pre></div>
 <pre><code>## $Clusters
@@ -866,7 +866,7 @@ seed (for random number generator): 123456789</code></pre>
 <h4 class="hasAnchor">
 <a href="#azp-simulated-annealing" class="anchor"></a>5.4.2 AZP Simulated Annealing</h4>
 <p>To call AZP simulate annealing algorithm, one needs to specify cooling_rate (default: 0.85):</p>
-<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">azp_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/azp_sa.html">azp_sa</a></span><span class="op">(</span><span class="fl">5</span>, <span class="va">queen_w</span>, <span class="va">data</span>, cooling_rate <span class="op">=</span> <span class="fl">0.85</span><span class="op">)</span>
 <span class="va">azp_clusters</span></code></pre></div>
 <pre><code>## $Clusters
@@ -890,7 +890,7 @@ seed (for random number generator): 123456789</code></pre>
 <h4 class="hasAnchor">
 <a href="#azp-tabu-search" class="anchor"></a>5.4.3 AZP Tabu Search</h4>
 <p>To call AZP Tabu search algorithm, one needs to specify tabu_length (deafult: 10) , or conv_tabu (default: 10):</p>
-<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">azp_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/azp_tabu.html">azp_tabu</a></span><span class="op">(</span><span class="fl">5</span>, <span class="va">queen_w</span>, <span class="va">data</span>, tabu_length <span class="op">=</span> <span class="fl">10</span>, conv_tabu <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
 <span class="va">azp_clusters</span></code></pre></div>
 <pre><code>## $Clusters
@@ -929,11 +929,11 @@ seed (for random number generator): 123456789</code></pre>
 <a href="#max-p-greedy" class="anchor"></a>5.5.1 Max-p greedy</h3>
 <p>For example, to use the <code>greedy</code> algorithm in maxp function with the same dataset and weights as above to find optimal clusters using max-p:</p>
 <p>First, we need to specify, for example, every cluster must have population &gt;= 3236.67 thousand people:</p>
-<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bound_vals</span> <span class="op">&lt;-</span> <span class="va">guerry</span><span class="op">[</span><span class="st">'Pop1831'</span><span class="op">]</span>
 <span class="va">min_bound</span> <span class="op">&lt;-</span> <span class="fl">3236.67</span> <span class="co"># 10% of Pop1831</span></code></pre></div>
 <p>Then, we can call the max-p function with the “greedy” algorithm, the bound values, and minimum bound value:</p>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">maxp_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/maxp_greedy.html">maxp_greedy</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">data</span>, <span class="va">bound_vals</span>, <span class="va">min_bound</span><span class="op">)</span>
 <span class="va">maxp_clusters</span></code></pre></div>
 <pre><code>## $Clusters
@@ -960,7 +960,7 @@ If you want to replicate the identical results as in GeoDa software v1.18.0, ple
 <h3 class="hasAnchor">
 <a href="#max-p-tabu-search" class="anchor"></a>5.5.2 Max-p Tabu Search</h3>
 <p>To use <code>tabu search</code> algorithm in maxp function, we can specify the parameters of tabu_length and conv_tabu:</p>
-<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">maxp_tabu_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/maxp_tabu.html">maxp_tabu</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">data</span>, <span class="va">bound_vals</span>, <span class="va">min_bound</span>, tabu_length<span class="op">=</span><span class="fl">10</span>, conv_tabu<span class="op">=</span><span class="fl">10</span><span class="op">)</span>
 <span class="va">maxp_tabu_clusters</span></code></pre></div>
 <pre><code>## $Clusters
@@ -984,7 +984,7 @@ If you want to replicate the identical results as in GeoDa software v1.18.0, ple
 <h3 class="hasAnchor">
 <a href="#max-p-simulated-annealing" class="anchor"></a>5.5.3 Max-p Simulated Annealing</h3>
 <p>To apply <code>simulated annealing</code> algorithm in maxp function with the parameter of cooling rate:</p>
-<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">maxp_sa_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/maxp_sa.html">maxp_sa</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">data</span>, <span class="va">bound_vals</span>, <span class="va">min_bound</span>, cooling_rate<span class="op">=</span><span class="fl">0.85</span>, sa_maxit<span class="op">=</span><span class="fl">1</span><span class="op">)</span>
 <span class="va">maxp_sa_clusters</span></code></pre></div>
 <pre><code>## $Clusters
@@ -1004,7 +1004,7 @@ If you want to replicate the identical results as in GeoDa software v1.18.0, ple
 ## $`The ratio of between to total sum of squares`
 ## [1] 0.4585352</code></pre>
 <p>We can also increase the number of iterations for local search process by specifying the parameter <code>iterations</code> (default value is 99):</p>
-<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">maxp_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/maxp_greedy.html">maxp_greedy</a></span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">data</span>, <span class="va">bound_vals</span>, <span class="va">min_bound</span>, iterations<span class="op">=</span><span class="fl">199</span><span class="op">)</span>
 <span class="va">maxp_clusters</span></code></pre></div>
 <pre><code>## $Clusters
@@ -1035,7 +1035,7 @@ If you want to replicate the identical results as in GeoDa software v1.18.0, ple
 <a href="#start-from-sf-package" class="anchor"></a>6.1 Start from <code>sf</code> package</h3>
 <p>The sf package has been popular tool to handle geospatial data. It is a good substitue of sp package which will be deprecated soon.</p>
 <p>For example, we can simply call plot() function to render the first 9 chorepleth maps using the frist 9 variables in the dataset:</p>
-<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: plotting the first 9 out of 30 attributes; use max.plot = 30 to plot
 ## all</code></pre>
@@ -1045,7 +1045,7 @@ If you want to replicate the identical results as in GeoDa software v1.18.0, ple
 <h3 class="hasAnchor">
 <a href="#esda-with-rgeoda" class="anchor"></a>6.2 ESDA with rgeoda</h3>
 <p>Now, with the sf object <code>guerry</code>, you can call rgeoda’s spatial analysis functions. For example, to examine the local Moran statistics of variable “crm_prs” (Population per Crime against persons):</p>
-<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">queen_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/queen_weights.html">queen_weights</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span>
 <span class="va">lisa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/local_moran.html">local_moran</a></span><span class="op">(</span><span class="va">queen_w</span>,  <span class="va">guerry</span><span class="op">[</span><span class="st">'Crm_prs'</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p>Note: rgeoda uses wkb, which is a binary representation of geometries, to exchange data between sf and libgeoda in memory.</p>
@@ -1054,7 +1054,7 @@ If you want to replicate the identical results as in GeoDa software v1.18.0, ple
 <h3 class="hasAnchor">
 <a href="#create-local-moran-map" class="anchor"></a>6.3 Create Local Moran Map</h3>
 <p>With the LISA results, we can make a local moran cluster map:</p>
-<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lisa_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lisa_colors.html">lisa_colors</a></span><span class="op">(</span><span class="va">lisa</span><span class="op">)</span>
 <span class="va">lisa_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lisa_labels.html">lisa_labels</a></span><span class="op">(</span><span class="va">lisa</span><span class="op">)</span>
 <span class="va">lisa_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lisa_clusters.html">lisa_clusters</a></span><span class="op">(</span><span class="va">lisa</span><span class="op">)</span>
@@ -1066,16 +1066,16 @@ If you want to replicate the identical results as in GeoDa software v1.18.0, ple
 <span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">'bottomleft'</span>, legend <span class="op">=</span> <span class="va">lisa_labels</span>, fill <span class="op">=</span> <span class="va">lisa_colors</span>, border <span class="op">=</span> <span class="st">"#eeeeee"</span><span class="op">)</span></code></pre></div>
 <p><img src="rgeoda_tutorial_files/figure-html/unnamed-chunk-64-1.png" width="576"></p>
 <p>In the above code, we use th values of cluster indicators from <code>rgeoda</code>’s <code>LISA</code> object are used to make the LISA map. We can save the clusters back to the original <code>sf</code> data.frame:</p>
-<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">guerry</span><span class="op">[</span><span class="st">'moran_cluster'</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">lisa_clusters</span></code></pre></div>
 <p>Checking the values of the cluster indicators, we will see they are integer numbers 0 (not significant), 1 (high-high cluster), 2 (low-low cluster), 3 (low-high cluster), 4 (high-low cluster), 5 (neighborless/island), 6 (undefined):</p>
-<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lisa_clusters</span></code></pre></div>
 <pre><code>##  [1] 0 1 1 0 0 2 0 2 0 2 2 0 0 2 0 0 1 0 0 0 0 0 0 2 0 0 0 2 2 0 0 2 1 0 3 0 0 0
 ## [39] 0 0 0 0 0 0 0 2 0 0 3 0 1 0 0 0 0 0 1 0 0 1 0 0 0 2 0 0 0 0 1 1 0 0 0 0 0 0
 ## [77] 2 2 0 2 0 0 0 0 0</code></pre>
 <p>To create a significance map that is associated with the local Moran map, we can do the same as making the local moran cluster map using the results from lisa_pvalues():</p>
-<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lisa_p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lisa_pvalues.html">lisa_pvalues</a></span><span class="op">(</span><span class="va">lisa</span><span class="op">)</span>
 <span class="va">p_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Not significant"</span>, <span class="st">"p &lt;= 0.05"</span>, <span class="st">"p &lt;= 0.01"</span>, <span class="st">"p &lt;= 0.001"</span><span class="op">)</span>
 <span class="va">p_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#eeeeee"</span>, <span class="st">"#84f576"</span>, <span class="st">"#53c53c"</span>, <span class="st">"#348124"</span><span class="op">)</span>
