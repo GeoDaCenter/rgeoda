@@ -33,7 +33,7 @@ schc(
 
 \item{distance_method}{(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"}
 
-\item{rdist(optional)}{The distance matrix (lower triangular matrix, column wise storage)}
+\item{rdist}{(optional) The distance matrix (lower triangular matrix, column wise storage)}
 }
 \value{
 A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
