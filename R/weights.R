@@ -968,7 +968,7 @@ gda_kernel_knn_weights <- function(geoda_obj, k, kernel_method,
 #' @return A matrix object
 #' @export
 as.matrix.Weight <- function(x, rownames=NULL, rownames.value=NULL, ...) {
-  if (length(class(x)) == 1 && class(x) == "Weight") {
+  if (length(class(x)) == 1 && inherits(x, "Weight")) {
     n <- x$num_obs
     m <- matrix(0, nrow = n, ncol = n)
 
@@ -1010,7 +1010,7 @@ read_gal <- function(file_path, id_vec = c()) {
     id_vec <- 0 : num_obs - 1
   }
 
-  if (class(id_vec) == "numeric") {
+  if (inherits(id_vec, "numeric")) {
     id_vec <- as.character(id_vec)
   }
 
@@ -1040,7 +1040,7 @@ read_gwt <- function(file_path, id_vec = c()) {
     id_vec <- 0 : num_obs - 1
   }
 
-  if (class(id_vec) == "numeric") {
+  if (inherits(id_vec, "numeric")) {
     id_vec <- as.character(id_vec)
   }
 
