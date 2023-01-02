@@ -3,7 +3,8 @@ RGEODALIB = ./libgeoda
 PKG_CPPFLAGS=\
 	-I$(RGEODALIB) \
 	-D__USE_PTHREAD__ \
-	-D__RGEODA__
+	-D__RGEODA__ \
+	-DTTMATH_PLATFORM32
 
 PKG_LIBS=\
 	-pthread

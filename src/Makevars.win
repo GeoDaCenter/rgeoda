@@ -5,7 +5,8 @@ RGEODALIB = ./libgeoda
 PKG_CPPFLAGS=\
 	-I$(RGEODALIB) \
 	-D__USE_PTHREAD__ \
-	-D__RGEODA__
+	-D__RGEODA__ \
+	-DUSE_PTHREAD
 
 PKG_LIBS=\
 	-L$(RWINLIB)/$(TARGET) \
