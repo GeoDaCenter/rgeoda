@@ -1,8 +1,8 @@
 Package: rgeoda
 Type: Package
 Title: R Library for Spatial Data Analysis
-Version: 0.0.10
-Date: 2023-01-01
+Version: 0.0.10-2
+Date: 2023-01-29
 Authors@R: 
     c(person(given = "Xun", family = "Li", email="lixun910@gmail.com", role=c("aut","cre")),
       person(given = "Luc", family = "Anselin", email="anselin@uchicago.edu", role="aut"))
@@ -39,4 +39,4 @@ Encoding: UTF-8
 Suggests: 
     wkb,
     sp
-SystemRequirements: C++14
+SystemRequirements: C++17
