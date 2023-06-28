@@ -30,7 +30,7 @@ Collate:
     clustering.R
 Imports:
     sf,
-    Rcpp (>= 1.0.10)
+    Rcpp (>= 1.0.1)
 LinkingTo:
     Rcpp,
     BH
