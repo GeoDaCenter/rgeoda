@@ -63,10 +63,14 @@ testthat::test_that("schc", {
     testthat::expect_equal(clusters[[5]], 0.2147711255)
 })
 
-# NOTE!!!!!!!!!
-# The results are computed using Boost library 1.58.0.
-# To pass the following test cases
-# , please install BH package version==1.58.0
+# NOTE
+# The previous results are computed using Boost library 1.58.0.
+# The new results are computed using Boost library 1.81.0.1
+# The differences are caused by the different implementation of
+# boost::unordered_map: he keys in boost::unordered_map are not ordered and
+# have different orders in the two Boost versions. This involves a different
+# mechanism of randomness in max-p algorithm when picking which area or region
+# to process.
 
 testthat::test_that("azp_greedy", {
     library(sf)
@@ -131,7 +135,7 @@ testthat::test_that("maxp_greedy", {
 
     clusters <- maxp_greedy(queen_w, data, bound_vals, min_bound)
 
-    testthat::expect_equal(clusters[[5]], 0.519, tolerance = 1e-3)
+    testthat::expect_equal(clusters[[5]], 0.484, tolerance = 1e-3)
 })
 
 testthat::test_that("maxp_sa", {
@@ -148,7 +152,7 @@ testthat::test_that("maxp_sa", {
     clusters <- maxp_sa(queen_w, data, bound_vals, min_bound,
                         cooling_rate = 0.85, sa_maxit = 1)
 
-    testthat::expect_equal(clusters[[5]], 0.502, tolerance = 1e-3)
+    testthat::expect_equal(clusters[[5]], 0.496, tolerance = 1e-3)
 })
 
 testthat::test_that("maxp_tabu", {
@@ -166,6 +170,6 @@ testthat::test_that("maxp_tabu", {
     clusters <- maxp_tabu(queen_w, data, bound_vals, min_bound,
                           tabu_length = 10, conv_tabu = 10)
 
-    testthat::expect_equal(clusters[[5]], 0.51, tolerance = 1e-3)
+    testthat::expect_equal(clusters[[5]], 0.478, tolerance = 1e-3)
 
 })
