@@ -4,15 +4,26 @@
 #' similar values for features of interest.
 #' @param k The number of clusters
 #' @param w An instance of Weight class
-#' @param df A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
+#' @param df A data frame with selected variables only.
+#' E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
 #' @param bound_variable (optional) A data frame with selected bound variable
-#' @param min_bound (optional) A minimum bound value that applies to all clusters
-#' @param scale_method One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
-#' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
-#' @param random_seed (int,optional) The seed for random number generator. Defaults to 123456789.
-#' @param cpu_threads (optional) The number of cpu threads used for parallel computation
-#' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
-#' @return A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
+#' @param min_bound (optional) A minimum bound value that applies to all
+#' clusters
+#' @param scale_method One of the scaling methods {'raw', 'standardize',
+#' 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data.
+#' Default is 'standardize' (Z-score normalization).
+#' @param distance_method (optional) The distance method used to compute the
+#' distance betwen observation i and j. Defaults to "euclidean". Options are
+#' "euclidean" and "manhattan"
+#' @param random_seed (int,optional) The seed for random number generator.
+#' Defaults to 123456789.
+#' @param cpu_threads (optional) The number of cpu threads used for parallel
+#' computation
+#' @param rdist (optional) The distance matrix (lower triangular matrix,
+#' column wise storage)
+#' @return A names list with names "Clusters", "Total sum of squares",
+#' "Within-cluster sum of squares", "Total within-cluster sum of squares",
+#' and "The ratio of between to total sum of squares".
 #' @examples
 #' library(sf)
 #' guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
@@ -22,12 +33,15 @@
 #' guerry_clusters <- skater(4, queen_w, data)
 #' guerry_clusters
 #' @export
-skater <- function(k, w, df, bound_variable=data.frame(), min_bound=0, scale_method="standardize", distance_method="euclidean", random_seed=123456789, cpu_threads=6, rdist=numeric()) {
+skater <- function(k, w, df, bound_variable=data.frame(), min_bound=0,
+                   scale_method="standardize", distance_method="euclidean",
+                   random_seed=123456789, cpu_threads=6, rdist=numeric()) {
   if (w$num_obs < 1) {
     stop("The weights is not valid.")
   }
   if (k <1 && k > w$num_obs) {
-    stop("The number of clusters should be a positive integer number, which is less than the number of observations.")
+    stop("The number of clusters should be a positive integer number, which is
+         less than the number of observations.")
   }
   if (inherits(df, "data.frame") == FALSE) {
     stop("The input data needs to be a data.frame.")
@@ -43,9 +57,11 @@ skater <- function(k, w, df, bound_variable=data.frame(), min_bound=0, scale_met
     stop("The data.frame is empty.")
   }
 
-  scale_methods <- c('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust')
+  scale_methods <- c('raw', 'standardize', 'demean', 'mad', 'range_standardize',
+                     'range_adjust')
   if (!(scale_method %in% scale_methods)) {
-    stop("The scale_method has to be one of {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'}")
+    stop("The scale_method has to be one of {'raw', 'standardize', 'demean',
+         'mad', 'range_standardize', 'range_adjust'}")
   }
 
   if (distance_method != "euclidean" && distance_method != "manhattan") {
@@ -56,7 +72,8 @@ skater <- function(k, w, df, bound_variable=data.frame(), min_bound=0, scale_met
   if (length(bound_variable) > 0)  {
     bound_values <- bound_variable[[1]]
   }
-  return(p_skater(k, w$GetPointer(), df, n_vars, scale_method, distance_method, bound_values, min_bound, random_seed, cpu_threads, rdist))
+  return(p_skater(k, w$GetPointer(), df, n_vars, scale_method, distance_method,
+                  bound_values, min_bound, random_seed, cpu_threads, rdist))
 }
 
 

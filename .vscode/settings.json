@@ -102,6 +102,8 @@
         "geodaweight.h": "c",
         "filesystem": "cpp",
         "numbers": "cpp",
-        "semaphore": "cpp"
+        "semaphore": "cpp",
+        "__bits": "cpp",
+        "__verbose_abort": "cpp"
     }
 }
