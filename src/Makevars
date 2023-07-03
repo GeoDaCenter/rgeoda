@@ -8,7 +8,7 @@ PKG_CPPFLAGS=\
 PKG_LIBS=\
 	-pthread
 
-CXX_STD=CXX14
+CXX_STD=CXX17
 
 CPP_SRC_FILES = \
 	$(RGEODALIB)/libgeoda.cpp \

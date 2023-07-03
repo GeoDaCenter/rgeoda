@@ -81,10 +81,8 @@ Rcpp::List p_skater(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string 
   int num_obs = w->GetNumObs();
   double** dist_matrix = rdist_matrix(num_obs, rdist);
 
-  Rcout << "aaa" << dist_matrix;
   std::vector<std::vector<int> > cluster_ids = gda_skater(k, w, raw_data, scale_method, distance_method, raw_bound, min_bound, seed, cpu_threads, dist_matrix);
 
-  Rcout << "after gda_skater";
   if (dist_matrix) {
     for (int i = 1; i < num_obs; i++) {
       free(dist_matrix[i]);

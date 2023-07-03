@@ -1,8 +1,8 @@
 # Create a random string (internally used)
 # The input is a positive number, indicating the number of items to choose from.
 random_string <- function(n = 5000) {
-  a <- do.call(paste0, replicate(5, sample(LETTERS, n, TRUE), FALSE))
-  paste0(a, sprintf("%04d", sample(9999, n, TRUE)), sample(LETTERS, n, TRUE))
+  a <- do.call(paste0, replicate(10, sample(LETTERS, n, TRUE), FALSE))
+  return(a)
 }
 
 

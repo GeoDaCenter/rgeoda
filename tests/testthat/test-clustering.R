@@ -63,10 +63,14 @@ testthat::test_that("schc", {
     testthat::expect_equal(clusters[[5]], 0.2147711255)
 })
 
-# NOTE!!!!!!!!!
-# The results are computed using Boost library 1.58.0.
-# To pass the following test cases
-# , please install BH package version==1.58.0
+# NOTE
+# The previous results are computed using Boost library 1.58.0.
+# The new results are computed using Boost library 1.81.0.1
+# The differences are caused by the different implementation of
+# boost::unordered_map: he keys in boost::unordered_map are not ordered and
+# have different orders in the two Boost versions. This involves a different
+# mechanism of randomness in max-p algorithm when picking which area or region
+# to process.
 
 testthat::test_that("azp_greedy", {
     library(sf)
@@ -78,7 +82,7 @@ testthat::test_that("azp_greedy", {
 
     azp_clusters <- azp_greedy(5, queen_w, data)
 
-    testthat::expect_equal(azp_clusters[[5]], 0.3598541)
+    testthat::expect_equal(azp_clusters[[5]], 0.36, tolerance = 1e-3)
 
     bound_variable <- guerry["Pop1831"]
     min_bound <- 3236.67 # 10% of Pop1831
@@ -87,7 +91,7 @@ testthat::test_that("azp_greedy", {
                                bound_variable = bound_variable,
                                min_bound = min_bound)
 
-    testthat::expect_equal(azp_clusters[[5]], 0.3980921835)
+    testthat::expect_equal(azp_clusters[[5]], 0.417, tolerance = 1e-3)
 
 })
 
@@ -101,7 +105,7 @@ testthat::test_that("azp_sa", {
 
     azp_clusters <- azp_sa(5, queen_w, data, cooling_rate = 0.85, sa_maxit = 1)
 
-    testthat::expect_equal(azp_clusters[[5]], 0.4211363)
+    testthat::expect_equal(azp_clusters[[5]], 0.359, tolerance = 1e-3)
 })
 
 testthat::test_that("azp_tabu", {
@@ -129,9 +133,9 @@ testthat::test_that("maxp_greedy", {
     bound_vals <- guerry["Pop1831"]
     min_bound <- 3236.67 # 10% of Pop1831
 
-    #clusters <- maxp_greedy(queen_w, data, bound_vals, min_bound)
+    clusters <- maxp_greedy(queen_w, data, bound_vals, min_bound)
 
-    #testthat::expect_equal(clusters[[5]], 0.4499671068)
+    testthat::expect_equal(clusters[[5]], 0.484, tolerance = 1e-3)
 })
 
 testthat::test_that("maxp_sa", {
@@ -145,10 +149,10 @@ testthat::test_that("maxp_sa", {
     bound_vals <- guerry["Pop1831"]
     min_bound <- 3236.67 # 10% of Pop1831
 
-    #clusters <- maxp_sa(queen_w, data, bound_vals, min_bound,
-    #                    cooling_rate = 0.85, sa_maxit = 1)
+    clusters <- maxp_sa(queen_w, data, bound_vals, min_bound,
+                        cooling_rate = 0.85, sa_maxit = 1)
 
-    #testthat::expect_equal(clusters[[5]], 0.4585352223)
+    testthat::expect_equal(clusters[[5]], 0.496, tolerance = 1e-3)
 })
 
 testthat::test_that("maxp_tabu", {
@@ -163,9 +167,9 @@ testthat::test_that("maxp_tabu", {
     min_bound <- 3236.67 # 10% of Pop1831
 
 
-    #clusters <- maxp_tabu(queen_w, data, bound_vals, min_bound,
-    #                      tabu_length = 10, conv_tabu = 10)
+    clusters <- maxp_tabu(queen_w, data, bound_vals, min_bound,
+                          tabu_length = 10, conv_tabu = 10)
 
-    #testthat::expect_equal(clusters[[5]], 0.4893668149)
+    testthat::expect_equal(clusters[[5]], 0.478, tolerance = 1e-3)
 
 })
