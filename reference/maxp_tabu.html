@@ -20,7 +20,7 @@ geographically connected and the clusters could maximize internal homogeneity.">
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.10-4</span>
       </span>
     </div>
 
@@ -66,70 +66,97 @@ geographically connected and the clusters could maximize internal homogeneity.</
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">maxp_tabu</span><span class="op">(</span>
-  <span class="va">w</span>,
-  <span class="va">df</span>,
-  <span class="va">bound_variable</span>,
-  <span class="va">min_bound</span>,
-  tabu_length <span class="op">=</span> <span class="fl">10</span>,
-  conv_tabu <span class="op">=</span> <span class="fl">10</span>,
-  iterations <span class="op">=</span> <span class="fl">99</span>,
-  initial_regions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span><span class="st">"numeric"</span><span class="op">)</span>,
-  scale_method <span class="op">=</span> <span class="st">"standardize"</span>,
-  distance_method <span class="op">=</span> <span class="st">"euclidean"</span>,
-  random_seed <span class="op">=</span> <span class="fl">123456789</span>,
-  cpu_threads <span class="op">=</span> <span class="fl">6</span>,
-  rdist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">maxp_tabu</span><span class="op">(</span></span>
+<span>  <span class="va">w</span>,</span>
+<span>  <span class="va">df</span>,</span>
+<span>  <span class="va">bound_variable</span>,</span>
+<span>  <span class="va">min_bound</span>,</span>
+<span>  tabu_length <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  conv_tabu <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  iterations <span class="op">=</span> <span class="fl">99</span>,</span>
+<span>  initial_regions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span><span class="st">"numeric"</span><span class="op">)</span>,</span>
+<span>  scale_method <span class="op">=</span> <span class="st">"standardize"</span>,</span>
+<span>  distance_method <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
+<span>  random_seed <span class="op">=</span> <span class="fl">123456789</span>,</span>
+<span>  cpu_threads <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  rdist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>w</dt>
 <dd><p>An instance of Weight class</p></dd>
+
+
 <dt>df</dt>
 <dd><p>A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]</p></dd>
+
+
 <dt>bound_variable</dt>
 <dd><p>A numeric vector of selected bounding variable</p></dd>
+
+
 <dt>min_bound</dt>
 <dd><p>A minimum value that the sum value of bounding variable int each cluster should be greater than</p></dd>
+
+
 <dt>tabu_length</dt>
 <dd><p>(optional): The length of a tabu search heuristic of tabu algorithm. Defaults to 10.</p></dd>
+
+
 <dt>conv_tabu</dt>
 <dd><p>(optional): The number of non-improving moves. Defaults to 10.</p></dd>
+
+
 <dt>iterations</dt>
 <dd><p>(optional): The number of iterations of Tabu algorithm. Defaults to 99.</p></dd>
+
+
 <dt>initial_regions</dt>
 <dd><p>(optional): The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters</p></dd>
+
+
 <dt>scale_method</dt>
 <dd><p>(optional) One of the scaling methods 'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust' to apply on input data. Default is 'standardize' (Z-score normalization).</p></dd>
+
+
 <dt>distance_method</dt>
 <dd><p>(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"</p></dd>
+
+
 <dt>random_seed</dt>
 <dd><p>(optional) The seed for random number generator. Defaults to 123456789.</p></dd>
+
+
 <dt>cpu_threads</dt>
 <dd><p>(optional) The number of cpu threads used for parallel computation</p></dd>
+
+
 <dt>rdist</dt>
 <dd><p>(optional) The distance matrix (lower triangular matrix, column wise storage)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".</p>
+    
+
+<p>A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">queen_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="queen_weights.html">queen_weights</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">guerry</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Crm_prs'</span>,<span class="st">'Crm_prp'</span>,<span class="st">'Litercy'</span>,<span class="st">'Donatns'</span>,<span class="st">'Infants'</span>,<span class="st">'Suicids'</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">bound_variable</span> <span class="op">&lt;-</span> <span class="va">guerry</span><span class="op">[</span><span class="st">'Pop1831'</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">min_bound</span> <span class="op">&lt;-</span> <span class="fl">3236.67</span> <span class="co"># 10% of Pop1831</span></span>
-<span class="r-in"><span class="va">maxp_clusters</span> <span class="op">&lt;-</span> <span class="fu">maxp_tabu</span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">data</span>, <span class="va">bound_variable</span>, <span class="va">min_bound</span>, tabu_length<span class="op">=</span><span class="fl">10</span>, conv_tabu<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">maxp_clusters</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">queen_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="queen_weights.html">queen_weights</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">guerry</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Crm_prs'</span>,<span class="st">'Crm_prp'</span>,<span class="st">'Litercy'</span>,<span class="st">'Donatns'</span>,<span class="st">'Infants'</span>,<span class="st">'Suicids'</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">bound_variable</span> <span class="op">&lt;-</span> <span class="va">guerry</span><span class="op">[</span><span class="st">'Pop1831'</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">min_bound</span> <span class="op">&lt;-</span> <span class="fl">3236.67</span> <span class="co"># 10% of Pop1831</span></span></span>
+<span class="r-in"><span><span class="va">maxp_clusters</span> <span class="op">&lt;-</span> <span class="fu">maxp_tabu</span><span class="op">(</span><span class="va">queen_w</span>, <span class="va">data</span>, <span class="va">bound_variable</span>, <span class="va">min_bound</span>, tabu_length<span class="op">=</span><span class="fl">10</span>, conv_tabu<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">maxp_clusters</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -144,7 +171,7 @@ geographically connected and the clusters could maximize internal homogeneity.</
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -18,7 +18,7 @@ observation has at least one neighbor"><!-- mathjax --><script src="https://cdnj
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.10-4</span>
       </span>
     </div>
 
@@ -62,34 +62,41 @@ observation has at least one neighbor</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">min_distthreshold</span><span class="op">(</span><span class="va">sf_obj</span>, is_arc <span class="op">=</span> <span class="cn">FALSE</span>, is_mile <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">min_distthreshold</span><span class="op">(</span><span class="va">sf_obj</span>, is_arc <span class="op">=</span> <span class="cn">FALSE</span>, is_mile <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>sf_obj</dt>
 <dd><p>An sf (simple feature) object</p></dd>
+
+
 <dt>is_arc</dt>
 <dd><p>(optional) FALSE (default) or TRUE, compute arc distance
 between two observations</p></dd>
+
+
 <dt>is_mile</dt>
 <dd><p>(optional) TRUE (default) or FALSE, if 'is_arc' option is
 TRUE, then 'is_mile' will set distance unit to 'mile' or 'km'.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A numeric value of minimum threshold of distance</p>
+    
+
+<p>A numeric value of minimum threshold of distance</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dist_thres</span> <span class="op">&lt;-</span> <span class="fu">min_distthreshold</span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dist_thres</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dist_thres</span> <span class="op">&lt;-</span> <span class="fu">min_distthreshold</span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dist_thres</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -104,7 +111,7 @@ TRUE, then 'is_mile' will set distance unit to 'mile' or 'km'.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

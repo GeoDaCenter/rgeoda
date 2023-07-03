@@ -18,7 +18,7 @@ observation"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.10-4</span>
       </span>
     </div>
 
@@ -62,30 +62,35 @@ observation</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_neighbors_weights</span><span class="op">(</span><span class="va">gda_w</span>, <span class="va">idx</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_neighbors_weights</span><span class="op">(</span><span class="va">gda_w</span>, <span class="va">idx</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>gda_w</dt>
 <dd><p>A Weight object</p></dd>
+
+
 <dt>idx</dt>
 <dd><p>A value indicates idx-th observation, idx start from 1</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A numeric vector of the neighbor indices, which start from 1</p>
+    
+
+<p>A numeric vector of the neighbor indices, which start from 1</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">queen_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="queen_weights.html">queen_weights</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">nbrs</span> <span class="op">&lt;-</span> <span class="fu">get_neighbors_weights</span><span class="op">(</span><span class="va">queen_w</span>, idx <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"\nNeighbors of the 1-st observation are:"</span>, <span class="va">nbrs</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">queen_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="queen_weights.html">queen_weights</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">nbrs</span> <span class="op">&lt;-</span> <span class="fu">get_neighbors_weights</span><span class="op">(</span><span class="va">queen_w</span>, idx <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"\nNeighbors of the 1-st observation are:"</span>, <span class="va">nbrs</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -100,7 +105,7 @@ observation</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

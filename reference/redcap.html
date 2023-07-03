@@ -28,7 +28,7 @@ exactly the same with SKATER. In GeoDa and pygeoda, the following methods are pr
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.10-4</span>
       </span>
     </div>
 
@@ -82,62 +82,85 @@ exactly the same with SKATER. In GeoDa and pygeoda, the following methods are pr
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">redcap</span><span class="op">(</span>
-  <span class="va">k</span>,
-  <span class="va">w</span>,
-  <span class="va">df</span>,
-  method <span class="op">=</span> <span class="st">"fullorder-averagelinkage"</span>,
-  bound_variable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>,
-  min_bound <span class="op">=</span> <span class="fl">0</span>,
-  scale_method <span class="op">=</span> <span class="st">"standardize"</span>,
-  distance_method <span class="op">=</span> <span class="st">"euclidean"</span>,
-  random_seed <span class="op">=</span> <span class="fl">123456789</span>,
-  cpu_threads <span class="op">=</span> <span class="fl">6</span>,
-  rdist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">redcap</span><span class="op">(</span></span>
+<span>  <span class="va">k</span>,</span>
+<span>  <span class="va">w</span>,</span>
+<span>  <span class="va">df</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"fullorder-averagelinkage"</span>,</span>
+<span>  bound_variable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  min_bound <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  scale_method <span class="op">=</span> <span class="st">"standardize"</span>,</span>
+<span>  distance_method <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
+<span>  random_seed <span class="op">=</span> <span class="fl">123456789</span>,</span>
+<span>  cpu_threads <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  rdist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>k</dt>
 <dd><p>The number of clusters</p></dd>
+
+
 <dt>w</dt>
 <dd><p>An instance of Weight class</p></dd>
+
+
 <dt>df</dt>
 <dd><p>A data frame with selected variables only. E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]</p></dd>
+
+
 <dt>method</dt>
 <dd><p>"firstorder-singlelinkage", "fullorder-completelinkage", "fullorder-averagelinkage","fullorder-singlelinkage", "fullorder-wardlinkage"</p></dd>
+
+
 <dt>bound_variable</dt>
 <dd><p>(optional) A data frame with selected bound variabl</p></dd>
+
+
 <dt>min_bound</dt>
 <dd><p>(optional) A minimum bound value that applies to all clusters</p></dd>
+
+
 <dt>scale_method</dt>
 <dd><p>(optional) One of the scaling methods 'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust' to apply on input data. Default is 'standardize' (Z-score normalization).</p></dd>
+
+
 <dt>distance_method</dt>
 <dd><p>(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"</p></dd>
+
+
 <dt>random_seed</dt>
 <dd><p>(int,optional) The seed for random number generator. Defaults to 123456789.</p></dd>
+
+
 <dt>cpu_threads</dt>
 <dd><p>(optional) The number of cpu threads used for parallel computation</p></dd>
+
+
 <dt>rdist</dt>
 <dd><p>(optional) The distance matrix (lower triangular matrix, column wise storage)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".</p>
+    
+
+<p>A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">queen_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="queen_weights.html">queen_weights</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">guerry</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Crm_prs'</span>,<span class="st">'Crm_prp'</span>,<span class="st">'Litercy'</span>,<span class="st">'Donatns'</span>,<span class="st">'Infants'</span>,<span class="st">'Suicids'</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">guerry_clusters</span> <span class="op">&lt;-</span> <span class="fu">redcap</span><span class="op">(</span><span class="fl">4</span>, <span class="va">queen_w</span>, <span class="va">data</span>, <span class="st">"fullorder-completelinkage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">guerry_clusters</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">queen_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="queen_weights.html">queen_weights</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">guerry</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Crm_prs'</span>,<span class="st">'Crm_prp'</span>,<span class="st">'Litercy'</span>,<span class="st">'Donatns'</span>,<span class="st">'Infants'</span>,<span class="st">'Suicids'</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">guerry_clusters</span> <span class="op">&lt;-</span> <span class="fu">redcap</span><span class="op">(</span><span class="fl">4</span>, <span class="va">queen_w</span>, <span class="va">data</span>, <span class="st">"fullorder-completelinkage"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">guerry_clusters</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -152,7 +175,7 @@ exactly the same with SKATER. In GeoDa and pygeoda, the following methods are pr
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

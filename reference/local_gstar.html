@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.10-4</span>
       </span>
     </div>
 
@@ -60,48 +60,63 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">local_gstar</span><span class="op">(</span>
-  <span class="va">w</span>,
-  <span class="va">df</span>,
-  permutations <span class="op">=</span> <span class="fl">999</span>,
-  permutation_method <span class="op">=</span> <span class="st">"complete"</span>,
-  significance_cutoff <span class="op">=</span> <span class="fl">0.05</span>,
-  cpu_threads <span class="op">=</span> <span class="fl">6</span>,
-  seed <span class="op">=</span> <span class="fl">123456789</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">local_gstar</span><span class="op">(</span></span>
+<span>  <span class="va">w</span>,</span>
+<span>  <span class="va">df</span>,</span>
+<span>  permutations <span class="op">=</span> <span class="fl">999</span>,</span>
+<span>  permutation_method <span class="op">=</span> <span class="st">"complete"</span>,</span>
+<span>  significance_cutoff <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  cpu_threads <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">123456789</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>w</dt>
 <dd><p>An instance of Weight object</p></dd>
+
+
 <dt>df</dt>
 <dd><p>A data frame with selected variable only. E.g. guerry["Crm_prs"]</p></dd>
+
+
 <dt>permutations</dt>
 <dd><p>(optional) The number of permutations for the LISA
 computation</p></dd>
+
+
 <dt>permutation_method</dt>
 <dd><p>(optional) The permutation method used for the
 LISA computation. Options are 'complete', 'lookup'. Default is 'complete'.</p></dd>
+
+
 <dt>significance_cutoff</dt>
 <dd><p>(optional) A cutoff value for significance
 p-values to filter not-significant clusters</p></dd>
+
+
 <dt>cpu_threads</dt>
 <dd><p>(optional) The number of cpu threads used for parallel
 LISA computation</p></dd>
+
+
 <dt>seed</dt>
 <dd><p>(optional) The seed for random number generator</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An instance of LISA-class</p>
+    
+
+<p>An instance of LISA-class</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `Guerry' from data source </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `/Users/runner/work/_temp/Library/rgeoda/extdata/Guerry.shp' </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   using driver `ESRI Shapefile'</span>
@@ -110,10 +125,10 @@ LISA computation</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 47680 ymin: 1703258 xmax: 1031401 ymax: 2677441</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: NTF (Paris) / Lambert zone II</span>
-<span class="r-in"><span class="va">queen_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="queen_weights.html">queen_weights</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">lisa</span> <span class="op">&lt;-</span> <span class="fu">local_gstar</span><span class="op">(</span><span class="va">queen_w</span>,  <span class="va">guerry</span><span class="op">[</span><span class="st">"Crm_prs"</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">lms</span> <span class="op">&lt;-</span> <span class="fu"><a href="lisa_values.html">lisa_values</a></span><span class="op">(</span><span class="va">lisa</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">lms</span></span>
+<span class="r-in"><span><span class="va">queen_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="queen_weights.html">queen_weights</a></span><span class="op">(</span><span class="va">guerry</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lisa</span> <span class="op">&lt;-</span> <span class="fu">local_gstar</span><span class="op">(</span><span class="va">queen_w</span>,  <span class="va">guerry</span><span class="op">[</span><span class="st">"Crm_prs"</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lms</span> <span class="op">&lt;-</span> <span class="fu"><a href="lisa_values.html">lisa_values</a></span><span class="op">(</span><span class="va">lisa</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lms</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.014270222 0.015807678 0.015485705 0.008315062 0.009224485 0.008819945</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.014961277 0.006953285 0.013152942 0.007173126 0.006898546 0.007845469</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13] 0.013523322 0.007458852 0.011289400 0.012630942 0.015340884 0.011057393</span>
@@ -143,7 +158,7 @@ LISA computation</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

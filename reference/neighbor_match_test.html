@@ -19,7 +19,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.10-4</span>
       </span>
     </div>
 
@@ -64,16 +64,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">neighbor_match_test</span><span class="op">(</span>
-  <span class="va">df</span>,
-  <span class="va">k</span>,
-  scale_method <span class="op">=</span> <span class="st">"standardize"</span>,
-  distance_method <span class="op">=</span> <span class="st">"euclidean"</span>,
-  power <span class="op">=</span> <span class="fl">1</span>,
-  is_inverse <span class="op">=</span> <span class="cn">FALSE</span>,
-  is_arc <span class="op">=</span> <span class="cn">FALSE</span>,
-  is_mile <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">neighbor_match_test</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  <span class="va">k</span>,</span>
+<span>  scale_method <span class="op">=</span> <span class="st">"standardize"</span>,</span>
+<span>  distance_method <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
+<span>  power <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  is_inverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  is_arc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  is_mile <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -81,38 +81,55 @@
     <dl><dt>df</dt>
 <dd><p>A subset of sf object with selected variables.
 E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]</p></dd>
+
+
 <dt>k</dt>
 <dd><p>a positive integer number for k-nearest neighbors searching.</p></dd>
+
+
 <dt>scale_method</dt>
 <dd><p>(optional) One of the scaling methods 'raw',
 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust' to apply
  on input data. Default is 'standardize' (Z-score normalization).</p></dd>
+
+
 <dt>distance_method</dt>
 <dd><p>(optional) The type of distance metrics used to
 measure the distance between input data. Options are 'euclidean', 'manhattan'. Default is 'euclidean'.</p></dd>
+
+
 <dt>power</dt>
 <dd><p>(optional) The power (or exponent) of a number says how many
 times to use the number in a multiplication.</p></dd>
+
+
 <dt>is_inverse</dt>
 <dd><p>(optional) FALSE (default) or TRUE, apply inverse on
 distance value.</p></dd>
+
+
 <dt>is_arc</dt>
 <dd><p>(optional) FALSE (default) or TRUE, compute arc distance
 between two observations.</p></dd>
+
+
 <dt>is_mile</dt>
 <dd><p>(optional) TRUE (default) or FALSE, convert distance unit from
 mile to km.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data.frame with two columns "Cardinality" and "Probability".</p>
+    
+
+<p>A data.frame with two columns "Cardinality" and "Probability".</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">guerry</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">guerry_path</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `Guerry' from data source </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `/Users/runner/work/_temp/Library/rgeoda/extdata/Guerry.shp' </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   using driver `ESRI Shapefile'</span>
@@ -121,9 +138,9 @@ mile to km.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 47680 ymin: 1703258 xmax: 1031401 ymax: 2677441</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: NTF (Paris) / Lambert zone II</span>
-<span class="r-in"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">guerry</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Crm_prs'</span>,<span class="st">'Crm_prp'</span>,<span class="st">'Litercy'</span>,<span class="st">'Donatns'</span>,<span class="st">'Infants'</span>,<span class="st">'Suicids'</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">nbr_test</span> <span class="op">&lt;-</span> <span class="fu">neighbor_match_test</span><span class="op">(</span><span class="va">data</span>, <span class="fl">6</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">nbr_test</span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">guerry</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Crm_prs'</span>,<span class="st">'Crm_prp'</span>,<span class="st">'Litercy'</span>,<span class="st">'Donatns'</span>,<span class="st">'Infants'</span>,<span class="st">'Suicids'</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">nbr_test</span> <span class="op">&lt;-</span> <span class="fu">neighbor_match_test</span><span class="op">(</span><span class="va">data</span>, <span class="fl">6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">nbr_test</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Cardinality  Probability</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            2 5.263800e-02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            3 3.743147e-03</span>
@@ -224,7 +241,7 @@ mile to km.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
