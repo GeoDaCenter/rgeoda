@@ -33,6 +33,11 @@ w <- queen_weights(guerry)
 lisa <- local_moran(w, guerry['Crm_prs'])
 clusters <- skater(4, w, guerry[c('Crm_prs','Crm_prp','Litercy','Donatns','Infants','Suicids')])
 ```
+
+### Citation
+
+Anselin, L., Li, X. and Koschinsky, J. (2022), GeoDa, From the Desktop to an Ecosystem for Exploring Spatial Data. Geogr Anal, 54: 439-466. [Download Citation](https://onlinelibrary.wiley.com/action/showCitFormats?doi=10.1111%2Fgean.12311)
+
 ### Tutorials
 
 https://geodacenter.github.io/rgeoda/articles/rgeoda_tutorial.html
