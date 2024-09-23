@@ -4,6 +4,7 @@ PKG_CPPFLAGS=\
 	-I$(RGEODALIB) \
 	-D__USE_PTHREAD__ \
 	-D__RGEODA__
+	-Wno-error=missing-template-arg-list-after-template-kw
 
 PKG_LIBS=\
 	-pthread
