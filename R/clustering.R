@@ -9,8 +9,8 @@
 #' @param bound_variable (optional) A data frame with selected bound variable
 #' @param min_bound (optional) A minimum bound value that applies to all
 #' clusters
-#' @param scale_method One of the scaling methods {'raw', 'standardize',
-#' 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data.
+#' @param scale_method One of the scaling methods \{'raw', 'standardize',
+#' 'demean', 'mad', 'range_standardize', 'range_adjust'\} to apply on input data.
 #' Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the
 #' distance betwen observation i and j. Defaults to "euclidean". Options are
