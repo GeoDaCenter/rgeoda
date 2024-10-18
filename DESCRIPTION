@@ -2,7 +2,7 @@ Package: rgeoda
 Type: Package
 Title: R Library for Spatial Data Analysis
 Version: 0.0.10-5
-Date: 2024-09-23
+Date: 2024-10-18
 Authors@R: 
     c(person(given = "Xun", family = "Li", email="lixun910@gmail.com", role=c("aut","cre")),
       person(given = "Luc", family = "Anselin", email="anselin@uchicago.edu", role="aut"))
@@ -32,8 +32,7 @@ Imports:
     sf,
     Rcpp (>= 1.0.1)
 LinkingTo:
-    Rcpp,
-    BH
+    Rcpp
 RoxygenNote: 7.3.2
 Encoding: UTF-8
 Suggests: 
