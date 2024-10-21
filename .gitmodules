@@ -1,6 +1,0 @@
-[submodule "src/libgeoda"]
-	path = src/libgeoda
-	url = https://github.com/geodacenter/libgeoda
-[submodule "src/boost-develop"]
-	path = src/boost-develop
-	url = https://github.com/GeoDaCenter/boost-develop.git

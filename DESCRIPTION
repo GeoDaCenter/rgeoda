@@ -2,7 +2,7 @@ Package: rgeoda
 Type: Package
 Title: R Library for Spatial Data Analysis
 Version: 0.0.10-5
-Date: 2024-10-18
+Date: 2024-10-21
 Authors@R: 
     c(person(given = "Xun", family = "Li", email="lixun910@gmail.com", role=c("aut","cre")),
       person(given = "Luc", family = "Anselin", email="anselin@uchicago.edu", role="aut"))

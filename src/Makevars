@@ -11,6 +11,11 @@ PKG_CPPFLAGS=\
 PKG_LIBS=\
 	-pthread
 
+# clone boost-develop and libgeoda submodules
+download-submodules:
+	git clone https://github.com/GeoDaCenter/boost-develop.git
+	git clone https://github.com/geodacenter/libgeoda.git
+
 CXX_STD=CXX17
 
 CPP_SRC_FILES = \
@@ -144,7 +149,7 @@ OBJECTS = \
 	rcpp_clustering.o \
 	RcppExports.o
 
-.PHONY: all
+.PHONY: download-submodules all
 
 all: $(SHLIB)
 

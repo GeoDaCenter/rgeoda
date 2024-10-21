@@ -7,8 +7,8 @@
 eb_rates(df)
 }
 \arguments{
-\item{df}{A data frame with two selected variable: one is "event", anothor is
-"base" variable. E.g. guerry[c("hr60", "po60")]}
+\item{df}{A data frame with two selected variable: one is "event" variable, another is
+"base" variable like population. E.g. guerry[c("hr60", "po60")]}
 }
 \value{
 A data.frame with two columns "EB Rate" and "IsNull".
