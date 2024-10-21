@@ -1,5 +1,5 @@
 RGEODALIB = ./libgeoda
-BOOST_PATH = ./boost-develop/boost_1_86_0
+BOOST_PATH = ../inst/boost-develop/boost_1_86_0
 
 PKG_CPPFLAGS=\
 	-I$(RGEODALIB) \
@@ -10,11 +10,6 @@ PKG_CPPFLAGS=\
 
 PKG_LIBS=\
 	-pthread
-
-# clone boost-develop and libgeoda submodules
-download-submodules:
-	git clone https://github.com/GeoDaCenter/boost-develop.git
-	git clone https://github.com/geodacenter/libgeoda.git
 
 CXX_STD=CXX17
 
@@ -149,7 +144,7 @@ OBJECTS = \
 	rcpp_clustering.o \
 	RcppExports.o
 
-.PHONY: download-submodules all
+.PHONY: all
 
 all: $(SHLIB)
 
