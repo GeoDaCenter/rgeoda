@@ -1,5 +1,5 @@
 RGEODALIB = ./libgeoda
-BOOST_PATH = ./boost_develop/boost_1_86_0
+BOOST_PATH = ./boost-develop/boost_1_86_0
 
 PKG_CPPFLAGS=\
 	-I$(RGEODALIB) \
