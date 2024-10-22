@@ -1,12 +1,11 @@
 RGEODALIB = ./libgeoda
-BOOST_PATH = ../inst/boost-develop/boost_1_86_0
+BOOST_PATH = ../inst/i
 
 PKG_CPPFLAGS=\
 	-I$(RGEODALIB) \
 	-I$(BOOST_PATH) \
 	-D__USE_PTHREAD__ \
-	-D__RGEODA__ \
-	-DBOOST_NO_CXX98_FUNCTION_BASE
+	-D__RGEODA__
 
 PKG_LIBS=\
 	-pthread
