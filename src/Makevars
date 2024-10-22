@@ -1,9 +1,8 @@
 RGEODALIB = ./libgeoda
-BOOST_PATH = ../inst/i
 
 PKG_CPPFLAGS=\
 	-I$(RGEODALIB) \
-	-I$(BOOST_PATH) \
+	-I../inst/i \
 	-D__USE_PTHREAD__ \
 	-D__RGEODA__
 
