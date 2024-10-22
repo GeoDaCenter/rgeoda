@@ -4,6 +4,7 @@ RGEODALIB = ./libgeoda
 
 PKG_CPPFLAGS=\
 	-I$(RGEODALIB) \
+	-I../inst/i \
 	-D__USE_PTHREAD__ \
 	-D__RGEODA__
 

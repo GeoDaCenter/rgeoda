@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // p_skater
 Rcpp::List p_skater(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, std::string distance_method, NumericVector& bound_vals, double min_bound, int seed, int cpu_threads, NumericVector& rdist);
 RcppExport SEXP _rgeoda_p_skater(SEXP kSEXP, SEXP xp_wSEXP, SEXP dataSEXP, SEXP n_varsSEXP, SEXP scale_methodSEXP, SEXP distance_methodSEXP, SEXP bound_valsSEXP, SEXP min_boundSEXP, SEXP seedSEXP, SEXP cpu_threadsSEXP, SEXP rdistSEXP) {

@@ -125,8 +125,8 @@ stddev_breaks <- function(df) {
 #' @title  Empirical Bayes(EB) Rate
 #' @description The function to compute EB Rate from an event variable and a
 #' base variable.
-#' @param df A data frame with two selected variable: one is "event", anothor is
-#'  "base" variable. E.g. guerry[c("hr60", "po60")]
+#' @param df A data frame with two selected variable: one is "event" variable, another is
+#'  "base" variable like population. E.g. guerry[c("hr60", "po60")]
 #' @return A data.frame with two columns "EB Rate" and "IsNull".
 #' @examples
 #' \dontrun{

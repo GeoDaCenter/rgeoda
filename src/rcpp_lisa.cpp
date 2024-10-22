@@ -180,7 +180,7 @@ DataFrame p_eb_rate(NumericVector& event_data, NumericVector& base_data)
   std::vector<double> results(n);
   std::vector<bool> undefined(n, false);
 
-  gda_rateStandardizeEB(raw_event_data, raw_base_data, results, undefined);
+  gda_rateSmootherEBS(raw_base_data, raw_event_data, results, undefined);
 
   Rcpp::NumericVector v1(results.begin(), results.end());
   Rcpp::LogicalVector v2(undefined.begin(), undefined.end());
