@@ -9,8 +9,8 @@
 #' @param bound_variable (optional) A data frame with selected bound variable
 #' @param min_bound (optional) A minimum bound value that applies to all
 #' clusters
-#' @param scale_method One of the scaling methods {'raw', 'standardize',
-#' 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data.
+#' @param scale_method One of the scaling methods ('raw', 'standardize',
+#' 'demean', 'mad', 'range_standardize', 'range_adjust') to apply on input data.
 #' Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the
 #' distance betwen observation i and j. Defaults to "euclidean". Options are
@@ -89,7 +89,7 @@ skater <- function(k, w, df, bound_variable=data.frame(), min_bound=0,
 #' @param method {"single", "complete", "average","ward"}
 #' @param bound_variable (optional) A data frame with selected bound variabl
 #' @param min_bound (optional) A minimum bound value that applies to all clusters
-#' @param scale_method One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
+#' @param scale_method One of the scaling methods ('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust') to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
 #' @return A names list with names "Clusters", "Total sum of squares", "Within-cluster sum of squares", "Total within-cluster sum of squares", and "The ratio of between to total sum of squares".
@@ -125,7 +125,7 @@ schc <- function(k, w, df, method="average", bound_variable=data.frame(), min_bo
 
   scale_methods <- c('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust')
   if (!(scale_method %in% scale_methods)) {
-    stop("The scale_method has to be one of {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'}")
+    stop("The scale_method has to be one of ('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust')")
   }
 
   method_cands <- c("single", "complete", "average","ward")
@@ -166,7 +166,7 @@ schc <- function(k, w, df, method="average", bound_variable=data.frame(), min_bo
 #' @param method {"firstorder-singlelinkage", "fullorder-completelinkage", "fullorder-averagelinkage","fullorder-singlelinkage", "fullorder-wardlinkage"}
 #' @param bound_variable (optional) A data frame with selected bound variabl
 #' @param min_bound (optional) A minimum bound value that applies to all clusters
-#' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
+#' @param scale_method (optional) One of the scaling methods ('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust') to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (int,optional) The seed for random number generator. Defaults to 123456789.
 #' @param cpu_threads (optional) The number of cpu threads used for parallel computation
@@ -238,7 +238,7 @@ redcap <- function(k, w, df, method="fullorder-averagelinkage", bound_variable=d
 #' @param min_bound A minimum value that the sum value of bounding variable int each cluster should be greater than
 #' @param iterations (optional): The number of iterations of greedy algorithm. Defaults to 99.
 #' @param initial_regions (optional): The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters
-#' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
+#' @param scale_method (optional) One of the scaling methods ('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust') to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (optional) The seed for random number generator. Defaults to 123456789.
 #' @param cpu_threads (optional) The number of cpu threads used for parallel computation
@@ -313,7 +313,7 @@ maxp_greedy <- function(w, df, bound_variable, min_bound, iterations=99, initial
 #' @param cooling_rate The cooling rate of a simulated annealing algorithm. Defaults to 0.85
 #' @param iterations (optional): The number of iterations of SA algorithm. Defaults to 99.
 #' @param sa_maxit (optional): The number of iterations of simulated annealing. Defaults to 1
-#' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
+#' @param scale_method (optional) One of the scaling methods ('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust') to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (optional) The seed for random number generator. Defaults to 123456789.
 #' @param initial_regions (optional): The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters
@@ -389,7 +389,7 @@ maxp_sa <- function(w, df, bound_variable, min_bound, cooling_rate, sa_maxit=1, 
 #' @param tabu_length (optional): The length of a tabu search heuristic of tabu algorithm. Defaults to 10.
 #' @param conv_tabu (optional): The number of non-improving moves. Defaults to 10.
 #' @param iterations (optional): The number of iterations of Tabu algorithm. Defaults to 99.
-#' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
+#' @param scale_method (optional) One of the scaling methods ('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust') to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (optional) The seed for random number generator. Defaults to 123456789.
 #' @param initial_regions (optional): The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters
@@ -462,7 +462,7 @@ maxp_tabu <- function(w, df, bound_variable, min_bound, tabu_length=10, conv_tab
 #' @param min_bound (optional) A minimum bound value that applies to all clusters
 #' @param inits (optional) The number of construction re-runs, which is for ARiSeL "automatic regionalization with initial seed location"
 #' @param initial_regions (optional) The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters
-#' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
+#' @param scale_method (optional) One of the scaling methods ('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust') to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (optional) The seed for random number generator. Defaults to 123456789.
 #' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
@@ -528,7 +528,7 @@ azp_greedy <- function(p, w, df, bound_variable=data.frame(), min_bound=0, inits
 #' @param min_bound (optional) A minimum bound value that applies to all clusters
 #' @param inits (optional) The number of construction re-runs, which is for ARiSeL "automatic regionalization with initial seed location"
 #' @param initial_regions (optional) The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters
-#' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
+#' @param scale_method (optional) One of the scaling methods ('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust') to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (optional) The seed for random number generator. Defaults to 123456789.
 #' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
@@ -594,7 +594,7 @@ azp_sa<- function(p, w, df, cooling_rate, sa_maxit=1, bound_variable=data.frame(
 #' @param min_bound (optional) A minimum bound value that applies to all clusters
 #' @param inits (optional) The number of construction re-runs, which is for ARiSeL "automatic regionalization with initial seed location"
 #' @param initial_regions (optional) The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters
-#' @param scale_method (optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).
+#' @param scale_method (optional) One of the scaling methods ('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust') to apply on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"
 #' @param random_seed (optional) The seed for random number generator. Defaults to 123456789.
 #' @param rdist (optional) The distance matrix (lower triangular matrix, column wise storage)
