@@ -24,7 +24,7 @@ is "base" variable. E.g. guerry[c("hr60", "po60")]}
 computation}
 
 \item{permutation_method}{(optional) The permutation method used for the LISA
-computation. Options are {'complete', 'lookup'}. Default is 'complete'.}
+computation. Options are ('complete', 'lookup'). Default is 'complete'.}
 
 \item{significance_cutoff}{(optional) A cutoff value for significance
 p-values to filter not-significant clusters}

@@ -30,8 +30,8 @@ E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 \item{min_bound}{(optional) A minimum bound value that applies to all
 clusters}
 
-\item{scale_method}{One of the scaling methods {'raw', 'standardize',
-'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data.
+\item{scale_method}{One of the scaling methods ('raw', 'standardize',
+'demean', 'mad', 'range_standardize', 'range_adjust') to apply on input data.
 Default is 'standardize' (Z-score normalization).}
 
 \item{distance_method}{(optional) The distance method used to compute the

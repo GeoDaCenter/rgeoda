@@ -32,7 +32,7 @@ variable used in local join count statistics. Value stars from 1.}
 computation}
 
 \item{permutation_method}{(optional) The permutation method used for the LISA
-computation. Options are {'complete', 'lookup'}. Default is 'complete'.}
+computation. Options are ('complete', 'lookup'). Default is 'complete'.}
 
 \item{significance_cutoff}{(optional) A cutoff value for significance
 p-values to filter not-significant clusters}

@@ -39,7 +39,7 @@ azp_sa(
 
 \item{initial_regions}{(optional) The initial regions that the local search starts with. Default is empty. means the local search starts with a random process to "grow" clusters}
 
-\item{scale_method}{(optional) One of the scaling methods {'raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply on input data. Default is 'standardize' (Z-score normalization).}
+\item{scale_method}{(optional) One of the scaling methods ('raw', 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust') to apply on input data. Default is 'standardize' (Z-score normalization).}
 
 \item{distance_method}{(optional) The distance method used to compute the distance betwen observation i and j. Defaults to "euclidean". Options are "euclidean" and "manhattan"}
 

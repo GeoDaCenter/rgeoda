@@ -282,7 +282,7 @@ lisa_colors <- function(gda_lisa) {
 #' @param permutations (optional) The number of permutations for the LISA
 #' computation
 #' @param permutation_method (optional) The permutation method used for the
-#' LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#' LISA computation. Options are ('complete', 'lookup'). Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance
 #' p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel
@@ -324,7 +324,7 @@ local_moran <- function(w, df, permutations=999, permutation_method="complete",
 #' @param permutations (optional) The number of permutations for the LISA
 #' computation
 #' @param permutation_method (optional) The permutation method used for the
-#' LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#' LISA computation. Options are ('complete', 'lookup'). Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance
 #' p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel
@@ -381,7 +381,7 @@ local_bimoran <- function(w, df, permutations=999, permutation_method="complete"
 #' @param permutations (optional) The number of permutations for the LISA
 #' computation
 #' @param permutation_method (optional) The permutation method used for the LISA
-#'  computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#'  computation. Options are ('complete', 'lookup'). Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance
 #' p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel
@@ -430,7 +430,7 @@ local_moran_eb <- function(w, df, permutations=999,
 #' @param permutations (optional) The number of permutations for the LISA
 #' computation
 #' @param permutation_method (optional) The permutation method used for the
-#' LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#' LISA computation. Options are ('complete', 'lookup'). Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance
 #' p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel
@@ -473,7 +473,7 @@ local_geary <- function(w, df, permutations=999, permutation_method="complete",
 #' @param permutations (optional) The number of permutations for the LISA
 #' computation
 #' @param permutation_method (optional) The permutation method used for the
-#' LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#' LISA computation. Options are ('complete', 'lookup'). Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance
 #' p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel
@@ -523,7 +523,7 @@ local_multigeary <- function(w, df, permutations=999,
 #' @param permutations (optional) The number of permutations for the LISA
 #' computation
 #' @param permutation_method (optional) The permutation method used for the
-#' LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#' LISA computation. Options are ('complete', 'lookup'). Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance
 #' p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel
@@ -563,7 +563,7 @@ local_g <- function(w, df, permutations=999, permutation_method="complete",
 #' @param permutations (optional) The number of permutations for the LISA
 #' computation
 #' @param permutation_method (optional) The permutation method used for the
-#' LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#' LISA computation. Options are ('complete', 'lookup'). Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance
 #' p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel
@@ -605,7 +605,7 @@ local_gstar <- function(w, df, permutations=999, permutation_method="complete",
 #' @param permutations (optional) The number of permutations for the LISA
 #' computation
 #' @param permutation_method (optional) The permutation method used for the
-#' LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#' LISA computation. Options are ('complete', 'lookup'). Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance
 #' p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel
@@ -659,7 +659,7 @@ local_joincount <- function(w, df, permutations=999,
 #' @param permutations (optional) The number of permutations for the LISA
 #' computation
 #' @param permutation_method (optional) The permutation method used for the
-#' LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#' LISA computation. Options are ('complete', 'lookup'). Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance
 #' p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel
@@ -724,7 +724,7 @@ local_bijoincount <- function(w, df, permutations=999,
 #' @param permutations (optional) The number of permutations for the LISA
 #' computation
 #' @param permutation_method (optional) The permutation method used for the
-#' LISA computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#' LISA computation. Options are ('complete', 'lookup'). Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance
 #' p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel
@@ -798,7 +798,7 @@ local_multijoincount <- function(w, df, permutations=999,
 #' @param permutations (optional) The number of permutations for the LISA
 #' computation
 #' @param permutation_method (optional) The permutation method used for the LISA
-#'  computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#'  computation. Options are ('complete', 'lookup'). Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance
 #' p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel
@@ -851,7 +851,7 @@ local_quantilelisa <- function(w, df, k, q, permutations=999,
 #' @param permutations (optional) The number of permutations for the LISA
 #' computation
 #' @param permutation_method (optional) The permutation method used for the LISA
-#'  computation. Options are {'complete', 'lookup'}. Default is 'complete'.
+#'  computation. Options are ('complete', 'lookup'). Default is 'complete'.
 #' @param significance_cutoff  (optional) A cutoff value for significance
 #' p-values to filter not-significant clusters
 #' @param cpu_threads (optional) The number of cpu threads used for parallel
@@ -918,11 +918,11 @@ local_multiquantilelisa <- function(w, df, k, q, permutations=999,
 #' @param df A subset of sf object with selected variables.
 #' E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]
 #' @param k a positive integer number for k-nearest neighbors searching.
-#' @param scale_method (optional) One of the scaling methods {'raw',
-#' 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply
+#' @param scale_method (optional) One of the scaling methods ('raw',
+#' 'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust') to apply
 #'  on input data. Default is 'standardize' (Z-score normalization).
 #' @param distance_method (optional) The type of distance metrics used to
-#' measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.
+#' measure the distance between input data. Options are ('euclidean', 'manhattan'). Default is 'euclidean'.
 #' @param power (optional) The power (or exponent) of a number says how many
 #' times to use the number in a multiplication.
 #' @param is_inverse (optional) FALSE (default) or TRUE, apply inverse on

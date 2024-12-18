@@ -21,12 +21,12 @@ E.g. guerry[c("Crm_prs", "Crm_prp", "Litercy")]}
 
 \item{k}{a positive integer number for k-nearest neighbors searching.}
 
-\item{scale_method}{(optional) One of the scaling methods {'raw',
-'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust'} to apply
+\item{scale_method}{(optional) One of the scaling methods ('raw',
+'standardize', 'demean', 'mad', 'range_standardize', 'range_adjust') to apply
  on input data. Default is 'standardize' (Z-score normalization).}
 
 \item{distance_method}{(optional) The type of distance metrics used to
-measure the distance between input data. Options are {'euclidean', 'manhattan'}. Default is 'euclidean'.}
+measure the distance between input data. Options are ('euclidean', 'manhattan'). Default is 'euclidean'.}
 
 \item{power}{(optional) The power (or exponent) of a number says how many
 times to use the number in a multiplication.}
