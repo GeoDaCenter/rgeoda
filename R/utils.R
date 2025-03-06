@@ -144,3 +144,27 @@ eb_rates <- function(df) {
   base_data <- df[[2]]
   return(p_eb_rate(event_data, base_data))
 }
+
+#################################################################
+#' @title  Empirical Bayes(EB) Rate Standardization
+#' @description The function to compute EB Rate Standardization from 
+#' an event variable and a base variable.
+#' @param df A data frame with two selected variable: one is "event", anothor is
+#'  "base" variable. E.g. guerry[c("hr60", "po60")]
+#' @return A data.frame with two columns "EB Rate" and "IsNull".
+#' @examples
+#' \dontrun{
+#' library(sf)
+#' nat <- st_read("natregimes.shp")
+#' ebr <- eb_rates_standardization(nat[c("HR60", "PO60")])
+#' ebr
+#' }
+#' @export
+eb_rates_standardization <- function(df) {
+  if (inherits(df, "data.frame") == FALSE) {
+    stop("The input data needs to be a data.frame.")
+  }
+  event_data <- df[[1]]
+  base_data <- df[[2]]
+  return(p_eb_rate_standardization(event_data, base_data))
+}
