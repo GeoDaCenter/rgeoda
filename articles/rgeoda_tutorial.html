@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgeoda</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.11-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@ command:</p>
 dependency:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE</span></span></code></pre>
+<pre><code><span><span class="co">## Linking to GEOS 3.13.0, GDAL 3.8.5, PROJ 9.5.1; sf_use_s2() is TRUE</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="load-spatial-data">2. Load Spatial Data<a class="anchor" aria-label="anchor" href="#load-spatial-data"></a>
@@ -908,7 +908,7 @@ variables:</p>
 <span><span class="co">## [1] 504</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Within-cluster sum of squares`</span></span>
-<span><span class="co">## [1] 57.89077 59.95242 28.72571 69.38030 62.30781 66.65809</span></span>
+<span><span class="co">## [1] 113.20764  43.15129 103.93006  84.62611</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Total within-cluster sum of squares`</span></span>
 <span><span class="co">## [1] 159.0849</span></span>
@@ -953,7 +953,7 @@ above using REDCAP with Full-order and Complete-linkage method:</p>
 <span><span class="co">## [1] 504</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Within-cluster sum of squares`</span></span>
-<span><span class="co">## [1] 59.33033 55.01580 28.20272 68.58974 61.27232 54.63519</span></span>
+<span><span class="co">## [1] 161.61898  84.62611   0.00000  80.80101</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Total within-cluster sum of squares`</span></span>
 <span><span class="co">## [1] 176.9539</span></span>
@@ -985,7 +985,7 @@ dataset and weights as above using Complete-linkage method:</p>
 <span><span class="co">## [1] 504</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Within-cluster sum of squares`</span></span>
-<span><span class="co">## [1] 78.13831 54.75868 81.49771 63.48675 80.60111 65.74389</span></span>
+<span><span class="co">## [1] 424.2265   0.0000   0.0000   0.0000</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Total within-cluster sum of squares`</span></span>
 <span><span class="co">## [1] 79.77355</span></span>
@@ -1034,7 +1034,7 @@ until the contiguity constraint can no longer be met.</p>
 <span><span class="co">## [1] 504</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Within-cluster sum of squares`</span></span>
-<span><span class="co">## [1] 47.20703 60.10165 32.71213 57.69760 59.41673 65.49840</span></span>
+<span><span class="co">## [1] 124.25983  33.99347   0.00000  76.58057  87.79966</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Total within-cluster sum of squares`</span></span>
 <span><span class="co">## [1] 181.3665</span></span>
@@ -1059,7 +1059,7 @@ cooling_rate (default: 0.85):</p>
 <span><span class="co">## [1] 504</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Within-cluster sum of squares`</span></span>
-<span><span class="co">## [1] 47.86263 61.08506 29.62824 58.04068 60.31298 66.23291</span></span>
+<span><span class="co">## [1] 124.25983  33.99347   0.00000  80.28310  84.62611</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Total within-cluster sum of squares`</span></span>
 <span><span class="co">## [1] 180.8375</span></span>
@@ -1084,7 +1084,7 @@ cooling_rate (default: 0.85):</p>
 <span><span class="co">## [1] 504</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Within-cluster sum of squares`</span></span>
-<span><span class="co">## [1] 52.20796 39.86439 30.75532 54.95106 54.00440 59.41931</span></span>
+<span><span class="co">## [1] 79.37910 13.42356 34.96496 99.58938 63.84544</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Total within-cluster sum of squares`</span></span>
 <span><span class="co">## [1] 212.7976</span></span>
@@ -1145,7 +1145,7 @@ bound values, and minimum bound value:</p>
 <span><span class="co">## [1] 504</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Within-cluster sum of squares`</span></span>
-<span><span class="co">## [1] 44.39253 37.80089 28.19168 53.09362 48.11754 48.21628</span></span>
+<span><span class="co">## [1] 15.92174 36.87513 19.90470 19.85472 35.54800 48.16380 50.69142 32.85303</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Total within-cluster sum of squares`</span></span>
 <span><span class="co">## [1] 244.1875</span></span>
@@ -1173,7 +1173,7 @@ specify the parameters of tabu_length and conv_tabu:</p>
 <span><span class="co">## [1] 504</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Within-cluster sum of squares`</span></span>
-<span><span class="co">## [1] 37.71292 53.00122 24.16448 61.51004 53.23544 33.45476</span></span>
+<span><span class="co">## [1] 66.19164 11.66559 19.22806 19.64391 53.79476 32.85303 37.57316 22.12871</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Total within-cluster sum of squares`</span></span>
 <span><span class="co">## [1] 240.9211</span></span>
@@ -1198,7 +1198,7 @@ with the parameter of cooling rate:</p>
 <span><span class="co">## [1] 504</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Within-cluster sum of squares`</span></span>
-<span><span class="co">## [1] 44.78939 44.22570 24.40716 52.89492 50.78755 36.79676</span></span>
+<span><span class="co">## [1] 26.03889 39.71513 15.20083 19.85472 59.81050 48.16380 19.64391 25.47370</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Total within-cluster sum of squares`</span></span>
 <span><span class="co">## [1] 250.0985</span></span>
@@ -1220,7 +1220,7 @@ value is 99):</p>
 <span><span class="co">## [1] 504</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Within-cluster sum of squares`</span></span>
-<span><span class="co">## [1] 44.39253 37.80089 28.19168 53.09362 48.11754 48.21628</span></span>
+<span><span class="co">## [1] 15.92174 36.87513 19.90470 19.85472 35.54800 48.16380 50.69142 32.85303</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`Total within-cluster sum of squares`</span></span>
 <span><span class="co">## [1] 244.1875</span></span>
