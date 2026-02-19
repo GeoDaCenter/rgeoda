@@ -430,6 +430,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// p_eb_rate_standardization
+DataFrame p_eb_rate_standardization(NumericVector& event_data, NumericVector& base_data);
+RcppExport SEXP _rgeoda_p_eb_rate_standardization(SEXP event_dataSEXP, SEXP base_dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector& >::type event_data(event_dataSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type base_data(base_dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_eb_rate_standardization(event_data, base_data));
+    return rcpp_result_gen;
+END_RCPP
+}
 // p_localmoran_eb
 SEXP p_localmoran_eb(SEXP xp_w, NumericVector& event_data, NumericVector& base_data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed);
 RcppExport SEXP _rgeoda_p_localmoran_eb(SEXP xp_wSEXP, SEXP event_dataSEXP, SEXP base_dataSEXP, SEXP permutationsSEXP, SEXP permutation_methodSEXP, SEXP significance_cutoffSEXP, SEXP cpu_threadsSEXP, SEXP seedSEXP) {
@@ -1271,6 +1283,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rgeoda_p_localmoran", (DL_FUNC) &_rgeoda_p_localmoran, 7},
     {"_rgeoda_p_bi_localmoran", (DL_FUNC) &_rgeoda_p_bi_localmoran, 8},
     {"_rgeoda_p_eb_rate", (DL_FUNC) &_rgeoda_p_eb_rate, 2},
+    {"_rgeoda_p_eb_rate_standardization", (DL_FUNC) &_rgeoda_p_eb_rate_standardization, 2},
     {"_rgeoda_p_localmoran_eb", (DL_FUNC) &_rgeoda_p_localmoran_eb, 8},
     {"_rgeoda_p_localgeary", (DL_FUNC) &_rgeoda_p_localgeary, 7},
     {"_rgeoda_p_localmultigeary", (DL_FUNC) &_rgeoda_p_localmultigeary, 8},

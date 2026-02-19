@@ -109,6 +109,10 @@ p_eb_rate <- function(event_data, base_data) {
     .Call('_rgeoda_p_eb_rate', PACKAGE = 'rgeoda', event_data, base_data)
 }
 
+p_eb_rate_standardization <- function(event_data, base_data) {
+    .Call('_rgeoda_p_eb_rate_standardization', PACKAGE = 'rgeoda', event_data, base_data)
+}
+
 p_localmoran_eb <- function(xp_w, event_data, base_data, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
     .Call('_rgeoda_p_localmoran_eb', PACKAGE = 'rgeoda', xp_w, event_data, base_data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
