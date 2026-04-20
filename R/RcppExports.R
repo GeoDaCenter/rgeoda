@@ -101,6 +101,10 @@ p_localmoran <- function(xp_w, data, permutations, permutation_method, significa
     .Call('_rgeoda_p_localmoran', PACKAGE = 'rgeoda', xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
 
+p_locallosh <- function(xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed, a) {
+    .Call('_rgeoda_p_locallosh', PACKAGE = 'rgeoda', xp_w, data, permutations, permutation_method, significance_cutoff, cpu_threads, seed, a)
+}
+
 p_bi_localmoran <- function(xp_w, data1, data2, permutations, permutation_method, significance_cutoff, cpu_threads, seed) {
     .Call('_rgeoda_p_bi_localmoran', PACKAGE = 'rgeoda', xp_w, data1, data2, permutations, permutation_method, significance_cutoff, cpu_threads, seed)
 }
