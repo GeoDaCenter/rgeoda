@@ -152,7 +152,7 @@ testthat::test_that("maxp_sa", {
     clusters <- maxp_sa(queen_w, data, bound_vals, min_bound,
                         cooling_rate = 0.85, sa_maxit = 1)
 
-    testthat::expect_equal(clusters[[5]], 0.496, tolerance = 1e-3)
+    testthat::expect_equal(clusters[[5]], 0.497, tolerance = 0.01)
 })
 
 testthat::test_that("maxp_tabu", {

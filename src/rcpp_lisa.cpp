@@ -148,6 +148,28 @@ SEXP p_localmoran(SEXP xp_w, NumericVector data, int permutations, std::string p
 }
 
 //  [[Rcpp::export]]
+SEXP p_locallosh(SEXP xp_w, NumericVector data, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed, double a)
+{
+  // grab the object as a XPtr (smart pointer) to GeoDaWeight
+  Rcpp::XPtr<GeoDaWeight> ptr(xp_w);
+  GeoDaWeight* w = static_cast<GeoDaWeight*> (R_ExternalPtrAddr(ptr));
+
+  int n = data.size();
+  std::vector<double> raw_data(n);
+  std::vector<bool> undefs(n, false);
+
+  for (int i=0; i< data.size(); ++i) {
+    raw_data[i] = data[i];
+    undefs[i] = data.is_na(i);
+  }
+
+  LISA* lisa = gda_locallosh(w, raw_data, undefs, significance_cutoff, cpu_threads, permutations, permutation_method, seed, a);
+
+  Rcpp::XPtr<LISA> lisa_ptr(lisa, true);
+  return lisa_ptr;
+}
+
+//  [[Rcpp::export]]
 SEXP p_bi_localmoran(SEXP xp_w, NumericVector& data1, NumericVector& data2, int permutations, std::string permutation_method, double significance_cutoff, int cpu_threads, int seed)
 {
   // grab the object as a XPtr (smart pointer) to GeoDaWeight
