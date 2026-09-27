@@ -28,6 +28,7 @@ Collate:
     utils.R
     lisa.R
     clustering.R
+    losh.R
 Imports:
     sf,
     Rcpp (>= 1.0.1)

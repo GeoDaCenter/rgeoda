@@ -135,7 +135,7 @@ setMethod("initialize", "p_GeoDaWeight", function(.Object, ...) {
     # this is for using p_GeoDaWeight as a member in class('weight')  in
     # weights.R
   } else if (argc == 1) {
-    if (argtypes[[1]] == "numeric") {
+    if (argtypes[[1]] %in% c("numeric", "integer")) {
       .Object@pointer <- do.call(p_GeoDaWeight_method("new"), list(...))
     } else {
       .Object@pointer <- argv[[1]]
