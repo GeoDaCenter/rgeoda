@@ -344,7 +344,7 @@ Rcpp::List p_azp_tabu(int p, SEXP xp_w, Rcpp::List& data, int n_vars, int tabu_l
   }
 
   std::vector<double> raw_bound = as<std::vector<double> >(bound_vals);
-  std::vector<int> raw_init_regions;// = as<std::vector<int> >(init_regions);
+  std::vector<int> raw_init_regions = as<std::vector<int> >(init_regions);
 
   std::vector<std::pair<double, std::vector<double> > > min_bounds, max_bounds;
   if (raw_bound.size() == num_obs) {
