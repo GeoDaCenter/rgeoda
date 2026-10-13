@@ -158,6 +158,25 @@ testthat::test_that("azp_tabu", {
 
 })
 
+testthat::test_that("azp_tabu with initial_regions", {
+    library(sf)
+    guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+    guerry <- st_read(guerry_path)
+    queen_w <- queen_weights(guerry)
+    data <- guerry[c("Crm_prs", "Crm_prp", "Litercy", "Donatns", "Infants",
+                     "Suicids")]
+
+    # a warm start lands on a different local optimum than the k-means start,
+    # so this value comes back only if initial_regions reaches the solver
+    init_regions <- rep(1:5, length.out = nrow(guerry))
+
+    azp_clusters <- azp_tabu(5, queen_w, data, tabu_length = 10, conv_tabu=10,
+                              initial_regions = init_regions)
+
+    testthat::expect_equal(azp_clusters[[5]], 0.0417959, tolerance = 1e-3)
+
+})
+
 testthat::test_that("maxp_greedy", {
     library(sf)
     guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
