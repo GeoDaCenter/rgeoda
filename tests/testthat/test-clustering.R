@@ -50,6 +50,42 @@ testthat::test_that("skater", {
     testthat::expect_equal(clusters[[5]], 0.3763086809)
 })
 
+testthat::test_that("rdist is accepted by every clustering function", {
+    # each wrapper builds a matrix for rdist and must release it exactly once:
+    # freeing those rows twice, or freeing them before the call has read them,
+    # aborts the call instead of returning a result
+    library(sf)
+    guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
+    guerry <- st_read(guerry_path)
+    queen_w <- queen_weights(guerry)
+    data <- guerry[c("Crm_prs", "Crm_prp", "Litercy", "Donatns", "Infants",
+                     "Suicids")]
+    df <- data
+    df$geometry = NULL
+    rdist <- as.vector(dist(scale(df)))
+    n <- queen_w$num_obs
+
+    # rdist gives the same clustering as computing the distances internally
+    testthat::expect_equal(schc(5, queen_w, data, "average", rdist = rdist)[[5]],
+                           schc(5, queen_w, data, "average")[[5]],
+                           tolerance = 1e-9)
+    testthat::expect_equal(redcap(5, queen_w, data, rdist = rdist)[[5]],
+                           redcap(5, queen_w, data)[[5]], tolerance = 1e-9)
+    testthat::expect_equal(maxp_greedy(queen_w, data, guerry["Pop1831"], 3236.67,
+                                       rdist = rdist)[[5]],
+                           maxp_greedy(queen_w, data, guerry["Pop1831"], 3236.67)[[5]],
+                           tolerance = 1e-9)
+
+    testthat::expect_length(maxp_sa(queen_w, data, guerry["Pop1831"], 3236.67,
+                                    cooling_rate = 0.85, rdist = rdist)[[1]], n)
+    testthat::expect_length(maxp_tabu(queen_w, data, guerry["Pop1831"], 3236.67,
+                                      rdist = rdist)[[1]], n)
+    testthat::expect_length(azp_greedy(5, queen_w, data, rdist = rdist)[[1]], n)
+    testthat::expect_length(azp_sa(5, queen_w, data, cooling_rate = 0.85,
+                                   rdist = rdist)[[1]], n)
+    testthat::expect_length(azp_tabu(5, queen_w, data, rdist = rdist)[[1]], n)
+})
+
 testthat::test_that("schc", {
     library(sf)
     guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")

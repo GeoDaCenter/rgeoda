@@ -61,6 +61,19 @@ double** rdist_matrix(int n, NumericVector& rdist)
   return matrix;
 }
 
+// Release a matrix built by rdist_matrix(): the ragged rows, then the array of
+// row pointers. Only for a matrix this file allocated -- libgeoda does not free
+// a distance matrix passed in by the caller, and we must not free one it allocated.
+static void free_dist_matrix(double** dist_matrix, int num_obs)
+{
+  if (dist_matrix) {
+    for (int i = 1; i < num_obs; i++) {
+      free(dist_matrix[i]);
+    }
+    free(dist_matrix);
+  }
+}
+
 //  [[Rcpp::export]]
 Rcpp::List p_skater(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string scale_method, std::string distance_method,
                     NumericVector& bound_vals, double min_bound, int seed, int cpu_threads, NumericVector& rdist)
@@ -83,11 +96,7 @@ Rcpp::List p_skater(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string 
 
   std::vector<std::vector<int> > cluster_ids = gda_skater(k, w, raw_data, scale_method, distance_method, raw_bound, min_bound, seed, cpu_threads, dist_matrix);
 
-  if (dist_matrix) {
-    for (int i = 1; i < num_obs; i++) {
-      free(dist_matrix[i]);
-    }
-  }
+  free_dist_matrix(dist_matrix, num_obs);
 
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
@@ -114,11 +123,7 @@ Rcpp::List p_redcap(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string 
 
   std::vector<std::vector<int> > cluster_ids = gda_redcap(k, w, raw_data, scale_method, redcap_method, distance_method, raw_bound, min_bound, seed, cpu_threads, dist_matrix);
 
-  if (dist_matrix) {
-    for (int i = 1; i < num_obs; i++) {
-      free(dist_matrix[i]);
-    }
-  }
+  free_dist_matrix(dist_matrix, num_obs);
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
@@ -143,11 +148,7 @@ Rcpp::List p_schc(int k, SEXP xp_w, Rcpp::List& data, int n_vars, std::string li
   std::vector<double> raw_bound = as<std::vector<double> >(bound_vals);
   std::vector<std::vector<int> > cluster_ids = gda_schc(k, w, raw_data, scale_method, linkage_method, distance_method, raw_bound, min_bound, dist_matrix);
 
-  if (dist_matrix) {
-    for (int i = 1; i < num_obs; i++) {
-      free(dist_matrix[i]);
-    }
-  }
+  free_dist_matrix(dist_matrix, num_obs);
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
@@ -178,11 +179,7 @@ Rcpp::List p_maxp_greedy(SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector&
 
   std::vector<std::vector<int> > cluster_ids = gda_maxp_greedy(w, raw_data, scale_method, iterations, min_bounds, max_bounds, raw_init_regions, distance_method, seed, cpu_threads, dist_matrix);
 
-  if (dist_matrix) {
-    for (int i = 1; i < num_obs; i++) {
-      free(dist_matrix[i]);
-    }
-  }
+  free_dist_matrix(dist_matrix, num_obs);
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
@@ -213,11 +210,7 @@ Rcpp::List p_maxp_sa(SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector& bou
 
   std::vector<std::vector<int> > cluster_ids = gda_maxp_sa(w, raw_data, scale_method, iterations, cooling_rate, sa_maxit, min_bounds, max_bounds, raw_init_regions, distance_method, seed, cpu_threads, dist_matrix);
 
-  if (dist_matrix) {
-    for (int i = 1; i < num_obs; i++) {
-      free(dist_matrix[i]);
-    }
-  }
+  free_dist_matrix(dist_matrix, num_obs);
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
@@ -248,11 +241,7 @@ Rcpp::List p_maxp_tabu(SEXP xp_w, Rcpp::List& data, int n_vars, NumericVector& b
 
   std::vector<std::vector<int> > cluster_ids = gda_maxp_tabu(w, raw_data, scale_method, iterations, tabu_length, conv_tabu, min_bounds, max_bounds, raw_init_regions, distance_method, seed, cpu_threads, dist_matrix);
 
-  if (dist_matrix) {
-    for (int i = 1; i < num_obs; i++) {
-      free(dist_matrix[i]);
-    }
-  }
+  free_dist_matrix(dist_matrix, num_obs);
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
@@ -281,12 +270,9 @@ Rcpp::List p_azp_greedy(int p, SEXP xp_w, Rcpp::List& data, int n_vars,  Numeric
 
   double** dist_matrix = rdist_matrix(num_obs, rdist);
 
-  if (dist_matrix) {
-    for (int i = 1; i < num_obs; i++) {
-      free(dist_matrix[i]);
-    }
-  }
   std::vector<std::vector<int> > cluster_ids = gda_azp_greedy(p, w, raw_data, scale_method, inits, min_bounds, max_bounds, raw_init_regions, distance_method, seed, dist_matrix);
+
+  free_dist_matrix(dist_matrix, num_obs);
 
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
@@ -319,11 +305,7 @@ Rcpp::List p_azp_sa(int p, SEXP xp_w, Rcpp::List& data, int n_vars, double cooli
 
   std::vector<std::vector<int> > cluster_ids = gda_azp_sa(p, w, raw_data, scale_method, inits, cooling_rate, sa_maxit, min_bounds, max_bounds, raw_init_regions, distance_method, seed, dist_matrix);
 
-  if (dist_matrix) {
-    for (int i = 1; i < num_obs; i++) {
-      free(dist_matrix[i]);
-    }
-  }
+  free_dist_matrix(dist_matrix, num_obs);
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
@@ -355,11 +337,7 @@ Rcpp::List p_azp_tabu(int p, SEXP xp_w, Rcpp::List& data, int n_vars, int tabu_l
 
   std::vector<std::vector<int> > cluster_ids = gda_azp_tabu(p, w, raw_data, scale_method, inits, tabu_length, conv_tabu, min_bounds, max_bounds, raw_init_regions, distance_method, seed, dist_matrix);
 
-  if (dist_matrix) {
-    for (int i = 1; i < num_obs; i++) {
-      free(dist_matrix[i]);
-    }
-  }
+  free_dist_matrix(dist_matrix, num_obs);
   return _create_clustering_result(w->GetNumObs(), cluster_ids, raw_data);
 }
 
